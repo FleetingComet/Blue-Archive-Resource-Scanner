@@ -1,0 +1,1386 @@
+[
+    {
+        "id": 1,
+        "category": "Exp",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_exp_0",
+        "name": "Lesser Enhancement Stone"
+    },
+    {
+        "id": 2,
+        "category": "Exp",
+        "rarity": "R",
+        "tier": 0,
+        "icon": "equipment_icon_exp_1",
+        "name": "Normal Enhancement Stone"
+    },
+    {
+        "id": 3,
+        "category": "Exp",
+        "rarity": "SR",
+        "tier": 0,
+        "icon": "equipment_icon_exp_2",
+        "name": "Advanced Enhancement Stone"
+    },
+    {
+        "id": 4,
+        "category": "Exp",
+        "rarity": "SSR",
+        "tier": 0,
+        "icon": "equipment_icon_exp_3",
+        "name": "Superior Enhancement Stone"
+    },
+    {
+        "id": 10,
+        "category": "WeaponExpGrowthA",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowtha_0",
+        "name": "Rusty Spring"
+    },
+    {
+        "id": 11,
+        "category": "WeaponExpGrowthA",
+        "rarity": "R",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowtha_1",
+        "name": "Intact Spring"
+    },
+    {
+        "id": 12,
+        "category": "WeaponExpGrowthA",
+        "rarity": "SR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowtha_2",
+        "name": "Chromium Spring"
+    },
+    {
+        "id": 13,
+        "category": "WeaponExpGrowthA",
+        "rarity": "SSR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowtha_3",
+        "name": "Titanium Spring"
+    },
+    {
+        "id": 20,
+        "category": "WeaponExpGrowthB",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthb_0",
+        "name": "Rusty Hammer"
+    },
+    {
+        "id": 21,
+        "category": "WeaponExpGrowthB",
+        "rarity": "R",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthb_1",
+        "name": "Intact Hammer"
+    },
+    {
+        "id": 22,
+        "category": "WeaponExpGrowthB",
+        "rarity": "SR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthb_2",
+        "name": "Chromium Hammer"
+    },
+    {
+        "id": 23,
+        "category": "WeaponExpGrowthB",
+        "rarity": "SSR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthb_3",
+        "name": "Titanium Hammer"
+    },
+    {
+        "id": 30,
+        "category": "WeaponExpGrowthC",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthc_0",
+        "name": "Rusty Barrel"
+    },
+    {
+        "id": 31,
+        "category": "WeaponExpGrowthC",
+        "rarity": "R",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthc_1",
+        "name": "Intact Barrel"
+    },
+    {
+        "id": 32,
+        "category": "WeaponExpGrowthC",
+        "rarity": "SR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthc_2",
+        "name": "Chromium Barrel"
+    },
+    {
+        "id": 33,
+        "category": "WeaponExpGrowthC",
+        "rarity": "SSR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthc_3",
+        "name": "Titanium Barrel"
+    },
+    {
+        "id": 40,
+        "category": "WeaponExpGrowthZ",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthz_0",
+        "name": "Rusty Firing Pin"
+    },
+    {
+        "id": 41,
+        "category": "WeaponExpGrowthZ",
+        "rarity": "R",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthz_1",
+        "name": "Intact Firing Pin"
+    },
+    {
+        "id": 42,
+        "category": "WeaponExpGrowthZ",
+        "rarity": "SR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthz_2",
+        "name": "Chromium Firing Pin"
+    },
+    {
+        "id": 43,
+        "category": "WeaponExpGrowthZ",
+        "rarity": "SSR",
+        "tier": 0,
+        "icon": "equipment_icon_weaponexpgrowthz_3",
+        "name": "Titanium Firing Pin"
+    },
+    {
+        "id": 1000,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_hat_tier1",
+        "name": "Plain Baseball Cap"
+    },
+    {
+        "id": 1001,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_hat_tier2",
+        "name": "Knitted Wool Hat"
+    },
+    {
+        "id": 1002,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_hat_tier3",
+        "name": "Big Brother Fedora"
+    },
+    {
+        "id": 1003,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_hat_tier4",
+        "name": "Ribbon Beret"
+    },
+    {
+        "id": 1004,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_hat_tier5",
+        "name": "Bulletproof Helmet"
+    },
+    {
+        "id": 1005,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_hat_tier6",
+        "name": "Frilly Mini Hat"
+    },
+    {
+        "id": 1006,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_hat_tier7",
+        "name": "Bucket Hat"
+    },
+    {
+        "id": 1007,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_hat_tier8",
+        "name": "Ribbon Leaf Fedora"
+    },
+    {
+        "id": 1008,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_hat_tier9",
+        "name": "Sailor Hat"
+    },
+    {
+        "id": 2000,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_gloves_tier1",
+        "name": "Sports Gloves"
+    },
+    {
+        "id": 2001,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_gloves_tier2",
+        "name": "Knitted Mittens"
+    },
+    {
+        "id": 2002,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_gloves_tier3",
+        "name": "Peroro Oven Mitts"
+    },
+    {
+        "id": 2003,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_gloves_tier4",
+        "name": "Leather Gloves"
+    },
+    {
+        "id": 2004,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_gloves_tier5",
+        "name": "Tactical Gloves"
+    },
+    {
+        "id": 2005,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_gloves_tier6",
+        "name": "Lace Gloves"
+    },
+    {
+        "id": 2006,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_gloves_tier7",
+        "name": "Arm Warmers"
+    },
+    {
+        "id": 2007,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_gloves_tier8",
+        "name": "Knit Fingerless Gloves"
+    },
+    {
+        "id": 2008,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_gloves_tier9",
+        "name": "Sailing Gloves"
+    },
+    {
+        "id": 3000,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_shoes_tier1",
+        "name": "Pink Sneakers"
+    },
+    {
+        "id": 3001,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_shoes_tier2",
+        "name": "Shearling Boots"
+    },
+    {
+        "id": 3002,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_shoes_tier3",
+        "name": "Pinky-Paca Slippers"
+    },
+    {
+        "id": 3003,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_shoes_tier4",
+        "name": "Antique Enamel Loafers"
+    },
+    {
+        "id": 3004,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_shoes_tier5",
+        "name": "Tactical Boots"
+    },
+    {
+        "id": 3005,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_shoes_tier6",
+        "name": "Heeled Pumps"
+    },
+    {
+        "id": 3006,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_shoes_tier7",
+        "name": "Casual Sneakers"
+    },
+    {
+        "id": 3007,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_shoes_tier8",
+        "name": "Waterproof Hiking Boots"
+    },
+    {
+        "id": 3008,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_shoes_tier9",
+        "name": "Aqua Sandals"
+    },
+    {
+        "id": 4000,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_bag_tier1",
+        "name": "Waterproof Sports Bag"
+    },
+    {
+        "id": 4001,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_bag_tier2",
+        "name": "Insulated Messenger Bag"
+    },
+    {
+        "id": 4002,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_bag_tier3",
+        "name": "Peroro Backpack"
+    },
+    {
+        "id": 4003,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_bag_tier4",
+        "name": "Dark Blue School Bag"
+    },
+    {
+        "id": 4004,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_bag_tier5",
+        "name": "Tactical Satchel"
+    },
+    {
+        "id": 4005,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_bag_tier6",
+        "name": "Devil Wing Tote Bag"
+    },
+    {
+        "id": 4006,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_bag_tier7",
+        "name": "Street Bag"
+    },
+    {
+        "id": 4007,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_bag_tier8",
+        "name": "Butterfly Purse"
+    },
+    {
+        "id": 4008,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_bag_tier9",
+        "name": "Waterproof Sling Bag"
+    },
+    {
+        "id": 5000,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_badge_tier1",
+        "name": "Serval Metal Badge"
+    },
+    {
+        "id": 5001,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_badge_tier2",
+        "name": "Manaslu Felt Badge"
+    },
+    {
+        "id": 5002,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_badge_tier3",
+        "name": "Angry Adelie Button"
+    },
+    {
+        "id": 5003,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_badge_tier4",
+        "name": "Veronica Embroidered Badge"
+    },
+    {
+        "id": 5004,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_badge_tier5",
+        "name": "Kazeyama Patch"
+    },
+    {
+        "id": 5005,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_badge_tier6",
+        "name": "Coco Devil Silver Badge"
+    },
+    {
+        "id": 5006,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_badge_tier7",
+        "name": "Street Badge"
+    },
+    {
+        "id": 5007,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_badge_tier8",
+        "name": "Lorelei Badge"
+    },
+    {
+        "id": 5008,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_badge_tier9",
+        "name": "Harpia Rubber Patch"
+    },
+    {
+        "id": 6000,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_hairpin_tier1",
+        "name": "Tennis Headband"
+    },
+    {
+        "id": 6001,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_hairpin_tier2",
+        "name": "Scrunchie"
+    },
+    {
+        "id": 6002,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_hairpin_tier3",
+        "name": "Momo Hairpin"
+    },
+    {
+        "id": 6003,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_hairpin_tier4",
+        "name": "Winged Hairpin"
+    },
+    {
+        "id": 6004,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_hairpin_tier5",
+        "name": "Multi-Purpose Hairpin"
+    },
+    {
+        "id": 6005,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_hairpin_tier6",
+        "name": "Bat Hairpin"
+    },
+    {
+        "id": 6006,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_hairpin_tier7",
+        "name": "Calligraphy Hairpin"
+    },
+    {
+        "id": 6007,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_hairpin_tier8",
+        "name": "Leaf Hairpin"
+    },
+    {
+        "id": 6008,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_hairpin_tier9",
+        "name": "Anchor Hairpin"
+    },
+    {
+        "id": 7000,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_charm_tier1",
+        "name": "Traffic Safety Amulet"
+    },
+    {
+        "id": 7001,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_charm_tier2",
+        "name": "Heat Pack"
+    },
+    {
+        "id": 7002,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_charm_tier3",
+        "name": "Peroro Feather"
+    },
+    {
+        "id": 7003,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_charm_tier4",
+        "name": "Cross"
+    },
+    {
+        "id": 7004,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_charm_tier5",
+        "name": "Camo Daruma"
+    },
+    {
+        "id": 7005,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_charm_tier6",
+        "name": "Voodoo Doll"
+    },
+    {
+        "id": 7006,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_charm_tier7",
+        "name": "Portable Deodorant"
+    },
+    {
+        "id": 7007,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_charm_tier8",
+        "name": "Dreamcatcher"
+    },
+    {
+        "id": 7008,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_charm_tier9",
+        "name": "Shark Teeth Amulet"
+    },
+    {
+        "id": 8000,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_watch_tier1",
+        "name": "Waterproof Digital Watch"
+    },
+    {
+        "id": 8001,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_watch_tier2",
+        "name": "Leather Wristwatch"
+    },
+    {
+        "id": 8002,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_watch_tier3",
+        "name": "Wavecat Wristwatch"
+    },
+    {
+        "id": 8003,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_watch_tier4",
+        "name": "Antique Pocket Watch"
+    },
+    {
+        "id": 8004,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_watch_tier5",
+        "name": "Dustproof Leather Wristwatch"
+    },
+    {
+        "id": 8005,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_watch_tier6",
+        "name": "Gothic Leather Wristwatch"
+    },
+    {
+        "id": 8006,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_watch_tier7",
+        "name": "Street Fashion Wristwatch"
+    },
+    {
+        "id": 8007,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_watch_tier8",
+        "name": "Lorelei Wristwatch"
+    },
+    {
+        "id": 8008,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_watch_tier9",
+        "name": "Diver Watch"
+    },
+    {
+        "id": 9000,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 1,
+        "icon": "equipment_icon_necklace_tier1",
+        "name": "Bluetooth Necklace"
+    },
+    {
+        "id": 9001,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_necklace_tier2",
+        "name": "Snowflake Pendant"
+    },
+    {
+        "id": 9002,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_necklace_tier3",
+        "name": "Nicholai Locket"
+    },
+    {
+        "id": 9003,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_necklace_tier4",
+        "name": "Cross Choker"
+    },
+    {
+        "id": 9004,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_necklace_tier5",
+        "name": "Dog Tag"
+    },
+    {
+        "id": 9005,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_necklace_tier6",
+        "name": "Punk Choker"
+    },
+    {
+        "id": 9006,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_necklace_tier7",
+        "name": "Chain Necklace"
+    },
+    {
+        "id": 9007,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_necklace_tier8",
+        "name": "Green Leaf Necklace"
+    },
+    {
+        "id": 9008,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_necklace_tier9",
+        "name": "Octopus Holder"
+    },
+    {
+        "id": 101001,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_hat_tier2_piece",
+        "name": "Knitted Wool Hat Blueprint"
+    },
+    {
+        "id": 101002,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_hat_tier3_piece",
+        "name": "Big Brother Fedora Blueprint"
+    },
+    {
+        "id": 101003,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_hat_tier4_piece",
+        "name": "Ribbon Beret Blueprint"
+    },
+    {
+        "id": 101004,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_hat_tier5_piece",
+        "name": "Bulletproof Helmet Blueprint"
+    },
+    {
+        "id": 101005,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_hat_tier6_piece",
+        "name": "Frilly Mini Hat Blueprint"
+    },
+    {
+        "id": 101006,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_hat_tier7_piece",
+        "name": "Bucket Hat Blueprint"
+    },
+    {
+        "id": 101007,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_hat_tier8_piece",
+        "name": "Ribbon Leaf Fedora Blueprint"
+    },
+    {
+        "id": 101008,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_hat_tier9_piece",
+        "name": "Sailor Hat Blueprint"
+    },
+    {
+        "id": 102001,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_gloves_tier2_piece",
+        "name": "Knitted Mittens Blueprint"
+    },
+    {
+        "id": 102002,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_gloves_tier3_piece",
+        "name": "Peroro Oven Mitts Blueprint"
+    },
+    {
+        "id": 102003,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_gloves_tier4_piece",
+        "name": "Leather Gloves Blueprint"
+    },
+    {
+        "id": 102004,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_gloves_tier5_piece",
+        "name": "Tactical Gloves Blueprint"
+    },
+    {
+        "id": 102005,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_gloves_tier6_piece",
+        "name": "Lace Gloves Blueprint"
+    },
+    {
+        "id": 102006,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_gloves_tier7_piece",
+        "name": "Arm Warmers Blueprint"
+    },
+    {
+        "id": 102007,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_gloves_tier8_piece",
+        "name": "Knit Fingerless Gloves Blueprint"
+    },
+    {
+        "id": 102008,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_gloves_tier9_piece",
+        "name": "Sailing Gloves Blueprint"
+    },
+    {
+        "id": 103001,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_shoes_tier2_piece",
+        "name": "Shearling Boots Blueprint"
+    },
+    {
+        "id": 103002,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_shoes_tier3_piece",
+        "name": "Pinky-Paca Slippers Blueprint"
+    },
+    {
+        "id": 103003,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_shoes_tier4_piece",
+        "name": "Antique Enamel Loafers Blueprint"
+    },
+    {
+        "id": 103004,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_shoes_tier5_piece",
+        "name": "Tactical Boots Blueprint"
+    },
+    {
+        "id": 103005,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_shoes_tier6_piece",
+        "name": "Heeled Pumps Blueprint"
+    },
+    {
+        "id": 103006,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_shoes_tier7_piece",
+        "name": "Casual Sneakers Blueprint"
+    },
+    {
+        "id": 103007,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_shoes_tier8_piece",
+        "name": "Waterproof Hiking Boots Blueprint"
+    },
+    {
+        "id": 103008,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_shoes_tier9_piece",
+        "name": "Aqua Sandals Blueprint"
+    },
+    {
+        "id": 104001,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_bag_tier2_piece",
+        "name": "Insulated Messenger Bag Blueprint"
+    },
+    {
+        "id": 104002,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_bag_tier3_piece",
+        "name": "Peroro Backpack Blueprint"
+    },
+    {
+        "id": 104003,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_bag_tier4_piece",
+        "name": "Dark Blue School Bag Blueprint"
+    },
+    {
+        "id": 104004,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_bag_tier5_piece",
+        "name": "Tactical Satchel Blueprint"
+    },
+    {
+        "id": 104005,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_bag_tier6_piece",
+        "name": "Devil Wing Tote Bag Blueprint"
+    },
+    {
+        "id": 104006,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_bag_tier7_piece",
+        "name": "Street Bag Blueprint"
+    },
+    {
+        "id": 104007,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_bag_tier8_piece",
+        "name": "Butterfly Purse Blueprint"
+    },
+    {
+        "id": 104008,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_bag_tier9_piece",
+        "name": "Waterproof Sling Bag Blueprint"
+    },
+    {
+        "id": 105001,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_badge_tier2_piece",
+        "name": "Manaslu Felt Badge Blueprint"
+    },
+    {
+        "id": 105002,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_badge_tier3_piece",
+        "name": "Angry Adelie Button Blueprint"
+    },
+    {
+        "id": 105003,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_badge_tier4_piece",
+        "name": "Veronica Embroidered Badge Blueprint"
+    },
+    {
+        "id": 105004,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_badge_tier5_piece",
+        "name": "Kazeyama Patch Blueprint"
+    },
+    {
+        "id": 105005,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_badge_tier6_piece",
+        "name": "Coco Devil Silver Badge Blueprint"
+    },
+    {
+        "id": 105006,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_badge_tier7_piece",
+        "name": "Street Badge Blueprint"
+    },
+    {
+        "id": 105007,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_badge_tier8_piece",
+        "name": "Lorelei Badge Blueprint"
+    },
+    {
+        "id": 105008,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_badge_tier9_piece",
+        "name": "Harpia Rubber Patch Blueprint"
+    },
+    {
+        "id": 106001,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_hairpin_tier2_piece",
+        "name": "Scrunchie Blueprint"
+    },
+    {
+        "id": 106002,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_hairpin_tier3_piece",
+        "name": "Momo Hairpin Blueprint"
+    },
+    {
+        "id": 106003,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_hairpin_tier4_piece",
+        "name": "Winged Hairpin Blueprint"
+    },
+    {
+        "id": 106004,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_hairpin_tier5_piece",
+        "name": "Multi-Purpose Hairpin Blueprint"
+    },
+    {
+        "id": 106005,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_hairpin_tier6_piece",
+        "name": "Bat Hairpin Blueprint"
+    },
+    {
+        "id": 106006,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_hairpin_tier7_piece",
+        "name": "Calligraphy Hairpin Blueprint"
+    },
+    {
+        "id": 106007,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_hairpin_tier8_piece",
+        "name": "Leaf Hairpin Blueprint"
+    },
+    {
+        "id": 106008,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_hairpin_tier9_piece",
+        "name": "Anchor Hairpin Blueprint"
+    },
+    {
+        "id": 107001,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_charm_tier2_piece",
+        "name": "Heat Pack Blueprint"
+    },
+    {
+        "id": 107002,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_charm_tier3_piece",
+        "name": "Peroro Feather Blueprint"
+    },
+    {
+        "id": 107003,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_charm_tier4_piece",
+        "name": "Cross Blueprint"
+    },
+    {
+        "id": 107004,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_charm_tier5_piece",
+        "name": "Camo Daruma Blueprint"
+    },
+    {
+        "id": 107005,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_charm_tier6_piece",
+        "name": "Voodoo Doll Blueprint"
+    },
+    {
+        "id": 107006,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_charm_tier7_piece",
+        "name": "Portable Deodorant Blueprint"
+    },
+    {
+        "id": 107007,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_charm_tier8_piece",
+        "name": "Dreamcatcher Blueprint"
+    },
+    {
+        "id": 107008,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_charm_tier9_piece",
+        "name": "Shark Teeth Amulet Blueprint"
+    },
+    {
+        "id": 108001,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_watch_tier2_piece",
+        "name": "Leather Wristwatch Blueprint"
+    },
+    {
+        "id": 108002,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_watch_tier3_piece",
+        "name": "Wavecat Wristwatch Blueprint"
+    },
+    {
+        "id": 108003,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_watch_tier4_piece",
+        "name": "Antique Pocket Watch Blueprint"
+    },
+    {
+        "id": 108004,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_watch_tier5_piece",
+        "name": "Dustproof Leather Wristwatch Blueprint"
+    },
+    {
+        "id": 108005,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_watch_tier6_piece",
+        "name": "Gothic Leather Wristwatch Blueprint"
+    },
+    {
+        "id": 108006,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_watch_tier7_piece",
+        "name": "Street Fashion Wristwatch Blueprint"
+    },
+    {
+        "id": 108007,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_watch_tier8_piece",
+        "name": "Lorelei Wristwatch Blueprint"
+    },
+    {
+        "id": 108008,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_watch_tier9_piece",
+        "name": "Diver Watch Blueprint"
+    },
+    {
+        "id": 109001,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 2,
+        "icon": "equipment_icon_necklace_tier2_piece",
+        "name": "Snowflake Pendant Blueprint"
+    },
+    {
+        "id": 109002,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 3,
+        "icon": "equipment_icon_necklace_tier3_piece",
+        "name": "Nicholai Locket Blueprint"
+    },
+    {
+        "id": 109003,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 4,
+        "icon": "equipment_icon_necklace_tier4_piece",
+        "name": "Cross Choker Blueprint"
+    },
+    {
+        "id": 109004,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 5,
+        "icon": "equipment_icon_necklace_tier5_piece",
+        "name": "Dog Tag Blueprint"
+    },
+    {
+        "id": 109005,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 6,
+        "icon": "equipment_icon_necklace_tier6_piece",
+        "name": "Punk Choker Blueprint"
+    },
+    {
+        "id": 109006,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 7,
+        "icon": "equipment_icon_necklace_tier7_piece",
+        "name": "Chain Necklace Blueprint"
+    },
+    {
+        "id": 109007,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 8,
+        "icon": "equipment_icon_necklace_tier8_piece",
+        "name": "Green Leaf Necklace Blueprint"
+    },
+    {
+        "id": 109008,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 9,
+        "icon": "equipment_icon_necklace_tier9_piece",
+        "name": "Octopus Holder Blueprint"
+    }
+]
