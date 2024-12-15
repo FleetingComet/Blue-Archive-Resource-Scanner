@@ -1,0 +1,7 @@
+[project]
+name = "bluearchive-scanner"
+version = "0.1.0"
+description = " A Python-based tool to scan and count owned resources in Blue Archive."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
