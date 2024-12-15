@@ -108,6 +108,7 @@ This project was inspired by and credits:
 
 - [Fate/Grand Automata (FGA)](https://github.com/Fate-Grand-Automata/FGA)
 - [AzurLaneAutoScript (ALAS)](https://github.com/LmeSzinc/AzurLaneAutoScript)
+- [SchaleDB](https://github.com/SchaleDB/SchaleDB)
 
 ---
 
