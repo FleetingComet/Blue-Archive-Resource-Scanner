@@ -113,7 +113,7 @@ This project was inspired by and credits:
 
 ## Contributing
 
-I welcome contributions to enhance the Blue Archive Resources Scanner. Please open an issue or submit a pull request if you'd like to help.
+I welcome contributions to enhance the Blue Archive Resources Scanner. Please open an issue or submit a pull request if you'd like to help. Be sure to read the [Contribution Guide](CONTRIBUTING.md) for more information.
 
 ---
 
