@@ -46,7 +46,6 @@ To use the Blue Archive Resources Scanner, ensure you have the following install
 ### Configuration
 Before running the scripts, ensure the configuration settings in the [`config.py`](config.py) are appropriate for your setup.  
 The default settings are:
-
 ```python
 ADB_HOST = "127.0.0.1" or "localhost"
 ADB_PORT = 16384  # Default Mumu port
@@ -62,22 +61,37 @@ Modify the values in the [`config.py`](config.py) as needed, then proceed with t
 
 ### Running the Scripts
 
-1. Launch the scanner script:
-   ```bash
-   python app.py
-   ```
-   After running, this will generate two files:
-      - `owned_counts.json`: Contains the counts of owned resources.
-      - `final_values.json`: Contains the processed final resource values.
+#### 1. Launch the Scanner Script  
+Run the scanner script to generate resource files:  
+```bash
+python app.py
+```
+After running, this will generate two files:  
+- **`output/owned_counts.json`**: Contains the counts of owned resources.  
+- **`output/final_values.json`**: Contains the processed final resource values.
 
-#### Optional
-
-1. Launch the Justin Planner converter script:
+##### (Optional) Convert to Justin Planner Format
+Use the Justin Planner converter script to prepare your data:
    ```bash
    python convert_justin_planner.py
    ```
-   This script will create a file named justin_planner.json, which can be used with the Justin Planner tool.
+   This script will generate:  
+   - **`output/justin_planner.json`**: A file compatible with the Justin Planner tool.
    
+##### (Optional) Merge into Your Own Data
+To merge the converted data into your existing Justin Planner export:  
+
+1. Save your Justin Planner export as `justin_data.json`.  
+2. Place the file in the following directory:  
+   **`input/justin_data.json`**  
+3. Run the merger script:  
+```bash
+python merger_justin_planner.py
+```  
+This script will generate:  
+- **`output/justin_data_final.json`**: The merged file containing the final combined data.  
+4. Import the generated json to Justin Planner
+
 ---
 
 ## Roadmap

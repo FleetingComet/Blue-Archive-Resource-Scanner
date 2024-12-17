@@ -27,21 +27,24 @@ If you’re new to Python, you can explore the following resource:
 
 - **`./src/`**: Core methods required to execute the scripts.  
 - **`./assets/`**: Contains supplementary data, including the logo and other resources.  
+- **`./input/ and ./output/`**:
+   - `./input/`: Stores input data files required for processing.
+   - `./output/`: Stores generated output files, such as processed results and converted data.
 - **`./screenshots/`**: Stores screenshots, including `latest_screenshot.png`, generated using [`adb.capture_screenshot`](src/utils/adb_controller.py).
 - **`.pyproject.toml and uv.lock`**: I use [UV](https://github.com/astral-sh/uv) for streamlined management of Python packages and dependencies. This tool helps automate tasks such as setting up virtual environments and installing packages.
   - **Using UV**:
     -  Create and set up a virtual environment with Python 3.13.0
-      ```bash
-      uv venv --python 3.13.0
-      ```
+        ```bash
+        uv venv --python 3.13.0
+        ```
     - Activate the virtual environment
-      ```bash
-      .\.venv\Scripts\activate
-      ```
+        ```bash
+        .\.venv\Scripts\activate
+        ```
     - Install dependencies listed in the requirements.txt file
-      ```bash
-      uv pip install -r requirements.txt
-      ```
+        ```bash
+        uv pip install -r requirements.txt
+        ```
 
 ---
 
@@ -52,10 +55,9 @@ If you’re new to Python, you can explore the following resource:
 When the app capture a screenshot, the following steps occur:  
 1. The device takes a screenshot in its original resolution (1280x720p).  
 2. The screenshot is converted to grayscale for processing.  
-3. The image is cropped to focus on the relevant search region.  
-4. If the reference image is in color, it’s also converted to grayscale.
-5. The image is pre-processed using [preprocessor](src/utils/preprocess_image_for_ocr.py) for OCR
-6. OCR is performed on the processed image using Tesseract to extract text.  
+3. The image is cropped to focus on the relevant search region.  <!-- 4. If the reference image is in color, it’s also converted to grayscale. (This was part of the image pattern matching feature I coded in the first week of December 2024, but I decided to ditch it.) -->
+4. The image is pre-processed using [preprocessor](src/utils/preprocess_image_for_ocr.py) for OCR
+5. OCR is performed on the processed image using Tesseract to extract text.  
 
 ### Handling Locations and Regions  
 
