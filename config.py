@@ -15,12 +15,16 @@ class Config:
     SCREENSHOT_PATH = os.path.join(SCREENSHOTS_DIR, SCREENSHOT_FILENAME)
 
     # File paths for data handling
-    OWNED_COUNTS_FILE = "owned_counts.json"
+    OWNED_COUNTS_FILE = "output/owned_counts.json"
     EQUIPMENT_PROCESSED_FILE = "assets/data/equipment_processed.json"
     
-    OUTPUT_FILE = "final_values.json"
+    OUTPUT_FILE = "output/final_values.json"
     CONVERTER_INPUT_FILE = OUTPUT_FILE
-    CONVERTER_OUTPUT_FILE = "justin_planner.json"
+    CONVERTER_OUTPUT_FILE = "output/justin_planner.json"
+    
+    MERGER_INPUT_FILE = CONVERTER_OUTPUT_FILE
+    MERGER_TO_FILE = "input/justin_data.json"
+    MERGER_OUTPUT_FILE = "output/justin_data_final.json"
     
     @staticmethod
     def get_screenshot_path():
