@@ -34,17 +34,17 @@ If you’re new to Python, you can explore the following resource:
 - **`.pyproject.toml and uv.lock`**: I use [UV](https://github.com/astral-sh/uv) for streamlined management of Python packages and dependencies. This tool helps automate tasks such as setting up virtual environments and installing packages.
   - **Using UV**:
     -  Create and set up a virtual environment with Python 3.13.0
-        ```bash
-        uv venv --python 3.13.0
-        ```
+            ```bash
+            uv venv --python 3.13.0
+            ```
     - Activate the virtual environment
-        ```bash
-        .\.venv\Scripts\activate
-        ```
+            ```bash
+            .\.venv\Scripts\activate
+            ```
     - Install dependencies listed in the requirements.txt file
-        ```bash
-        uv pip install -r requirements.txt
-        ```
+            ```bash
+            uv pip install -r requirements.txt
+            ```
 
 ---
 

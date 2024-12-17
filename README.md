@@ -70,7 +70,8 @@ After running, this will generate two files:
 - **`output/owned_counts.json`**: Contains the counts of owned resources.  
 - **`output/final_values.json`**: Contains the processed final resource values.
 
-##### (Optional) Convert to Justin Planner Format
+#### Optional
+##### 1. Convert to Justin Planner Format
 Use the Justin Planner converter script to prepare your data:
    ```bash
    python convert_justin_planner.py
@@ -78,19 +79,18 @@ Use the Justin Planner converter script to prepare your data:
    This script will generate:  
    - **`output/justin_planner.json`**: A file compatible with the Justin Planner tool.
    
-##### (Optional) Merge into Your Own Data
-To merge the converted data into your existing Justin Planner export:  
-
-1. Save your Justin Planner export as `justin_data.json`.  
-2. Place the file in the following directory:  
-   **`input/justin_data.json`**  
-3. Run the merger script:  
-```bash
-python merger_justin_planner.py
-```  
-This script will generate:  
-- **`output/justin_data_final.json`**: The merged file containing the final combined data.  
-4. Import the generated json to Justin Planner
+##### 2. Merge into Your Own Data
+To merge the converted data into your existing Justin Planner export:
+   1. Save your Justin Planner export as `justin_data.json`.  
+   2. Place the file in the following directory:  
+      **`input/justin_data.json`**  
+   3. Run the merger script:  
+      ```bash
+      python merger_justin_planner.py
+      ```  
+      This script will generate:  
+         - **`output/justin_data_final.json`**: The merged file containing the final combined data.  
+   4. Import the generated json to Justin Planner
 
 ---
 
