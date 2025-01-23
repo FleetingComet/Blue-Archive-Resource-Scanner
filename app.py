@@ -1,5 +1,7 @@
+import time
 from config import Config
 from equipment import process_equipment
+from goToLocation import goHome, goToPage, whereAmI
 from scanner import startMatching
 from src.utils.adb_controller import ADBController
 
@@ -12,7 +14,12 @@ if __name__ == "__main__":
 
     adb_controller = ADBController(host=Config.ADB_HOST, port=Config.ADB_PORT)
     if adb_controller.connect():
-        isFinished = startMatching(adb_controller)
+        test = whereAmI(adb_controller)
+        if test:
+            goHome()
+            time.sleep(10.0 * Config.WAIT_TIME_MULTIPLIER)
+        goToPage(adb_controller, location="menu_equipment")
+        # isFinished = startMatching(adb_controller)
     else:
         print("Failed to connect to ADB. Exiting.")
 
@@ -20,4 +27,4 @@ if __name__ == "__main__":
         print("Matching process failed or was interrupted.")
 
     # Process Equipment
-    process_equipment()
+    # process_equipment()
