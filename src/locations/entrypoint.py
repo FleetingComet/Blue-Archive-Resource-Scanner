@@ -1,15 +1,14 @@
-# from enum import Enum
-
-# from region import Region
-
+from enum import Enum
+from area import Location, Region
 
 # # 1280x720p
-# class EntryPointPattern(Enum):
-#     # "x": 103,
-#     # "y": 11,
-#     #  "width": 87,
-#     #  "height": 29
-#     # ITEMS = Region(105, 10, 85, 35).xFromCenter()
-#     # EQUIPMENTS = Region(105, 10, 155, 35)
+class EntryPointButtons(Enum):
+    MENU_TAB = Location(1220, 40)
+    MENU_TAB_EQUIPMENT = Location(540, 380)
+    MENU_TAB_ITEMS = Location(770, 380)
+    HOME = Location(1235, 20)
+    STUDENTS = Location(330, 650)
 
-#UNUSED
+class EntryPointTitles(Enum):
+    PAGE = Region(100, 5, 220, 50)
+    MENU_TAB = Region(410, 200, 420, 40)

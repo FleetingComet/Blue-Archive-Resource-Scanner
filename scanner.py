@@ -85,7 +85,7 @@ def startMatching(adb_controller: ADBController) -> bool:
             if col == 4 and row == 0:
                 first_item_name = item_name
 
-            print(f"Matched: {item_name} - Owned: x{owned_count}")
+            # print(f"Matched: {item_name} - Owned: x{owned_count}")
             update_name_owned_counts(owned_counts_file, item_name, owned_count)
 
             # Move to the next column
