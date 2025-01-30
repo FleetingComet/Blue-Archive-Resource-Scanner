@@ -1,6 +1,6 @@
 import time
 import cv2
-from area import Location, Region
+from area import Location
 from config import Config
 from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
 from src.utils.preprocess_image_for_ocr import preprocess_image_for_ocr
