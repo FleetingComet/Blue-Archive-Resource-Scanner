@@ -14,12 +14,7 @@ def whereAmI(adb_controller: ADBController) -> str:
     if not adb_controller.capture_screenshot(screenshot_path):
         print("Failed to capture screenshot.")
         return None
-    title = searchTitle()
-    time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
-    if not title:
-        return None
-    else:
-        print(f"title is {title}")
+    return searchTitle()
 
 
 def searchTitle() -> str:
@@ -33,57 +28,48 @@ def searchTitle() -> str:
     ]
 
     preprocessed_crop = preprocess_image_for_ocr(title_crop_img)
-    if preprocessed_crop is not None:
-        text = extract_text(preprocessed_crop, isName=True)
-        text.replace("\r", "").replace("\n", " ")
+    if preprocessed_crop is None:
+        return None
 
-        if text not in ["Items", "Equipment"]:
-            return None
-        else:
-            return text
+    text = (
+        extract_text(preprocessed_crop, isName=True)
+        .replace("\r", "")
+        .replace("\n", " ")
+    )
 
-    return None
+    return text if text in ["Items", "Equipment"] else None
 
 
 def determineButton(location: str) -> Location:
-    # wtf help
-    if location == "home":
-        region = EntryPointButtons.HOME.value
-    elif location == "students":
-        region = EntryPointButtons.STUDENTS.value
-    elif location == "menu":
-        region = EntryPointButtons.MENU_TAB.value
-    elif location == "menu_equipment":
-        region = EntryPointButtons.MENU_TAB_EQUIPMENT.value
-    elif location == "menu_items":
-        region = EntryPointButtons.MENU_TAB_ITEMS.value
-    else:
-        return None
-    return region
+    button_mapping = {
+        "home": EntryPointButtons.HOME,
+        "students": EntryPointButtons.STUDENTS,
+        "menu": EntryPointButtons.MENU_TAB,
+        "menu_equipment": EntryPointButtons.MENU_TAB_EQUIPMENT,
+        "menu_items": EntryPointButtons.MENU_TAB_ITEMS,
+    }
+
+    return (
+        button_mapping.get(location, None).value if location in button_mapping else None
+    )
 
 
 def goHome(adb_controller: ADBController):
-    adb_controller.execute_command(
-        f"shell input tap {determineButton('home').x} {determineButton('home').y}"
-    )
-    time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
-    return
+    if button := determineButton("home"):
+        adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
+        time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
 
 def goToPage(adb_controller: ADBController, location: str):
     press_MenuTab(adb_controller)
     time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
-    adb_controller.execute_command(
-        f"shell input tap {determineButton(location).x} {determineButton(location).y}"
-    )
-    return
+    if button := determineButton(location):
+        adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
 
 
 def press_MenuTab(adb_controller: ADBController):
     if not adb_controller.capture_screenshot(screenshot_path):
         print("Failed to capture screenshot.")
-        return
-    if screenshot_path is None:
         return
 
     image = cv2.imread(screenshot_path)
@@ -93,13 +79,13 @@ def press_MenuTab(adb_controller: ADBController):
     ]
 
     preprocessed_crop = preprocess_image_for_ocr(title_crop_img)
-    if preprocessed_crop is not None:
-        text = extract_text(preprocessed_crop, isName=True)
-        text.replace("\r", "").replace("\n", " ")
+    if preprocessed_crop is None:
+        return
 
-        if text != "Menu Tab":
-            adb_controller.execute_command(
-                f"shell input tap {determineButton('menu').x} {determineButton('menu').y}"
-            )
-        else:
-            return
+    text = (
+        extract_text(preprocessed_crop, isName=True)
+        .replace("\r", "")
+        .replace("\n", " ")
+    )
+    if text != "Menu Tab" and (button := determineButton("menu")):
+        adb_controller.execute_command(f"shell input tap {button.x} {button.y}")

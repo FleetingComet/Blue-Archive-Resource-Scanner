@@ -13,15 +13,17 @@ if __name__ == "__main__":
     isFinished = False
 
     adb_controller = ADBController(host=Config.ADB_HOST, port=Config.ADB_PORT)
-    if adb_controller.connect():
-        test = whereAmI(adb_controller)
-        if test:
-            goHome()
-            time.sleep(10.0 * Config.WAIT_TIME_MULTIPLIER)
-        goToPage(adb_controller, location="menu_equipment")
-        # isFinished = startMatching(adb_controller)
-    else:
+
+    if not adb_controller.connect():
         print("Failed to connect to ADB. Exiting.")
+        exit(1)
+
+    if whereAmI(adb_controller):
+        goHome(adb_controller)
+        time.sleep(10.0 * Config.WAIT_TIME_MULTIPLIER)
+        
+    goToPage(adb_controller, location="menu_equipment")
+    # isFinished = startMatching(adb_controller)
 
     if not isFinished:
         print("Matching process failed or was interrupted.")
