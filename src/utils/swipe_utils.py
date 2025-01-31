@@ -19,11 +19,23 @@ def swipe(
         start_y (int): The starting y-coordinate.
         item_width (int): The width of an item in the grid.
     """
-    adb_controller.execute_command(
-        f"shell input swipe {start_x + item_width} {swipe_distance} {start_x + item_width} {start_y} 500"
-    )
 
-    print("Scrolled down to load the next set of items.")
+    swipe_start_x = (
+        start_x + item_width // 2
+    )  # Center of the item, can't work if it's on the very x of the grid x
+    swipe_start_y = start_y + swipe_distance  # Start from the bottom of the grid
+    swipe_end_y = start_y # Swipe to the top of the grid
+
+    adb_controller.execute_command(
+        f"shell input swipe {swipe_start_x} {swipe_start_y} {swipe_start_x} {swipe_end_y} 1000"
+    )
+    # adb_controller.execute_command(
+    #     f"shell input swipe {start_x + item_width} {swipe_distance} {start_x + item_width} {start_y} 500"
+    # )
+
+    print(
+        f"Swiped from ({swipe_start_x}, {swipe_start_y}) to ({swipe_start_x}, {swipe_end_y})."
+    )
 
 
 def verify_swipe(screenshot_path: str, previous_image) -> bool:

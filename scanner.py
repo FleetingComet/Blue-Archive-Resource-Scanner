@@ -85,7 +85,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             # time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
             time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)
             # read name
-            item_name = extract_item_name(screenshot_path)
+            item_name = extract_item_name(screenshot_path, grid_type=grid_type)
 
             if row == 0 and col == 0:
                 first_item_name = item_name
@@ -100,7 +100,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
 
             # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
             # read data on the owned x
-            owned_count = extract_owned_count(screenshot_path)
+            owned_count = extract_owned_count(screenshot_path, grid_type=grid_type)
             # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
             if item_name and owned_count:
@@ -125,8 +125,8 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             # Perform the swipe
             # swipe_distance_y = start_y + (cols_per_row * (item_height + y_padding))
             # idk why scroll is different everytime
-            swipe_distance_y = 490 + (item_size.height + y_padding)
-            # swipe_distance_y = (grid_end_y - grid_start.y) - 11
+            # swipe_distance_y = 490 + (item_size.height + y_padding)
+            swipe_distance_y = (grid_end_y - grid_start.y) - y_padding
             swipe(
                 adb_controller,
                 swipe_distance_y,

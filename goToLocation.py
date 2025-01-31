@@ -56,22 +56,40 @@ def determineButton(location: str) -> Location:
 
 
 def goHome(adb_controller: ADBController):
+    """Navigate to the home screen."""
+
     if button := determineButton("home"):
         adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
         time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
 
 def goToPage(adb_controller: ADBController, location: str):
-    press_MenuTab(adb_controller)
-    time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+    """Navigate to a specific page by ensuring the Menu Tab is open first."""
+
+    if not isMenuTabOpen(adb_controller):
+        press_MenuTab(adb_controller)
+        time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+
     if button := determineButton(location):
         adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
+        return
 
 
 def press_MenuTab(adb_controller: ADBController):
+    """Press the Menu Tab button."""
+
+    if button := determineButton("menu"):
+        adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
+        time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+        return
+
+
+def isMenuTabOpen(adb_controller: ADBController) -> bool:
+    """Check if the Menu Tab is currently open."""
+
     if not adb_controller.capture_screenshot(screenshot_path):
         print("Failed to capture screenshot.")
-        return
+        return False
 
     image = cv2.imread(screenshot_path)
     title_crop_img = image[
@@ -81,12 +99,12 @@ def press_MenuTab(adb_controller: ADBController):
 
     preprocessed_crop = preprocess_image_for_ocr(title_crop_img)
     if preprocessed_crop is None:
-        return
+        return False
 
     text = (
         extract_text(preprocessed_crop, isName=True)
         .replace("\r", "")
         .replace("\n", " ")
     )
-    if text != "Menu Tab" and (button := determineButton("menu")):
-        adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
+
+    return text == "Menu Tab"

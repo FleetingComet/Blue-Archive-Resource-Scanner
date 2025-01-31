@@ -19,7 +19,7 @@ def extract_text(image, isName: bool = False) -> str:
     return text.strip()
 
 
-def extract_item_name(image_path: str) -> str:
+def extract_item_name(image_path: str, grid_type: str = "Equipment") -> str:
     """
     Extract the item name from a predetermined region in the screenshot.
 
@@ -29,11 +29,15 @@ def extract_item_name(image_path: str) -> str:
         str: The extracted item name, or None if extraction fails.
     """
     return extract_from_region(
-        image_path, SearchPattern.EQUIPMENT_NAME.value, isName=True
+        image_path,
+        SearchPattern.EQUIPMENT_NAME.value
+        if grid_type == "Equipment"
+        else SearchPattern.ITEM_NAME.value,
+        isName=True,
     )
 
 
-def extract_owned_count(image_path: str) -> str:
+def extract_owned_count(image_path: str, grid_type: str = "Equipment") -> str:
     """
     Extract the owned count from a predetermined region in the screenshot.
 
@@ -43,7 +47,11 @@ def extract_owned_count(image_path: str) -> str:
         str: The extracted owned count, or None if extraction fails.
     """
     return extract_from_region(
-        image_path, SearchPattern.EQUIPMENT_OWNED.value, isName=False
+        image_path,
+        SearchPattern.EQUIPMENT_OWNED.value
+        if grid_type == "Equipment"
+        else SearchPattern.ITEM_OWNED.value,
+        isName=False,
     )
 
 
