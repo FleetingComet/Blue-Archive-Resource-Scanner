@@ -3,7 +3,7 @@ import cv2
 from area import Location
 from config import Config
 from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
-from src.utils.preprocess_image_for_ocr import preprocess_image_for_ocr
+from src.utils.preprocessor import preprocess_image_for_ocr
 from src.utils.extract_text import extract_text
 from src.utils.adb_controller import ADBController
 
@@ -36,8 +36,9 @@ def searchTitle() -> str:
         .replace("\r", "")
         .replace("\n", " ")
     )
-
-    return text if text in ["Items", "Equipment"] else None
+    # Students: Student List
+    # Student: Student Info
+    return text if text in ["Items", "Equipment", "Students", "Student"] else None
 
 
 def determineButton(location: str) -> Location:
