@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     if where != "Equipment":
         goToPage(adb_controller, location="menu_equipment")
-        
+
     isFinished = startMatching(adb_controller)
 
     if not isFinished:

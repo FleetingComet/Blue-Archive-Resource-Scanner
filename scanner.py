@@ -1,17 +1,16 @@
 import time
 
-from area import Location, Region, Size
-from config import Config
 import cv2
 
-from src.locations.search import SearchPattern
-from src.utils.extract_text import extract_text
-from src.utils.preprocess_image_for_ocr import preprocess_image_for_ocr
+from area import Location, Region, Size
+from config import Config
 from src.utils.adb_controller import ADBController
+from src.utils.extract_text import extract_item_name, extract_owned_count
 from src.utils.jsonHelper import update_name_owned_counts
+from src.utils.swipe_utils import swipe
 
 
-def startMatching(adb_controller: ADBController) -> bool:
+def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -> bool:
     """
     Capture a screenshot from the device and perform the ocr.
 
@@ -31,13 +30,19 @@ def startMatching(adb_controller: ADBController) -> bool:
     y_padding = 11  # the padding is 10 but I need extra 1px because some shenanigans are happening
     cols_per_row = 5
 
+    equipment_grid_end_y = 660  # Y-end for equipment grid
+    items_grid_end_y = 560  # Y-end for items grid
+
+    # Set the grid end based on the grid type
+    grid_end_y = equipment_grid_end_y if grid_type == "Equipment" else items_grid_end_y
+
     current_y = grid_start.y
+    # Track the first item in the first row
+    row = 0
     previous_first_item_name = None
+    first_item_name = None
 
-    max_attempts = 3
-    attempt = 0
-
-    while attempt < max_attempts:
+    while True:
         if not adb_controller.capture_screenshot(screenshot_path):
             print("Failed to capture screenshot.")
             return False
@@ -55,12 +60,13 @@ def startMatching(adb_controller: ADBController) -> bool:
                 item_size.height,
             )
 
+            # skip other items (for debugging)
+            # if col > 0:
+            #     continue
+
             # Ensure we don't go out of bounds
-            if (
-                item_region.bottom > image.shape[0]
-                or item_region.right > image.shape[1]
-            ):
-                print("Reached the end of the screen.")
+            if item_region.bottom > grid_end_y or item_region.right > image.shape[1]:
+                print("Reached the end of the grid.")
                 return True
 
             center = item_region.center
@@ -70,18 +76,32 @@ def startMatching(adb_controller: ADBController) -> bool:
                 f"shell input tap {int(center.x)} {int(center.y)}"
             )
 
+            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
             # Capture the screen again after tapping
             if not adb_controller.capture_screenshot(screenshot_path):
                 print("Failed to capture screenshot.")
                 return False
 
-            time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
+            # time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)
             # read name
             item_name = extract_item_name(screenshot_path)
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+
+            if row == 0 and col == 0:
+                first_item_name = item_name
+                print(f"First Item: {first_item_name}")
+
+                if (
+                    item_name == previous_first_item_name
+                    and previous_first_item_name is not None
+                ):
+                    print("No new items found. Stopping...")
+                    return True
+
+            # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
             # read data on the owned x
             owned_count = extract_owned_count(screenshot_path)
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+            # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
             if item_name and owned_count:
                 # print(f"Matched: {item_name} - Owned: x{owned_count}")
@@ -89,25 +109,24 @@ def startMatching(adb_controller: ADBController) -> bool:
             else:
                 print("Failed to extract item name or owned count.")
 
-        first_item_name = extract_item_name(screenshot_path)
-        if previous_first_item_name == first_item_name:
-            print("No new items found. Stopping...")
-            return True
-
-        print(
-            f"First Item: {first_item_name}, Previous Item: {previous_first_item_name}"
-        )
-
         # Move to the next row
         current_y += item_size.height + y_padding
-        if current_y + item_size.height > image.shape[0]:
+        row += 1
+        if (test := current_y + item_size.height) > grid_end_y:
+            print(f"current y: {test} image shape: {grid_end_y}")
+            # Update the previous first item name
+            previous_first_item_name = first_item_name
+            print(f"Previous First Item: {previous_first_item_name}")
+
             # Reset current_y for the next swipe
             current_y = grid_start.y
+            row = 0
 
             # Perform the swipe
             # swipe_distance_y = start_y + (cols_per_row * (item_height + y_padding))
             # idk why scroll is different everytime
             swipe_distance_y = 490 + (item_size.height + y_padding)
+            # swipe_distance_y = (grid_end_y - grid_start.y) - 11
             swipe(
                 adb_controller,
                 swipe_distance_y,
@@ -115,88 +134,6 @@ def startMatching(adb_controller: ADBController) -> bool:
                 grid_start.y,
                 item_size.width,
             )
-            attempt += 1
+
+            # Wait for the screen to update after swiping
             time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
-
-    print("Reached maximum swipe attempts. Stopping...")
-    return True
-
-
-def swipe(
-    adb_controller: ADBController,
-    swipe_distance: int,
-    start_x: int,
-    start_y: int,
-    item_width: int,
-):
-    """
-    Perform a swipe gesture to scroll down the screen.
-
-    Args:
-        adb_controller (ADBController): An instance of ADBController.
-        swipe_distance (int): The vertical distance to swipe.
-        start_x (int): The starting x-coordinate.
-        start_y (int): The starting y-coordinate.
-        item_width (int): The width of an item in the grid.
-    """
-    adb_controller.execute_command(
-        f"shell input swipe {start_x + item_width} {swipe_distance} {start_x + item_width} {start_y} 500"
-    )
-
-    print("Scrolled down to load the next set of items.")
-
-
-def extract_item_name(image_path: str) -> str:
-    """
-    Extract the item name from a predetermined region in the screenshot.
-
-    Args:
-        image_path (str): Path to the screenshot.
-    Returns:
-        str: The extracted item name, or None if extraction fails.
-    """
-    return extract_from_region(
-        image_path, SearchPattern.EQUIPMENT_NAME.value, is_name=True
-    )
-
-
-def extract_owned_count(image_path: str) -> str:
-    """
-    Extract the owned count from a predetermined region in the screenshot.
-
-    Args:
-        image_path (str): Path to the screenshot.
-    Returns:
-        str: The extracted owned count, or None if extraction fails.
-    """
-    return extract_from_region(
-        image_path, SearchPattern.EQUIPMENT_OWNED.value, is_name=False
-    )
-
-
-def extract_from_region(image_path: str, region: Region, isName: bool = False):
-    """
-    Extract text from a specific region in the screenshot.
-
-    Args:
-        image_path (str): Path to the screenshot.
-        region (Region): The region to extract text from.
-        is_name (bool): Whether to extract a name (uses different OCR settings).
-    Returns:
-        str: The extracted text, or None if extraction fails.
-    """
-    if image_path is None:
-        return None
-
-    image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
-    if image is None:
-        return None
-
-    crop_img = image[region.y : region.bottom, region.x : region.right]
-
-    preprocessed_crop = preprocess_image_for_ocr(crop_img)
-
-    if preprocessed_crop is not None:
-        text = extract_text(preprocessed_crop, isName)
-        return text.replace("\r", "").replace("\n", " ")
-    return None
