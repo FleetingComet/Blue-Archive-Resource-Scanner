@@ -5,7 +5,7 @@ import cv2
 
 from locations.search import SearchPattern
 from utils.extract_text import extract_text
-from utils.preprocess_image_for_ocr import preprocess_image_for_ocr
+from utils.preprocessor import preprocess_image_for_ocr
 from utils.adb_controller import ADBController
 from utils.jsonHelper import update_name_owned_counts
 

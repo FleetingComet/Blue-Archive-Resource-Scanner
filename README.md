@@ -98,9 +98,13 @@ To merge the converted data into your existing Justin Planner export:
 
 ### Current Checklist:
 
-- Read more resources (this only needs modification, their [Search Region](src/locations/search.py) are already defined)
+- Read more resources (some of them needs modification, their [Search Region](src/locations/search.py) are already defined)
   - [ ] Credits
   - [ ] Pyroxene
+  - [y] Items Page (some bugs on naming)
+  - [ ] Student stats
+      - [ ] Skill levels (eg.: M/M/7/8)
+      - [ ] Unique Equipment level (is UE50? or something)
   - [ ] Items Page 
 - [ ] Different Resolution (also remove bars)
 - [ ] Make screen capturing faster
