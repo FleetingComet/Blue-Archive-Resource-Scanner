@@ -86,6 +86,7 @@ def group_equipment_by_category(
 
     return grouped_data
 
+
 def process_equipment():
     # Load processed equipment JSON
     with open(Config.EQUIPMENT_PROCESSED_FILE, "r", encoding="utf-8") as f:
@@ -104,7 +105,7 @@ def process_equipment():
     )
 
     # Save the grouped output to a new JSON file
-    with open(Config.OUTPUT_FILE, "w", encoding="utf-8") as f:
+    with open(Config.EQUIPMENT_OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(grouped_output, f, indent=4)
 
-    print(f"Data saved to {Config.OUTPUT_FILE}")
+    print(f"Data saved to {Config.EQUIPMENT_OUTPUT_FILE}")
