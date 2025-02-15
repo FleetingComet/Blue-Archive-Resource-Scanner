@@ -27,7 +27,7 @@ def swipe(
     swipe_end_y = start_y # Swipe to the top of the grid
 
     adb_controller.execute_command(
-        f"shell input swipe {swipe_start_x} {swipe_start_y} {swipe_start_x} {swipe_end_y} 1000"
+        f"shell input swipe {swipe_start_x} {swipe_start_y} {swipe_start_x} {swipe_end_y} 2000"
     )
     # adb_controller.execute_command(
     #     f"shell input swipe {start_x + item_width} {swipe_distance} {start_x + item_width} {start_y} 500"
