@@ -3,6 +3,7 @@ import time
 from config import Config
 from equipment import process_equipment
 from goToLocation import goHome, goToPage, isMenuTabOpen, press_MenuTab, whereAmI
+from item import process_items
 from scanner import startMatching
 from src.utils.adb_controller import ADBController
 
@@ -25,6 +26,8 @@ def main():
 
     # Process Equipment
     process_equipment()
+    # Process Items
+    process_items()
 
 
 def mainpage(adb_controller):
@@ -33,7 +36,7 @@ def mainpage(adb_controller):
     # Define mapping of screen names to their corresponding menu locations and grid types
     screen_mapping = {
         "Equipment": ("menu_equipment", "Equipment"),
-        # "Items": ("menu_items", "Items"),
+        "Items": ("menu_items", "Items"),
         # not yet implemented
         # "Students": ("menu_students", "Students"),
         # "Student": ("menu_student", "Student"),
