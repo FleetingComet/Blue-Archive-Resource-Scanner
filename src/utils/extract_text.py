@@ -15,6 +15,9 @@ def extract_text(image, isName: bool = False) -> str:
     else:
         config = "--psm 6 -c tessedit_char_whitelist=0123456789"
         # config = "--psm 8 -c tessedit_char_whitelist=0123456789"
+
+    # Trained data
+    config += r"--tessdata-dir ./tessdata -l BlueArchive"
     text: str = pytesseract.image_to_string(image, config=config)
     return text.strip()
 
@@ -79,5 +82,11 @@ def extract_from_region(image_path: str, region: Region, isName: bool = False):
 
     if preprocessed_crop is not None:
         text = extract_text(preprocessed_crop, isName)
-        return text.replace("\r", "").replace("\n", " ")
+        return (
+            text.replace("\r", "")
+            .replace("\n", " ")
+            # for replacing left and right single quotes to '
+            .replace("\u2018", "'")
+            .replace("\u2019", "'")
+        )
     return None

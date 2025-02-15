@@ -136,4 +136,4 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             )
 
             # Wait for the screen to update after swiping
-            time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(2.5 * Config.WAIT_TIME_MULTIPLIER)

@@ -68,7 +68,8 @@ python app.py
 ```
 After running, this will generate two files:  
 - **`output/owned_counts.json`**: Contains the counts of owned resources.  
-- **`output/final_values.json`**: Contains the processed final resource values.
+- **`output/equipment_final_values.json`**: Contains the processed equipment resource values.
+- **`output/items_final_values.json`**: Contains the processed items resource values.
 
 #### Optional
 ##### 1. Convert to Justin Planner Format
@@ -101,14 +102,15 @@ To merge the converted data into your existing Justin Planner export:
 - Read more resources (some of them needs modification, their [Search Region](src/locations/search.py) are already defined)
   - [ ] Credits
   - [ ] Pyroxene
-  - [y] Items Page (some bugs on naming)
+  - [x] Items Page
   - [ ] Student stats
       - [ ] Skill levels (eg.: M/M/7/8)
       - [ ] Unique Equipment level (is UE50? or something)
-  - [ ] Items Page 
 - [ ] Different Resolution (also remove bars)
 - [ ] Make screen capturing faster
-- [ ] More accurate and faster data reading
+- [y] More accurate and faster data reading
+
+Note: "y" for half completed
 <!-- - [ ] Comet Haley -->
 <!-- - [x] Earth (Orbit/Moon) -->
 

@@ -5,7 +5,7 @@ class Config:
     # ADB Settings
     ADB_HOST = "localhost"
     ADB_PORT = 16384  # Default MuMu Player 12 port
-    
+
     # increase this if your device is laggy (eg. 1.1 or 1.8 or 2)
     WAIT_TIME_MULTIPLIER: float = 1.0
 
@@ -17,15 +17,17 @@ class Config:
     # File paths for data handling
     OWNED_COUNTS_FILE = "output/owned_counts.json"
     EQUIPMENT_PROCESSED_FILE = "assets/data/equipment_processed.json"
-    
-    OUTPUT_FILE = "output/final_values.json"
-    CONVERTER_INPUT_FILE = OUTPUT_FILE
+    ITEMS_PROCESSED_FILE = "assets/data/items_processed.json"
+
+    EQUIPMENT_OUTPUT_FILE = "output/equipment_final_values.json"
+    ITEMS_OUTPUT_FILE = "output/items_final_values.json"
+
     CONVERTER_OUTPUT_FILE = "output/justin_planner.json"
-    
+
     MERGER_INPUT_FILE = CONVERTER_OUTPUT_FILE
     MERGER_TO_FILE = "input/justin_data.json"
     MERGER_OUTPUT_FILE = "output/justin_data_final.json"
-    
+
     @staticmethod
     def get_screenshot_path():
         return Config.SCREENSHOT_PATH

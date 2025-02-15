@@ -56,6 +56,7 @@ def save_json(equipment_list: List[Equipment], output_file: str):
             ],
             f,
             indent=4,
+            ensure_ascii=False,
         )
 
 
@@ -79,6 +80,7 @@ def group_equipment_by_category(
             grouped_data[equipment.category][equipment.tier] = equipment.tier
 
     return grouped_data
+
 
 if __name__ == "__main__":
     input_file = "equipment.json"
