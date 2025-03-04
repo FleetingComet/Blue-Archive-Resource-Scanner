@@ -4,20 +4,16 @@ import pytesseract
 from area import Region
 from src.locations.search import SearchPattern
 from src.utils.preprocessor import preprocess_image_for_ocr
+from src.utils.text_util import is_close_to_max
 
 
-def extract_text(image, isName: bool = False) -> str:
+def extract_text(image, config="--psm 6 -c tessedit_char_whitelist=0123456789") -> str:
     """Extract text from preprocessed image"""
-    if isName:
-        #  ? for the FAQ Icon
-        config = "--psm 6 tessedit_char_blacklist=?"
-        # config = "--psm 7"  # single word 8, 7 for single line
-    else:
-        config = "--psm 6 -c tessedit_char_whitelist=0123456789"
-        # config = "--psm 8 -c tessedit_char_whitelist=0123456789"
 
     # Trained data
-    config += r"--tessdata-dir ./tessdata -l BlueArchive"
+    # config += r" --tessdata-dir ./tessdata -l BlueArchive"
+
+    # print(f"Tesseract Config: {config}")
     text: str = pytesseract.image_to_string(image, config=config)
     return text.strip()
 
@@ -36,7 +32,7 @@ def extract_item_name(image_path: str, grid_type: str = "Equipment") -> str:
         SearchPattern.EQUIPMENT_NAME.value
         if grid_type == "Equipment"
         else SearchPattern.ITEM_NAME.value,
-        isName=True,
+        image_type=None,
     )
 
 
@@ -54,21 +50,23 @@ def extract_owned_count(image_path: str, grid_type: str = "Equipment") -> str:
         SearchPattern.EQUIPMENT_OWNED.value
         if grid_type == "Equipment"
         else SearchPattern.ITEM_OWNED.value,
-        isName=False,
+        image_type=None,
     )
 
 
-def extract_from_region(image_path: str, region: Region, isName: bool = False):
+def extract_from_region(image_path: str, region: Region, image_type=None, skill=False):
     """
     Extract text from a specific region in the screenshot.
 
     Args:
         image_path (str): Path to the screenshot.
         region (Region): The region to extract text from.
-        is_name (bool): Whether to extract a name (uses different OCR settings).
+
+        soon
     Returns:
         str: The extracted text, or None if extraction fails.
     """
+
     if image_path is None:
         return None
 
@@ -78,10 +76,17 @@ def extract_from_region(image_path: str, region: Region, isName: bool = False):
 
     crop_img = image[region.y : region.bottom, region.x : region.right]
 
-    preprocessed_crop = preprocess_image_for_ocr(crop_img)
+    preprocessed_crop, config = preprocess_image_for_ocr(
+        crop_img, image_type=image_type
+    )
 
     if preprocessed_crop is not None:
-        text = extract_text(preprocessed_crop, isName)
+        text = extract_text(preprocessed_crop, config=config)
+
+        if skill:
+            if is_close_to_max(text, threshold=0.65):
+                return "MAX"
+
         return (
             text.replace("\r", "")
             .replace("\n", " ")

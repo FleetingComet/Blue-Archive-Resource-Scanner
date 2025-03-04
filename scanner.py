@@ -8,6 +8,7 @@ from src.utils.adb_controller import ADBController
 from src.utils.extract_text import extract_item_name, extract_owned_count
 from src.utils.jsonHelper import update_name_owned_counts
 from src.utils.swipe_utils import swipe
+# from src.utils.item_util import is_item_empty
 
 
 def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -> bool:
@@ -16,6 +17,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
 
     Args:
         adb_controller (ADBController): An instance of ADBController to interact with the device.
+        grid_type (str): "Equipment" or "Items".
     Returns:
         bool: True if the process is completed, False otherwise.
     """
@@ -28,6 +30,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
     # item_width, item_height = 110, 90  # 90
     item_size = Size(110, 90)
     y_padding = 11  # the padding is 10 but I need extra 1px because some shenanigans are happening
+    # y_padding = 10
     cols_per_row = 5
 
     equipment_grid_end_y = 660  # Y-end for equipment grid
@@ -69,6 +72,11 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
                 print("Reached the end of the grid.")
                 return True
 
+            # # If region is empty, skip tapping/extracting until it finds a non-empty slot
+            # if is_item_empty(image, item_region):
+            #     print(f"Skipping empty slot at row {row}, col {col}.")
+            #     continue
+
             center = item_region.center
 
             print(f"Clicking on region center: ({center.x}, {center.y})")
@@ -83,7 +91,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
                 return False
 
             # time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
-            time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
             # read name
             item_name = extract_item_name(screenshot_path, grid_type=grid_type)
 
@@ -98,7 +106,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
                     print("No new items found. Stopping...")
                     return True
 
-            # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
             # read data on the owned x
             owned_count = extract_owned_count(screenshot_path, grid_type=grid_type)
             # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
@@ -126,6 +134,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             # swipe_distance_y = start_y + (cols_per_row * (item_height + y_padding))
             # idk why scroll is different everytime
             # swipe_distance_y = 490 + (item_size.height + y_padding)
+            # swipe_distance_y = (grid_end_y - grid_start.y) - (y_padding * row)
             swipe_distance_y = (grid_end_y - grid_start.y) - y_padding
             swipe(
                 adb_controller,
