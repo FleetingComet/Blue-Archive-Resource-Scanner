@@ -1,3 +1,4 @@
+import random
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -187,6 +188,9 @@ def preprocess_image_for_ocr(image, image_type):
         image = image[:, :, :3]
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    h, w = gray.shape[:2]
+    if h < 50 or w < 50:
+        gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
     if image_type == "number_in_circle":  # in bond or gear tier
         gray = cv2.equalizeHist(gray)
@@ -194,6 +198,75 @@ def preprocess_image_for_ocr(image, image_type):
         # config = "--psm 10 -c tessedit_char_whitelist=0123456789"
         config = "--psm 7 -c tessedit_char_whitelist=0123456789"
         config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
+
+    # elif image_type == "gear":
+    #     binary = image
+    #     r1 = random.randint(0, 9999)
+    #     config = "--psm 7 -c tessedit_char_whitelist=0123456789"
+    #     cv2.imwrite(f"testimage/{r1}_tier.png", image)
+    # if image_type == "gear":
+    #     # gray = cv2.equalizeHist(gray)
+    #     # gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
+
+    #     h, w = gray.shape[:2]
+    #     if h < 50 or w < 50:
+    #         gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+
+    #     # _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    #     # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    #     _, gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    #     gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
+    #     gray = cv2.equalizeHist(gray)
+    #     gray = cv2.fastNlMeansDenoising(gray, h=40)
+    #     # https://en.wikipedia.org/wiki/Kernel_(image_processing)
+    #     kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, 0]], np.float32)
+    #     kernel = 1/3 * kernel
+    #     binary = cv2.filter2D(gray, -1, kernel)
+    #     # Noise removal
+
+    #     # config = "--psm 10 -c tessedit_char_whitelist=0123456789"
+    #     config = "--psm 13 -c tessedit_char_whitelist=0123456789"
+    #     config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
+        # cv2.imshow("Binary: ", binary)
+        # cv2.waitKey(0)
+        # cv2.imwrite("testimage/test.png", binary)
+    # elif image_type == "gear":
+    #     _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    #     config = "--psm 13 -c tessedit_char_whitelist=0123456789"
+    #     config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
+    #     cv2.imshow("Binary: ", binary)
+    #     cv2.waitKey(0)
+
+    # elif image_type == "gear":
+    #     # h, w = image.shape[:2]
+    #     # image = cv2.resize(image, (w * 4, h * 4), interpolation=cv2.INTER_CUBIC)
+
+    #     h, w = image.shape[:2]
+    #     if h < 50 or w < 50:
+    #         image = cv2.resize(image, None, fx=15, fy=15, interpolation=cv2.INTER_CUBIC)
+
+    #     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    #     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2, 2))
+    #     binary = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
+
+
+    #     # binary = cv2.equalizeHist(binary)
+    #     binary = cv2.convertScaleAbs(binary, alpha=1.5, beta=0)
+    #     binary = cv2.fastNlMeansDenoising(binary, h=5)
+    #     # https://en.wikipedia.org/wiki/Kernel_(image_processing)
+    #     kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], np.float32)
+    #     kernel = 1/3 * kernel
+    #     binary = cv2.filter2D(binary, -1, kernel)
+
+    #     _, binary = cv2.threshold(binary, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+
+    #     config = "--psm 7 -c tessedit_char_whitelist=0123456789"
+    #     config += " --oem 1 --tessdata-dir ./tessdata -l BlueArchive"
 
     elif image_type == "skill_level_indicator":  # Level
         hex_colors = ["dceffa", "e0effa", "e7f3fb", "d8dadc", "bcccd8"]
@@ -211,6 +284,7 @@ def preprocess_image_for_ocr(image, image_type):
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         config = "--psm 7"
         # config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
+        # cv2.imwrite("preprocessed_crop.png", preprocessed_crop)
     else:
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         config = "--psm 6"

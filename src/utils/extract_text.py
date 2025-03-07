@@ -3,6 +3,7 @@ import pytesseract
 
 from area import Region
 from src.locations.search import SearchPattern
+from src.utils.matchers import match_tier
 from src.utils.preprocessor import preprocess_image_for_ocr
 from src.utils.text_util import is_close_to_max
 
@@ -75,6 +76,9 @@ def extract_from_region(image_path: str, region: Region, image_type=None, skill=
         return None
 
     crop_img = image[region.y : region.bottom, region.x : region.right]
+
+    if image_type == "gear":
+        return match_tier(crop_img)
 
     preprocessed_crop, config = preprocess_image_for_ocr(
         crop_img, image_type=image_type
