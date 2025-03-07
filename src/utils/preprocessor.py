@@ -1,164 +1,6 @@
-import random
 import cv2
-import numpy as np
-import matplotlib.pyplot as plt
 
 from src.utils.color_util import remove_colors
-
-# def preprocess_image_for_ocr(image, debug=False):
-#     """Preprocesses an image for Tesseract OCR with enhanced processing steps."""
-
-#     # Convert to grayscale
-#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-#     # Initial resize for small images (applied to grayscale)
-#     h, w = gray.shape
-#     if h < 100 or w < 100:  # Adjusted minimum size threshold
-#         gray = cv2.resize(gray, None, fx=2, fy=2,
-#                         interpolation=cv2.INTER_CUBIC)
-
-#     # Noise reduction on grayscale image
-#     denoised = cv2.fastNlMeansDenoising(gray, None, h=20,
-#                                       templateWindowSize=7,
-#                                       searchWindowSize=21)
-
-#     # Adaptive thresholding
-#     binary = cv2.adaptiveThreshold(denoised, 255,
-#                                   cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-#                                   cv2.THRESH_BINARY, 11, 4)
-
-#     # Morphological operations
-#     kernel = np.ones((2,2), np.uint8)
-#     cleaned = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
-#     cleaned = cv2.morphologyEx(cleaned, cv2.MORPH_OPEN, kernel)
-
-#     # Secondary resize if needed (after processing)
-#     final_h, final_w = cleaned.shape
-#     if final_h < 300 or final_w < 300:  # Final quality check
-#         cleaned = cv2.resize(cleaned, None,
-#                            fx=1.5, fy=1.5,
-#                            interpolation=cv2.INTER_CUBIC)
-
-#     # Debug visualization
-#     if debug:
-#         cv2.imshow("1 - Grayscale", gray)
-#         cv2.imshow("2 - Denoised", denoised)
-#         cv2.imshow("3 - Thresholded", binary)
-#         cv2.imshow("4 - Morphological Cleaning", cleaned)
-#         cv2.waitKey(0)
-#         cv2.destroyAllWindows()
-
-#     return cleaned
-
-# def preprocess_image_for_ocr(image, scale_factor=2, debug=False):
-#     """
-#     Preprocess the image to enhance OCR accuracy:
-#       - Loads the image.
-#       - Converts to grayscale.
-#       - Upscales the image (if needed).
-#       - Applies Gaussian blur.
-#       - Uses adaptive thresholding to create a binary image.
-
-#     Args:
-#         image_path (str): Path to the image file.
-#         scale_factor (int): Factor by which to upscale the image.
-#         debug (bool): If True, displays intermediate images.
-
-#     Returns:
-#         numpy.ndarray: Preprocessed binary image.
-#     """
-
-#     # Convert to grayscale
-#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-#     # Upscale the image to make small text more legible
-#     if scale_factor > 1:
-#         gray = cv2.resize(gray, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
-
-
-#     # Apply Gaussian blur to reduce noise
-#     blurred = cv2.GaussianBlur(gray, (3, 3), 0)
-
-#     # Apply adaptive thresholding to get a clean binary image
-#     thresh = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-#                                cv2.THRESH_BINARY, 15, 3)
-
-#     if debug:
-#         cv2.imshow("Grayscale", gray)
-#         cv2.imshow("Blurred", blurred)
-#         cv2.imshow("Threshold", thresh)
-#         cv2.waitKey(0)
-#         cv2.destroyAllWindows()
-
-#     return thresh
-
-
-# def preprocess_image_for_ocr(image):
-#     # Convert image to grayscale
-#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-#     # Improve contrast with histogram equalization
-#     equalized = cv2.equalizeHist(gray)
-
-#     # Use adaptive thresholding for better results on uneven lighting
-#     adaptive = cv2.adaptiveThreshold(
-#         equalized, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-#         cv2.THRESH_BINARY, 11, 2
-#     )
-
-#     # Resize if image is very small to better capture details
-#     h, w = adaptive.shape
-#     if h < 50 or w < 50:
-#         adaptive = cv2.resize(adaptive, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
-
-#     # Apply a morphological opening to remove small noise while preserving text structure
-#     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2,2))
-#     morph = cv2.morphologyEx(adaptive, cv2.MORPH_OPEN, kernel, iterations=1)
-
-#     # Apply non-local means denoising for additional noise removal
-#     denoised = cv2.fastNlMeansDenoising(morph, h=30)
-
-#     return denoised
-
-# def preprocess_image_for_ocr(image):
-#     # Convert to grayscale
-#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-#     _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-#     h, w = binary.shape
-#     if h < 50 or w < 50:
-#         binary = cv2.resize(binary, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
-
-#     # Noise removal
-#     denoised = cv2.fastNlMeansDenoising(binary, h=30)
-#     return denoised
-
-
-# def preprocess_image_for_ocr(image, debug=False):
-#     # Convert to grayscale
-#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-#     _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-#     denoised = cv2.fastNlMeansDenoising(binary, h=30)
-#     brightened = cv2.convertScaleAbs(binary, alpha=2, beta=0)
-#     inverted = 255 - brightened
-
-#     h, w = binary.shape
-#     if h < 50 or w < 50:
-#         inverted = cv2.resize(
-#             inverted, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR
-#         )
-
-#     # Noise removal
-#     if debug:
-#         titles = ["Original", "Grayscale", "Binarized (Otsu)", "Denoised", "Inverted"]
-#         images = [image, gray, binary, denoised, inverted]
-
-#         if debug:
-#             for i, v in enumerate(images):
-#                 cv2.imshow(titles[i], v)
-#             cv2.waitKey(0)
-#             cv2.destroyAllWindows()
-#     return inverted
 
 
 def preprocess_image_for_ocr(image, image_type):
@@ -168,7 +10,7 @@ def preprocess_image_for_ocr(image, image_type):
     Parameters:
         image (np.array): The input image.
         image_type (str): The type of image. Supported types include:
-            - "number_in_circle": For numeric values inside a circle (like bond level or Tier).
+            - "number_in_circle": For numeric values inside a circle (like bond level).
             - "skill_level_indicator": For skill level indicators (e.g., "MAX").
             - "level_indicator": For level indicators.
             - "student_name": For text labels.
@@ -192,83 +34,14 @@ def preprocess_image_for_ocr(image, image_type):
     if h < 50 or w < 50:
         gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
-    if image_type == "number_in_circle":  # in bond or gear tier
+    if image_type == "number_in_circle":  # in bond or somewhere
         gray = cv2.equalizeHist(gray)
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         # config = "--psm 10 -c tessedit_char_whitelist=0123456789"
         config = "--psm 7 -c tessedit_char_whitelist=0123456789"
         config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
 
-    # elif image_type == "gear":
-    #     binary = image
-    #     r1 = random.randint(0, 9999)
-    #     config = "--psm 7 -c tessedit_char_whitelist=0123456789"
-    #     cv2.imwrite(f"testimage/{r1}_tier.png", image)
-    # if image_type == "gear":
-    #     # gray = cv2.equalizeHist(gray)
-    #     # gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
-
-    #     h, w = gray.shape[:2]
-    #     if h < 50 or w < 50:
-    #         gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
-
-    #     # _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-    #     # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    #     _, gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-    #     gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
-    #     gray = cv2.equalizeHist(gray)
-    #     gray = cv2.fastNlMeansDenoising(gray, h=40)
-    #     # https://en.wikipedia.org/wiki/Kernel_(image_processing)
-    #     kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, 0]], np.float32)
-    #     kernel = 1/3 * kernel
-    #     binary = cv2.filter2D(gray, -1, kernel)
-    #     # Noise removal
-
-    #     # config = "--psm 10 -c tessedit_char_whitelist=0123456789"
-    #     config = "--psm 13 -c tessedit_char_whitelist=0123456789"
-    #     config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
-        # cv2.imshow("Binary: ", binary)
-        # cv2.waitKey(0)
-        # cv2.imwrite("testimage/test.png", binary)
-    # elif image_type == "gear":
-    #     _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    #     config = "--psm 13 -c tessedit_char_whitelist=0123456789"
-    #     config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
-    #     cv2.imshow("Binary: ", binary)
-    #     cv2.waitKey(0)
-
-    # elif image_type == "gear":
-    #     # h, w = image.shape[:2]
-    #     # image = cv2.resize(image, (w * 4, h * 4), interpolation=cv2.INTER_CUBIC)
-
-    #     h, w = image.shape[:2]
-    #     if h < 50 or w < 50:
-    #         image = cv2.resize(image, None, fx=15, fy=15, interpolation=cv2.INTER_CUBIC)
-
-    #     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    #     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2, 2))
-    #     binary = cv2.morphologyEx(gray, cv2.MORPH_CLOSE, kernel)
-
-
-    #     # binary = cv2.equalizeHist(binary)
-    #     binary = cv2.convertScaleAbs(binary, alpha=1.5, beta=0)
-    #     binary = cv2.fastNlMeansDenoising(binary, h=5)
-    #     # https://en.wikipedia.org/wiki/Kernel_(image_processing)
-    #     kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], np.float32)
-    #     kernel = 1/3 * kernel
-    #     binary = cv2.filter2D(binary, -1, kernel)
-
-    #     _, binary = cv2.threshold(binary, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-
-    #     config = "--psm 7 -c tessedit_char_whitelist=0123456789"
-    #     config += " --oem 1 --tessdata-dir ./tessdata -l BlueArchive"
-
-    elif image_type == "skill_level_indicator":  # Level
+    elif image_type == "skill_level_indicator":  # Skill Level
         hex_colors = ["dceffa", "e0effa", "e7f3fb", "d8dadc", "bcccd8"]
         binary, _ = remove_colors(image, hex_colors)
         config = "--psm 6 -c tessedit_char_whitelist=0123456789MAXmax"
@@ -284,7 +57,6 @@ def preprocess_image_for_ocr(image, image_type):
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         config = "--psm 7"
         # config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
-        # cv2.imwrite("preprocessed_crop.png", preprocessed_crop)
     else:
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         config = "--psm 6"
