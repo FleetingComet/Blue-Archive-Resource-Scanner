@@ -1,11 +1,12 @@
 from enum import Enum
 from area import Location
+from typing import Type
 
 
 class _StudentInfoButtons(Enum):
-    PREVIOUS = Location(30, 380)
-    NEXT = Location(1250, 380)
+    PREVIOUS: Type[Location] = Location(30, 380)
+    NEXT: Type[Location] = Location(1250, 380)
 
 
 class StudentInfo(Enum):
-    BUTTONS: _StudentInfoButtons = _StudentInfoButtons
+    BUTTONS: Type[_StudentInfoButtons] = _StudentInfoButtons

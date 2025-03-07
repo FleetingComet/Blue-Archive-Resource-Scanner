@@ -249,6 +249,6 @@ def get_student_info(adb_controller: ADBController) -> bool:
             break
 
         adb_controller.execute_command(
-            f"shell input tap {int(screens.StudentInfo.BUTTONS.NEXT.value.x)} {int(screens.StudentInfo.BUTTONS.NEXT.value.y)}"
+            f"shell input tap {int(screens.StudentInfo.BUTTONS.value.NEXT.value.x)} {int(screens.StudentInfo.BUTTONS.value.NEXT.value.y)}"
         )
         time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
