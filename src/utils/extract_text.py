@@ -55,7 +55,7 @@ def extract_owned_count(image_path: str, grid_type: str = "Equipment") -> str:
     )
 
 
-def extract_from_region(image_path: str, region: Region, image_type=None, skill=False):
+def extract_from_region(image_path: str, region: Region, image_type=None):
     """
     Extract text from a specific region in the screenshot.
 
@@ -87,7 +87,7 @@ def extract_from_region(image_path: str, region: Region, image_type=None, skill=
     if preprocessed_crop is not None:
         text = extract_text(preprocessed_crop, config=config)
 
-        if skill:
+        if image_type == "skill_level_indicator":
             if is_close_to_max(text, threshold=0.65):
                 return "MAX"
 

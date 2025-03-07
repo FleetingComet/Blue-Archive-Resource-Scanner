@@ -4,7 +4,7 @@ from config import Config
 from equipment import process_equipment
 from goToLocation import goHome, goToPage, isMenuTabOpen, press_MenuTab, whereAmI
 from item import process_items
-from scanner import startMatching
+from scanner import get_student_info, startMatching
 from src.utils.adb_controller import ADBController
 
 
@@ -38,8 +38,8 @@ def mainpage(adb_controller):
         "Equipment": ("menu_equipment", "Equipment"),
         "Items": ("menu_items", "Items"),
         # not yet implemented
-        # "Students": ("menu_students", "Students"),
-        # "Student": ("menu_student", "Student"),
+        "Students": ("menu_students", "Students"),
+        "Student": ("menu_student", "Student"),
     }
 
     # Track visited screens to ensure all are processed
@@ -72,7 +72,14 @@ def mainpage(adb_controller):
             print(
                 f"✅ Successfully navigated to {screen_name}. Starting matching process..."
             )
-            startMatching(adb_controller, grid_type=grid_type)
+            if current_screen in ["Equipment", "Items"]:
+                startMatching(adb_controller, grid_type=grid_type)
+            if current_screen == "Students":
+                pass
+                # click the first student, not implemented yet
+            if current_screen == "Student":
+                get_student_info(adb_controller)
+
             visited_screens.add(screen_name)
         else:
             print(f"⚠️ Failed to navigate to {screen_name}. Skipping...")
