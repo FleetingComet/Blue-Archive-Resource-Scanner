@@ -14,7 +14,3 @@ class EntryPointButtons(Enum):
 class EntryPointTitles(Enum):
     PAGE = Region(100, 5, 220, 50)
     MENU_TAB = Region(410, 200, 420, 40)
-
-
-# class StudentInfoButtons(Enum):
-#     LEVEL_UP =

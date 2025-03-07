@@ -28,35 +28,12 @@ class StudentSearchPattern(Enum):
     # BOND_LEVEL = Region(30, 555, 40, 25)
     BOND_LEVEL = Region(50, 555, 20, 25) # 
 
-    # GEAR_1_TIER = Region(680, 615, 30, 20)
-    # GEAR_2_TIER = Region(775, 615, 30, 20)
-    # GEAR_3_TIER = Region(865, 615, 30, 20)
     GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
-
     GEAR_1_TIER = Region(686, 617, 20, 15)
     GEAR_2_TIER = Region(779, 617, 20, 15)
     GEAR_3_TIER = Region(872, 617, 20, 15)
-    # GEAR_1_TIER = Region(687, 617, 18, 15)
-    # GEAR_2_TIER = Region(780, 617, 18, 15)
-    # GEAR_3_TIER = Region(873, 617, 18, 15)
 
-    # GEAR_1_TIER = Region(686, 618, 20, 14) # -3 h  +2y
-    # GEAR_2_TIER = Region(779, 616, 20, 16)
-    # GEAR_3_TIER = Region(873, 618, 18, 13)
-    # GEAR_BOND_TIER = Region(974, 616, 20, 16)
-
-    # new
     SKILL_EX = Region(686, 403, 86, 20) #
     SKILL_BASIC = Region(796, 403, 79, 20)
     SKILL_ENHANCED = Region(901, 403, 80, 20)#
     SKILL_SUB = Region(1008, 403, 79, 20)
-    # # + 3 offset for y and - 5 height
-    # # + 10 offset for x and - 15 width
-    # SKILL_EX = Region(695, 403, 70, 20) #
-    # SKILL_BASIC = Region(795, 403, 85, 20)
-    # SKILL_ENHANCED = Region(910, 403, 70, 20)#
-    # SKILL_SUB = Region(1010, 403, 85, 20)
-    # SKILL_EX = Region(703, 404, 42, 17)
-    # SKILL_BASIC = Region(812, 404, 42, 17)
-    # SKILL_ENHANCED = Region(917, 404, 42, 17)
-    # SKILL_SUB = Region(1025, 404, 42, 17)
