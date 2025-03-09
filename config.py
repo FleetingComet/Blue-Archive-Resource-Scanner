@@ -18,11 +18,14 @@ class Config:
     OWNED_COUNTS_FILE = "output/owned_counts.json"
     OWNED_STUDENTS_FILE = "output/owned_students.json"
     OWNED_CURRENCIES_FILE = "output/owned_currencies.json"
+
     EQUIPMENT_PROCESSED_FILE = "assets/data/equipment_processed.json"
     ITEMS_PROCESSED_FILE = "assets/data/items_processed.json"
+    STUDENTS_PROCESSED_FILE = "assets/data/students_processed.json"
 
     EQUIPMENT_OUTPUT_FILE = "output/equipment_final_values.json"
     ITEMS_OUTPUT_FILE = "output/items_final_values.json"
+    STUDENTS_OUTPUT_FILE = "output/students_final_values.json"
 
     CONVERTER_OUTPUT_FILE = "output/justin_planner.json"
 
