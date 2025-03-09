@@ -166,6 +166,9 @@ def get_student_info(adb_controller: ADBController) -> bool:
         iteration += 1
         screenshot_path = Config.get_screenshot_path()
 
+        if iteration > 1:
+            break
+
         if not adb_controller.capture_screenshot(screenshot_path):
             print("Failed to capture screenshot.")
             return False
@@ -179,7 +182,7 @@ def get_student_info(adb_controller: ADBController) -> bool:
             "Name": extract_from_region(
                 screenshot_path,
                 StudentSearchPattern.STUDENT_NAME.value,
-                image_type="student_name",
+                image_type="name",
             ),
             "Level": extract_from_region(
                 screenshot_path,
@@ -249,9 +252,9 @@ def get_student_info(adb_controller: ADBController) -> bool:
         }
 
         name, current_data = map_student_data_to_character(student_data)
-        print(f"\Student {iteration}")
+        print(f"Student {iteration}")
         print("Character Name:", name)
-        print("Current Data:", current_data)
+        # print("Current Data:", current_data)
 
         update_character_data(Config.OWNED_STUDENTS_FILE, name, current_data)
 

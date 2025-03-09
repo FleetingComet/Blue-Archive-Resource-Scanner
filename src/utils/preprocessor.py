@@ -3,7 +3,7 @@ import cv2
 from src.utils.color_util import remove_colors
 
 
-def preprocess_image_for_ocr(image, image_type):
+def preprocess_image_for_ocr(image, image_type=None):
     """
     Preprocess an image for OCR based on the specified image type.
 
@@ -13,7 +13,7 @@ def preprocess_image_for_ocr(image, image_type):
             - "number_in_circle": For numeric values inside a circle (like bond level).
             - "skill_level_indicator": For skill level indicators (e.g., "MAX").
             - "level_indicator": For level indicators.
-            - "student_name": For text labels.
+            - "name": For text labels.
             - Otherwise, default processing is applied.
 
     Returns:
@@ -60,7 +60,7 @@ def preprocess_image_for_ocr(image, image_type):
 
     #     config = "--psm 6 -c tessedit_char_whitelist=0123456789MAXmax/"
 
-    elif image_type == "student_name":  # text label
+    elif image_type == "name":  # text label
         gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         config = "--psm 7"

@@ -2,7 +2,7 @@ import re
 import Levenshtein
 
 
-def is_close_to_max(text: str, target: str = "MAX", threshold: float = 0.8) -> bool:
+def is_close_to(text: str, target: str = "MAX", threshold: float = 0.8) -> bool:
     """
     Compares the given text to the target string (default "MAX")
     using the Levenshtein ratio. Returns True if the similarity is
