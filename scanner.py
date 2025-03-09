@@ -191,6 +191,11 @@ def get_student_info(adb_controller: ADBController) -> bool:
                 StudentSearchPattern.BOND_LEVEL.value,
                 image_type="number_in_circle",
             ),
+            "Rarity": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.STAR_QUANTITY.value,
+                image_type="star",
+            ),
             "Gear 1 Tier": extract_from_region(
                 screenshot_path,
                 StudentSearchPattern.GEAR_1_TIER.value,
@@ -210,6 +215,16 @@ def get_student_info(adb_controller: ADBController) -> bool:
                 screenshot_path,
                 StudentSearchPattern.GEAR_BOND_TIER.value,
                 image_type="gear",
+            ),
+            "Unique Equipment Star Quantity": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.UNIQUE_EQUIPMENT_STAR_QUANTITY.value,
+                image_type="ue_star",
+            ),
+            "Unique Equipment Level": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.UNIQUE_EQUIPMENT_LEVEL.value,
+                image_type="ue_level",
             ),
             "Skill EX": extract_from_region(
                 screenshot_path,
@@ -234,7 +249,7 @@ def get_student_info(adb_controller: ADBController) -> bool:
         }
 
         name, current_data = map_student_data_to_character(student_data)
-        print(f"\nIteration {iteration}")
+        print(f"\Student {iteration}")
         print("Character Name:", name)
         print("Current Data:", current_data)
 
@@ -246,9 +261,9 @@ def get_student_info(adb_controller: ADBController) -> bool:
 
         elif name == first_name:
             print("Encountered the first student again. Ending loop.")
-            break
+            # break
 
         adb_controller.execute_command(
-            f"shell input tap {int(screens.StudentInfo.BUTTONS.value.NEXT.value.x)} {int(screens.StudentInfo.BUTTONS.value.NEXT.value.y)}"
+            f"shell input tap {int(screens.StudentInfo.BUTTONS.NEXT.x)} {int(screens.StudentInfo.BUTTONS.NEXT.y)}"
         )
         time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)

@@ -44,17 +44,20 @@ def normalize_skill_value(value, max_level: int):
     return value
 
 
-def normalize_gear_value(value, default=0):
+def normalize_value(value, default=0):
     """
-    Remove non-digit characters ('T') from a gear tier value and convert it to an int.
+    Remove non-digit characters from a value and convert it to an int.
 
     Args:
-        value: The gear value as extracted (e.g., "T9" or "9").
+        value: The value as extracted (e.g., "T9" or "9").
         default: The default value to return if conversion fails.
 
     Returns:
-        int: The numeric gear tier.
+        int: The numeric value.
     """
+    if not value:
+        return 0
+
     try:
         numeric_str = re.sub(r"\D", "", str(value))
         return int(numeric_str) if numeric_str else default

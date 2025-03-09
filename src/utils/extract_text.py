@@ -3,9 +3,15 @@ import pytesseract
 
 from area import Region
 from src.locations.search import SearchPattern
-from src.utils.matchers import match_tier
+from src.utils.matchers import match_star, match_tier
 from src.utils.preprocessor import preprocess_image_for_ocr
 from src.utils.text_util import is_close_to_max
+from src.utils.color_util import (
+    remove_colors,
+    remove_non_white,
+    retain_colors,
+    retain_specific_color,
+)
 
 
 def extract_text(image, config="--psm 6 -c tessedit_char_whitelist=0123456789") -> str:
@@ -78,7 +84,35 @@ def extract_from_region(image_path: str, region: Region, image_type=None):
     crop_img = image[region.y : region.bottom, region.x : region.right]
 
     if image_type == "gear":
-        return match_tier(crop_img)
+        return match_tier(crop_img, grayscale=True)
+
+    if image_type == "star":
+        # hex_colors = ["FFD700"]
+        # retained_image, mask = retain_colors(crop_img, hex_colors, tolerance=10)
+
+        # cv2.imshow("Star", retained_image)
+        # cv2.imshow("Original Star", crop_img)
+        # cv2.waitKey(0)
+        return match_star(crop_img)
+
+    if image_type == "ue_star":
+        hex_colors = ["e7f1f6", "e6f0f4"]
+        crop_img, mask = remove_colors(crop_img, hex_colors, tolerance=5, black_bg=True)
+
+        # cv2.imshow("ue_star", removed_color_image)
+        # cv2.waitKey(0)
+        # cv2.imwrite("ue_star.png", removed_color_image)
+        return match_star(crop_img, blue=True)
+
+    if image_type == "ue_level":
+        # hex_colors = ["ffffff"]
+        # crop_img, mask = retain_colors(crop_img, hex_colors, tolerance=5)
+        crop_img = remove_non_white(crop_img)
+
+    if image_type == "number_in_circle":
+        hex_colors = ["3c4e66"]
+        crop_img, mask = retain_colors(crop_img, hex_colors, tolerance=20)
+        # crop_img, mask = retain_specific_color(crop_img, hex_color="3c4e66")
 
     preprocessed_crop, config = preprocess_image_for_ocr(
         crop_img, image_type=image_type

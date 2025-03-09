@@ -25,13 +25,18 @@ class StudentSearchPattern(Enum):
     # LEVEL = Region(760, 230, 90, 25)
     # EXP_BAR = Region(950, 230, 242, 25)
 
-    # BOND_LEVEL = Region(30, 555, 40, 25)
-    BOND_LEVEL = Region(50, 555, 20, 25) # 
+    BOND_LEVEL = Region(40, 555, 30, 25)
+    # BOND_LEVEL = Region(50, 555, 20, 25) # 
 
-    GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
+    STAR_QUANTITY = Region(260, 560, 80, 30)
+    UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1030, 510, 60, 20) #Exclusive Weapon
+    UNIQUE_EQUIPMENT_LEVEL = Region(779, 455, 61, 21) #Exclusive Weapon Level
+
     GEAR_1_TIER = Region(686, 617, 20, 15)
     GEAR_2_TIER = Region(779, 617, 20, 15)
     GEAR_3_TIER = Region(872, 617, 20, 15)
+    # GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
+    GEAR_BOND_TIER = Region(965, 617, 20, 15)
 
     SKILL_EX = Region(686, 403, 86, 20) #
     SKILL_BASIC = Region(796, 403, 79, 20)

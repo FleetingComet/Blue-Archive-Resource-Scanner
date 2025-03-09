@@ -34,9 +34,13 @@ def preprocess_image_for_ocr(image, image_type):
     if h < 50 or w < 50:
         gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
-    if image_type == "number_in_circle":  # in bond or somewhere
-        gray = cv2.equalizeHist(gray)
-        _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    if (
+        image_type == "number_in_circle" or image_type == "ue_level"
+    ):  # in bond or somewhere
+        # gray = cv2.equalizeHist(gray)
+        # _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        binary = gray
+        binary = 255 - binary
         # config = "--psm 10 -c tessedit_char_whitelist=0123456789"
         config = "--psm 7 -c tessedit_char_whitelist=0123456789"
         config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
@@ -51,6 +55,10 @@ def preprocess_image_for_ocr(image, image_type):
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
         config = "--psm 6 -c tessedit_char_whitelist=0123456789MAXmax/"
+    # elif image_type == "ue_level":  # Level
+    #     _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    #     config = "--psm 6 -c tessedit_char_whitelist=0123456789MAXmax/"
 
     elif image_type == "student_name":  # text label
         gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
@@ -59,6 +67,6 @@ def preprocess_image_for_ocr(image, image_type):
         # config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
     else:
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        config = "--psm 6"
+        config = "--psm 6 -c tessedit_char_whitelist=0123456789"
         # config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
     return binary, config
