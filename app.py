@@ -9,7 +9,7 @@ from goToLocation import (
     whereAmI,
 )
 from item import process_items
-from scanner import get_student_info, startMatching
+from scanner import get_currencies, get_student_info, startMatching
 from src.utils.adb_controller import ADBController
 
 
@@ -68,6 +68,8 @@ def mainpage(adb_controller):
             print("🔄 The user is on certain page. Going home")
             goHome(adb_controller)
             time.sleep(10.0 * Config.WAIT_TIME_MULTIPLIER)
+        # get AP, Pyrox, Credits
+        get_currencies(adb_controller)
         current_screen = whereAmI(adb_controller)
 
     if current_screen in screen_mapping:

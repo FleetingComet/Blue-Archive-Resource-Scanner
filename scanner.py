@@ -5,7 +5,7 @@ import cv2
 from area import Location, Region, Size
 from config import Config
 from src.locations import screens
-from src.locations.search import StudentSearchPattern
+from src.locations.search import SearchPattern, StudentSearchPattern
 from src.utils.adb_controller import ADBController
 from src.utils.extract_text import (
     extract_from_region,
@@ -20,6 +20,8 @@ from src.utils.jsonHelper import (
 from src.utils.swipe_utils import swipe
 # from src.utils.item_util import is_item_empty
 
+screenshot_path = Config.get_screenshot_path()
+
 
 def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -> bool:
     """
@@ -31,7 +33,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
     Returns:
         bool: True if the process is completed, False otherwise.
     """
-    screenshot_path = Config.get_screenshot_path()
+
     owned_counts_file = Config.OWNED_COUNTS_FILE
 
     # Starting coordinates and dimensions
@@ -164,8 +166,6 @@ def get_student_info(adb_controller: ADBController) -> bool:
 
     while True:
         iteration += 1
-        screenshot_path = Config.get_screenshot_path()
-
         if iteration > 1:
             break
 
@@ -264,9 +264,32 @@ def get_student_info(adb_controller: ADBController) -> bool:
 
         elif name == first_name:
             print("Encountered the first student again. Ending loop.")
-            # break
+            return True
 
         adb_controller.execute_command(
             f"shell input tap {int(screens.StudentInfo.BUTTONS.NEXT.x)} {int(screens.StudentInfo.BUTTONS.NEXT.y)}"
         )
         time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+
+
+def get_currencies(adb_controller: ADBController) -> bool:
+    if not adb_controller.capture_screenshot(screenshot_path):
+        print("Failed to capture screenshot.")
+        return False
+
+    currencies = [SearchPattern.AP, SearchPattern.CREDIT, SearchPattern.PYROXENE]
+    owned_currencies_file = Config.OWNED_CURRENCIES_FILE
+
+    for currency in currencies:
+        how_many = extract_from_region(
+            screenshot_path, currency.value, image_type="level_indicator"
+        )  # reuse
+        print(f"Currency {currency.name}: {how_many}")
+        if currency.name == "AP":
+            AP = how_many.split("/", 1)
+            AP = {"Remaining": AP[0], "Max": AP[-1]}
+            update_name_owned_counts(owned_currencies_file, currency.name.title(), AP)
+        else:
+            update_name_owned_counts(
+                owned_currencies_file, currency.name.title(), how_many
+            )

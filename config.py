@@ -17,6 +17,7 @@ class Config:
     # File paths for data handling
     OWNED_COUNTS_FILE = "output/owned_counts.json"
     OWNED_STUDENTS_FILE = "output/owned_students.json"
+    OWNED_CURRENCIES_FILE = "output/owned_currencies.json"
     EQUIPMENT_PROCESSED_FILE = "assets/data/equipment_processed.json"
     ITEMS_PROCESSED_FILE = "assets/data/items_processed.json"
 

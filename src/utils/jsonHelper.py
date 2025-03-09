@@ -37,14 +37,14 @@ def update_owned_counts(json_path: str, category: str, tier: str, owned_count: i
     save_json(json_path, data)
 
 
-def update_name_owned_counts(json_path: str, name: str, owned_count: int):
+def update_name_owned_counts(json_path: str, name: str, owned_count: int | str):
     """
     Update the owned counts JSON file with new data.
 
     Args:
         json_path (str): Path to the owned counts JSON file.
         name (str): The name of the item (e.g., 'Gothic Leather Wristwatch Blueprint').
-        owned_count (int): The owned count (e.g., 999).
+        owned_count (int | str): The owned count (e.g., 999).
     """
     # Load existing data
     data = load_json(json_path)

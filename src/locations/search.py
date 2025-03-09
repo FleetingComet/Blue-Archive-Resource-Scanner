@@ -11,10 +11,14 @@ class SearchPattern(Enum):
     EQUIPMENT_OWNED = Region(530, 595, 90, 30)  # plus 5 for y (for ocr to detect it)
     EQUIPMENT_NAME = Region(60, 560, 420, 80)
 
-    #
-    AP = Region(560, 10, 105, 30)
-    CREDITS = Region(770, 10, 140, 30)
-    PYROXENE = Region(965, 10, 105, 30)
+    # in page
+    # AP = Region(560, 10, 105, 30)
+    # CREDITS = Region(770, 10, 140, 30)
+    # PYROXENE = Region(965, 10, 105, 30)
+
+    AP = Region(510, 20, 105, 35)
+    CREDIT = Region(700, 20, 120, 35)
+    PYROXENE = Region(870, 20, 100, 35)
 
 
 class StudentSearchPattern(Enum):
