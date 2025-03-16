@@ -11,7 +11,7 @@ def test_item_matching(tmp_config):
         {"id": 122, "name": "Low-Purity Wolfsegg Steel"},
         {"id": 123, "name": "High-Purity Wolfsegg Steel"},
     ]
-    owned_data = {"High-Purity Wolfegg Steel": 2}
+    owned_data = {"High Purity Wolfegg Steel": 2}
 
     # Write test files
     with open(tmp_config.ITEMS_PROCESSED_FILE, "w") as f:
@@ -30,5 +30,5 @@ def test_item_matching(tmp_config):
     # Verify output
     with open(processor.output_file) as f:
         result = json.load(f)
-
-    assert result["101"] == 2  # Should match via fuzzy
+    print (result)
+    assert result["123"] == 2  # Should match via fuzzy
