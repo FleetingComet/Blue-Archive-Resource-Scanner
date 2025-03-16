@@ -1,16 +1,17 @@
 import time
 
 from config import Config
-from equipment import process_equipment
 from goToLocation import (
     at_page,
     goHome,
     goToPage,
     whereAmI,
 )
-from item import process_items
 from scanner import get_currencies, get_student_info, startMatching
 from src.utils.adb_controller import ADBController
+from utils.data.equipment import EquipmentProcessor
+from utils.data.item import ItemProcessor
+from utils.data.student import StudentProcessor
 
 
 def main():
@@ -18,6 +19,8 @@ def main():
     # adb_controller = ADBController(host="192.168.254.156", port=5037)
     # Mumu Emulator is the default
     # adb_controller = ADBController()
+    path_init()
+    
     adb_controller = ADBController(host=Config.ADB_HOST, port=Config.ADB_PORT)
 
     if not adb_controller.connect():
@@ -30,10 +33,20 @@ def main():
         print("⚠️ Matching process failed or was interrupted.")
 
     # Process Equipment
-    process_equipment()
+    # process_equipment()
+    EquipmentProcessor().process()
     # Process Items
-    process_items()
+    # process_items()
+    ItemProcessor().process()
+    # Process Students
+    # process_students()
+    StudentProcessor().process()
 
+def path_init():
+    Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    Config.INPUT_DIR.mkdir(parents=True, exist_ok=True)
+    Config.OWNED_DIR.mkdir(parents=True, exist_ok=True)
+    Config.SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 
 def mainpage(adb_controller):
     """

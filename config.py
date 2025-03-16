@@ -2,7 +2,6 @@ from pathlib import Path
 
 from typed_dict import MergerDict, OutputFilesDict, OwnedDict, ProcessedDataDict
 
-
 class Config:
     # ADB Settings
     ADB_HOST = "localhost"

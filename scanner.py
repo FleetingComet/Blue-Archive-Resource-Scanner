@@ -34,8 +34,6 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
         bool: True if the process is completed, False otherwise.
     """
 
-    owned_counts_file = Config.OWNED_COUNTS_FILE
-
     # Starting coordinates and dimensions
     # start_x, start_y = 690, 160
     grid_start = Location(690, 160)
@@ -125,7 +123,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
 
             if item_name and owned_count:
                 # print(f"Matched: {item_name} - Owned: x{owned_count}")
-                update_name_owned_counts(owned_counts_file, item_name, owned_count)
+                update_name_owned_counts(Config.OWNED["counts"], item_name, owned_count)
             else:
                 print("Failed to extract item name or owned count.")
 
@@ -256,7 +254,7 @@ def get_student_info(adb_controller: ADBController) -> bool:
         print("Character Name:", name)
         # print("Current Data:", current_data)
 
-        update_character_data(Config.OWNED_STUDENTS_FILE, name, current_data)
+        update_character_data(Config.OWNED["students"], name, current_data)
 
         if first_name is None:
             first_name = name
@@ -278,7 +276,7 @@ def get_currencies(adb_controller: ADBController) -> bool:
         return False
 
     currencies = [SearchPattern.AP, SearchPattern.CREDIT, SearchPattern.PYROXENE]
-    owned_currencies_file = Config.OWNED_CURRENCIES_FILE
+    owned_currencies_file = Config.OWNED["currencies"]
 
     for currency in currencies:
         how_many = extract_from_region(
