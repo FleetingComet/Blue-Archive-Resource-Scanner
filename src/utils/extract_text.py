@@ -20,6 +20,7 @@ def extract_text(image, config="--psm 6 -c tessedit_char_whitelist=0123456789") 
     # config += r" --tessdata-dir ./tessdata -l BlueArchive"
 
     # print(f"Tesseract Config: {config}")
+
     text: str = pytesseract.image_to_string(image, config=config)
     return text.strip()
 
@@ -123,6 +124,7 @@ def extract_from_region(image_path: str, region: Region, image_type=None):
         if image_type == "skill_level_indicator":
             if is_close_to(text, threshold=0.65):
                 return "MAX"
+
 
         return (
             text.replace("\r", "")

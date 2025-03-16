@@ -21,6 +21,7 @@ class SearchPattern(Enum):
     PYROXENE = Region(870, 20, 100, 35)
 
 
+
 class StudentSearchPattern(Enum):
     STUDENT_NAME = Region(70, 550, 190, 35)
     LEVEL = Region(30, 585, 50, 30)
@@ -46,3 +47,4 @@ class StudentSearchPattern(Enum):
     SKILL_BASIC = Region(796, 403, 79, 20)
     SKILL_ENHANCED = Region(901, 403, 80, 20)#
     SKILL_SUB = Region(1008, 403, 79, 20)
+
