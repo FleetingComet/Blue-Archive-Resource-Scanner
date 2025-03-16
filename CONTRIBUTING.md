@@ -56,7 +56,7 @@ When the app capture a screenshot, the following steps occur:
 1. The device takes a screenshot in its original resolution (1280x720p).  
 2. The screenshot is converted to grayscale for processing.  
 3. The image is cropped to focus on the relevant search region.  <!-- 4. If the reference image is in color, it’s also converted to grayscale. (This was part of the image pattern matching feature I coded in the first week of December 2024, but I decided to ditch it.) -->
-4. The image is pre-processed using [preprocessor](src/utils/preprocess_image_for_ocr.py) for OCR
+4. The image is pre-processed using [preprocessor](src/utils/preprocessor.py) for OCR
 5. OCR is performed on the processed image using Tesseract to extract text.  
 
 ### Handling Locations and Regions  

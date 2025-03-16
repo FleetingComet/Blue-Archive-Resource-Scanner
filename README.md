@@ -67,11 +67,13 @@ Run the scanner script to generate resource files:
 python app.py
 ```
 After running, this will generate two files:  
-- **`output/owned_counts.json`**: Contains the counts of owned resources.
-- **`output/owned_students.json`**: Contains your all scanned student information.
-- **`output/owned_currencies.json`**: Contains the counts of your currencies (Pyrox, etc...).
+- **`output/owned/scanned_counts.json`**: Contains the counts of owned resources.
+- **`output/owned/scanned_students.json`**: Contains your all scanned student information.
+- **`output/owned/scanned_currencies.json`**: Contains the counts of your currencies (Pyrox, etc...).
+
 - **`output/equipment_final_values.json`**: Contains the processed equipment resource values.
 - **`output/items_final_values.json`**: Contains the processed items resource values.
+- **`output/students_final_values.json`**: Contains the processed student values.
 
 #### Optional
 ##### 1. Convert to Justin Planner Format
@@ -80,7 +82,7 @@ Use the Justin Planner converter script to prepare your data:
    python convert_justin_planner.py
    ```
    This script will generate:  
-   - **`output/justin_planner.json`**: A file compatible with the Justin Planner tool.
+   - **`output/converted_to_justin_planner.json`**: A file compatible with the Justin Planner tool.
    
 ##### 2. Merge into Your Own Data
 To merge the converted data into your existing Justin Planner export:
