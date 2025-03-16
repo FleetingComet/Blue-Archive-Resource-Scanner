@@ -4,10 +4,23 @@ import cv2
 
 from area import Location, Region, Size
 from config import Config
+from src.locations import screens
+from src.locations.search import SearchPattern, StudentSearchPattern
 from src.utils.adb_controller import ADBController
-from src.utils.extract_text import extract_item_name, extract_owned_count
-from src.utils.jsonHelper import update_name_owned_counts
+from src.utils.extract_text import (
+    extract_from_region,
+    extract_item_name,
+    extract_owned_count,
+)
+from src.utils.jsonHelper import (
+    map_student_data_to_character,
+    update_character_data,
+    update_name_owned_counts,
+)
 from src.utils.swipe_utils import swipe
+# from src.utils.item_util import is_item_empty
+
+screenshot_path = Config.get_screenshot_path()
 
 
 def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -> bool:
@@ -16,11 +29,10 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
 
     Args:
         adb_controller (ADBController): An instance of ADBController to interact with the device.
+        grid_type (str): "Equipment" or "Items".
     Returns:
         bool: True if the process is completed, False otherwise.
     """
-    screenshot_path = Config.get_screenshot_path()
-    owned_counts_file = Config.OWNED_COUNTS_FILE
 
     # Starting coordinates and dimensions
     # start_x, start_y = 690, 160
@@ -28,6 +40,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
     # item_width, item_height = 110, 90  # 90
     item_size = Size(110, 90)
     y_padding = 11  # the padding is 10 but I need extra 1px because some shenanigans are happening
+    # y_padding = 10
     cols_per_row = 5
 
     equipment_grid_end_y = 660  # Y-end for equipment grid
@@ -69,6 +82,11 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
                 print("Reached the end of the grid.")
                 return True
 
+            # # If region is empty, skip tapping/extracting until it finds a non-empty slot
+            # if is_item_empty(image, item_region):
+            #     print(f"Skipping empty slot at row {row}, col {col}.")
+            #     continue
+
             center = item_region.center
 
             print(f"Clicking on region center: ({center.x}, {center.y})")
@@ -83,7 +101,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
                 return False
 
             # time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
-            time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
             # read name
             item_name = extract_item_name(screenshot_path, grid_type=grid_type)
 
@@ -98,14 +116,14 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
                     print("No new items found. Stopping...")
                     return True
 
-            # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
             # read data on the owned x
             owned_count = extract_owned_count(screenshot_path, grid_type=grid_type)
             # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
             if item_name and owned_count:
                 # print(f"Matched: {item_name} - Owned: x{owned_count}")
-                update_name_owned_counts(owned_counts_file, item_name, owned_count)
+                update_name_owned_counts(Config.OWNED["counts"], item_name, owned_count)
             else:
                 print("Failed to extract item name or owned count.")
 
@@ -126,6 +144,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             # swipe_distance_y = start_y + (cols_per_row * (item_height + y_padding))
             # idk why scroll is different everytime
             # swipe_distance_y = 490 + (item_size.height + y_padding)
+            # swipe_distance_y = (grid_end_y - grid_start.y) - (y_padding * row)
             swipe_distance_y = (grid_end_y - grid_start.y) - y_padding
             swipe(
                 adb_controller,
@@ -137,3 +156,138 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
 
             # Wait for the screen to update after swiping
             time.sleep(2.5 * Config.WAIT_TIME_MULTIPLIER)
+
+
+def get_student_info(adb_controller: ADBController) -> bool:
+    first_name = None
+    iteration = 0
+
+    while True:
+        iteration += 1
+        if iteration > 1:
+            break
+
+        if not adb_controller.capture_screenshot(screenshot_path):
+            print("Failed to capture screenshot.")
+            return False
+
+        image = cv2.imread(screenshot_path, cv2.IMREAD_UNCHANGED)
+
+        if image is None:
+            return False
+
+        student_data = {
+            "Name": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.STUDENT_NAME.value,
+                image_type="name",
+            ),
+            "Level": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.LEVEL.value,
+                image_type="level_indicator",
+            ),
+            "Bond Level": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.BOND_LEVEL.value,
+                image_type="number_in_circle",
+            ),
+            "Rarity": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.STAR_QUANTITY.value,
+                image_type="star",
+            ),
+            "Gear 1 Tier": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.GEAR_1_TIER.value,
+                image_type="gear",
+            ),
+            "Gear 2 Tier": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.GEAR_2_TIER.value,
+                image_type="gear",
+            ),
+            "Gear 3 Tier": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.GEAR_3_TIER.value,
+                image_type="gear",
+            ),
+            "Gear Bond Tier": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.GEAR_BOND_TIER.value,
+                image_type="gear",
+            ),
+            "Unique Equipment Star Quantity": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.UNIQUE_EQUIPMENT_STAR_QUANTITY.value,
+                image_type="ue_star",
+            ),
+            "Unique Equipment Level": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.UNIQUE_EQUIPMENT_LEVEL.value,
+                image_type="ue_level",
+            ),
+            "Skill EX": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.SKILL_EX.value,
+                image_type="skill_level_indicator",
+            ),
+            "Skill Basic": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.SKILL_BASIC.value,
+                image_type="skill_level_indicator",
+            ),
+            "Skill Enhanced": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.SKILL_ENHANCED.value,
+                image_type="skill_level_indicator",
+            ),
+            "Skill Sub": extract_from_region(
+                screenshot_path,
+                StudentSearchPattern.SKILL_SUB.value,
+                image_type="skill_level_indicator",
+            ),
+        }
+
+        name, current_data = map_student_data_to_character(student_data)
+        print(f"Student {iteration}")
+        print("Character Name:", name)
+        # print("Current Data:", current_data)
+
+        update_character_data(Config.OWNED["students"], name, current_data)
+
+        if first_name is None:
+            first_name = name
+            print("First student name set to:", first_name)
+
+        elif name == first_name:
+            print("Encountered the first student again. Ending loop.")
+            return True
+
+        adb_controller.execute_command(
+            f"shell input tap {int(screens.StudentInfo.BUTTONS.NEXT.x)} {int(screens.StudentInfo.BUTTONS.NEXT.y)}"
+        )
+        time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+
+
+def get_currencies(adb_controller: ADBController) -> bool:
+    if not adb_controller.capture_screenshot(screenshot_path):
+        print("Failed to capture screenshot.")
+        return False
+
+    currencies = [SearchPattern.AP, SearchPattern.CREDIT, SearchPattern.PYROXENE]
+    owned_currencies_file = Config.OWNED["currencies"]
+
+    for currency in currencies:
+        how_many = extract_from_region(
+            screenshot_path, currency.value, image_type="level_indicator"
+        )  # reuse
+        print(f"Currency {currency.name}: {how_many}")
+        if currency.name == "AP":
+            AP = how_many.split("/", 1)
+            AP = {"Remaining": AP[0], "Max": AP[-1]}
+            update_name_owned_counts(owned_currencies_file, currency.name.title(), AP)
+        else:
+            update_name_owned_counts(
+                owned_currencies_file, currency.name.title(), how_many
+            )
