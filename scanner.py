@@ -164,8 +164,6 @@ def get_student_info(adb_controller: ADBController) -> bool:
 
     while True:
         iteration += 1
-        if iteration > 1:
-            break
 
         if not adb_controller.capture_screenshot(screenshot_path):
             print("Failed to capture screenshot.")
@@ -252,7 +250,7 @@ def get_student_info(adb_controller: ADBController) -> bool:
         name, current_data = map_student_data_to_character(student_data)
         print(f"Student {iteration}")
         print("Character Name:", name)
-        # print("Current Data:", current_data)
+        print("Current Data:", current_data)
 
         update_character_data(Config.OWNED["students"], name, current_data)
 

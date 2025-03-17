@@ -65,21 +65,40 @@ def goHome(adb_controller: ADBController):
 
 
 def goToPage(adb_controller: ADBController, location: str, in_menu_tab=True):
-    """Navigate to a specific page by ensuring the Menu Tab is open first."""
+    """Navigate to a specific page."""
 
     print(f"goToPage method: {location}")
 
-    if in_menu_tab:
-        if not isMenuTabOpen(adb_controller):
-            print("🔄 Opening Menu Tab...")
-            press_MenuTab(adb_controller)
-            time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
+    manage_menu_tab(adb_controller, in_menu_tab)
 
     if button := determineButton(location):
         print(f"goToPage method button: {button}")
         adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
         return
 
+def manage_menu_tab(adb_controller: ADBController, in_menu_tab: bool) -> None:
+    """Manage menu tab state."""
+    current_state = isMenuTabOpen(adb_controller)
+    target_state = in_menu_tab
+    sleep_duration = Config.WAIT_TIME_MULTIPLIER * 1.0
+
+    if current_state == target_state:
+        return
+
+    action = "Opening" if target_state else "Closing"
+    print(f"🔄 {action} Menu Tab...")
+    
+    try:
+        if target_state:
+            press_MenuTab(adb_controller)  # Open if not open
+        else:
+            goHome(adb_controller) # Close if open
+            
+        time.sleep(sleep_duration)
+        
+    except Exception as e:
+        print(f"❌ Failed to manage menu tab: {str(e)}")
+        raise
 
 def press_MenuTab(adb_controller: ADBController):
     """Press the Menu Tab button."""

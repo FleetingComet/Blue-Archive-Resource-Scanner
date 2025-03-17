@@ -43,8 +43,10 @@ class StudentSearchPattern(Enum):
     # GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
     GEAR_BOND_TIER = Region(965, 617, 20, 15)
 
-    SKILL_EX = Region(686, 403, 86, 20) #
-    SKILL_BASIC = Region(796, 403, 79, 20)
+    # SKILL_EX = Region(686, 403, 86, 20) #
+    SKILL_EX = Region(686, 402, 80, 20) #
+    SKILL_BASIC = Region(796, 403, 80, 20)
     SKILL_ENHANCED = Region(901, 403, 80, 20)#
-    SKILL_SUB = Region(1008, 403, 79, 20)
+    # SKILL_SUB = Region(1008, 403, 80, 20)
+    SKILL_SUB = Region(1008, 402, 79, 22)
 

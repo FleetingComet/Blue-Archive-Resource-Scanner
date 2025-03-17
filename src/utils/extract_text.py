@@ -1,3 +1,5 @@
+import random
+import time
 import cv2
 import pytesseract
 
@@ -39,7 +41,7 @@ def extract_item_name(image_path: str, grid_type: str = "Equipment") -> str:
         SearchPattern.EQUIPMENT_NAME.value
         if grid_type == "Equipment"
         else SearchPattern.ITEM_NAME.value,
-        image_type="name",
+        image_type="multi_line_name",
     )
 
 
@@ -59,7 +61,6 @@ def extract_owned_count(image_path: str, grid_type: str = "Equipment") -> str:
         else SearchPattern.ITEM_OWNED.value,
         image_type=None,
     )
-
 
 def extract_from_region(image_path: str, region: Region, image_type=None):
     """
@@ -109,6 +110,7 @@ def extract_from_region(image_path: str, region: Region, image_type=None):
         # crop_img, mask = retain_colors(crop_img, hex_colors, tolerance=5)
         crop_img = remove_non_white(crop_img)
 
+
     if image_type == "number_in_circle":
         hex_colors = ["3c4e66"]
         crop_img, mask = retain_colors(crop_img, hex_colors, tolerance=20)
@@ -120,8 +122,10 @@ def extract_from_region(image_path: str, region: Region, image_type=None):
 
     if preprocessed_crop is not None:
         text = extract_text(preprocessed_crop, config=config)
+        # print(f"EXTRACT TEXT: {text}")
 
         if image_type == "skill_level_indicator":
+            # cv2.imwrite(f"aaa{time.time()}.png", preprocessed_crop)
             if is_close_to(text, threshold=0.65):
                 return "MAX"
 
