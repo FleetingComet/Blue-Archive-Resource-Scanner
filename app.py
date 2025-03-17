@@ -165,6 +165,7 @@ def navigate_to_screen(
             goHome(adb_controller)
             time.sleep(5.0 * Config.WAIT_TIME_MULTIPLIER)
 
+
     # Navigate to the target location
     print(f"🔄 Navigating to {menu_location}...")
     time.sleep(2.0 * Config.WAIT_TIME_MULTIPLIER)

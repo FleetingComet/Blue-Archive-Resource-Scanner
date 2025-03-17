@@ -110,7 +110,6 @@ def extract_from_region(image_path: str, region: Region, image_type=None):
         # crop_img, mask = retain_colors(crop_img, hex_colors, tolerance=5)
         crop_img = remove_non_white(crop_img)
 
-
     if image_type == "number_in_circle":
         hex_colors = ["3c4e66"]
         crop_img, mask = retain_colors(crop_img, hex_colors, tolerance=20)
