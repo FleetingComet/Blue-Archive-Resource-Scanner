@@ -21,8 +21,16 @@ class StudentProcessor(BaseProcessor):
         self.output_file = Config.OUTPUT_FILES["students"]
 
     def _get_student_id(self, name: str, db: List[Student], threshold=0.8) -> str:
-        best_match = max(((Levenshtein.ratio(name, s.name), s) for s in db))
-        return best_match[1].id if best_match[0] >= threshold else "N/A"
+        # print(f"_get_student_id name: {name}")
+        best_match = max(
+            ((Levenshtein.ratio(name, s.name), s) for s in db),
+            key=lambda x: x[0], # I forgot to set the key to select ratio because it's (Ratio, Student Object)
+            default=(0, None),
+        )
+        print(f"best match: {best_match}")
+        return (
+            best_match[1].id if best_match[0] >= threshold and best_match[1] else "N/A"
+        )
 
     def map_data(self, students: List[Student], owned_data: Dict) -> Dict:
         mapped = {"characters": []}

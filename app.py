@@ -165,11 +165,6 @@ def navigate_to_screen(
             goHome(adb_controller)
             time.sleep(5.0 * Config.WAIT_TIME_MULTIPLIER)
 
-    # Ensure the Menu Tab is open
-    # if not isMenuTabOpen(adb_controller):
-    #     print("🔄 Opening Menu Tab...")
-    #     press_MenuTab(adb_controller)
-    #     time.sleep(1.0 * Config.WAIT_TIME_MULTIPLIER)
 
     # Navigate to the target location
     print(f"🔄 Navigating to {menu_location}...")

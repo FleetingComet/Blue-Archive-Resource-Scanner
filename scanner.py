@@ -164,8 +164,6 @@ def get_student_info(adb_controller: ADBController) -> bool:
 
     while True:
         iteration += 1
-        if iteration > 1:
-            break
 
         if not adb_controller.capture_screenshot(screenshot_path):
             print("Failed to capture screenshot.")
