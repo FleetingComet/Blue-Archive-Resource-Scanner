@@ -1408,14 +1408,6 @@
         "name": "Asuna (Uniform)'s Eleph"
     },
     {
-        "id": 10113,
-        "name": "Sena (Casual)'s Eleph"
-    },
-    {
-        "id": 10114,
-        "name": "Juri (Part-time Job)'s Eleph"
-    },
-    {
         "id": 13000,
         "name": "Akane's Eleph"
     },
@@ -1710,10 +1702,6 @@
     {
         "id": 20042,
         "name": "Maki (Camp)'s Eleph"
-    },
-    {
-        "id": 20043,
-        "name": "Izumi (New Year)'s Eleph"
     },
     {
         "id": 23000,
@@ -2449,7 +2437,7 @@
     },
     {
         "id": 80472,
-        "name": "Eastern Alchemy Energy Supplement"
+        "name": "Eastern Alchemy Society Special Energy Supplement"
     },
     {
         "id": 80473,
@@ -2457,23 +2445,23 @@
     },
     {
         "id": 80490,
-        "name": "イベントPt"
+        "name": "Event Points"
     },
     {
         "id": 80491,
-        "name": "ライブチケット"
+        "name": "Live Ticket"
     },
     {
         "id": 80492,
-        "name": "カラフルペンライト"
+        "name": "Colorful Light Sticks"
     },
     {
         "id": 80493,
-        "name": "ぷちケーキ"
+        "name": "Chill Cake"
     },
     {
         "id": 80500,
-        "name": "謎の物質"
+        "name": "Mysterious Substance"
     },
     {
         "id": 80520,
@@ -2510,22 +2498,6 @@
     {
         "id": 80561,
         "name": "バレンタインデーのお誘い"
-    },
-    {
-        "id": 80570,
-        "name": "パフェ交換券"
-    },
-    {
-        "id": 80571,
-        "name": "試食用パンケーキ"
-    },
-    {
-        "id": 80572,
-        "name": "救急医学部の特製薬"
-    },
-    {
-        "id": 80573,
-        "name": "使い切りタイプの洗剤"
     },
     {
         "id": 100000,
@@ -2769,7 +2741,7 @@
     },
     {
         "id": 151018,
-        "name": "百鬼夜行シリーズ選択ボックス"
+        "name": "Hyakkiyako Furniture Choice Box"
     },
     {
         "id": 151019,

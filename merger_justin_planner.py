@@ -20,4 +20,4 @@ if __name__ == "__main__":
     with open(Config.MERGER["output"], "w") as file:
         json.dump(previous_data, file, indent=2)
 
-    print("Resources have been successfully merged into 'owned_materials'.")
+    print(f"Resources have been successfully merged into {Config.MERGER["output"]}.")

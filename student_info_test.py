@@ -29,7 +29,7 @@ def get_student_info(adb_controller: ADBController) -> bool:
             "Name": extract_from_region(
                 screenshot_path,
                 StudentSearchPattern.STUDENT_NAME.value,
-                image_type="student_name",
+                image_type="name",
             ),
             "Level": extract_from_region(
                 screenshot_path,
@@ -103,7 +103,7 @@ def get_student_info(adb_controller: ADBController) -> bool:
         print("Character Name:", name)
         print("Current Data:", current_data)
 
-        update_character_data(Config.OWNED_STUDENTS_FILE, name, current_data)
+        update_character_data(Config.OWNED["students"], name, current_data)
 
         if first_name is None:
             first_name = name
