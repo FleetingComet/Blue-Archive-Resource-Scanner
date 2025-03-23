@@ -105,7 +105,7 @@ def mainpage(adb_controller):
             in_menu_tab = False if screen_name in ["Students", "Student"] else True
 
             navigate_to_screen(
-                adb_controller, menu_location=menu_location, in_menu_tab=in_menu_tab
+                adb_controller, menu_location=menu_location, in_menu_tab=in_menu_tab, ignore_page_check=(not in_menu_tab)
             )
             time.sleep(1.0 * Config.WAIT_TIME_MULTIPLIER)
             current_screen = whereAmI(adb_controller)
