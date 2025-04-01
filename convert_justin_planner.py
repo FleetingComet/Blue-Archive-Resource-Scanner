@@ -49,6 +49,7 @@ def transform_student_data(item_data):
     {
         "characters": [
             {
+                id: 10033
                 "name": "Wakamo",
                 "current": {
                     "level": 90,
@@ -101,6 +102,7 @@ def transform_student_data(item_data):
     for char in item_data.get("characters", []):
         new_char = {}
         # Copy the name unchanged.
+        new_char["id"] = str(char.get("id", ""))
         new_char["name"] = char.get("name", "")
         
         # Process the "current" stats.
@@ -138,10 +140,14 @@ if __name__ == "__main__":
     with open(Config.OUTPUT_FILES["students"], "r", encoding="utf-8") as f:
         students_data = json.load(f)
 
+    # with open(Config.OWNED["currencies"], "r", encoding="utf-8") as f:
+    #     currencies = json.load(f)
+
     # Transform Data
     result_equipment = transform_equipment_data(equipment_data)
     result_item = transform_item_data(item_data)
     result_student = transform_student_data(students_data)
+    # result_currencies = transform_currencies(currencies)
 
     # Save the grouped output to a new JSON file
     with open(Config.OUTPUT_FILES["converter_justin"], "w", encoding="utf-8") as f:

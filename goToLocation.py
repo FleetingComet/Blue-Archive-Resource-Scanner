@@ -5,25 +5,27 @@ from config import Config
 from src.locations.screens import Home, Page, StudentList
 from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
 from src.utils.preprocessor import preprocess_image_for_ocr
-from src.utils.extract_text import extract_text
-from src.utils.adb_controller import ADBController
+from utils.ocr.extract import extract_text
+from utils.device.adb_controller import ADBController
 from src.utils.matchers import match_image_using_file
 
 screenshot_path = Config.get_screenshot_path()
 
 
 def whereAmI(adb_controller: ADBController) -> str:
-    if not adb_controller.capture_screenshot(screenshot_path):
+    screenshot = adb_controller.capture_screenshot()
+    if screenshot is None:
         print("Failed to capture screenshot.")
-        return None
+        return False
     return searchTitle()
 
 
 def searchTitle() -> str:
-    if screenshot_path is None:
-        return None
+    image = ADBController.get_latest_screenshot()
 
-    image = cv2.imread(screenshot_path)
+    if image is None:
+        return None
+    
     title_crop_img = image[
         EntryPointTitles.PAGE.value.y : EntryPointTitles.PAGE.value.bottom,
         EntryPointTitles.PAGE.value.x : EntryPointTitles.PAGE.value.right,
@@ -112,11 +114,11 @@ def press_MenuTab(adb_controller: ADBController):
 def isMenuTabOpen(adb_controller: ADBController) -> bool:
     """Check if the Menu Tab is currently open."""
 
-    if not adb_controller.capture_screenshot(screenshot_path):
+    image = adb_controller.capture_screenshot()
+    if image is None:
         print("Failed to capture screenshot.")
         return False
-
-    image = cv2.imread(screenshot_path)
+    
     title_crop_img = image[
         EntryPointTitles.MENU_TAB.value.y : EntryPointTitles.MENU_TAB.value.bottom,
         EntryPointTitles.MENU_TAB.value.x : EntryPointTitles.MENU_TAB.value.right,

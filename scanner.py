@@ -1,13 +1,11 @@
 import time
 
-import cv2
-
 from area import Location, Region, Size
 from config import Config
 from src.locations import screens
 from src.locations.search import SearchPattern, StudentSearchPattern
-from src.utils.adb_controller import ADBController
-from src.utils.extract_text import (
+from utils.device.adb_controller import ADBController
+from utils.ocr.extract import (
     extract_from_region,
     extract_item_name,
     extract_owned_count,
@@ -19,8 +17,6 @@ from src.utils.jsonHelper import (
 )
 from src.utils.swipe_utils import swipe
 # from src.utils.item_util import is_item_empty
-
-screenshot_path = Config.get_screenshot_path()
 
 
 def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -> bool:
@@ -56,13 +52,9 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
     first_item_name = None
 
     while True:
-        if not adb_controller.capture_screenshot(screenshot_path):
-            print("Failed to capture screenshot.")
-            return False
-
-        image = cv2.imread(screenshot_path)
+        image = adb_controller.capture_screenshot()
         if image is None:
-            print("Failed to read screenshot.")
+            print("Failed to capture screenshot.")
             return False
 
         for col in range(cols_per_row):
@@ -96,14 +88,15 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
 
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
             # Capture the screen again after tapping
-            if not adb_controller.capture_screenshot(screenshot_path):
+            image = adb_controller.capture_screenshot()
+            if image is None:
                 print("Failed to capture screenshot.")
                 return False
 
             # time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
             time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
             # read name
-            item_name = extract_item_name(screenshot_path, grid_type=grid_type)
+            item_name = extract_item_name(image, grid_type=grid_type)
 
             if row == 0 and col == 0:
                 first_item_name = item_name
@@ -118,7 +111,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
 
             time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
             # read data on the owned x
-            owned_count = extract_owned_count(screenshot_path, grid_type=grid_type)
+            owned_count = extract_owned_count(image, grid_type=grid_type)
             # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
             if item_name and owned_count:
@@ -165,83 +158,79 @@ def get_student_info(adb_controller: ADBController) -> bool:
     while True:
         iteration += 1
 
-        if not adb_controller.capture_screenshot(screenshot_path):
-            print("Failed to capture screenshot.")
-            return False
-
-        image = cv2.imread(screenshot_path, cv2.IMREAD_UNCHANGED)
+        image = adb_controller.capture_screenshot()
 
         if image is None:
             return False
 
         student_data = {
             "Name": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.STUDENT_NAME.value,
                 image_type="name",
             ),
             "Level": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.LEVEL.value,
                 image_type="level_indicator",
             ),
             "Bond Level": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.BOND_LEVEL.value,
                 image_type="number_in_circle",
             ),
             "Rarity": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.STAR_QUANTITY.value,
                 image_type="star",
             ),
             "Gear 1 Tier": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.GEAR_1_TIER.value,
                 image_type="gear",
             ),
             "Gear 2 Tier": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.GEAR_2_TIER.value,
                 image_type="gear",
             ),
             "Gear 3 Tier": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.GEAR_3_TIER.value,
                 image_type="gear",
             ),
             "Gear Bond Tier": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.GEAR_BOND_TIER.value,
                 image_type="gear",
             ),
             "Unique Equipment Star Quantity": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.UNIQUE_EQUIPMENT_STAR_QUANTITY.value,
                 image_type="ue_star",
             ),
             "Unique Equipment Level": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.UNIQUE_EQUIPMENT_LEVEL.value,
                 image_type="ue_level",
             ),
             "Skill EX": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.SKILL_EX.value,
                 image_type="skill_level_indicator",
             ),
             "Skill Basic": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.SKILL_BASIC.value,
                 image_type="skill_level_indicator",
             ),
             "Skill Enhanced": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.SKILL_ENHANCED.value,
                 image_type="skill_level_indicator",
             ),
             "Skill Sub": extract_from_region(
-                screenshot_path,
+                image,
                 StudentSearchPattern.SKILL_SUB.value,
                 image_type="skill_level_indicator",
             ),
@@ -269,8 +258,9 @@ def get_student_info(adb_controller: ADBController) -> bool:
 
 
 def get_currencies(adb_controller: ADBController) -> bool:
-    if not adb_controller.capture_screenshot(screenshot_path):
-        print("Failed to capture screenshot.")
+    image = adb_controller.capture_screenshot()
+
+    if image is None:
         return False
 
     currencies = [SearchPattern.AP, SearchPattern.CREDIT, SearchPattern.PYROXENE]
@@ -278,7 +268,7 @@ def get_currencies(adb_controller: ADBController) -> bool:
 
     for currency in currencies:
         how_many = extract_from_region(
-            screenshot_path, currency.value, image_type="level_indicator"
+            image, currency.value, image_type="level_indicator"
         )  # reuse
         print(f"Currency {currency.name}: {how_many}")
         if currency.name == "AP":

@@ -8,10 +8,11 @@ from goToLocation import (
     whereAmI,
 )
 from scanner import get_currencies, get_student_info, startMatching
-from src.utils.adb_controller import ADBController
+from utils.device.adb_controller import ADBController
 from utils.data.equipment import EquipmentProcessor
 from utils.data.item import ItemProcessor
 from utils.data.student import StudentProcessor
+from utils.device.adbscreencapture import ADBScreenCapture
 
 
 def main():
@@ -21,17 +22,22 @@ def main():
     # adb_controller = ADBController()
     path_init()
     
-    adb_controller = ADBController(host=Config.ADB_HOST, port=Config.ADB_PORT)
+    # adb_controller = ADBController(host=Config.ADB_HOST, port=Config.ADB_PORT)
 
-    if not adb_controller.connect():
-        print("❌ Failed to connect to ADB. Exiting.")
-        exit(1)
+    # if not adb_controller.connect():
+    #     print("❌ Failed to connect to ADB. Exiting.")
+    #     exit(1)
+    
+    # # capture = ADBScreenCapture(adb_controller, capture_interval=0.5)
+    # # capture.start()
 
-    finished = mainpage(adb_controller)
+    # finished = mainpage(adb_controller)
 
-    if not finished:
-        print("⚠️ Matching process failed or was interrupted.")
+    # if not finished:
+    #     print("⚠️ Matching process failed or was interrupted.")
+    #     exit(1)
 
+    # capture.stop()
     # Process Equipment
     # process_equipment()
     EquipmentProcessor().process()
@@ -63,8 +69,8 @@ def mainpage(adb_controller):
 
     # Define mapping of screen names to their corresponding menu locations and grid types
     screen_mapping = {
-        "Equipment": ("menu_equipment", "Equipment"),
-        "Items": ("menu_items", "Items"),
+        # "Equipment": ("menu_equipment", "Equipment"),
+        # "Items": ("menu_items", "Items"),
         "Students": ("menu_students", "Students"),
         "Student": ("first_student", "Student"),
     }
