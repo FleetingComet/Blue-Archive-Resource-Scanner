@@ -35,9 +35,7 @@ def preprocess_image_for_ocr(image, image_type=None):
     if h < 50 or w < 50:
         gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
-    if (
-        image_type == "number_in_circle"
-    ):  # in bond or somewhere
+    if image_type == "number_in_circle":  # in bond or somewhere
         # gray = cv2.equalizeHist(gray)
         # _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         binary = gray
@@ -63,9 +61,9 @@ def preprocess_image_for_ocr(image, image_type=None):
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
         config = "--psm 6 -c tessedit_char_whitelist=0123456789MAXmax/"
-    
+
     # elif image_type == "ue_level":  # Level
-        # WIP
+    # WIP
     #     gray = cv2.convertScaleAbs(gray, alpha=1.3, beta=0)
     #     _, binary = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     #     binary = cv2.convertScaleAbs(binary, alpha=1.3, beta=0)

@@ -1,5 +1,5 @@
 import cv2
-from src.utils.adb_controller import ADBController
+from utils.device.adb_controller import ADBController
 
 
 def swipe(
