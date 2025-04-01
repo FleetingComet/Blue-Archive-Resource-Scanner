@@ -4,10 +4,10 @@ from area import Location, Region
 from config import Config
 from src.locations.screens import Home, Page, StudentList
 from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
-from src.utils.preprocessor import preprocess_image_for_ocr
+from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.ocr.extract import extract_text
 from utils.device.adb_controller import ADBController
-from src.utils.matchers import match_image_using_file
+from utils.ocr.matchers import match_image_using_file
 
 screenshot_path = Config.get_screenshot_path()
 

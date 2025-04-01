@@ -1,6 +1,6 @@
 import cv2
 
-from src.utils.color_util import remove_colors
+from utils.ocr.color_util import remove_colors
 
 
 def preprocess_image_for_ocr(image, image_type=None):

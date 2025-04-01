@@ -3,7 +3,7 @@ from pathlib import Path
 
 import cv2
 
-from src.utils.text_util import normalize_value
+from utils.ocr.text_util import normalize_value
 
 
 def match_tier(cropped_image, grayscale) -> str:

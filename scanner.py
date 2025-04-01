@@ -10,12 +10,12 @@ from utils.ocr.extract import (
     extract_item_name,
     extract_owned_count,
 )
-from src.utils.jsonHelper import (
+from utils.data.jsonHelper import (
     map_student_data_to_character,
     update_character_data,
     update_name_owned_counts,
 )
-from src.utils.swipe_utils import swipe
+from utils.device.swipe_utils import swipe
 # from src.utils.item_util import is_item_empty
 
 

@@ -1,7 +1,7 @@
 import json
 import os
 
-from src.utils.text_util import normalize_value, normalize_skill_value
+from utils.ocr.text_util import normalize_value, normalize_skill_value
 
 
 def load_json(json_path):

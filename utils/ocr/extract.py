@@ -1,15 +1,15 @@
 import pytesseract
 
 from area import Region
-from src.locations.search import SearchPattern
-from src.utils.color_util import (
+from locations.search import SearchPattern
+from utils.ocr.color_util import (
     remove_colors,
     remove_non_white,
     retain_colors,
 )
-from src.utils.matchers import match_star, match_tier
-from src.utils.preprocessor import preprocess_image_for_ocr
-from src.utils.text_util import is_close_to
+from utils.ocr.matchers import match_star, match_tier
+from utils.ocr.preprocessor import preprocess_image_for_ocr
+from utils.ocr.text_util import is_close_to
 
 
 def extract_text(image, config="--psm 6 -c tessedit_char_whitelist=0123456789") -> str:

@@ -5,7 +5,7 @@ from src.locations import screens
 from src.locations.search import StudentSearchPattern
 from utils.device.adb_controller import ADBController
 from utils.ocr.extract import extract_from_region
-from src.utils.jsonHelper import map_student_data_to_character, update_character_data
+from utils.data.jsonHelper import map_student_data_to_character, update_character_data
 
 
 def get_student_info(adb_controller: ADBController) -> bool:
