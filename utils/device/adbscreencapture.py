@@ -34,7 +34,10 @@ class ADBScreenCapture:
 
     def run(self):
         """Continuously capture screenshots using the ADBController."""
+        import logging
+        logger = logging.getLogger("ADBScreenCapture")
         while not self.stopped:
+            logger.debug("ADBScreenCapture: Calling capture_screenshot()...")
             img = self.adb.capture_screenshot()
             if img is not None:
                 # If the image has an alpha channel, remove it.
@@ -43,7 +46,11 @@ class ADBScreenCapture:
                 with self.lock:
                     # Only keep a reference to the latest screenshot (no .copy())
                     self.latest_screenshot = img
+                logger.debug("ADBScreenCapture: Screenshot captured and stored.")
+            else:
+                logger.warning("ADBScreenCapture: capture_screenshot() returned None.")
             time.sleep(self.capture_interval)
+        logger.info("ADBScreenCapture: Thread stopped.")
         # Small sleep to avoid busy-waiting if stopped
         time.sleep(0.01)
 

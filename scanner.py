@@ -2,8 +2,8 @@ import time
 
 from area import Location, Region, Size
 from config import Config
-from src.locations import screens
-from src.locations.search import SearchPattern, StudentSearchPattern
+from locations import screens
+from locations.search import SearchPattern, StudentSearchPattern
 from utils.device.adb_controller import ADBController
 from utils.ocr.extract import (
     extract_from_region,
