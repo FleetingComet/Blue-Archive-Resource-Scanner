@@ -793,15 +793,15 @@
     },
     {
         "id": 10105,
-        "name": "Mari (Idol)"
+        "name": "Mari (Pop Idol)"
     },
     {
         "id": 10106,
-        "name": "Sakurako (Idol)"
+        "name": "Sakurako (Pop Idol)"
     },
     {
         "id": 16016,
-        "name": "Mine (Idol)"
+        "name": "Mine (Pop Idol)"
     },
     {
         "id": 10107,
@@ -854,5 +854,29 @@
     {
         "id": 20043,
         "name": "Izumi (New Year)"
+    },
+    {
+        "id": 10115,
+        "name": "Rei"
+    },
+    {
+        "id": 20044,
+        "name": "Sumire (Part-time Job)"
+    },
+    {
+        "id": 10116,
+        "name": "Saori (Dress)"
+    },
+    {
+        "id": 10117,
+        "name": "Hikari"
+    },
+    {
+        "id": 10118,
+        "name": "Nozomi"
+    },
+    {
+        "id": 16017,
+        "name": "Aoba"
     }
 ]
