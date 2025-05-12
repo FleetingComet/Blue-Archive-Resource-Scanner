@@ -10,6 +10,8 @@ class Config:
     # increase this if your device is laggy (eg. 1.1 or 1.8 or 2)
     WAIT_TIME_MULTIPLIER: float = 1.0
 
+    CAPTURE_INTERVAL: float = 0.5  # seconds between captures
+
     # Base Directories
     BASE_DIR = Path(__file__).parent
     ASSETS_DIR = BASE_DIR / "assets"
@@ -31,6 +33,17 @@ class Config:
         "items": ASSETS_DIR / "data/items_processed.json",
         "students": ASSETS_DIR / "data/students_processed.json",
     }
+
+    @classmethod
+    def swap_processed_data(cls, key: str, new_value):
+        """
+        Swap the value for a given key in PROCESSED_DATA at runtime.
+        Example: Config.swap_processed_data('equipment', '/new/path/to/equipment.json')
+        """
+        if key in cls.PROCESSED_DATA:
+            cls.PROCESSED_DATA[key] = new_value
+        else:
+            raise KeyError(f"Key '{key}' not found in PROCESSED_DATA.")
 
     OUTPUT_FILES: OutputFilesDict = {
         "equipment": OUTPUT_DIR / "equipment_final_values.json",
