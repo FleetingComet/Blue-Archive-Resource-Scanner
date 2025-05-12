@@ -588,22 +588,6 @@
         "name": "Superior Tactical Training Blu-ray (Valkyrie)"
     },
     {
-        "id": 3090,
-        "name": "Beginner Tactical Training Blu-ray (Highlander)"
-    },
-    {
-        "id": 3091,
-        "name": "Normal Tactical Training Blu-ray (Highlander)"
-    },
-    {
-        "id": 3092,
-        "name": "Advanced Tactical Training Blu-ray (Highlander)"
-    },
-    {
-        "id": 3093,
-        "name": "Superior Tactical Training Blu-ray (Highlander)"
-    },
-    {
         "id": 4000,
         "name": "Beginner Tech Notes (Hyakkiyako)"
     },
@@ -746,22 +730,6 @@
     {
         "id": 4083,
         "name": "Superior Tech Notes (Valkyrie)"
-    },
-    {
-        "id": 4090,
-        "name": "Beginner Tech Notes (Highlander)"
-    },
-    {
-        "id": 4091,
-        "name": "Normal Tech Notes (Highlander)"
-    },
-    {
-        "id": 4092,
-        "name": "Advanced Tech Notes (Highlander)"
-    },
-    {
-        "id": 4093,
-        "name": "Superior Tech Notes (Highlander)"
     },
     {
         "id": 5000,
@@ -1409,11 +1377,11 @@
     },
     {
         "id": 10105,
-        "name": "Mari (Pop Idol)'s Eleph"
+        "name": "Mari (Idol)'s Eleph"
     },
     {
         "id": 10106,
-        "name": "Sakurako (Pop Idol)'s Eleph"
+        "name": "Sakurako (Idol)'s Eleph"
     },
     {
         "id": 10107,
@@ -1438,30 +1406,6 @@
     {
         "id": 10112,
         "name": "Asuna (Uniform)'s Eleph"
-    },
-    {
-        "id": 10113,
-        "name": "Sena (Casual)'s Eleph"
-    },
-    {
-        "id": 10114,
-        "name": "Juri (Part-time Job)'s Eleph"
-    },
-    {
-        "id": 10115,
-        "name": "Rei's Eleph"
-    },
-    {
-        "id": 10116,
-        "name": "Saori (Dress)'s Eleph"
-    },
-    {
-        "id": 10117,
-        "name": "Hikari's Eleph"
-    },
-    {
-        "id": 10118,
-        "name": "Nozomi's Eleph"
     },
     {
         "id": 13000,
@@ -1585,11 +1529,7 @@
     },
     {
         "id": 16016,
-        "name": "Mine (Pop Idol)'s Eleph"
-    },
-    {
-        "id": 16017,
-        "name": "Aoba's Eleph"
+        "name": "Mine (Idol)'s Eleph"
     },
     {
         "id": 20000,
@@ -1762,14 +1702,6 @@
     {
         "id": 20042,
         "name": "Maki (Camp)'s Eleph"
-    },
-    {
-        "id": 20043,
-        "name": "Izumi (New Year)'s Eleph"
-    },
-    {
-        "id": 20044,
-        "name": "Sumire (Part-time Job)'s Eleph"
     },
     {
         "id": 23000,
@@ -2505,7 +2437,7 @@
     },
     {
         "id": 80472,
-        "name": "Eastern Alchemy Energy Supplement"
+        "name": "Eastern Alchemy Society Special Energy Supplement"
     },
     {
         "id": 80473,
@@ -2566,54 +2498,6 @@
     {
         "id": 80561,
         "name": "バレンタインデーのお誘い"
-    },
-    {
-        "id": 80570,
-        "name": "パフェ交換券"
-    },
-    {
-        "id": 80571,
-        "name": "試食用パンケーキ"
-    },
-    {
-        "id": 80572,
-        "name": "救急医学部の特製薬"
-    },
-    {
-        "id": 80573,
-        "name": "使い切りタイプの洗剤"
-    },
-    {
-        "id": 80590,
-        "name": "イベントPt"
-    },
-    {
-        "id": 80591,
-        "name": "応援バルーン"
-    },
-    {
-        "id": 80592,
-        "name": "プロテインドリンク"
-    },
-    {
-        "id": 80593,
-        "name": "抽選券"
-    },
-    {
-        "id": 80600,
-        "name": "ハイランダー記念ステッカー"
-    },
-    {
-        "id": 80601,
-        "name": "貨物列車の路線図"
-    },
-    {
-        "id": 80602,
-        "name": "謎の積荷"
-    },
-    {
-        "id": 80603,
-        "name": "鉄パイプ"
     },
     {
         "id": 100000,
@@ -2784,10 +2668,6 @@
         "name": "Superior Furniture Raffle Box"
     },
     {
-        "id": 150045,
-        "name": "T9装備設計図選択ボックス"
-    },
-    {
         "id": 151000,
         "name": "Beginner Furniture Choice Box"
     },
@@ -2866,10 +2746,6 @@
     {
         "id": 151019,
         "name": "ミレニアムタワーラウンジシリーズ選択ボックス"
-    },
-    {
-        "id": 151020,
-        "name": "ハイランダー列車シリーズ選択ボックス"
     },
     {
         "id": 151991,
@@ -3518,10 +3394,6 @@
     {
         "id": 191019,
         "name": "ミレニアムタワーラウンジシリーズ抽選ボックス"
-    },
-    {
-        "id": 191020,
-        "name": "ハイランダー列車シリーズ抽選ボックス"
     },
     {
         "id": 191991,

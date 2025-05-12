@@ -232,14 +232,6 @@
         "name": "Sailor Hat"
     },
     {
-        "id": 1009,
-        "category": "Hat",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_hat_tier10",
-        "name": "ゲーミングヘルメット"
-    },
-    {
         "id": 2000,
         "category": "Gloves",
         "rarity": "N",
@@ -310,14 +302,6 @@
         "tier": 9,
         "icon": "equipment_icon_gloves_tier9",
         "name": "Sailing Gloves"
-    },
-    {
-        "id": 2009,
-        "category": "Gloves",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_gloves_tier10",
-        "name": "スーパーグローブ"
     },
     {
         "id": 3000,
@@ -392,14 +376,6 @@
         "name": "Aqua Sandals"
     },
     {
-        "id": 3009,
-        "category": "Shoes",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_shoes_tier10",
-        "name": "ゲーミングスリッパ"
-    },
-    {
         "id": 4000,
         "category": "Bag",
         "rarity": "N",
@@ -470,14 +446,6 @@
         "tier": 9,
         "icon": "equipment_icon_bag_tier9",
         "name": "Waterproof Sling Bag"
-    },
-    {
-        "id": 4009,
-        "category": "Bag",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_bag_tier10",
-        "name": "メタルケース"
     },
     {
         "id": 5000,
@@ -552,14 +520,6 @@
         "name": "Harpia Rubber Patch"
     },
     {
-        "id": 5009,
-        "category": "Badge",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_badge_tier10",
-        "name": "コインバッジ"
-    },
-    {
         "id": 6000,
         "category": "Hairpin",
         "rarity": "N",
@@ -630,14 +590,6 @@
         "tier": 9,
         "icon": "equipment_icon_hairpin_tier9",
         "name": "Anchor Hairpin"
-    },
-    {
-        "id": 6009,
-        "category": "Hairpin",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_hairpin_tier10",
-        "name": "電磁波カットヘアピン"
     },
     {
         "id": 7000,
@@ -920,14 +872,6 @@
         "name": "Sailor Hat Blueprint"
     },
     {
-        "id": 101009,
-        "category": "Hat",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_hat_tier10_piece",
-        "name": "ゲーミングヘルメットの設計図"
-    },
-    {
         "id": 102001,
         "category": "Gloves",
         "rarity": "N",
@@ -990,14 +934,6 @@
         "tier": 9,
         "icon": "equipment_icon_gloves_tier9_piece",
         "name": "Sailing Gloves Blueprint"
-    },
-    {
-        "id": 102009,
-        "category": "Gloves",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_gloves_tier10_piece",
-        "name": "スーパーグローブの設計図"
     },
     {
         "id": 103001,
@@ -1064,14 +1000,6 @@
         "name": "Aqua Sandals Blueprint"
     },
     {
-        "id": 103009,
-        "category": "Shoes",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_shoes_tier10_piece",
-        "name": "ゲーミングスリッパの設計図"
-    },
-    {
         "id": 104001,
         "category": "Bag",
         "rarity": "N",
@@ -1134,14 +1062,6 @@
         "tier": 9,
         "icon": "equipment_icon_bag_tier9_piece",
         "name": "Waterproof Sling Bag Blueprint"
-    },
-    {
-        "id": 104009,
-        "category": "Bag",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_bag_tier10_piece",
-        "name": "メタルケースの設計図"
     },
     {
         "id": 105001,
@@ -1208,14 +1128,6 @@
         "name": "Harpia Rubber Patch Blueprint"
     },
     {
-        "id": 105009,
-        "category": "Badge",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_badge_tier10_piece",
-        "name": "コインバッジの設計図"
-    },
-    {
         "id": 106001,
         "category": "Hairpin",
         "rarity": "N",
@@ -1278,14 +1190,6 @@
         "tier": 9,
         "icon": "equipment_icon_hairpin_tier9_piece",
         "name": "Anchor Hairpin Blueprint"
-    },
-    {
-        "id": 106009,
-        "category": "Hairpin",
-        "rarity": "N",
-        "tier": 10,
-        "icon": "equipment_icon_hairpin_tier10_piece",
-        "name": "電磁波カットヘアピンの設計図"
     },
     {
         "id": 107001,

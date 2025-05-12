@@ -27,7 +27,6 @@ class StudentProcessor(BaseProcessor):
             key=lambda x: x[0], # I forgot to set the key to select ratio because it's (Ratio, Student Object)
             default=(0, None),
         )
-        print(f"best match: {best_match}")
         return (
             best_match[1].id if best_match[0] >= threshold and best_match[1] else "N/A"
         )
