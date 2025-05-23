@@ -62,11 +62,13 @@ class JustinPlannerConverter:
         result_equipment = self.transform_equipment_data(equipment_data)
         result_item = self.transform_item_data(item_data)
         result_student = self.transform_student_data(students_data)
+        output = {
+            "characters": result_student["characters"],
+            "owned_materials": {**result_equipment, **result_item}
+        }
         with open(self.config.OUTPUT_FILES["converter_justin"], "w", encoding="utf-8") as f:
             json.dump(
-                dict(
-                    chain.from_iterable(d.items() for d in (result_equipment, result_item, result_student))
-                ),
+                output,
                 f,
                 indent=4,
             )
