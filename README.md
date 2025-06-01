@@ -7,7 +7,8 @@ A Python-based tool to scan and count owned resources in **Blue Archive**.
 
 ## Features
 
-- **Scan Equipment Page**: Automatically scan and count resources in the equipment page.
+- **Scan Equipment and Item Page**: Automatically scan and count resources in the equipment and item page.
+- **Scan Student Page**: Automatically scan each student's level, skills, equipments.
 
 ---
 
@@ -51,6 +52,9 @@ ADB_HOST = "127.0.0.1" or "localhost"
 ADB_PORT = 16384  # Default Mumu port
 # Increase this if your device is laggy (e.g., 1.1, 1.8, or 2)
 WAIT_TIME_MULTIPLIER: float = 1.0
+CAPTURE_INTERVAL: float = 0.5  # seconds between captures
+ADB_RETRIES: int = 3  # Retries the ADB connection up to retries times (default 3).
+
 ```
 
 Also, follow these sections from the [AzurLaneAutoScript Wiki](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki) for further configuration:
@@ -66,11 +70,12 @@ Run the scanner script to generate resource files:
 ```bash
 python app.py
 ```
-After running, this will generate two files:  
+After running, this will generate three files:  
 - **`output/owned/scanned_counts.json`**: Contains the counts of owned resources.
-- **`output/owned/scanned_students.json`**: Contains your all scanned student information.
-- **`output/owned/scanned_currencies.json`**: Contains the counts of your currencies (Pyrox, etc...).
+- **`output/owned/scanned_students.json`**: Contains all scanned student information.
+- **`output/owned/scanned_currencies.json`**: Contains the counts of your currencies (Pyrox, etc.).
 
+These additional processed files will also be generated for the application to use:
 - **`output/equipment_final_values.json`**: Contains the processed equipment resource values.
 - **`output/items_final_values.json`**: Contains the processed items resource values.
 - **`output/students_final_values.json`**: Contains the processed student values.
@@ -104,6 +109,7 @@ To merge the converted data into your existing Justin Planner export:
 ### Current Checklist:
 
 - Read more resources (some of them needs modification, their [Search Region](src/locations/search.py) are already defined)
+  - [ ] Fix Student Renge not being detected
   - [x] Credits
   - [x] Pyroxene
   - [x] Items Page
