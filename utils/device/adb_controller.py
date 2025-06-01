@@ -1,13 +1,14 @@
-import subprocess
 import logging
+import subprocess
 import threading
-import numpy as np
-import cv2
+import time
 from typing import Optional
+
+import cv2
+import numpy as np
 
 
 class ADBController:
-
     _instance = None  # Singleton instance
     _lock = threading.Lock()
     latest_screenshot = None
@@ -25,19 +26,39 @@ class ADBController:
         self.port = port
         self.logger = logging.getLogger(__name__)
 
-    def connect(self) -> bool:
-        """Connect to ADB device."""
-        try:
-            result = subprocess.run(
-                f"adb connect {self.host}:{self.port}",
-                shell=True,
-                capture_output=True,
-                text=True,
-            )
-            return "connected" in result.stdout.lower()
-        except subprocess.SubprocessError as e:
-            self.logger.error(f"Failed to connect to ADB: {e}")
-            return False
+    def connect(self, retries: int = 3, delay: float = 2.0) -> bool:
+        """
+        Connect to ADB device, retrying if necessary.
+        Returns True if connected, False otherwise.
+        """
+        for attempt in range(1, retries + 1):
+            try:
+                result = subprocess.run(
+                    f"adb connect {self.host}:{self.port}",
+                    shell=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                )
+                output = result.stdout.lower()
+                if (
+                    "connected" in output
+                    or "already connected" in output
+                    or "unable to connect" not in output
+                ):
+                    self.logger.info(f"ADB connect attempt {attempt}: {output.strip()}")
+                    return True
+                else:
+                    self.logger.warning(
+                        f"ADB connect attempt {attempt} failed: {output.strip()}"
+                    )
+            except subprocess.TimeoutExpired:
+                self.logger.error(f"ADB connect attempt {attempt} timed out.")
+            except subprocess.SubprocessError as e:
+                self.logger.error(f"Failed to connect to ADB (attempt {attempt}): {e}")
+            if attempt < retries:
+                time.sleep(delay)
+        return False
 
     def execute_command(self, command: str) -> bool:
         """Execute an ADB shell command."""

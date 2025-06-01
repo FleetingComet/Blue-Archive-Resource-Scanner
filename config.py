@@ -11,6 +11,8 @@ class Config:
     WAIT_TIME_MULTIPLIER: float = 1.0
 
     CAPTURE_INTERVAL: float = 0.5  # seconds between captures
+    
+    ADB_RETRIES: int = 3  # Retries the connection up to retries times (default 3).
 
     # Base Directories
     BASE_DIR = Path(__file__).parent
