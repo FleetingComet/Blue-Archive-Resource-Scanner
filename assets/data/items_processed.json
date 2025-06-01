@@ -1464,6 +1464,10 @@
         "name": "Nozomi's Eleph"
     },
     {
+        "id": 10119,
+        "name": "Nagusa's Eleph"
+    },
+    {
         "id": 13000,
         "name": "Akane's Eleph"
     },
@@ -1770,6 +1774,14 @@
     {
         "id": 20044,
         "name": "Sumire (Part-time Job)'s Eleph"
+    },
+    {
+        "id": 20045,
+        "name": "Pina (Guide)'s Eleph"
+    },
+    {
+        "id": 20046,
+        "name": "Niya's Eleph"
     },
     {
         "id": 23000,
@@ -3357,39 +3369,39 @@
     },
     {
         "id": 180116,
-        "name": "神輿チョコ"
+        "name": "Palanquin Chocolate"
     },
     {
         "id": 180117,
-        "name": "最強☆チョコクレープ"
+        "name": "S+ Chocolate Crepe"
     },
     {
         "id": 180118,
-        "name": "想い出いっぱいの「あのチョコ」"
+        "name": "Pack of \"That Chocolate\""
     },
     {
         "id": 180119,
-        "name": "カカオニブのお茶"
+        "name": "Cacao Nibs Tea"
     },
     {
         "id": 180120,
-        "name": "鉄砂掌チョコ"
+        "name": "Iron Palm Chocolate"
     },
     {
         "id": 180121,
-        "name": "サツキのシークレットレシピチョコ"
+        "name": "Satsuki's Secret Recipe Chocolate"
     },
     {
         "id": 180122,
-        "name": "チアキの週刊万魔殿バレンタイン号外版"
+        "name": "Chiaki's \"Weekly Pandemonium Society\" Valentine's Extra-Edition"
     },
     {
         "id": 180123,
-        "name": "セイアのスリリングチョコ"
+        "name": "Seia's Booby-Trapped Chocolate"
     },
     {
         "id": 180124,
-        "name": "ミレニアム校章チョコ"
+        "name": "Millennium Emblem Chocolate"
     },
     {
         "id": 190000,
@@ -3598,6 +3610,10 @@
     {
         "id": 20000012,
         "name": "Abydos Student ID (First-year)"
+    },
+    {
+        "id": 20000013,
+        "name": "チセにゃん人形"
     },
     {
         "id": 20001000,
