@@ -20,8 +20,9 @@ def main():
     adb_controller = ADBController(host=Config.ADB_HOST, port=Config.ADB_PORT)
     screencap = ADBScreenCapture(adb_controller, Config.CAPTURE_INTERVAL)
 
-    if not adb_controller.connect():
-        print("❌ Failed to connect to ADB. Exiting.")
+    if not adb_controller.connect(retries=Config.ADB_RETRIES):
+        print("❌ Failed to connect to ADB after multiple attempts.")
+        print("Please check your ADB connection settings.")
         screencap.stop()
         exit(1)
 
@@ -49,7 +50,7 @@ def path_init():
     Config.OWNED_DIR.mkdir(parents=True, exist_ok=True)
     Config.SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
     DataSyncManager().update_from_online()
-   
+
 
 def mainpage(navigator: ScreenNavigator):
     """
@@ -65,8 +66,8 @@ def mainpage(navigator: ScreenNavigator):
     """
     # Define mapping of screen names to their corresponding menu locations and grid types
     screen_mapping = {
-        # "Equipment": ("menu_equipment", "Equipment"),
-        # "Items": ("menu_items", "Items"),
+        "Equipment": ("menu_equipment", "Equipment"),
+        "Items": ("menu_items", "Items"),
         "Students": ("menu_students", "Students"),
         "Student": ("first_student", "Student"),
     }
