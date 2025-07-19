@@ -73,55 +73,84 @@ def mainpage(navigator: ScreenNavigator):
     }
     # Track visited screens to ensure all are processed
     visited_screens = set()
-    # Determine the current screen
-    current_screen = navigator.where_am_i()
-    if not current_screen:
-        print("🔄 Current screen is None.")
-        # If on a Page (and not Home), go Home.
+    unvisited = list(screen_mapping.keys())
+
+    # # get AP, Pyrox, Credits
+    # get_currencies(navigator.adb_controller)
+
+    def safe_go_home():
         if navigator.at_page():
-            print("🔄 The user is on certain page. Going home")
+            print("🔄 Detected at a page. Going home...")
             navigator.go_home()
             time.sleep(10.0 * Config.WAIT_TIME_MULTIPLIER)
-        # get AP, Pyrox, Credits
-        get_currencies(navigator.adb_controller)
-        current_screen = navigator.where_am_i()
+
+    # Detect current screen and process immediately if it's valid
+    current_screen = navigator.where_am_i()
     if current_screen in screen_mapping:
         _, grid_type = screen_mapping[current_screen]
-        print(f"✅ Immediately processing {current_screen} screen.")
+        print(f"✅ Currently at {current_screen}. Starting processing immediately.")
         process_screen(navigator, current_screen, grid_type)
         visited_screens.add(current_screen)
-        # Update current_screen after processing
+        unvisited.remove(current_screen)
+        if current_screen == "Students":
+            # After tapping first student, It's on Student page
+            current_screen = "Student"
+            if current_screen not in visited_screens:
+                process_screen(navigator, current_screen, None)
+                visited_screens.add(current_screen)
+                unvisited.remove(current_screen)
+    else:
+        print(f"🔄 Not at a valid screen. Current screen: {current_screen}. Going home...")
+        safe_go_home()
         current_screen = navigator.where_am_i()
+
     for screen_name, (menu_location, grid_type) in screen_mapping.items():
         # Skip if the screen has already been processed
         if screen_name in visited_screens:
             continue
         # Navigate to the target screen if not already there
-        if current_screen != screen_name:
-            # print(f"🔄 Navigating to {screen_name}...")
-            # For Students and Student, they are not accessed via the Menu Tab.
-            in_menu_tab = False if screen_name in ["Students", "Student"] else True
-            navigate_to_screen(
-                navigator,
-                menu_location=menu_location,
-                in_menu_tab=in_menu_tab,
-                ignore_page_check=(not in_menu_tab),
-            )
-            time.sleep(1.0 * Config.WAIT_TIME_MULTIPLIER)
-            current_screen = navigator.where_am_i()
+        # For Students and Student, they are not accessed via the Menu Tab.
+        is_menu_free = screen_name in ["Students", "Student"]
+        if is_menu_free:
+            print(f"📴 {screen_name} is accessed via Menu Tab. Ensuring menu is closed.")
+            safe_go_home()
+        else:
+            navigator.manage_menu_tab(True)
+
+        print(f"🔄 Navigating to {screen_name}...")
+        navigate_to_screen(
+            navigator,
+            menu_location=menu_location,
+            in_menu_tab=(not is_menu_free),
+            ignore_page_check=is_menu_free,
+        )
+
+        time.sleep(1.0 * Config.WAIT_TIME_MULTIPLIER)
+        current_screen = navigator.where_am_i()
+
         # If navigation was successful, start the matching process
         if current_screen == screen_name:
-            print(f"✅ Successfully navigated to {screen_name}.")
+            print(f"✅ Successfully navigated to {screen_name}. Processing...")
             process_screen(navigator, screen_name, grid_type)
             visited_screens.add(screen_name)
+            if screen_name == "Students":
+                # After tapping first student, It's on Student page
+                current_screen = "Student"
+                if current_screen not in visited_screens:
+                    process_screen(navigator, current_screen, screen_mapping[current_screen][1])
+                    visited_screens.add(current_screen)
+                    unvisited.remove(current_screen)
         else:
             print(f"⚠️ Failed to navigate to {screen_name}. Skipping...")
+
     # Verify that all screens were processed
-    if len(visited_screens) == len(screen_mapping):
+    if not unvisited:
         print("🎉 Successfully processed all screens!")
         return True
-    print("❌ Failed to process all screens.")
-    return False
+    else:
+        print(f"❌ Not all screens processed. Missing: {unvisited}")
+        return False
+
 
 
 def process_screen(navigator: ScreenNavigator, screen_name, grid_type):
