@@ -1,0 +1,44 @@
+from utils.device.window_capture_mss import WindowCaptureMSS
+from utils.screen.screenshot_provider import ScreenshotProvider
+
+# from utils.device.window_capture import WindowCapture
+from threading import Thread, Lock
+import time
+
+
+class DesktopScreenCapture(ScreenshotProvider):
+    def __init__(self, window_name=None, capture_interval=0.5):
+        self.window_capture = WindowCaptureMSS(window_name)
+        self.capture_interval = capture_interval
+        self.latest_screenshot = None
+        self.lock = Lock()
+        self.stopped = True
+        self.thread = None
+
+    def start(self):
+        if self.thread and self.thread.is_alive():
+            return
+        self.stopped = False
+        self.thread = Thread(target=self.run, daemon=True)
+        self.thread.start()
+
+    def stop(self):
+        self.stopped = True
+        if self.thread:
+            self.thread.join()
+            self.thread = None
+
+    def run(self):
+        while not self.stopped:
+            img = self.window_capture.get_screenshot()
+            with self.lock:
+                self.latest_screenshot = img
+            time.sleep(self.capture_interval)
+
+    def get_latest_screenshot(self, copy: bool = False):
+        with self.lock:
+            return (
+                self.latest_screenshot.copy()
+                if copy and self.latest_screenshot is not None
+                else self.latest_screenshot
+            )
