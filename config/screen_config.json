@@ -1,0 +1,34 @@
+{
+  "screens": {
+    "Currencies": {
+      "menu_location": "currencies",
+      "grid_type": "currencies",
+      "uses_menu_tab": false,
+      "enabled": true
+    },
+    "Equipment": {
+      "menu_location": "menu_equipment",
+      "grid_type": "Equipment",
+      "uses_menu_tab": true,
+      "enabled": true
+    },
+    "Items": {
+      "menu_location": "menu_items",
+      "grid_type": "Items",
+      "uses_menu_tab": true,
+      "enabled": true
+    },
+    "Students": {
+      "menu_location": "menu_students",
+      "grid_type": "Students",
+      "uses_menu_tab": false,
+      "enabled": true
+    },
+    "Student": {
+      "menu_location": "first_student",
+      "grid_type": "Student",
+      "uses_menu_tab": false,
+      "enabled": false
+    }
+  }
+}
