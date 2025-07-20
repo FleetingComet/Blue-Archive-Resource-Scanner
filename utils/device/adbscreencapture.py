@@ -1,9 +1,10 @@
 from threading import Lock, Thread
 import time
 from utils.device.adb_controller import ADBController
+from utils.screen.screenshot_provider import ScreenshotProvider
 
 
-class ADBScreenCapture:
+class ADBScreenCapture(ScreenshotProvider):
     """
     Real-time screenshot capture via ADB.
     It uses an ADBController instance to capture screenshots continuously in a separate thread.
@@ -35,6 +36,7 @@ class ADBScreenCapture:
     def run(self):
         """Continuously capture screenshots using the ADBController."""
         import logging
+
         logger = logging.getLogger("ADBScreenCapture")
         while not self.stopped:
             logger.debug("ADBScreenCapture: Calling capture_screenshot()...")
