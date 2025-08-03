@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 from utils.ocr.color_util import remove_colors
 
@@ -76,8 +77,11 @@ def preprocess_image_for_ocr(image, image_type=None):
 
     elif image_type == "name":  # single line label
         gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
+        gray = sharpen_image(gray)
+        gray = unsharp_mask(gray)
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         config = "--psm 7"
+        # config = "--psm 7 --oem 3 preserve_interword_spaces=1 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
         # config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
     elif image_type == "multi_line_name":  # multi line
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -88,3 +92,19 @@ def preprocess_image_for_ocr(image, image_type=None):
         config = "--psm 6 -c tessedit_char_whitelist=0123456789"
         # config += " --oem 3 --tessdata-dir ./tessdata -l BlueArchive"
     return binary, config
+
+
+def sharpen_image(image):
+    # Define a sharpening kernel
+    kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+    # Apply filter
+    sharpened = cv2.filter2D(image, -1, kernel)
+    return sharpened
+
+
+def unsharp_mask(image, alpha=1.5, beta=-0.5, gamma=0):
+    # Gaussian blur
+    blurred = cv2.GaussianBlur(image, (0, 0), sigmaX=3)
+    # Weighted sum
+    sharp = cv2.addWeighted(image, alpha, blurred, beta, gamma)
+    return sharp
