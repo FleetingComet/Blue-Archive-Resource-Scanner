@@ -23,25 +23,38 @@ class SearchPattern(Enum):
 
 
 class StudentSearchPattern(Enum):
-    STUDENT_NAME = Region(70, 550, 190, 35)
-    LEVEL = Region(30, 585, 50, 30)
+    # STUDENT_NAME = Region(70, 550, 190, 35) #working former
+    STUDENT_NAME = Region(65, 550, 185, 40)
+    # LEVEL = Region(30, 585, 50, 30) #working former
+    LEVEL = Region(30, 585, 45, 30)
 
     # At Level up tab
     # LEVEL = Region(760, 230, 90, 25)
     # EXP_BAR = Region(950, 230, 242, 25)
 
-    BOND_LEVEL = Region(40, 555, 30, 25)
+    # BOND_LEVEL = Region(40, 555, 30, 25) #working former
+    BOND_LEVEL = Region(30, 550, 35, 35)
     # BOND_LEVEL = Region(50, 555, 20, 25) # 
 
-    STAR_QUANTITY = Region(260, 560, 80, 30)
-    UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1030, 510, 60, 20) #Exclusive Weapon
-    UNIQUE_EQUIPMENT_LEVEL = Region(779, 455, 61, 21) #Exclusive Weapon Level
+    # STAR_QUANTITY = Region(260, 560, 80, 30)
+    STAR_QUANTITY = Region(250, 560, 90, 30)
+    # UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1030, 510, 60, 20) #Exclusive Weapon
+    UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1020, 510, 70, 20) #Exclusive Weapon
+    # UNIQUE_EQUIPMENT_LEVEL = Region(779, 455, 61, 21) #Exclusive Weapon Level
+    UNIQUE_EQUIPMENT_LEVEL = Region(775, 455, 61, 21) #Exclusive Weapon Level
 
-    GEAR_1_TIER = Region(686, 617, 20, 15)
-    GEAR_2_TIER = Region(779, 617, 20, 15)
-    GEAR_3_TIER = Region(872, 617, 20, 15)
+    GEAR_1_TIER = Region(676, 615, 29, 19)
+    GEAR_2_TIER = Region(770, 615, 29, 19)
+    GEAR_3_TIER = Region(864, 615, 29, 19)
     # GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
-    GEAR_BOND_TIER = Region(965, 617, 20, 15)
+    GEAR_BOND_TIER = Region(957, 615, 29, 19)
+
+    # !! Former working
+    # GEAR_1_TIER = Region(686, 617, 20, 15)
+    # GEAR_2_TIER = Region(779, 617, 20, 15)
+    # GEAR_3_TIER = Region(872, 617, 20, 15)
+    # # GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
+    # GEAR_BOND_TIER = Region(965, 617, 20, 15)
 
     # SKILL_EX = Region(686, 403, 86, 20) #
     SKILL_EX = Region(686, 402, 80, 20) #
