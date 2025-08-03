@@ -1,4 +1,7 @@
+import platform
+from typing import Any
 from utils.device.window_capture_mss import WindowCaptureMSS
+from utils.device.window_capture import WindowCapture
 from utils.screen.screenshot_provider import ScreenshotProvider
 
 # from utils.device.window_capture import WindowCapture
@@ -7,8 +10,9 @@ import time
 
 
 class DesktopScreenCapture(ScreenshotProvider):
+    
     def __init__(self, window_name=None, capture_interval=0.5):
-        self.window_capture = WindowCaptureMSS(window_name)
+        self.window_capture_backend = _get_window_capture_backend(window_name)
         self.capture_interval = capture_interval
         self.latest_screenshot = None
         self.lock = Lock()
@@ -30,7 +34,7 @@ class DesktopScreenCapture(ScreenshotProvider):
 
     def run(self):
         while not self.stopped:
-            img = self.window_capture.get_screenshot()
+            img = self.window_capture_backend.get_screenshot()
             with self.lock:
                 self.latest_screenshot = img
             time.sleep(self.capture_interval)
@@ -42,3 +46,10 @@ class DesktopScreenCapture(ScreenshotProvider):
                 if copy and self.latest_screenshot is not None
                 else self.latest_screenshot
             )
+        
+def _get_window_capture_backend(window_name: str) -> Any:
+    """Function that returns the right window capture backend."""
+    if platform.system() == "Windows":
+        return WindowCapture(window_name)
+    else:
+        return WindowCaptureMSS(window_name)

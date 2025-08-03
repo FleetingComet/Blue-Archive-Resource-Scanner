@@ -12,9 +12,11 @@ from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.ocr.text_util import is_close_to
 
 
-def extract_text(image, config="--psm 6 -c tessedit_char_whitelist=0123456789") -> str:
+def extract_text(image, config=None) -> str:
     """Extract text from preprocessed image"""
 
+    if config is None:
+        config = "--psm 6 -c tessedit_char_whitelist=0123456789"
     # Trained data
     # config += r" --tessdata-dir ./tessdata -l BlueArchive"
 
@@ -27,6 +29,7 @@ def extract_text(image, config="--psm 6 -c tessedit_char_whitelist=0123456789") 
 def crop_image(image, region: Region):
     """Crop the image to the specified region."""
     return image[region.y : region.bottom, region.x : region.right]
+
 
 def extract_from_region(image, region: Region, image_type=None):
     """
@@ -48,7 +51,7 @@ def extract_from_region(image, region: Region, image_type=None):
     """
 
     crop_img = crop_image(image, region)
-    
+
     if crop_img is None:
         return None
 
