@@ -1,75 +1,72 @@
-from ctypes import windll
 import numpy as np
 import win32gui
-import win32ui
-import win32con
-
+from windows_capture import WindowsCapture, Frame, InternalCaptureControl
 from area import Region, Size
 
 
 class WindowCapture:
-    def __init__(self, window_name=None):
+    def __init__(self, window_name: str):
         self.window_name = window_name
-        self.hwnd = win32gui.FindWindow(None, window_name) if window_name else None
-        if self.hwnd == 0:
-            raise Exception(f"Window not found: {window_name}")
+        self.hwnd = self._find_window()
 
-        self.update_window_bounds()
+        self.border = 8
+        self.titlebar = 30
+        self.full_region = self._get_window_region()
 
-    def update_window_bounds(self):
-        windll.user32.SetProcessDPIAware()
-        rect = win32gui.GetWindowRect(self.hwnd)
-        self.width = rect[2] - rect[0]
-        self.height = rect[3] - rect[1]
-        self.left = rect[0]
-        self.top = rect[1]
-
-        # account for the window border and titlebar and cut them off
-        border_pixels = 8
-        titlebar_pixels = 30
-        # Final game region (crop window chrome)
+        # Final client region (excluding border + titlebar)
         self.region = Region(
-            x=self.left + border_pixels,
-            y=self.top + titlebar_pixels,
-            width=self.width - (border_pixels * 2),
-            height=self.height - titlebar_pixels - border_pixels,
+            x=self.full_region.x + self.border,
+            y=self.full_region.y + self.titlebar,
+            width=self.full_region.width - (2 * self.border),
+            height=self.full_region.height - self.titlebar - self.border,
         )
 
+    def _find_window(self):
+        hwnd = win32gui.FindWindow(None, self.window_name)
+        if not hwnd:
+            raise RuntimeError(f"Window '{self.window_name}' not found.")
+        return hwnd
+
+    def _get_window_region(self):
+        l, t, r, b = win32gui.GetWindowRect(self.hwnd)
+        return Region(x=l, y=t, width=r - l, height=b - t)
+
     def get_screenshot(self) -> np.ndarray:
-        self.update_window_bounds()
+        capture = WindowsCapture(window_name=self.window_name)
+        result = {"frame": None}
 
-        hwindc = win32gui.GetWindowDC(self.hwnd)
-        srcdc = win32ui.CreateDCFromHandle(hwindc)
-        memdc = srcdc.CreateCompatibleDC()
+        @capture.event
+        def on_frame_arrived(frame: Frame, control: InternalCaptureControl):
+            img = frame.convert_to_bgr().frame_buffer
+            result["frame"] = img
+            control.stop()
 
-        bmp = win32ui.CreateBitmap()
-        bmp.CreateCompatibleBitmap(srcdc, self.width, self.height)
-        memdc.SelectObject(bmp)
+        @capture.event
+        def on_closed():
+            pass  # Required even if you don't use it
 
-        memdc.BitBlt((0, 0), (self.width, self.height), srcdc, (0, 0), win32con.SRCCOPY)
+        capture.start()
 
-        bmp_info = bmp.GetInfo()
-        bmp_data = bmp.GetBitmapBits(True)
+        if result["frame"] is None:
+            return np.zeros((self.region.height, self.region.width, 3), dtype=np.uint8)
 
-        img = np.frombuffer(bmp_data, dtype=np.uint8)
-        img = img.reshape((self.height, self.width, 4))  # BGRA format
+        # Optional: crop only to client area if needed
+        img = result["frame"]
+        offset_x = self.region.x - self.full_region.x
+        offset_y = self.region.y - self.full_region.y
 
-        srcdc.DeleteDC()
-        memdc.DeleteDC()
-        win32gui.ReleaseDC(self.hwnd, hwindc)
-        win32gui.DeleteObject(bmp.GetHandle())
-
-        return img[..., :3]  # Convert BGRA to BGR
+        return img[
+            offset_y : offset_y + self.region.height,
+            offset_x : offset_x + self.region.width,
+        ]
 
     def translate_from_base_resolution(
-        self, base_region: Region, base_resolution=Size(1280, 720)
+        self,
+        base_region: Region,
+        base_resolution: Size = Size(1280, 720),
     ) -> Region:
-        # No more subtraction here — region is already cropped
-        actual_width = self.region.width
-        actual_height = self.region.height
-
-        scale_x = actual_width / base_resolution.width
-        scale_y = actual_height / base_resolution.height
+        scale_x = self.region.width / base_resolution.width
+        scale_y = self.region.height / base_resolution.height
 
         return Region(
             x=int(base_region.x * scale_x),
