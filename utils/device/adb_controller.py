@@ -1,4 +1,6 @@
 import logging
+import os
+import platform
 import subprocess
 import threading
 import time
@@ -80,7 +82,17 @@ class ADBController:
         """
         logger = self.logger
         try:
-            command = f"adb -s {self.host}:{self.port} exec-out screencap -p"
+            # On Unix-like hosts, redirect screencap stderr into /dev/null to avoid
+            # malformed PNGs caused by stray stderr output (e.g. AMD GPU bug).
+            # Thanks to execv@discord
+            if (
+                platform.system() == "Windows"
+            ):  # Windows (NT-family) idk if os.name="nt" works
+                logger.debug("Windows (NT-family) detected")
+                command = f"adb -s {self.host}:{self.port} exec-out screencap -p"
+            else:
+                logger.debug("Unix-like system detected")
+                command = f"adb -s {self.host}:{self.port} exec-out 'screencap -p 2>/dev/null'"
             logger.debug(f"ADBController: Running command: {command}")
             result = subprocess.run(
                 command, shell=True, capture_output=True, text=False, timeout=8

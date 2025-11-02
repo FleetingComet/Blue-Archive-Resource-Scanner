@@ -19,7 +19,8 @@ class Config:
     ASSETS_DIR = BASE_DIR / "assets"
     OUTPUT_DIR = BASE_DIR / "output"
     INPUT_DIR = BASE_DIR / "input"
-    OWNED_DIR = BASE_DIR / OUTPUT_DIR / "owned"
+
+    OWNED_DIR = OUTPUT_DIR / "owned"
     SCREENSHOTS_DIR = BASE_DIR / "screenshots"
     SCREENSHOT_FILENAME = "latest_screenshot.png"
     SCREENSHOT_PATH = SCREENSHOTS_DIR / SCREENSHOT_FILENAME
@@ -31,9 +32,9 @@ class Config:
     }
 
     PROCESSED_DATA: ProcessedDataDict = {
-        "equipment": ASSETS_DIR / "data/equipment_processed.json",
-        "items": ASSETS_DIR / "data/items_processed.json",
-        "students": ASSETS_DIR / "data/students_processed.json",
+        "equipment": ASSETS_DIR / "data" / "equipment_processed.json",
+        "items": ASSETS_DIR / "data" / "items_processed.json",
+        "students": ASSETS_DIR / "data" / " students_processed.json",
     }
 
     @classmethod
