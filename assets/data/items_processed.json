@@ -604,6 +604,22 @@
         "name": "Superior Tactical Training Blu-ray (Highlander)"
     },
     {
+        "id": 3100,
+        "name": "Beginner Tactical Training Blu-ray (Wildhunt)"
+    },
+    {
+        "id": 3101,
+        "name": "Normal Tactical Training Blu-ray (Wildhunt)"
+    },
+    {
+        "id": 3102,
+        "name": "Advanced Tactical Training Blu-ray (Wildhunt)"
+    },
+    {
+        "id": 3103,
+        "name": "Superior Tactical Training Blu-ray (Wildhunt)"
+    },
+    {
         "id": 4000,
         "name": "Beginner Tech Notes (Hyakkiyako)"
     },
@@ -762,6 +778,22 @@
     {
         "id": 4093,
         "name": "Superior Tech Notes (Highlander)"
+    },
+    {
+        "id": 4100,
+        "name": "Beginner Tech Notes (Wildhunt)"
+    },
+    {
+        "id": 4101,
+        "name": "Normal Tech Notes (Wildhunt)"
+    },
+    {
+        "id": 4102,
+        "name": "Advanced Tech Notes (Wildhunt)"
+    },
+    {
+        "id": 4103,
+        "name": "Superior Tech Notes (Wildhunt)"
     },
     {
         "id": 5000,
@@ -1433,11 +1465,11 @@
     },
     {
         "id": 10111,
-        "name": "Neru (Uniform)'s Eleph"
+        "name": "Neru (School)'s Eleph"
     },
     {
         "id": 10112,
-        "name": "Asuna (Uniform)'s Eleph"
+        "name": "Asuna (School)'s Eleph"
     },
     {
         "id": 10113,
@@ -1445,7 +1477,7 @@
     },
     {
         "id": 10114,
-        "name": "Juri (Part-time Job)'s Eleph"
+        "name": "Juri (Part-Timer)'s Eleph"
     },
     {
         "id": 10115,
@@ -1466,6 +1498,46 @@
     {
         "id": 10119,
         "name": "Nagusa's Eleph"
+    },
+    {
+        "id": 10120,
+        "name": "Natsu (Band)'s Eleph"
+    },
+    {
+        "id": 10121,
+        "name": "Yukari (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 10122,
+        "name": "Mika (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 10123,
+        "name": "Seia (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 10124,
+        "name": "Hasumi (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 10125,
+        "name": "Eri's Eleph"
+    },
+    {
+        "id": 10126,
+        "name": "Kanoe's Eleph"
+    },
+    {
+        "id": 10127,
+        "name": "Miyo's Eleph"
+    },
+    {
+        "id": 10128,
+        "name": "Fuyu's Eleph"
+    },
+    {
+        "id": 10129,
+        "name": "Suzumi (Magical)'s Eleph"
     },
     {
         "id": 13000,
@@ -1522,6 +1594,10 @@
     {
         "id": 13013,
         "name": "Momiji's Eleph"
+    },
+    {
+        "id": 13014,
+        "name": "Renge (Swimsuit)'s Eleph"
     },
     {
         "id": 16000,
@@ -1594,6 +1670,10 @@
     {
         "id": 16017,
         "name": "Aoba's Eleph"
+    },
+    {
+        "id": 16018,
+        "name": "Rabu's Eleph"
     },
     {
         "id": 20000,
@@ -1773,7 +1853,7 @@
     },
     {
         "id": 20044,
-        "name": "Sumire (Part-time Job)'s Eleph"
+        "name": "Sumire (Part-Timer)'s Eleph"
     },
     {
         "id": 20045,
@@ -1782,6 +1862,26 @@
     {
         "id": 20046,
         "name": "Niya's Eleph"
+    },
+    {
+        "id": 20047,
+        "name": "Kikyou (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 20048,
+        "name": "Nagisa (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 20049,
+        "name": "Misaki (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 20050,
+        "name": "Ritsu's Eleph"
+    },
+    {
+        "id": 20051,
+        "name": "Reisa (Magical)'s Eleph"
     },
     {
         "id": 23000,
@@ -1877,7 +1977,11 @@
     },
     {
         "id": 26014,
-        "name": "Karin (Uniform)'s Eleph"
+        "name": "Karin (School)'s Eleph"
+    },
+    {
+        "id": 26015,
+        "name": "Ichika (Swimsuit)'s Eleph"
     },
     {
         "id": 80000,
@@ -2545,87 +2649,195 @@
     },
     {
         "id": 80520,
-        "name": "妖怪MAX梅干し味"
+        "name": "Frenzy MAX Umeboshi"
     },
     {
         "id": 80521,
-        "name": "ふかふか枕"
+        "name": "Fluffy Pillow"
     },
     {
         "id": 80522,
-        "name": "新弾カードパック"
+        "name": "New Card Pack"
     },
     {
         "id": 80523,
-        "name": "BOOM：クラシックコレクション"
+        "name": "BOOM: Classic Edition"
     },
     {
         "id": 80540,
-        "name": "イベントPt"
+        "name": "Event Points"
     },
     {
         "id": 80541,
-        "name": "EXPO記念品"
+        "name": "Expo Souvenir"
     },
     {
         "id": 80542,
-        "name": "誰かの忘れ物"
+        "name": "Someone's Lost Item"
     },
     {
         "id": 80560,
-        "name": "バレンタインスタンプ"
+        "name": "Valentine Stamp"
     },
     {
         "id": 80561,
-        "name": "バレンタインデーのお誘い"
+        "name": "Valentine's Day Outing Pass"
     },
     {
         "id": 80570,
-        "name": "パフェ交換券"
+        "name": "Parfait Exchange Ticket"
     },
     {
         "id": 80571,
-        "name": "試食用パンケーキ"
+        "name": "Pancake Sample"
     },
     {
         "id": 80572,
-        "name": "救急医学部の特製薬"
+        "name": "Medical Emergency Club Remedy"
     },
     {
         "id": 80573,
-        "name": "使い切りタイプの洗剤"
+        "name": "Single-Use Detergent"
     },
     {
         "id": 80590,
-        "name": "イベントPt"
+        "name": "Event Points"
     },
     {
         "id": 80591,
-        "name": "応援バルーン"
+        "name": "Thundersticks"
     },
     {
         "id": 80592,
-        "name": "プロテインドリンク"
+        "name": "Protein Drink"
     },
     {
         "id": 80593,
-        "name": "抽選券"
+        "name": "Prize Raffle Ticket"
     },
     {
         "id": 80600,
-        "name": "ハイランダー記念ステッカー"
+        "name": "Highlander Sticker"
     },
     {
         "id": 80601,
-        "name": "貨物列車の路線図"
+        "name": "Freight Train Route Guide"
     },
     {
         "id": 80602,
-        "name": "謎の積荷"
+        "name": "Mysterious Cargo"
     },
     {
         "id": 80603,
-        "name": "鉄パイプ"
+        "name": "Pipe Wrench"
+    },
+    {
+        "id": 80630,
+        "name": "木彫り人形（ユカリ）"
+    },
+    {
+        "id": 80631,
+        "name": "木彫り人形（ナグサ）"
+    },
+    {
+        "id": 80632,
+        "name": "木彫り人形（キキョウ）"
+    },
+    {
+        "id": 80633,
+        "name": "木彫り人形（レンゲ）"
+    },
+    {
+        "id": 80650,
+        "name": "正義実現委員会の腕章"
+    },
+    {
+        "id": 80651,
+        "name": "特上角砂糖"
+    },
+    {
+        "id": 80652,
+        "name": "トリニティスペシャルケーキ"
+    },
+    {
+        "id": 80653,
+        "name": "山海経茶園の銘茶"
+    },
+    {
+        "id": 80654,
+        "name": "プライベートビーチのパンフレット"
+    },
+    {
+        "id": 80660,
+        "name": "エリのタロットカード"
+    },
+    {
+        "id": 80661,
+        "name": "カノエのホットチョコ"
+    },
+    {
+        "id": 80662,
+        "name": "ツムギの楽譜"
+    },
+    {
+        "id": 80663,
+        "name": "レナの糸巻き"
+    },
+    {
+        "id": 80665,
+        "name": "サイコロ1確定券"
+    },
+    {
+        "id": 80666,
+        "name": "サイコロ2確定券"
+    },
+    {
+        "id": 80667,
+        "name": "サイコロ3確定券"
+    },
+    {
+        "id": 80668,
+        "name": "サイコロ4確定券"
+    },
+    {
+        "id": 80669,
+        "name": "サイコロ5確定券"
+    },
+    {
+        "id": 80670,
+        "name": "サイコロ6確定券"
+    },
+    {
+        "id": 80680,
+        "name": "ショップカード"
+    },
+    {
+        "id": 80681,
+        "name": "絵の具"
+    },
+    {
+        "id": 80682,
+        "name": "大理石キューブ"
+    },
+    {
+        "id": 80683,
+        "name": "ブックバンド"
+    },
+    {
+        "id": 80700,
+        "name": "イベントPt"
+    },
+    {
+        "id": 80701,
+        "name": "遊園地チケット"
+    },
+    {
+        "id": 80702,
+        "name": "ポップコーンバケット"
+    },
+    {
+        "id": 80703,
+        "name": "ボーダーランドコイン"
     },
     {
         "id": 100000,
@@ -2797,7 +3009,7 @@
     },
     {
         "id": 150045,
-        "name": "T9装備設計図選択ボックス"
+        "name": "T9 Equipment Blueprint Choice Box"
     },
     {
         "id": 151000,
@@ -2877,11 +3089,19 @@
     },
     {
         "id": 151019,
-        "name": "ミレニアムタワーラウンジシリーズ選択ボックス"
+        "name": "Millennium Tower Lounge Furniture Choice Box"
     },
     {
         "id": 151020,
-        "name": "ハイランダー列車シリーズ選択ボックス"
+        "name": "Highlander Train Furniture Choice Box"
+    },
+    {
+        "id": 151021,
+        "name": "ティーパーティーシリーズ選択ボックス"
+    },
+    {
+        "id": 151022,
+        "name": "ワイルドハントキャンパスシリーズ選択ボックス"
     },
     {
         "id": 151991,
@@ -3529,11 +3749,19 @@
     },
     {
         "id": 191019,
-        "name": "ミレニアムタワーラウンジシリーズ抽選ボックス"
+        "name": "Millennium Tower Lounge Furniture Raffle Box"
     },
     {
         "id": 191020,
-        "name": "ハイランダー列車シリーズ抽選ボックス"
+        "name": "Highlander Train Furniture Raffle Box"
+    },
+    {
+        "id": 191021,
+        "name": "ティーパーティーシリーズ抽選ボックス"
+    },
+    {
+        "id": 191022,
+        "name": "ワイルドハントキャンパスシリーズ抽選ボックス"
     },
     {
         "id": 191991,
@@ -3613,7 +3841,11 @@
     },
     {
         "id": 20000013,
-        "name": "チセにゃん人形"
+        "name": "Chise Doll"
+    },
+    {
+        "id": 20000014,
+        "name": "アリウス生徒手帳"
     },
     {
         "id": 20001000,
@@ -3622,5 +3854,9 @@
     {
         "id": 20001001,
         "name": "Mug of Coffee"
+    },
+    {
+        "id": 20002000,
+        "name": "Handmade Roll Cake"
     }
 ]

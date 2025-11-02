@@ -1,8 +1,9 @@
-from email.mime import base
 from pathlib import Path
 from config import Config
 import hashlib
 import requests
+import time
+from typing import Dict, Optional
 
 
 class DataSyncManager:
@@ -41,27 +42,53 @@ class DataSyncManager:
             "https://raw.githubusercontent.com/FleetingComet/BA-Scanner-Data/main/data"
         )
 
-        online_urls = {
+        default_online_urls = {
             "equipment": f"{base_url}/equipment.json",
             "items": f"{base_url}/items.json",
             "students": f"{base_url}/students.json",
         }
-        for key, url in online_urls.items():
+
+        # Allow caller to provide their own mapping via attribute or use defaults
+        remote_sources = getattr(self, "remote_sources", default_online_urls)
+
+        for key, url in remote_sources.items():
             local_path = Path(Config.PROCESSED_DATA[key])
-            try:
-                response = requests.get(url, timeout=5)
-                if response.ok:
-                    online_content = response.content
-                    if self.is_same_content(local_path, online_content):
-                        print(f"[Config] Local {key} cache is up to date.")
+            tmp_path = local_path.with_suffix(local_path.suffix + ".tmp")
+
+            # Try downloading with retries
+            retries = getattr(self, "retries", 3)
+            retry_backoff = getattr(self, "retry_backoff", 1.0)
+            last_exc: Optional[Exception] = None
+            for attempt in range(1, retries + 1):
+                try:
+                    response = requests.get(url, timeout=6)
+                    response.raise_for_status()
+                    content = response.content
+
+                    # Compare and write atomically if different
+                    if self.is_same_content(local_path, content):
+                        print(f"[DataSync] Local {key} is up to date.")
                     else:
-                        self.write_file(local_path, online_content)
-                        print(f"[Config] Updated local {key} cache from online.")
-                else:
+                        tmp_path.parent.mkdir(parents=True, exist_ok=True)
+                        with open(tmp_path, "wb") as fh:
+                            fh.write(content)
+                        tmp_path.replace(local_path)
+                        print(f"[DataSync] Updated local {key} from {url}")
+                    last_exc = None
+                    break
+                except requests.RequestException as exc:
+                    last_exc = exc
+                    wait = retry_backoff * attempt
                     print(
-                        f"[Config] Online {key} data not available (status={response.status_code}), using local file {local_path}"
+                        f"[DataSync] Attempt {attempt} failed for {key} ({exc}), retrying in {wait}s"
                     )
-            except Exception as e:
+                    time.sleep(wait)
+                except Exception as exc:
+                    last_exc = exc
+                    print(f"[DataSync] Unexpected error updating {key}: {exc}")
+                    break
+
+            if last_exc is not None:
                 print(
-                    f"[Config] Could not fetch online {key} data: {e}. Using local file {local_path}"
+                    f"[DataSync] Failed to update {key} after {retries} attempts. Using local {local_path}"
                 )

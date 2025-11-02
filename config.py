@@ -2,6 +2,7 @@ from pathlib import Path
 
 from typed_dict import MergerDict, OutputFilesDict, OwnedDict, ProcessedDataDict
 
+
 class Config:
     # ADB Settings
     ADB_HOST = "localhost"
@@ -10,8 +11,11 @@ class Config:
     # increase this if your device is laggy (eg. 1.1 or 1.8 or 2)
     WAIT_TIME_MULTIPLIER: float = 1.0
 
+    # Multiplier specifically for screen navigation delays (use for slower screen loads)
+    SCREEN_NAV_MULTIPLIER: float = 3.0
+
     CAPTURE_INTERVAL: float = 0.5  # seconds between captures
-    
+
     ADB_RETRIES: int = 3  # Retries the connection up to retries times (default 3).
 
     # Base Directories
