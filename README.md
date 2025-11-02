@@ -26,7 +26,7 @@ To use the Blue Archive Resources Scanner, ensure you have the following install
 1. Clone the repository:
    ```bash
    git clone https://github.com/FleetingComet/BA-Scanner.git
-   cd blue-archive-scanner
+   cd BA-Scanner
    ```
 2. Install the required Python packages (please use venv or something similar):
    ```bash
@@ -54,12 +54,14 @@ ADB_PORT = 16384  # Default Mumu port
 WAIT_TIME_MULTIPLIER: float = 1.0
 CAPTURE_INTERVAL: float = 0.5  # seconds between captures
 ADB_RETRIES: int = 3  # Retries the ADB connection up to retries times (default 3).
+SCREEN_NAV_MULTIPLIER: float = 3.0 # Multiplier specifically for screen navigation delays (use for slower screen loads)
 
 ```
+## Documentation
 
-Also, follow these sections from the [AzurLaneAutoScript Wiki](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki) for further configuration:
-- [Configure Emulator](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en#configure-emulator)
-- [Configure Alas](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en#configure-alas) (to get the serial values for ADB_HOST and ADB_PORT)
+See the docs index for quick links to user and developer guides:
+
+- [`docs/REFERENCE.md`](docs/REFERENCE.md)
 
 Modify the values in the [`config.py`](config.py) as needed, then proceed with the steps below.
 
@@ -109,16 +111,17 @@ To merge the converted data into your existing Justin Planner export:
 ### Current Checklist:
 
 - Read more resources (some of them needs modification, their [Search Region](src/locations/search.py) are already defined)
-  - [ ] Fix Student Renge not being detected
+  - [x] Fix Student Renge not being detected
   - [x] Credits
   - [x] Pyroxene
   - [x] Items Page
   - [x] Student stats
       - [x] Skill levels (eg.: M/M/7/8)
       - [x] Unique Equipment level (is UE50? or something)
+      - [ ] UE60 etc...
 - [ ] Different Resolution (also remove bars)
-- [ ] Make screen capturing faster
-- [y] More accurate and faster data reading
+- [x] Make screen capturing faster
+- [x] More accurate and faster data reading
 
 Note: "y" for half completed
 <!-- - [ ] Comet Haley -->
@@ -127,7 +130,7 @@ Note: "y" for half completed
 ### Future Plans:
   - Expand support for different resolutions (with bars and notch).
   - Make the tool more efficient and user-friendly.
-  - Support other platforms (Linux and such)
+  - Support other platforms (Linux) (someone tested it using waydroid)
     - Develop an Android app for convenient usage (using Kotlin, pls help I have skill issue).
 
 ---
@@ -152,3 +155,4 @@ I welcome contributions to enhance the Blue Archive Resources Scanner. Please op
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+---
