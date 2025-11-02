@@ -76,3 +76,6 @@ For more details on managing location and region coordinates, refer to this guid
 **Note**: 1440p or any other resolution is not supported yet, so the step doubling the values is unnecessary for now.  
 
 ---
+
+# Handling Screen Navigation
+Developer-specific screen navigation details are available at [`docs/dev/ScreenNavigationReference.md`](docs/dev/ScreenNavigationReference.md) in this repository.
