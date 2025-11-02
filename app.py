@@ -1,6 +1,5 @@
-import time
-
 from config import Config
+import argparse
 from screen_navigator import ScreenNavigator
 from screen_state import ScreenState
 from utils.device.adb_controller import ADBController
@@ -13,7 +12,14 @@ from utils.sync.data_sync_manager import DataSyncManager
 
 
 def main():
-    path_init()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--offline", action="store_true", help="Skip data sync and any network calls"
+    )
+    args = parser.parse_args()
+
+    path_init(skip_sync=args.offline)
+
     # device connected (not emu) example:
     # adb_controller = ADBController(host="192.168.254.156", port=5037)
     # Mumu Emulator is the default
@@ -45,12 +51,20 @@ def main():
     StudentProcessor().process()
 
 
-def path_init():
+def path_init(skip_sync: bool = False):
     Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     Config.INPUT_DIR.mkdir(parents=True, exist_ok=True)
     Config.OWNED_DIR.mkdir(parents=True, exist_ok=True)
     Config.SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
-    DataSyncManager().update_from_online()
+
+    # By default attempt to update processed data from online sources.
+    # The caller can pass skip_sync=True to avoid network calls (used by --offline).
+    if not skip_sync:
+        try:
+            DataSyncManager().update_from_online()
+        except Exception:
+            # Non-fatal: don't block startup if sync fails
+            pass
 
 
 def mainpage(navigator: ScreenNavigator):

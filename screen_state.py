@@ -5,6 +5,7 @@ from config import Config
 from screen_navigator import ScreenNavigator
 from scanner import get_currencies, get_student_info, startMatching
 
+
 class ScreenState:
     """
     A state machine that manages screen navigation and triggers
@@ -51,7 +52,7 @@ class ScreenState:
         menu_location = screen_data["menu_location"]
         grid_type = screen_data["grid_type"]
         uses_menu = screen_data["uses_menu_tab"]
-        
+
         # Menu-free screens (like "Students" or "Student") require going Home.
         if not uses_menu:
             self.navigator.go_home()
@@ -150,11 +151,11 @@ class ScreenState:
         if not ignore_page_check and self.navigator.at_page():
             print("🔁 Currently on a page. Returning Home before proceeding...")
             self.navigator.go_home()
-            time.sleep(5.0 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(5.0 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)
 
         # Proceed to target screen
         print(f"➡️ Tapping button for {menu_location}...")
-        time.sleep(2.0 * Config.WAIT_TIME_MULTIPLIER)
+        time.sleep(2.0 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)
 
         self.navigator.go_to_page(location=menu_location, in_menu_tab=in_menu_tab)
-        time.sleep(5.0 * Config.WAIT_TIME_MULTIPLIER)
+        time.sleep(5.0 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)

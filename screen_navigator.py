@@ -77,7 +77,7 @@ class ScreenNavigator:
         button = self.determine_button("home")
         if button:
             self.adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)
 
     def go_to_page(self, location: str, in_menu_tab=True):
         """
@@ -98,7 +98,7 @@ class ScreenNavigator:
         """
         current_state = self.is_menu_tab_open()
         target_state = in_menu_tab
-        sleep_duration = Config.WAIT_TIME_MULTIPLIER * 1.0
+        sleep_duration = Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER * 1.0
         if current_state == target_state:
             return
         action = "Opening" if target_state else "Closing"
@@ -120,7 +120,7 @@ class ScreenNavigator:
         button = self.determine_button("menu")
         if button:
             self.adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)
             return
 
     def is_menu_tab_open(self) -> bool:

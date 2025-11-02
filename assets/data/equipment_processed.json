@@ -237,7 +237,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_hat_tier10",
-        "name": "ゲーミングヘルメット"
+        "name": "Gaming Helmet"
     },
     {
         "id": 2000,
@@ -317,7 +317,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_gloves_tier10",
-        "name": "スーパーグローブ"
+        "name": "Super Gloves"
     },
     {
         "id": 3000,
@@ -397,7 +397,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_shoes_tier10",
-        "name": "ゲーミングスリッパ"
+        "name": "Gaming Slippers"
     },
     {
         "id": 4000,
@@ -477,7 +477,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_bag_tier10",
-        "name": "メタルケース"
+        "name": "Metal Case"
     },
     {
         "id": 5000,
@@ -557,7 +557,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_badge_tier10",
-        "name": "コインバッジ"
+        "name": "Coin Badge"
     },
     {
         "id": 6000,
@@ -637,7 +637,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_hairpin_tier10",
-        "name": "電磁波カットヘアピン"
+        "name": "EMF Protection Hairpin"
     },
     {
         "id": 7000,
@@ -712,6 +712,14 @@
         "name": "Shark Teeth Amulet"
     },
     {
+        "id": 7009,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 10,
+        "icon": "equipment_icon_charm_tier10",
+        "name": "キーキャップトイ"
+    },
+    {
         "id": 8000,
         "category": "Watch",
         "rarity": "N",
@@ -782,6 +790,14 @@
         "tier": 9,
         "icon": "equipment_icon_watch_tier9",
         "name": "Diver Watch"
+    },
+    {
+        "id": 8009,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 10,
+        "icon": "equipment_icon_watch_tier10",
+        "name": "スクリーンウォッチ"
     },
     {
         "id": 9000,
@@ -856,6 +872,14 @@
         "name": "Octopus Holder"
     },
     {
+        "id": 9009,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 10,
+        "icon": "equipment_icon_necklace_tier10",
+        "name": "メモリネックレス"
+    },
+    {
         "id": 101001,
         "category": "Hat",
         "rarity": "N",
@@ -925,7 +949,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_hat_tier10_piece",
-        "name": "ゲーミングヘルメットの設計図"
+        "name": "Gaming Helmet Blueprint"
     },
     {
         "id": 102001,
@@ -997,7 +1021,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_gloves_tier10_piece",
-        "name": "スーパーグローブの設計図"
+        "name": "Super Gloves Blueprint"
     },
     {
         "id": 103001,
@@ -1069,7 +1093,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_shoes_tier10_piece",
-        "name": "ゲーミングスリッパの設計図"
+        "name": "Gaming Slippers Blueprint"
     },
     {
         "id": 104001,
@@ -1141,7 +1165,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_bag_tier10_piece",
-        "name": "メタルケースの設計図"
+        "name": "Metal Case Blueprint"
     },
     {
         "id": 105001,
@@ -1213,7 +1237,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_badge_tier10_piece",
-        "name": "コインバッジの設計図"
+        "name": "Coin Badge Blueprint"
     },
     {
         "id": 106001,
@@ -1285,7 +1309,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_hairpin_tier10_piece",
-        "name": "電磁波カットヘアピンの設計図"
+        "name": "EMF Protection Hairpin Blueprint"
     },
     {
         "id": 107001,
@@ -1352,6 +1376,14 @@
         "name": "Shark Teeth Amulet Blueprint"
     },
     {
+        "id": 107009,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 10,
+        "icon": "equipment_icon_charm_tier10_piece",
+        "name": "キーキャップトイの設計図"
+    },
+    {
         "id": 108001,
         "category": "Watch",
         "rarity": "N",
@@ -1416,6 +1448,14 @@
         "name": "Diver Watch Blueprint"
     },
     {
+        "id": 108009,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 10,
+        "icon": "equipment_icon_watch_tier10_piece",
+        "name": "スクリーンウォッチの設計図"
+    },
+    {
         "id": 109001,
         "category": "Necklace",
         "rarity": "N",
@@ -1478,5 +1518,13 @@
         "tier": 9,
         "icon": "equipment_icon_necklace_tier9_piece",
         "name": "Octopus Holder Blueprint"
+    },
+    {
+        "id": 109009,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 10,
+        "icon": "equipment_icon_necklace_tier10_piece",
+        "name": "メモリネックレスの設計図"
     }
 ]
