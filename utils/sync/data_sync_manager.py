@@ -1,4 +1,5 @@
 from email.mime import base
+from pathlib import Path
 from config import Config
 import hashlib
 import requests
@@ -14,7 +15,7 @@ class DataSyncManager:
         """
         Check if the file at file_path has the same content as new_bytes.
         """
-        if not file_path.exists():
+        if not Path(file_path).exists():
             return False
         with open(file_path, "rb") as f:
             local_content = f.read()
@@ -33,7 +34,7 @@ class DataSyncManager:
     def update_from_online(self):
         """
         Try to update local processed data files from online sources if available and different.
-        If online is not available, fallback to local file. Uses the online URL for this session if successful.
+        If online is not available, fallback to local file.
         """
 
         base_url = (
@@ -46,7 +47,7 @@ class DataSyncManager:
             "students": f"{base_url}/students.json",
         }
         for key, url in online_urls.items():
-            local_path = Config.PROCESSED_DATA[key]
+            local_path = Path(Config.PROCESSED_DATA[key])
             try:
                 response = requests.get(url, timeout=5)
                 if response.ok:
@@ -56,10 +57,9 @@ class DataSyncManager:
                     else:
                         self.write_file(local_path, online_content)
                         print(f"[Config] Updated local {key} cache from online.")
-                    Config.swap_processed_data(key, url)
                 else:
                     print(
-                        f"[Config] Online {key} data not available, using local file {local_path}"
+                        f"[Config] Online {key} data not available (status={response.status_code}), using local file {local_path}"
                     )
             except Exception as e:
                 print(
