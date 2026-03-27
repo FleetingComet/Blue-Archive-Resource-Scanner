@@ -962,5 +962,57 @@
     {
         "id": 16018,
         "name": "Rabu"
+    },
+    {
+        "id": 10130,
+        "name": "Subaru"
+    },
+    {
+        "id": 10131,
+        "name": "Takane"
+    },
+    {
+        "id": 20052,
+        "name": "Yakumo"
+    },
+    {
+        "id": 10132,
+        "name": "Tsukuyo (Dress)"
+    },
+    {
+        "id": 20053,
+        "name": "Michiru (Dress)"
+    },
+    {
+        "id": 10133,
+        "name": "Rio (Armed)"
+    },
+    {
+        "id": 16019,
+        "name": "Toki (Armed)"
+    },
+    {
+        "id": 20054,
+        "name": "Himari (Armed)"
+    },
+    {
+        "id": 10134,
+        "name": "Aris (Armed)"
+    },
+    {
+        "id": 10135,
+        "name": "Kei"
+    },
+    {
+        "id": 10136,
+        "name": "Eimi (Armed)"
+    },
+    {
+        "id": 20055,
+        "name": "Yuzu (Armed)"
+    },
+    {
+        "id": 20056,
+        "name": "Koyuki (Pajamas)"
     }
 ]
