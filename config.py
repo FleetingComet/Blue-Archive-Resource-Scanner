@@ -1,92 +1,91 @@
 from pathlib import Path
+import json
 
-from typed_dict import MergerDict, OutputFilesDict, OwnedDict, ProcessedDataDict
+# from typed_dict import MergerDict, OutputFilesDict, OwnedDict, ProcessedDataDict
+from pydantic import BaseModel
+
+
+class UserSettings(BaseModel):
+    # ADB Settings
+    adb_host: str = "127.0.0.1"  # or "localhost"
+    adb_port: int = 16384  # Default MuMu Player 12 port
+
+    # increase this if your device is laggy (eg. 1.1 or 1.8 or 2)
+    wait_multiplier: float = 1.0
+    # Multiplier specifically for screen navigation delays (use for slower screen loads)
+    screen_nav_multiplier: float = 3.0
+    capture_interval: float = 0.5  # seconds between captures
+    offline_mode: bool = False
+    target_platform: str = "emulator"  # emulator, desktop, device
+
+    # ADB_RETRIES: int = 3  # Retries the connection up to retries times (default 3).
 
 
 class Config:
-    # ADB Settings
-    ADB_HOST = "localhost"
-    ADB_PORT = 16384  # Default MuMu Player 12 port
-
-    # increase this if your device is laggy (eg. 1.1 or 1.8 or 2)
-    WAIT_TIME_MULTIPLIER: float = 1.0
-
-    # Multiplier specifically for screen navigation delays (use for slower screen loads)
-    SCREEN_NAV_MULTIPLIER: float = 3.0
-
-    CAPTURE_INTERVAL: float = 0.5  # seconds between captures
-
-    ADB_RETRIES: int = 3  # Retries the connection up to retries times (default 3).
-
-    # Base Directories
+    # --- Directories ---
     BASE_DIR = Path(__file__).parent
     ASSETS_DIR = BASE_DIR / "assets"
     OUTPUT_DIR = BASE_DIR / "output"
-    INPUT_DIR = BASE_DIR / "input"
+    CONFIG_DIR = BASE_DIR / "config"
+    LOGS_DIR = BASE_DIR / "logs"
 
-    OWNED_DIR = OUTPUT_DIR / "owned"
-    SCREENSHOTS_DIR = BASE_DIR / "screenshots"
-    SCREENSHOT_FILENAME = "latest_screenshot.png"
-    SCREENSHOT_PATH = SCREENSHOTS_DIR / SCREENSHOT_FILENAME
+    def __init__(self):
+        # Ensure directories exist
+        for dir_path in [self.OUTPUT_DIR, self.CONFIG_DIR, self.LOGS_DIR]:
+            dir_path.mkdir(parents=True, exist_ok=True)
 
-    OWNED: OwnedDict = {
-        "counts": OWNED_DIR / "scanned_counts.json",
-        "students": OWNED_DIR / "scanned_students.json",
-        "currencies": OWNED_DIR / "scanned_currencies.json",
-    }
+        self.settings = self.load_settings()
 
-    PROCESSED_DATA: ProcessedDataDict = {
-        "equipment": ASSETS_DIR / "data" / "equipment_processed.json",
-        "items": ASSETS_DIR / "data" / "items_processed.json",
-        "students": ASSETS_DIR / "data" / " students_processed.json",
-    }
+        # Map settings to class attributes for backward compatibility with utils
+        self.ADB_HOST = self.settings.adb_host
+        self.ADB_PORT = self.settings.adb_port
+        self.WAIT_TIME_MULTIPLIER = self.settings.wait_multiplier
+        self.SCREEN_NAV_MULTIPLIER = self.settings.screen_nav_multiplier
+        self.CAPTURE_INTERVAL = self.settings.capture_interval
+        self.ADB_RETRIES = 3
 
-    @classmethod
-    def swap_processed_data(cls, key: str, new_value):
-        """
-        Swap the value for a given key in PROCESSED_DATA at runtime.
-        Example: Config.swap_processed_data('equipment', '/new/path/to/equipment.json')
-        """
-        if key in cls.PROCESSED_DATA:
-            cls.PROCESSED_DATA[key] = new_value
-        else:
-            raise KeyError(f"Key '{key}' not found in PROCESSED_DATA.")
+        # File Paths
+        self.SCREENSHOTS_DIR = self.BASE_DIR / "screenshots"
+        self.SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
+        self.SCREENSHOT_PATH = self.SCREENSHOTS_DIR / "latest_screenshot.png"
 
-    OUTPUT_FILES: OutputFilesDict = {
-        "equipment": OUTPUT_DIR / "equipment_final_values.json",
-        "items": OUTPUT_DIR / "items_final_values.json",
-        "students": OUTPUT_DIR / "students_final_values.json",
-        # Take all 3 above and construct them according to justin planner data structure
-        # planning to support other tools in the future
-        "converter_justin": OUTPUT_DIR / "converted_to_justin_planner.json",
-        "merger": OUTPUT_DIR / "justin_data_final.json",
-    }
+        self.OWNED_DIR = self.OUTPUT_DIR / "owned"
+        self.OWNED_DIR.mkdir(parents=True, exist_ok=True)
 
-    MERGER: MergerDict = {
-        "input": OUTPUT_DIR / "converted_to_justin_planner.json",
-        "to_file": INPUT_DIR / "justin_data.json",
-        "output": OUTPUT_DIR / "justin_data_final.json",
-    }
+        self.OWNED = {
+            "counts": self.OWNED_DIR / "scanned_counts.json",
+            "students": self.OWNED_DIR / "scanned_students.json",
+            "currencies": self.OWNED_DIR / "scanned_currencies.json",
+        }
 
-    # # File paths for data handling
-    # OWNED_COUNTS_FILE = "output/owned/scanned_counts.json"
-    # OWNED_STUDENTS_FILE = "output/owned/scanned_students.json"
-    # OWNED_CURRENCIES_FILE = "output/owned/scanned_currencies.json"
+        self.PROCESSED_DATA = {
+            "equipment": self.ASSETS_DIR / "data" / "equipment_processed.json",
+            "items": self.ASSETS_DIR / "data" / "items_processed.json",
+            "students": self.ASSETS_DIR / "data" / "students_processed.json",
+        }
 
-    # EQUIPMENT_PROCESSED_FILE = "assets/data/equipment_processed.json"
-    # ITEMS_PROCESSED_FILE = "assets/data/items_processed.json"
-    # STUDENTS_PROCESSED_FILE = "assets/data/students_processed.json"
+        self.OUTPUT_FILES = {
+            "equipment": self.OUTPUT_DIR / "equipment_final_values.json",
+            "items": self.OUTPUT_DIR / "items_final_values.json",
+            "students": self.OUTPUT_DIR / "students_final_values.json",
+            "converter_justin": self.OUTPUT_DIR / "converted_to_justin_planner.json",
+            "merger": self.OUTPUT_DIR / "justin_data_final.json",
+        }
 
-    # EQUIPMENT_OUTPUT_FILE = "output/equipment_final_values.json"
-    # ITEMS_OUTPUT_FILE = "output/items_final_values.json"
-    # STUDENTS_OUTPUT_FILE = "output/students_final_values.json"
+    def load_settings(self) -> UserSettings:
+        settings_file = self.CONFIG_DIR / "settings.json"
+        if settings_file.exists():
+            try:
+                data = json.loads(settings_file.read_text(encoding="utf-8"))
+                return UserSettings(**data)
+            except Exception:
+                pass
+        return UserSettings()
 
-    # CONVERTER_OUTPUT_FILE = "output/justin_planner.json"
+    def save_settings(self, settings: UserSettings):
+        settings_file = self.CONFIG_DIR / "settings.json"
+        settings_file.write_text(settings.model_dump_json(indent=4), encoding="utf-8")
 
-    # MERGER_INPUT_FILE = CONVERTER_OUTPUT_FILE
-    # MERGER_TO_FILE = "input/justin_data.json"
-    # MERGER_OUTPUT_FILE = "output/justin_data_final.json"
 
-    @staticmethod
-    def get_screenshot_path():
-        return Config.SCREENSHOT_PATH
+# Global instance
+Config = Config()
