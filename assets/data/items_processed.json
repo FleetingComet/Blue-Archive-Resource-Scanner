@@ -781,7 +781,7 @@
     },
     {
         "id": 4100,
-        "name": "Beginner Tech Notes (Wildhunt)"
+        "name": "Beginner Tech Note (Wildhunt)"
     },
     {
         "id": 4101,
@@ -1540,6 +1540,34 @@
         "name": "Suzumi (Magical)'s Eleph"
     },
     {
+        "id": 10130,
+        "name": "Subaru's Eleph"
+    },
+    {
+        "id": 10131,
+        "name": "Takane's Eleph"
+    },
+    {
+        "id": 10132,
+        "name": "Tsukuyo (Dress)'s Eleph"
+    },
+    {
+        "id": 10133,
+        "name": "Rio (Armed)'s Eleph"
+    },
+    {
+        "id": 10134,
+        "name": "Aris (Armed)'s Eleph"
+    },
+    {
+        "id": 10135,
+        "name": "Kei's Eleph"
+    },
+    {
+        "id": 10136,
+        "name": "Eimi (Armed)'s Eleph"
+    },
+    {
         "id": 13000,
         "name": "Akane's Eleph"
     },
@@ -1674,6 +1702,10 @@
     {
         "id": 16018,
         "name": "Rabu's Eleph"
+    },
+    {
+        "id": 16019,
+        "name": "Toki (Armed)'s Eleph"
     },
     {
         "id": 20000,
@@ -1882,6 +1914,26 @@
     {
         "id": 20051,
         "name": "Reisa (Magical)'s Eleph"
+    },
+    {
+        "id": 20052,
+        "name": "Yakumo's Eleph"
+    },
+    {
+        "id": 20053,
+        "name": "Michiru (Dress)'s Eleph"
+    },
+    {
+        "id": 20054,
+        "name": "Himari (Armed)'s Eleph"
+    },
+    {
+        "id": 20055,
+        "name": "Yuzu (Armed)'s Eleph"
+    },
+    {
+        "id": 20056,
+        "name": "Koyuki (Pajamas)'s Eleph"
     },
     {
         "id": 23000,
@@ -2733,95 +2785,95 @@
     },
     {
         "id": 80630,
-        "name": "木彫り人形（ユカリ）"
+        "name": "Wooden Yukari Doll"
     },
     {
         "id": 80631,
-        "name": "木彫り人形（ナグサ）"
+        "name": "Wooden Nagusa Doll"
     },
     {
         "id": 80632,
-        "name": "木彫り人形（キキョウ）"
+        "name": "Wooden Kikyou Doll"
     },
     {
         "id": 80633,
-        "name": "木彫り人形（レンゲ）"
+        "name": "Wooden Renge Doll"
     },
     {
         "id": 80650,
-        "name": "正義実現委員会の腕章"
+        "name": "Justice Task Force Armband"
     },
     {
         "id": 80651,
-        "name": "特上角砂糖"
+        "name": "Artisanal Sugar Cube"
     },
     {
         "id": 80652,
-        "name": "トリニティスペシャルケーキ"
+        "name": "Trinity Specialty Cake"
     },
     {
         "id": 80653,
-        "name": "山海経茶園の銘茶"
+        "name": "Shanhaijing Garden Specialty Tea"
     },
     {
         "id": 80654,
-        "name": "プライベートビーチのパンフレット"
+        "name": "Private Beach Guide"
     },
     {
         "id": 80660,
-        "name": "エリのタロットカード"
+        "name": "Eri's Tarot Cards"
     },
     {
         "id": 80661,
-        "name": "カノエのホットチョコ"
+        "name": "Kanoe's Hot Chocolate"
     },
     {
         "id": 80662,
-        "name": "ツムギの楽譜"
+        "name": "Tsumugi's Music Sheets"
     },
     {
         "id": 80663,
-        "name": "レナの糸巻き"
+        "name": "Rena's Spool"
     },
     {
         "id": 80665,
-        "name": "サイコロ1確定券"
+        "name": "Guaranteed Roll (1) Ticket"
     },
     {
         "id": 80666,
-        "name": "サイコロ2確定券"
+        "name": "Guaranteed Roll (2) Ticket"
     },
     {
         "id": 80667,
-        "name": "サイコロ3確定券"
+        "name": "Guaranteed Roll (3) Ticket"
     },
     {
         "id": 80668,
-        "name": "サイコロ4確定券"
+        "name": "Guaranteed Roll (4) Ticket"
     },
     {
         "id": 80669,
-        "name": "サイコロ5確定券"
+        "name": "Guaranteed Roll (5) Ticket"
     },
     {
         "id": 80670,
-        "name": "サイコロ6確定券"
+        "name": "Guaranteed Roll (6) Ticket"
     },
     {
         "id": 80680,
-        "name": "ショップカード"
+        "name": "Souvenir Shop Playing Card"
     },
     {
         "id": 80681,
-        "name": "絵の具"
+        "name": "Paint"
     },
     {
         "id": 80682,
-        "name": "大理石キューブ"
+        "name": "Marble Slab"
     },
     {
         "id": 80683,
-        "name": "ブックバンド"
+        "name": "Girdle Book"
     },
     {
         "id": 80700,
@@ -2838,6 +2890,94 @@
     {
         "id": 80703,
         "name": "ボーダーランドコイン"
+    },
+    {
+        "id": 80710,
+        "name": "イベントPt"
+    },
+    {
+        "id": 80711,
+        "name": "評論ノート"
+    },
+    {
+        "id": 80712,
+        "name": "伝票の束"
+    },
+    {
+        "id": 80713,
+        "name": "文化的書籍の見本誌"
+    },
+    {
+        "id": 80730,
+        "name": "イベントPt"
+    },
+    {
+        "id": 80731,
+        "name": "忍者の耳飾り"
+    },
+    {
+        "id": 80732,
+        "name": "洒脱な扇子"
+    },
+    {
+        "id": 80733,
+        "name": "麺きちペイカード"
+    },
+    {
+        "id": 80740,
+        "name": "預言者のコア"
+    },
+    {
+        "id": 80750,
+        "name": "分析USB"
+    },
+    {
+        "id": 80754,
+        "name": "謎の物質A"
+    },
+    {
+        "id": 80755,
+        "name": "謎の物質B"
+    },
+    {
+        "id": 80756,
+        "name": "アバンギャルドコインA"
+    },
+    {
+        "id": 80757,
+        "name": "アバンギャルドコインB"
+    },
+    {
+        "id": 80758,
+        "name": "プライベートビーチのパンフレット"
+    },
+    {
+        "id": 80759,
+        "name": "謎の物質C"
+    },
+    {
+        "id": 80760,
+        "name": "イベントPt"
+    },
+    {
+        "id": 80761,
+        "name": "ノートの切れ端"
+    },
+    {
+        "id": 80762,
+        "name": "謎のケーブル"
+    },
+    {
+        "id": 80763,
+        "name": "予備のコントローラー"
+    },
+    {
+        "id": 80770,
+        "name": "バレンタインスタンプ"
+    },
+    {
+        "id": 80771,
+        "name": "バレンタインデーのお誘い"
     },
     {
         "id": 100000,
@@ -3012,6 +3152,10 @@
         "name": "T9 Equipment Blueprint Choice Box"
     },
     {
+        "id": 150047,
+        "name": "WB選択ボックス"
+    },
+    {
         "id": 151000,
         "name": "Beginner Furniture Choice Box"
     },
@@ -3097,11 +3241,15 @@
     },
     {
         "id": 151021,
-        "name": "ティーパーティーシリーズ選択ボックス"
+        "name": "Tea Party Furniture Choice Box"
     },
     {
         "id": 151022,
-        "name": "ワイルドハントキャンパスシリーズ選択ボックス"
+        "name": "Wildhunt Furniture Choice Box"
+    },
+    {
+        "id": 151023,
+        "name": "輸送船シリーズ選択ボックス"
     },
     {
         "id": 151991,
@@ -3624,6 +3772,70 @@
         "name": "Millennium Emblem Chocolate"
     },
     {
+        "id": 180125,
+        "name": "野球用品三種の神器チョコレート"
+    },
+    {
+        "id": 180126,
+        "name": "ちょー新作チョコレートボール！！"
+    },
+    {
+        "id": 180127,
+        "name": "疲労回復栄養ゼリー"
+    },
+    {
+        "id": 180128,
+        "name": "くしゃくしゃの封筒とメモ"
+    },
+    {
+        "id": 180129,
+        "name": "白い乙女"
+    },
+    {
+        "id": 180130,
+        "name": "化粧箱入りのチョコレート"
+    },
+    {
+        "id": 180131,
+        "name": "魔力（?）入りチョコ"
+    },
+    {
+        "id": 180132,
+        "name": "おばけチョコマフィン"
+    },
+    {
+        "id": 180133,
+        "name": "文学的ティラミス"
+    },
+    {
+        "id": 180134,
+        "name": "特大チョコレートゴブストッパー"
+    },
+    {
+        "id": 180135,
+        "name": "チョコスタチュー"
+    },
+    {
+        "id": 180136,
+        "name": "ミシン目入りチョコ"
+    },
+    {
+        "id": 180137,
+        "name": "チョコメレンゲクッキー"
+    },
+    {
+        "id": 180138,
+        "name": "カルトーシュカ"
+    },
+    {
+        "id": 180139,
+        "name": "チョコレートメドヴィク"
+    },
+    {
+        "id": 180140,
+        "name": "市販（？）のチョコレート"
+    },
+    {
         "id": 190000,
         "name": "Beginner Tech Notes Raffle Box"
     },
@@ -3757,11 +3969,15 @@
     },
     {
         "id": 191021,
-        "name": "ティーパーティーシリーズ抽選ボックス"
+        "name": "Tea Party Set Furniture Raffle Box"
     },
     {
         "id": 191022,
-        "name": "ワイルドハントキャンパスシリーズ抽選ボックス"
+        "name": "Wildhunt Campus Furniture Raffle Box"
+    },
+    {
+        "id": 191023,
+        "name": "輸送船シリーズ抽選ボックス"
     },
     {
         "id": 191991,
@@ -3786,6 +4002,14 @@
     {
         "id": 200001,
         "name": "Credit Card Shards"
+    },
+    {
+        "id": 200002,
+        "name": "プレナパテスの大人のカード"
+    },
+    {
+        "id": 200003,
+        "name": "粉々になった大人のカード"
     },
     {
         "id": 20000000,
@@ -3845,7 +4069,7 @@
     },
     {
         "id": 20000014,
-        "name": "アリウス生徒手帳"
+        "name": "Arius Student Notebook"
     },
     {
         "id": 20001000,

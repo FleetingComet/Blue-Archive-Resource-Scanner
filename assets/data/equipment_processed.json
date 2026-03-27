@@ -717,7 +717,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_charm_tier10",
-        "name": "キーキャップトイ"
+        "name": "Keycap Toy"
     },
     {
         "id": 8000,
@@ -797,7 +797,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_watch_tier10",
-        "name": "スクリーンウォッチ"
+        "name": "Screen Watch"
     },
     {
         "id": 9000,
@@ -877,7 +877,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_necklace_tier10",
-        "name": "メモリネックレス"
+        "name": "Memory Necklace"
     },
     {
         "id": 101001,
@@ -1381,7 +1381,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_charm_tier10_piece",
-        "name": "キーキャップトイの設計図"
+        "name": "Keycap Toy Blueprint"
     },
     {
         "id": 108001,
@@ -1453,7 +1453,7 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_watch_tier10_piece",
-        "name": "スクリーンウォッチの設計図"
+        "name": "Screen Watch Blueprint"
     },
     {
         "id": 109001,
@@ -1525,6 +1525,6 @@
         "rarity": "N",
         "tier": 10,
         "icon": "equipment_icon_necklace_tier10_piece",
-        "name": "メモリネックレスの設計図"
+        "name": "Memory Necklace Blueprint"
     }
 ]
