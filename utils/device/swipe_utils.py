@@ -119,7 +119,7 @@ def _screens_are_different(
         return False
 
     # Sample region from first row
-    sample_height = 100
+    sample_height = 630
     sample_width = item_width * 2
 
     before_sample = before[
