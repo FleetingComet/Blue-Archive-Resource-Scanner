@@ -15,7 +15,7 @@ class UserSettings(BaseModel):
     # Multiplier specifically for screen navigation delays (use for slower screen loads)
     screen_nav_multiplier: float = 3.0
     capture_interval: float = 0.5  # seconds between captures
-    offline_mode: bool = False
+    enable_sync: bool = False
     target_platform: str = "emulator"  # emulator, desktop, device
 
     # ADB_RETRIES: int = 3  # Retries the connection up to retries times (default 3).

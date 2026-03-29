@@ -18,6 +18,7 @@ SETTINGS_FILE = BASE_DIR / "config" / "settings.json"
 SCREEN_CONFIG = BASE_DIR / "config" / "screen_config.json"
 MAIN_ENTRY = BASE_DIR / "main.py"
 
+
 # Helpers
 def header(title: str):
     console.print(
@@ -78,7 +79,7 @@ def choose(prompt: str, options: list, default: str = "") -> str:
         console.print(f"[red]Choose between 1 and {len(options)}[/red]")
 
 
-# Settings
+# Config of Script
 def save_settings(settings: dict):
     SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
@@ -106,6 +107,88 @@ def load_settings() -> dict:
     return {}
 
 
+# Screen Config
+SCREEN_DEFAULTS = {
+    "Currencies": {
+        "menu_location": "currencies",
+        "grid_type": "currencies",
+        "uses_menu_tab": False,
+    },
+    "Equipment": {
+        "menu_location": "menu_equipment",
+        "grid_type": "Equipment",
+        "uses_menu_tab": True,
+    },
+    "Items": {
+        "menu_location": "menu_items",
+        "grid_type": "Items",
+        "uses_menu_tab": True,
+    },
+    "Students": {
+        "menu_location": "menu_students",
+        "grid_type": "Students",
+        "uses_menu_tab": False,
+    },
+    "Student": {
+        "menu_location": "first_student",
+        "grid_type": "Student",
+        "uses_menu_tab": False,
+    },
+}
+
+# Screens the user explicitly toggles in the wizard.
+# "Student" is excluded - it is a sub-screen of "Students" and is
+# enabled/disabled automatically alongside it.
+USER_FACING_SCREENS = ["Equipment", "Items", "Students", "Currencies"]
+
+
+def write_screen_config(enabled_screens: list[str]) -> None:
+    """
+    Update the ``enabled`` flag in config/screen_config.json.
+
+    Strategy - three-way merge:
+      1. Start from SCREEN_DEFAULTS (guarantees all keys are always present).
+      2. Overlay whatever is already in the file (preserves manual edits to
+         menu_location, grid_type, uses_menu_tab, etc.).
+      3. Apply the launcher\'s enabled/disabled choices on top.
+
+    This means the file is never left with missing keys, and values the user
+    or a developer edited by hand are never silently clobbered.
+    """
+    # Start from code-level defaults
+    screens: dict = {
+        name: {**defaults, "enabled": False}
+        for name, defaults in SCREEN_DEFAULTS.items()
+    }
+
+    # Merge existing file values (preserves menu_location, grid_type, etc.)
+    if SCREEN_CONFIG.exists():
+        try:
+            with open(SCREEN_CONFIG) as f:
+                on_disk = json.load(f).get("screens", {})
+            for name, disk_values in on_disk.items():
+                if name in screens:
+                    # Overlay all keys except "enabled" - that is ours to set
+                    for k, v in disk_values.items():
+                        if k != "enabled":
+                            screens[name][k] = v
+                else:
+                    # Unknown screen added manually - keep it untouched
+                    screens[name] = disk_values
+        except Exception as exc:
+            console.print(
+                f"[yellow]Warning: could not read existing screen config - {exc}[/yellow]"
+            )
+
+    # Apply the launcher's enabled choices
+    for name in screens:
+        screens[name]["enabled"] = name in enabled_screens
+
+    SCREEN_CONFIG.parent.mkdir(parents=True, exist_ok=True)
+    with open(SCREEN_CONFIG, "w") as f:
+        json.dump({"screens": screens}, f, indent=2)
+
+
 # Dependency Check
 def check_dependencies():
     try:
@@ -131,9 +214,12 @@ def run_wizard(previous: dict) -> dict:
     mode = choose(
         "How are you running Blue Archive?",
         [
-            ("emulator", "Emulator (MuMu, LD, BlueStacks)"),
-            ("desktop", "PC Client"),
-            ("device", "Android Phone (WiFi/USB)"),
+            (
+                "emulator",
+                "Emulator on this PC  (MuMu Player 12, LDPlayer, BlueStacks …)",
+            ),
+            ("desktop", "PC client / desktop window (Blue Archive PC app)"),
+            ("device", "Real Android phone / tablet over USB or Wi-Fi"),
         ],
         default=previous.get("target_platform", "emulator"),
     )
@@ -146,15 +232,16 @@ def run_wizard(previous: dict) -> dict:
 
     elif mode == "device":
         console.print("[yellow]Tip: Enable wireless ADB[/yellow]")
-        adb_host = ask("Device IP", previous.get("adb_host", "192.168.1.100"))
+        adb_host = ask("Device IP address", previous.get("adb_host", "192.168.1.100"))
         adb_port = ask_int("ADB port", previous.get("adb_port", 5555))
 
     header("Step 2 - Scan Targets")
 
-    screens = ["Equipment", "Items", "Students", "Currencies"]
-    chosen = []
+    # screens = ["Equipment", "Items", "Students", "Currencies"]
+    screens = previous.get("screens", USER_FACING_SCREENS)
+    chosen: list[str] = []
 
-    for s in screens:
+    for s in USER_FACING_SCREENS:
         if Confirm.ask(
             f"Scan [cyan]{s}[/cyan]?", default=s in previous.get("screens", screens)
         ):
@@ -162,14 +249,23 @@ def run_wizard(previous: dict) -> dict:
 
     if not chosen:
         chosen = ["Equipment", "Items"]
+        console.print(
+            "[yellow]Nothing selected, defaulting to Equipment + Items[/yellow]"
+        )
 
     header("Step 3 - Performance")
+    console.print(
+        "\n[bold]Wait-time multiplier[/bold] - increase if your device/emulator is slow.\n"
+    )
+    console.print(
+        "[dim]1.0 = normal speed  |  1.5 = 50 % slower  |  2.0 = double wait[/dim]\n"
+    )
     wait_mult = ask_float("Wait multiplier", previous.get("wait_multiplier", 1.0))
 
     header("Step 4 - Network")
-    offline = not Confirm.ask(
-        "Enable online sync?",
-        default=not previous.get("offline_mode", False),
+    enable_sync = Confirm.ask(
+        "Enable online data sync? (Download latest item/student data)",
+        default=previous.get("enable_sync", False),
     )
 
     return {
@@ -178,7 +274,7 @@ def run_wizard(previous: dict) -> dict:
         "adb_port": adb_port,
         "screens": chosen,
         "wait_multiplier": wait_mult,
-        "offline_mode": offline,
+        "enable_sync": enable_sync,
     }
 
 
@@ -186,18 +282,12 @@ def run_wizard(previous: dict) -> dict:
 def launch(settings: dict):
     save_settings(settings)
 
-    SCREEN_CONFIG.parent.mkdir(parents=True, exist_ok=True)
-    with open(SCREEN_CONFIG, "w") as f:
-        json.dump(
-            {"screens": {s: {"enabled": True} for s in settings["screens"]}},
-            f,
-            indent=2,
-        )
+    write_screen_config(settings["screens"])
 
     console.print("\n[bold green]▶ Starting Scanner...[/bold green]\n")
 
     cmd = [sys.executable, str(MAIN_ENTRY)]
-    if settings["offline_mode"]:
+    if not settings.get("enable_sync", False):
         cmd.append("--offline")
 
     try:
@@ -220,19 +310,46 @@ def main():
         )
     )
 
-    check_dependencies()
+    force_edit = _parse_args()
     previous = load_settings()
+    first_launch = not previous
 
-    if "--saved" in sys.argv and previous:
+    if force_edit:
+        # User explicitly asked to reconfigure
+        if previous:
+            console.print(
+                "[dim]Edit mode - previous settings loaded as defaults.[/dim]\n"
+            )
+        settings = run_wizard(previous)
+        save_settings(settings)
+    elif first_launch:
+        # No saved settings yet - must run wizard
+        console.print("[dim]First launch - let's get you set up.[/dim]\n")
+        check_dependencies()
+        settings = run_wizard(previous)
+        save_settings(settings)
+    else:
+        # Saved settings exist and no --edit flag - use them silently
         console.print("[green]Using saved settings.[/green]\n")
-        launch(previous)
-        return
+        console.print("[dim]Run with -e / --edit to change them.\n")
+        settings = previous
 
-    if previous:
-        console.print("[dim]Press Enter to keep previous values.[/dim]\n")
-
-    settings = run_wizard(previous)
     launch(settings)
+
+
+def _parse_args() -> bool:
+    """
+    Return True if the user wants to re-run the wizard.
+
+    Default behaviour (no flags):
+      - Settings file exists  → skip wizard, use saved settings.
+      - Settings file missing → run wizard (first launch).
+
+    Flags that force the wizard to run:
+      --edit / -e   re-configure even when saved settings exist.
+    """
+    edit_flags = {"--edit", "-e"}
+    return bool(edit_flags & set(sys.argv[1:]))
 
 
 if __name__ == "__main__":
