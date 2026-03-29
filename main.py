@@ -26,7 +26,8 @@ def main():
     Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # Sync Data
-    if not args.offline and not Config.settings.offline_mode:
+    # Sync if CLI is NOT offline AND settings say Enable Sync is True
+    if not args.offline and Config.settings.offline_mode:
         try:
             DataSyncManager().update_from_online()
         except Exception:
