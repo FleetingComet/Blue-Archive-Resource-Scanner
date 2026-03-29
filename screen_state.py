@@ -35,6 +35,7 @@ class ScreenState:
                 "menu_location": info["menu_location"],
                 "grid_type": info["grid_type"],
                 "uses_menu_tab": info["uses_menu_tab"],
+                "grid_config": info["grid_config"],
             }
             for name, info in screens.items()
             if info.get("enabled", False)
@@ -52,6 +53,7 @@ class ScreenState:
         menu_location = screen_data["menu_location"]
         grid_type = screen_data["grid_type"]
         uses_menu = screen_data["uses_menu_tab"]
+        grid_config = screen_data["grid_config"]
 
         # Menu-free screens (like "Students" or "Student") require going Home.
         if not uses_menu:
@@ -69,7 +71,7 @@ class ScreenState:
 
         new_screen = self.navigator.where_am_i()
         if new_screen == screen:
-            self.process_screen(screen, grid_type)
+            self.process_screen(screen, grid_type, grid_config)
             self.visited.add(screen)
             self.unvisited.discard(screen)
 
@@ -111,7 +113,9 @@ class ScreenState:
             print(f"❌ Incomplete: {self.unvisited}")
             return False
 
-    def process_screen(self, screen_name: str, grid_type: str):
+    def process_screen(
+        self, screen_name: str, grid_type: str, grid_config: dict = None
+    ):
         """
         Handles what to do after navigating to a given screen.
 
@@ -121,11 +125,15 @@ class ScreenState:
         """
         if screen_name in ["Currencies"]:
             print("🔄 Getting Currencies...")
-            get_currencies(self.navigator.adb_controller)
+            get_currencies(self.navigator.input_controller)
 
         if screen_name in ["Equipment", "Items"]:
             print(f"🔄 {screen_name}: Starting matching process...")
-            startMatching(self.navigator.adb_controller, grid_type=grid_type)
+            startMatching(
+                self.navigator.input_controller,
+                grid_type=grid_type,
+                grid_config=grid_config,
+            )
 
         elif screen_name == "Students":
             print("🔄 Pressing First Student in the Student List.")
@@ -135,7 +143,7 @@ class ScreenState:
 
         elif screen_name == "Student":
             print("🔄 Getting Student Infos...")
-            get_student_info(self.navigator.adb_controller)
+            get_student_info(self.navigator.input_controller)
 
     def navigate_to_screen(
         self, menu_location: str, in_menu_tab: bool, ignore_page_check: bool
