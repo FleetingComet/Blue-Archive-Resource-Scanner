@@ -11,10 +11,10 @@ class DesktopInputController(InputController):
 
     def tap(self, x: int, y: int, duration_ms: int = 200) -> bool:
         # Convert game coords to screen coords
-        screen_x = self.wc.region.x + x
-        screen_y = self.wc.region.y + y
+        # screen_x = self.wc.region.x + x
+        # screen_y = self.wc.region.y + y
         # region = self.wc.translate_from_base_resolution(base_region=Region())
-        self.controls.tap_test(screen_x,  screen_y, duration_ms=duration_ms / 1000)
+        self.controls.tap_xy(x,  y, duration_ms=duration_ms / 1000)
         return True
 
     def swipe(
@@ -24,7 +24,7 @@ class DesktopInputController(InputController):
 
         start = Location(start_x, start_y)
         end = Location(end_x, end_y)
-        self.controls.drag(start, end, duration_ms=duration_ms)
+        self.controls.swipe(start.x, start.y, end.x, end.y, duration_ms=duration_ms)
         return True
 
     def capture_screenshot(self) -> np.ndarray:

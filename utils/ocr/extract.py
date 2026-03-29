@@ -1,3 +1,4 @@
+import cv2
 import pytesseract
 
 from area import Region
@@ -54,6 +55,10 @@ def extract_from_region(image, region: Region, image_type=None):
 
     if crop_img is None:
         return None
+
+    cv2.imshow('image',crop_img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     if image_type == "gear":
         return match_tier(crop_img, grayscale=True)

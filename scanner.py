@@ -1,5 +1,7 @@
 import time
 
+import cv2
+
 from area import Location, Region, Size
 from config import Config
 from locations import screens
@@ -89,8 +91,8 @@ def startMatching(
             )
 
             # skip other items (for debugging)
-            if col > 0:
-                continue
+            # if col > 0:
+            #     continue
 
             # Ensure we don't go out of bounds
             if item_region.bottom > grid_end_y or item_region.right > image.shape[1]:
@@ -114,7 +116,7 @@ def startMatching(
             if image is None:
                 print("Failed to capture screenshot.")
                 return False
-
+            
             # time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
             time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
             # read name
@@ -138,7 +140,7 @@ def startMatching(
             # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
             if item_name and owned_count:
-                # print(f"Matched: {item_name} - Owned: x{owned_count}")
+                print(f"Matched: {item_name} - Owned: x{owned_count}")
                 update_name_owned_counts(Config.OWNED["counts"], item_name, owned_count)
             else:
                 print("Failed to extract item name or owned count.")
