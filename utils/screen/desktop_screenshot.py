@@ -4,15 +4,19 @@ from utils.device.window_capture_mss import WindowCaptureMSS
 from utils.device.window_capture import WindowCapture
 from utils.screen.screenshot_provider import ScreenshotProvider
 
-# from utils.device.window_capture import WindowCapture
 from threading import Thread, Lock
 import time
 
 
 class DesktopScreenCapture(ScreenshotProvider):
-    
-    def __init__(self, window_name=None, capture_interval=0.5):
-        self.window_capture_backend = _get_window_capture_backend(window_name)
+    def __init__(
+        self, window_name=None, capture_interval=0.5, window_capture_backend=None
+    ):
+        # Allow external window_capture_backend to be passed (for sharing)
+        if window_capture_backend is not None:
+            self.window_capture_backend = window_capture_backend
+        else:
+            self.window_capture_backend = _get_window_capture_backend(window_name)
         self.capture_interval = capture_interval
         self.latest_screenshot = None
         self.lock = Lock()
@@ -46,7 +50,8 @@ class DesktopScreenCapture(ScreenshotProvider):
                 if copy and self.latest_screenshot is not None
                 else self.latest_screenshot
             )
-        
+
+
 def _get_window_capture_backend(window_name: str) -> Any:
     """Function that returns the right window capture backend."""
     if platform.system() == "Windows":
