@@ -4,29 +4,52 @@ from area import Location, Region
 from config import Config
 from locations.screens import Home, Page, StudentList
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
+from utils.device.inputs.input_controller import InputController
 from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.ocr.extract import extract_text
-from utils.device.adb_controller import ADBController
-from utils.device.adbscreencapture import ADBScreenCapture
 from utils.ocr.matchers import match_image_using_file
+from utils.screen.screenshot_provider import ScreenshotProvider
+
 
 class ScreenNavigator:
-    def __init__(self, adb_controller: ADBController, screencap: Optional[ADBScreenCapture] = None):
+    def __init__(
+        self,
+        input_controller: InputController,
+        screencap: Optional[ScreenshotProvider] = None,
+    ):
         """
-        Initialize the ScreenNavigator with an ADBController and optional ADBScreenCapture.
+        Initialize the ScreenNavigator with an InputController and optional ScreenshotProvider.
         If no screencap is provided, a new one is created and started.
         """
-        self.adb_controller = adb_controller
-        self.screencap = screencap or ADBScreenCapture(adb_controller)
-        if not self.screencap.thread or not self.screencap.thread.is_alive():
-            self.screencap.start()
+        self.input_controller = input_controller
+        self.screencap = screencap
+
+        if (
+            self.screencap
+            and not hasattr(self.screencap, "thread")
+            or (
+                hasattr(self.screencap, "thread")
+                and (
+                    self.screencap.thread is None
+                    or not self.screencap.thread.is_alive()
+                )
+            )
+        ):
+            if hasattr(self.screencap, "start"):
+                self.screencap.start()
+
+    def _get_screenshot(self):
+        """Get screenshot from screencap or capture directly"""
+        if self.screencap:
+            return self.screencap.get_latest_screenshot()
+        return self.input_controller.capture_screenshot()
 
     def where_am_i(self) -> str:
         """
         Detect the current screen by analyzing the latest screenshot.
         Returns the detected screen name (e.g., 'Items', 'Equipment', etc.) or an empty string if undetectable.
         """
-        image = self.screencap.get_latest_screenshot()
+        image = self._get_screenshot()
         if image is None:
             print("Failed to capture screenshot.")
             return ""
@@ -38,19 +61,25 @@ class ScreenNavigator:
         Returns the detected title string or an empty string if not found.
         """
         if image is None:
-            image = self.screencap.get_latest_screenshot()
+            image = self._get_screenshot()
         if image is None:
             return ""
+        
+        title_region = EntryPointTitles.PAGE.value
+
         title_crop_img = image[
-            EntryPointTitles.PAGE.value.y : EntryPointTitles.PAGE.value.bottom,
-            EntryPointTitles.PAGE.value.x : EntryPointTitles.PAGE.value.right,
+            title_region.y : title_region.bottom,
+            title_region.x : title_region.right,
         ]
+
         preprocessed_crop, config = preprocess_image_for_ocr(
             title_crop_img, image_type="name"
         )
         if preprocessed_crop is None:
             return ""
-        text = extract_text(preprocessed_crop, config).replace("\r", "").replace("\n", " ")
+        text = (
+            extract_text(preprocessed_crop, config).replace("\r", "").replace("\n", " ")
+        )
         text = text.split()[0] if text.split() else ""
         print(f"Current screen: {text}")
         return text if text in ["Items", "Equipment", "Students", "Student"] else ""
@@ -76,7 +105,7 @@ class ScreenNavigator:
         """
         button = self.determine_button("home")
         if button:
-            self.adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
+            self.input_controller.tap(int(button.x), int(button.y))
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)
 
     def go_to_page(self, location: str, in_menu_tab=True):
@@ -89,7 +118,7 @@ class ScreenNavigator:
         button = self.determine_button(location)
         if button:
             print(f"goToPage method button: {button}")
-            self.adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
+            self.input_controller.tap(int(button.x), int(button.y))
             return
 
     def manage_menu_tab(self, in_menu_tab: bool) -> None:
@@ -98,7 +127,9 @@ class ScreenNavigator:
         """
         current_state = self.is_menu_tab_open()
         target_state = in_menu_tab
-        sleep_duration = Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER * 1.0
+        sleep_duration = (
+            Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER * 1.0
+        )
         if current_state == target_state:
             return
         action = "Opening" if target_state else "Closing"
@@ -107,7 +138,7 @@ class ScreenNavigator:
             if target_state:
                 self.press_menu_tab()  # Open if not open
             else:
-                self.go_home() # Close if open
+                self.go_home()  # Close if open
             time.sleep(sleep_duration)
         except Exception as e:
             print(f"❌ Failed to manage menu tab: {str(e)}")
@@ -119,7 +150,7 @@ class ScreenNavigator:
         """
         button = self.determine_button("menu")
         if button:
-            self.adb_controller.execute_command(f"shell input tap {button.x} {button.y}")
+            self.input_controller.tap(int(button.x), int(button.y))
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)
             return
 
@@ -128,20 +159,26 @@ class ScreenNavigator:
         Check if the menu tab is currently open by OCR on the menu tab region.
         Returns True if open, False otherwise.
         """
-        image = self.screencap.get_latest_screenshot()
+        image = self._get_screenshot()
         if image is None:
             print("Failed to capture screenshot.")
             return False
-        title_crop_img = image[
-            EntryPointTitles.MENU_TAB.value.y : EntryPointTitles.MENU_TAB.value.bottom,
-            EntryPointTitles.MENU_TAB.value.x : EntryPointTitles.MENU_TAB.value.right,
+        
+        menu_region = EntryPointTitles.MENU_TAB.value
+
+        menu_crop_img = image[
+            menu_region.y : menu_region.bottom,
+            menu_region.x : menu_region.right,
         ]
+
         preprocessed_crop, config = preprocess_image_for_ocr(
-            title_crop_img, image_type="name"
+            menu_crop_img, image_type="name"
         )
         if preprocessed_crop is None:
             return False
-        text = extract_text(preprocessed_crop, config).replace("\r", "").replace("\n", " ")
+        text = (
+            extract_text(preprocessed_crop, config).replace("\r", "").replace("\n", " ")
+        )
         return text == "Menu Tab"
 
     def at_home(self, threshold=0.45) -> bool:
@@ -168,7 +205,7 @@ class ScreenNavigator:
         Perform template matching in the given region of the latest screenshot against the provided asset image.
         Returns True if the match exceeds the threshold, False otherwise.
         """
-        image = self.screencap.get_latest_screenshot()
+        image = self._get_screenshot()
         if image is None:
             print("No screenshot available for matching.")
             return False
