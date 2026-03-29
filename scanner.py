@@ -4,7 +4,8 @@ from area import Location, Region, Size
 from config import Config
 from locations import screens
 from locations.search import SearchPattern, StudentSearchPattern
-from utils.device.adb_controller import ADBController
+
+from utils.device.inputs.input_controller import InputController
 from utils.ocr.extract import (
     extract_from_region,
     extract_item_name,
@@ -15,35 +16,57 @@ from utils.data.jsonHelper import (
     update_character_data,
     update_name_owned_counts,
 )
-from utils.device.swipe_utils import swipe
+from utils.device.swipe_utils import swipe_with_verification
 # from src.utils.item_util import is_item_empty
 
 
-def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -> bool:
+def startMatching(
+    input_controller: InputController,
+    grid_type: str = "Equipment",
+    grid_config: dict = None,
+) -> bool:
     """
     Capture a screenshot from the device and perform the ocr.
 
     Args:
-        adb_controller (ADBController): An instance of ADBController to interact with the device.
+        input_controller (InputController): Platform-agnostic input controller
         grid_type (str): "Equipment" or "Items".
+        grid_config (dict): Grid configuration from screen_config.json
     Returns:
         bool: True if the process is completed, False otherwise.
     """
 
-    # Starting coordinates and dimensions
-    # start_x, start_y = 690, 160
-    grid_start = Location(690, 160)
-    # item_width, item_height = 110, 90  # 90
-    item_size = Size(110, 90)
-    y_padding = 11  # the padding is 10 but I need extra 1px because some shenanigans are happening
-    # y_padding = 10
-    cols_per_row = 5
+    config = (
+        grid_config
+        or {
+            # Starting coordinates and dimensions
+            "start_x": 690,
+            "start_y": 160,
+            # start_x, start_y = 690, 160
+            "item_width": 110,
+            "item_height": 90,
+            # item_width, item_height = 110, 90  # 90
+            "cols_per_row": 5,
+            "y_padding": 11,  # the padding is 10 but I need extra 1px because some shenanigans are happening
+            # equipment_grid_end_y = 660  # Y-end for equipment grid
+            # items_grid_end_y = 560  # Y-end for items grid
+            "end_y": 660 if grid_type == "Equipment" else 560,
+            # Perform the swipe
+            # swipe_distance_y = start_y + (cols_per_row * (item_height + y_padding))
+            # idk why scroll is different everytime
+            # swipe_distance_y = 490 + (item_size.height + y_padding)
+            # swipe_distance_y = (grid_end_y - grid_start.y) - (y_padding * row)
+            # swipe_distance_y = (grid_end_y - grid_start.y) - y_padding
+            "swipe_distance": 450,
+        }
+    )
 
-    equipment_grid_end_y = 660  # Y-end for equipment grid
-    items_grid_end_y = 560  # Y-end for items grid
-
-    # Set the grid end based on the grid type
-    grid_end_y = equipment_grid_end_y if grid_type == "Equipment" else items_grid_end_y
+    grid_start = Location(config["start_x"], config["start_y"])
+    item_size = Size(config["item_width"], config["item_height"])
+    cols_per_row = config["cols_per_row"]
+    grid_end_y = config["end_y"]
+    y_padding = config["y_padding"]
+    swipe_distance = config["swipe_distance"]
 
     current_y = grid_start.y
     # Track the first item in the first row
@@ -52,7 +75,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
     first_item_name = None
 
     while True:
-        image = adb_controller.capture_screenshot()
+        image = input_controller.capture_screenshot()
         if image is None:
             print("Failed to capture screenshot.")
             return False
@@ -66,8 +89,8 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             )
 
             # skip other items (for debugging)
-            # if col > 0:
-            #     continue
+            if col > 0:
+                continue
 
             # Ensure we don't go out of bounds
             if item_region.bottom > grid_end_y or item_region.right > image.shape[1]:
@@ -82,13 +105,12 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             center = item_region.center
 
             print(f"Clicking on region center: ({center.x}, {center.y})")
-            adb_controller.execute_command(
-                f"shell input tap {int(center.x)} {int(center.y)}"
-            )
+            input_controller.tap(int(center.x), int(center.y))
 
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+
             # Capture the screen again after tapping
-            image = adb_controller.capture_screenshot()
+            image = input_controller.capture_screenshot()
             if image is None:
                 print("Failed to capture screenshot.")
                 return False
@@ -102,6 +124,7 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
                 first_item_name = item_name
                 print(f"First Item: {first_item_name}")
 
+                # End detection: same first item = looped back
                 if (
                     item_name == previous_first_item_name
                     and previous_first_item_name is not None
@@ -133,32 +156,35 @@ def startMatching(adb_controller: ADBController, grid_type: str = "Equipment") -
             current_y = grid_start.y
             row = 0
 
-            # Perform the swipe
-            # swipe_distance_y = start_y + (cols_per_row * (item_height + y_padding))
-            # idk why scroll is different everytime
-            # swipe_distance_y = 490 + (item_size.height + y_padding)
-            # swipe_distance_y = (grid_end_y - grid_start.y) - (y_padding * row)
-            swipe_distance_y = (grid_end_y - grid_start.y) - y_padding
-            swipe(
-                adb_controller,
-                swipe_distance_y,
+            # swipe(
+            #     adb_controller,
+            #     swipe_distance_y,
+            #     grid_start.x,
+            #     grid_start.y,
+            #     item_size.width,
+            # )
+            if not swipe_with_verification(
+                input_controller,
+                swipe_distance,
                 grid_start.x,
                 grid_start.y,
                 item_size.width,
-            )
+            ):
+                print("[Swipe] Failed to verify scroll, assuming end of inventory")
+                return True
 
             # Wait for the screen to update after swiping
             time.sleep(2.5 * Config.WAIT_TIME_MULTIPLIER)
 
 
-def get_student_info(adb_controller: ADBController) -> bool:
+def get_student_info(input_controller: InputController) -> bool:
     first_name = None
     iteration = 0
 
     while True:
         iteration += 1
 
-        image = adb_controller.capture_screenshot()
+        image = input_controller.capture_screenshot()
 
         if image is None:
             return False
@@ -251,14 +277,19 @@ def get_student_info(adb_controller: ADBController) -> bool:
             print("Encountered the first student again. Ending loop.")
             return True
 
-        adb_controller.execute_command(
-            f"shell input tap {int(screens.StudentInfo.BUTTONS.NEXT.x)} {int(screens.StudentInfo.BUTTONS.NEXT.y)}"
+        # adb_controller.execute_command(
+        #     f"shell input tap {int(screens.StudentInfo.BUTTONS.NEXT.x)} {int(screens.StudentInfo.BUTTONS.NEXT.y)}"
+        # )
+        input_controller.tap(
+            int(screens.StudentInfo.BUTTONS.NEXT.x),
+            int(screens.StudentInfo.BUTTONS.NEXT.y),
         )
+
         time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
 
-def get_currencies(adb_controller: ADBController) -> bool:
-    image = adb_controller.capture_screenshot()
+def get_currencies(input_controller: InputController) -> bool:
+    image = input_controller.capture_screenshot()
 
     if image is None:
         return False
