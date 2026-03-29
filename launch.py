@@ -113,26 +113,51 @@ SCREEN_DEFAULTS = {
         "menu_location": "currencies",
         "grid_type": "currencies",
         "uses_menu_tab": False,
+        "grid_config": None,  # No grid scanning for currencies
     },
     "Equipment": {
         "menu_location": "menu_equipment",
         "grid_type": "Equipment",
         "uses_menu_tab": True,
+        "grid_config": {
+            "start_x": 690,
+            "start_y": 160,
+            "item_width": 110,
+            "item_height": 90,
+            "cols_per_row": 5,
+            "rows_per_page": 5,
+            "y_padding": 11,
+            "swipe_distance": 450,
+            "end_y": 660,
+        },
     },
     "Items": {
         "menu_location": "menu_items",
         "grid_type": "Items",
         "uses_menu_tab": True,
+        "grid_config": {
+            "start_x": 690,
+            "start_y": 160,
+            "item_width": 110,
+            "item_height": 90,
+            "cols_per_row": 5,
+            "rows_per_page": 5,
+            "y_padding": 11,
+            "swipe_distance": 450,
+            "end_y": 560,
+        },
     },
     "Students": {
         "menu_location": "menu_students",
         "grid_type": "Students",
         "uses_menu_tab": False,
+        "grid_config": None,  # No grid scanning for students list
     },
     "Student": {
         "menu_location": "first_student",
         "grid_type": "Student",
         "uses_menu_tab": False,
+        "grid_config": None,  # Individual student info, no grid
     },
 }
 
@@ -187,6 +212,18 @@ def write_screen_config(enabled_screens: list[str]) -> None:
     SCREEN_CONFIG.parent.mkdir(parents=True, exist_ok=True)
     with open(SCREEN_CONFIG, "w") as f:
         json.dump({"screens": screens}, f, indent=2)
+
+
+def load_screens_from_config() -> list[str]:
+    """Read enabled screens from screen_config.json."""
+    if SCREEN_CONFIG.exists():
+        try:
+            with open(SCREEN_CONFIG, encoding="utf-8") as f:
+                screens = json.load(f).get("screens", {})
+            return [name for name, cfg in screens.items() if cfg.get("enabled", False)]
+        except Exception:
+            pass
+    return []
 
 
 # Dependency Check
@@ -280,6 +317,8 @@ def run_wizard(previous: dict) -> dict:
 
 # Launch
 def launch(settings: dict):
+    """Launch the scanner with given settings."""
+
     save_settings(settings)
 
     write_screen_config(settings["screens"])
@@ -332,6 +371,9 @@ def main():
         # Saved settings exist and no --edit flag - use them silently
         console.print("[green]Using saved settings.[/green]\n")
         console.print("[dim]Run with -e / --edit to change them.\n")
+        from_config = load_screens_from_config()
+        if from_config:
+            previous["screens"] = from_config
         settings = previous
 
     launch(settings)
