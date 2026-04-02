@@ -64,7 +64,7 @@ class ScreenNavigator:
             image = self._get_screenshot()
         if image is None:
             return ""
-        
+
         title_region = EntryPointTitles.PAGE.value
 
         title_crop_img = image[
@@ -84,10 +84,10 @@ class ScreenNavigator:
         print(f"Current screen: {text}")
         return text if text in ["Items", "Equipment", "Students", "Student"] else ""
 
-    def determine_button(self, location: str) -> Optional[Location]:
+    def determine_button(self, region: str) -> Optional[Region]:
         """
-        Map a logical location name to its corresponding button Location object.
-        Returns the Location or None if not found.
+        Map a logical location name to its corresponding button Region object.
+        Returns the Region or None if not found.
         """
         button_mapping = {
             "home": EntryPointButtons.HOME.value,
@@ -97,7 +97,7 @@ class ScreenNavigator:
             "menu_equipment": EntryPointButtons.MENU_TAB_EQUIPMENT.value,
             "menu_items": EntryPointButtons.MENU_TAB_ITEMS.value,
         }
-        return button_mapping.get(location, None)
+        return button_mapping.get(region, None)
 
     def go_home(self):
         """
@@ -116,9 +116,11 @@ class ScreenNavigator:
         print(f"goToPage method: {location}")
         self.manage_menu_tab(in_menu_tab)
         button = self.determine_button(location)
+        point = button.random_point_in_region()
+
         if button:
-            print(f"goToPage method button: {button}")
-            self.input_controller.tap(int(button.x), int(button.y))
+            print(f"goToPage method button: {point}")
+            self.input_controller.tap(int(point.x), int(point.y))
             return
 
     def manage_menu_tab(self, in_menu_tab: bool) -> None:
@@ -148,9 +150,10 @@ class ScreenNavigator:
         """
         Tap the menu tab button to open the menu tab.
         """
-        button = self.determine_button("menu")
+        button: Region = self.determine_button("menu")
+        point = button.random_point_in_region()
         if button:
-            self.input_controller.tap(int(button.x), int(button.y))
+            self.input_controller.tap(int(point.x), int(point.y))
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.SCREEN_NAV_MULTIPLIER)
             return
 
@@ -163,7 +166,7 @@ class ScreenNavigator:
         if image is None:
             print("Failed to capture screenshot.")
             return False
-        
+
         menu_region = EntryPointTitles.MENU_TAB.value
 
         menu_crop_img = image[
