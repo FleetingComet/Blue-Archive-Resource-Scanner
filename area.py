@@ -4,8 +4,11 @@
 # and https://github.com/Fate-Grand-Automata/FGA/blob/master/libautomata/src/main/java/io/github/lib_automata/Size.kt
 
 from math import isclose
+import random
+from functools import total_ordering
 
 
+@total_ordering
 class Location:
     def __init__(self, x: int = 0, y: int = 0):
         self.x = x
@@ -21,6 +24,37 @@ class Location:
         return Location(
             round(self.x * scale),
             round(self.y * scale),
+        )
+
+    def __lt__(self, other):
+        if not isinstance(other, Location):
+            return NotImplemented
+        return (self.x, self.y) < (other.x, other.y)
+
+    def __eq__(self, other):
+        if not isinstance(other, Location):
+            return NotImplemented
+        return (self.x, self.y) == (other.x, other.y)
+
+    @property
+    def center(self) -> "Location":
+        """A Location is already a point, so its center is itself."""
+        return self
+
+    @property
+    def right(self):
+        """A Location is already a point"""
+        return self
+
+    @property
+    def bottom(self):
+        """A Location is already a point"""
+        return self
+
+    def random_point(self, offset: int = 5) -> "Location":
+        return Location(
+            self.x + random.randint(-offset, offset),
+            self.y + random.randint(-offset, offset),
         )
 
     # def x_from_center(self, screen_width):
@@ -150,6 +184,9 @@ class Region:
     def __lt__(self, other):
         return self.location < other.location
 
+    def __gt__(self, other):
+        return self.location > other.location
+
     def __repr__(self):
         return (
             f"Region(x={self.x}, y={self.y}, width={self.width}, height={self.height})"
@@ -162,3 +199,11 @@ class Region:
         bottom = min(self.bottom, max(region.bottom, self.y + 1))
 
         return Region(left, top, right - left, bottom - top)
+
+    def contains_point(self, loc: Location):
+        return self.x <= loc.x <= self.right and self.y <= loc.y <= self.bottom
+
+    def random_point_in_region(self, offset: int = 5) -> Location:
+        dx = random.randint(-offset, offset)
+        dy = random.randint(-offset, offset)
+        return self.center + Location(dx, dy)
