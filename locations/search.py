@@ -16,9 +16,12 @@ class SearchPattern(Enum):
     # CREDITS = Region(770, 10, 140, 30)
     # PYROXENE = Region(965, 10, 105, 30)
 
-    AP = Region(510, 20, 105, 35)
-    CREDIT = Region(700, 20, 120, 35)
-    PYROXENE = Region(870, 20, 100, 35)
+    # AP = Region(510, 20, 105, 35)
+    AP = Region(475, 20, 102, 35) # -10 from true value idk why
+    # CREDIT = Region(700, 20, 120, 35)
+    CREDIT = Region(660, 20, 150, 35) # -10
+    # PYROXENE = Region(870, 20, 100, 35)
+    PYROXENE = Region(860, 20, 100, 35)
 
 
 
