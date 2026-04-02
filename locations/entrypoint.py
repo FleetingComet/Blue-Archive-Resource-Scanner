@@ -1,16 +1,16 @@
 from enum import Enum
-from area import Location, Region
+from area import Region
 
 
 # # 1280x720p
 class EntryPointButtons(Enum):
-    MENU_TAB = Location(1220, 40)
-    MENU_TAB_EQUIPMENT = Location(540, 380)
-    MENU_TAB_ITEMS = Location(770, 380)
-    HOME = Location(1235, 20)
-    STUDENTS = Location(330, 650)
+    MENU_TAB = Region(1200, 23, 50, 33)
+    MENU_TAB_EQUIPMENT = Region(425, 310, 210, 60)
+    MENU_TAB_ITEMS = Region(655, 310, 210,60)
+    HOME = Region(1212, 5, 53, 40)
+    STUDENTS = Region(285, 620, 78, 75) # or x:292 idk
 
 
 class EntryPointTitles(Enum):
     PAGE = Region(100, 5, 220, 50)
-    MENU_TAB = Region(410, 200, 420, 40)
+    MENU_TAB = Region(415, 160, 415, 40)

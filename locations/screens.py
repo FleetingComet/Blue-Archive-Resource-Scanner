@@ -1,22 +1,18 @@
 from area import Location, Region
 
 
-class StudentInfoButtons:
-    PREVIOUS = Location(30, 380)
-    NEXT = Location(1250, 380)
-
-
 class StudentInfo:
-    BUTTONS = StudentInfoButtons
-
+    class BUTTONS:
+        PREVIOUS: Location = Location(30, 380)
+        NEXT: Location = Location(1250, 380)
 
 class StudentList:
-    FIRST_STUDENT = Location(150, 290)
+    FIRST_STUDENT: Region = Region(55, 200, 175, 195)
 
 
 class Home:
-    MENU_BUTTON = Region(1200, 25, 50, 30)
+    MENU_BUTTON: Region = Region(1200, 25, 50, 30)
 
 
 class Page:
-    HOME_BUTTON = Region(1210, 5, 50, 38)
+    HOME_BUTTON: Region = Region(1210, 5, 50, 38)
