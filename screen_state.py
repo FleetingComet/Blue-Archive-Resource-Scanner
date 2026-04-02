@@ -55,6 +55,18 @@ class ScreenState:
         uses_menu = screen_data["uses_menu_tab"]
         grid_config = screen_data["grid_config"]
 
+        # Currencies is at Home - no navigation needed
+        if screen == "Currencies":
+            print("🔄 Getting Currencies (at Home)...")
+            # self.navigator.go_home()
+            if self.navigator.at_page():
+                self.navigator.go_home()
+            time.sleep(1.0 * Config.WAIT_TIME_MULTIPLIER)
+            self.process_screen(screen, grid_type)
+            self.visited.add(screen)
+            self.unvisited.discard(screen)
+            return
+
         # Menu-free screens (like "Students" or "Student") require going Home.
         if not uses_menu:
             self.navigator.go_home()
