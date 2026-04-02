@@ -4,6 +4,16 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
+def _ensure_file(path: Path, default=[]):
+    """Create file + parent dirs if missing, and initialize with default."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    if not path.exists():
+        path.write_text(
+            json.dumps(default, indent=4, ensure_ascii=False), encoding="utf-8"
+        )
+
+
 class BaseProcessor:
     dataclass = None
     processed_file: Path = None
@@ -11,11 +21,16 @@ class BaseProcessor:
     output_file: Path = None
 
     def load_processed_data(self) -> List[Dict]:
-        with open(self.processed_file, "r", encoding="utf-8") as f:
+        path = Path(self.processed_file)
+
+        _ensure_file(path)
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
 
     def load_owned_data(self) -> Dict:
-        with open(self.owned_file, "r", encoding="utf-8") as f:
+        path = Path(self.owned_file)
+        _ensure_file(path)
+        with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
 
     def process_json(self, raw_data: List[Dict]) -> List[Any]:
@@ -28,9 +43,11 @@ class BaseProcessor:
             return False
 
     def save_result(self, result: Any):
-        with open(self.output_file, "w", encoding="utf-8") as f:
+        path = Path(self.output_file)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(result, f, indent=4, ensure_ascii=False)
-
+        
     def map_data(self, processed_items: List[Any], owned_data: Dict) -> Any:
         raise NotImplementedError
 
