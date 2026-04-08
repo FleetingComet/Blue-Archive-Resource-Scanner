@@ -13,12 +13,12 @@ class UserSettings(BaseModel):
     # increase this if your device is laggy (eg. 1.1 or 1.8 or 2)
     wait_multiplier: float = 1.0
     # Multiplier specifically for screen navigation delays (use for slower screen loads)
-    screen_nav_multiplier: float = 3.0
+    screen_nav_multiplier: float = 2.0
     capture_interval: float = 0.5  # seconds between captures
     enable_sync: bool = False
     target_platform: str = "emulator"  # emulator, desktop, device
 
-    # ADB_RETRIES: int = 3  # Retries the connection up to retries times (default 3).
+    adb_retries: int = 3  # Retries the connection up to retries times (default 3).
 
 
 class Config:
@@ -42,7 +42,7 @@ class Config:
         self.WAIT_TIME_MULTIPLIER = self.settings.wait_multiplier
         self.SCREEN_NAV_MULTIPLIER = self.settings.screen_nav_multiplier
         self.CAPTURE_INTERVAL = self.settings.capture_interval
-        self.ADB_RETRIES = 3
+        self.ADB_RETRIES = self.settings.adb_retries
 
         # File Paths
         self.SCREENSHOTS_DIR = self.BASE_DIR / "screenshots"

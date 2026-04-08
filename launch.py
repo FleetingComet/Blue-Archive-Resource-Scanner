@@ -261,11 +261,12 @@ def run_wizard(previous: dict) -> dict:
         default=previous.get("target_platform", "emulator"),
     )
 
-    adb_host, adb_port = "127.0.0.1", 16384
+    adb_host, adb_port, adb_retries = "127.0.0.1", 16384, 5
 
     if mode == "emulator":
         console.print("[dim]MuMu → 16384 | LD/BlueStacks → 5555[/dim]")
         adb_port = ask_int("ADB port", previous.get("adb_port", 16384))
+        adb_retries = ask_int("ADB Retries", previous.get("adb_retries", 5))
 
     elif mode == "device":
         console.print("[yellow]Tip: Enable wireless ADB[/yellow]")
@@ -298,6 +299,15 @@ def run_wizard(previous: dict) -> dict:
         "[dim]1.0 = normal speed  |  1.5 = 50 % slower  |  2.0 = double wait[/dim]\n"
     )
     wait_mult = ask_float("Wait multiplier", previous.get("wait_multiplier", 1.0))
+    screen_nav_multiplier = ask_float(
+        "Multiplier specifically for screen navigation delays (use for slower screen loads)",
+        previous.get("screen_nav_multiplier", 1.0),
+    )
+
+    if mode != "emulator" and mode != "device":
+        capture_interval = ask_float(
+            "Seconds between captures", previous.get("capture_interval", 0.5)
+        )
 
     header("Step 4 - Network")
     enable_sync = Confirm.ask(
@@ -309,8 +319,11 @@ def run_wizard(previous: dict) -> dict:
         "target_platform": mode,
         "adb_host": adb_host,
         "adb_port": adb_port,
+        "adb_retries": adb_retries,
         "screens": chosen,
         "wait_multiplier": wait_mult,
+        "screen_nav_multiplier": screen_nav_multiplier,
+        "capture_interval": capture_interval,
         "enable_sync": enable_sync,
     }
 
@@ -330,7 +343,7 @@ def launch(settings: dict):
         cmd.append("--offline")
 
     try:
-        with console.status("[cyan]Running scanner...[/cyan]", spinner="dots"):
+        with console.status("[cyan]Running scanner: [/cyan]", spinner="dots"):
             subprocess.run(cmd, check=True)
 
     except KeyboardInterrupt:
