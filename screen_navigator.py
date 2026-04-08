@@ -1,13 +1,14 @@
 import time
 from typing import Optional
-from area import Location, Region
+
+from area import Region
 from config import Config
-from locations.screens import Home, Page, StudentList
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
+from locations.screens import Home, Page, StudentList
 from utils.device.inputs.input_controller import InputController
-from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.ocr.extract import extract_text
 from utils.ocr.matchers import match_image_using_file
+from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.screen.screenshot_provider import ScreenshotProvider
 
 
