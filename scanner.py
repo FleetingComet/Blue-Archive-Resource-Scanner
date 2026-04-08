@@ -1,24 +1,23 @@
 import time
 
-import cv2
-
 from area import Location, Region, Size
 from config import Config
 from locations import screens
 from locations.search import SearchPattern, StudentSearchPattern
-
-from utils.device.inputs.input_controller import InputController
-from utils.ocr.extract import (
-    extract_from_region,
-    extract_item_name,
-    extract_owned_count,
-)
 from utils.data.jsonHelper import (
     map_student_data_to_character,
     update_character_data,
     update_name_owned_counts,
 )
+from utils.device.inputs.input_controller import InputController
 from utils.device.swipe_utils import swipe_with_verification
+from utils.ocr.extract import (
+    extract_from_region,
+    extract_item_name,
+    extract_owned_count,
+)
+from utils.ocr.item_util import is_empty_slot
+
 # from src.utils.item_util import is_item_empty
 
 
@@ -29,6 +28,21 @@ def startMatching(
 ) -> bool:
     """
     Capture a screenshot from the device and perform the ocr.
+    Scan the item/equipment grid by iterating page by page, row by row, col by col.
+
+    Flow per cell:
+      1. Capture fresh grid screenshot (once per page, reused for all empty checks)
+      2. If slot is empty -> end of inventory (items are always packed left-to-right)
+      3. Click item -> detail panel updates (the left side)
+      4. Capture detail screenshot
+      5. Extract name + owned count
+      6. update_name_owned_counts
+    After all cols in a row -> advance to next row.
+    After all rows in a page -> swipe.
+
+    Termination:
+      - First empty slot hit (items are contiguous, so empty = tail end)
+      - swipe_with_verification returns False (no scroll = truly at end)
 
     Args:
         input_controller (InputController): Platform-agnostic input controller
@@ -42,24 +56,18 @@ def startMatching(
         grid_config
         or {
             # Starting coordinates and dimensions
-            "start_x": 690,
+            "start_x": 701 if grid_type == "Items" else 690,
             "start_y": 160,
-            # start_x, start_y = 690, 160
             "item_width": 110,
             "item_height": 90,
-            # item_width, item_height = 110, 90  # 90
             "cols_per_row": 5,
             "y_padding": 11,  # the padding is 10 but I need extra 1px because some shenanigans are happening
             # equipment_grid_end_y = 660  # Y-end for equipment grid
             # items_grid_end_y = 560  # Y-end for items grid
-            "end_y": 660 if grid_type == "Equipment" else 560,
+            "end_y": 560 if grid_type == "Items" else 660,
             # Perform the swipe
-            # swipe_distance_y = start_y + (cols_per_row * (item_height + y_padding))
-            # idk why scroll is different everytime
-            # swipe_distance_y = 490 + (item_size.height + y_padding)
-            # swipe_distance_y = (grid_end_y - grid_start.y) - (y_padding * row)
-            # swipe_distance_y = (grid_end_y - grid_start.y) - y_padding
-            "swipe_distance": 450,
+            # "swipe_distance": 450,
+            # "rows_per_page": 5 if grid_type == "Equipment" else 4,
         }
     )
 
@@ -68,115 +76,119 @@ def startMatching(
     cols_per_row = config["cols_per_row"]
     grid_end_y = config["end_y"]
     y_padding = config["y_padding"]
-    swipe_distance = config["swipe_distance"]
+    stride_y = item_size.height + y_padding  # 101px per row
 
-    current_y = grid_start.y
-    # Track the first item in the first row
-    row = 0
-    previous_first_item_name = None
-    first_item_name = None
+    rows_per_page = config.get(
+        "rows_per_page",
+        int((grid_end_y - grid_start.y) // stride_y),
+    )
+
+    # Auto-calculate swipe distance: exactly one full page scroll
+    # Items: 4 rows × 101 = 404px  |  Equipment: 5 rows × 101 = 505px
+    swipe_distance = config.get(
+        "swipe_distance",
+        rows_per_page * stride_y,
+    )
+
+    screen_number = 0
 
     while True:
-        image = input_controller.capture_screenshot()
-        if image is None:
-            print("Failed to capture screenshot.")
+        screen_number += 1
+        print(f"\nScreen {screen_number}")
+
+        # One clean grid screenshot per page — used only for empty-slot detection.
+        # We capture a separate detail screenshot per tap for OCR.
+        grid_image = input_controller.capture_screenshot()
+        if grid_image is None:
+            print("Failed to capture grid screenshot.")
             return False
 
-        for col in range(cols_per_row):
-            item_region = Region(
-                grid_start.x + col * item_size.width,
-                current_y,
-                item_size.width,
-                item_size.height,
-            )
+        for row in range(rows_per_page):
+            current_y = grid_start.y + row * stride_y
+            found_item_in_row = False  # Track if we found any item in this row
 
-            # skip other items (for debugging)
-            # if col > 0:
-            #     continue
+            if current_y + item_size.height > grid_end_y:
+                print(f"Row {row} exceeds grid end_y — stopping page early.")
+                break
 
-            # Ensure we don't go out of bounds
-            if item_region.bottom > grid_end_y or item_region.right > image.shape[1]:
-                print("Reached the end of the grid.")
-                return True
+            for col in range(cols_per_row):
+                current_x = grid_start.x + col * item_size.width
 
-            # # If region is empty, skip tapping/extracting until it finds a non-empty slot
-            # if is_item_empty(image, item_region):
-            #     print(f"Skipping empty slot at row {row}, col {col}.")
-            #     continue
+                if current_x + item_size.width > grid_image.shape[1]:
+                    print(f"Col {col} exceeds image width — stopping row.")
+                    break
 
-            center = item_region.center
+                item_region = Region(
+                    current_x,
+                    current_y,
+                    item_size.width,
+                    item_size.height,
+                )
 
-            print(f"Clicking on region center: ({center.x}, {center.y})")
-            input_controller.tap(int(center.x), int(center.y))
+                # Empty check
+                # Items are always packed left-to-right, so the first empty
+                # slot we encounter after seeing items in this row is the tail end.
+                if is_empty_slot(grid_image, item_region):
+                    if found_item_in_row:
+                        # Empty slot after we've seen items in this row = end of inventory
+                        print(
+                            f"\n[screen={screen_number}, row={row}, col={col}] "
+                            f"Empty slot after items - end of inventory."
+                        )
+                        return True
+                    else:
+                        # Empty at start of row (shouldn't happen per game logic), skip
+                        continue
 
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+                found_item_in_row = True
 
-            # Capture the screen again after tapping
-            image = input_controller.capture_screenshot()
-            if image is None:
-                print("Failed to capture screenshot.")
-                return False
-            
-            # time.sleep(1 * Config.WAIT_TIME_MULTIPLIER)
-            time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
-            # read name
-            item_name = extract_item_name(image, grid_type=grid_type)
+                # Tap the item
+                center = item_region.center
+                print(f"Tapping ({int(center.x)}, {int(center.y)})")
+                input_controller.tap(int(center.x), int(center.y))
+                time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
-            if row == 0 and col == 0:
-                first_item_name = item_name
-                print(f"First Item: {first_item_name}")
+                # Capture detail panel
+                detail_image = input_controller.capture_screenshot()
+                if detail_image is None:
+                    print("Failed to capture detail screenshot.")
+                    return False
+                time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
-                # End detection: same first item = looped back
-                if (
-                    item_name == previous_first_item_name
-                    and previous_first_item_name is not None
-                ):
-                    print("No new items found. Stopping...")
-                    return True
+                # Extract
+                item_name = extract_item_name(detail_image, grid_type=grid_type)
+                time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+                owned_count = extract_owned_count(detail_image, grid_type=grid_type)
 
-            time.sleep(0.2 * Config.WAIT_TIME_MULTIPLIER)
-            # read data on the owned x
-            owned_count = extract_owned_count(image, grid_type=grid_type)
-            # time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+                # Persist
+                if item_name and owned_count:
+                    print(
+                        f"[screen={screen_number}, row={row}, col={col}] "
+                        f"{item_name} — x{owned_count}"
+                    )
+                    update_name_owned_counts(
+                        Config.OWNED["counts"], item_name, owned_count
+                    )
+                else:
+                    print(
+                        f"[screen={screen_number}, row={row}, col={col}] "
+                        f"Warning: extraction failed "
+                        f"(name={item_name!r}, owned={owned_count!r})"
+                    )
 
-            if item_name and owned_count:
-                print(f"Matched: {item_name} - Owned: x{owned_count}")
-                update_name_owned_counts(Config.OWNED["counts"], item_name, owned_count)
-            else:
-                print("Failed to extract item name or owned count.")
+        # Swipe to next page
+        print(f"Swiping {swipe_distance}px to next page...")
+        if not swipe_with_verification(
+            input_controller,
+            swipe_distance,
+            grid_start.x,
+            grid_start.y,
+            item_size.width,
+        ):
+            print("[Swipe] No movement detected — end of inventory.")
+            return True
 
-        # Move to the next row
-        current_y += item_size.height + y_padding
-        row += 1
-        if (test := current_y + item_size.height) > grid_end_y:
-            print(f"current y: {test} image shape: {grid_end_y}")
-            # Update the previous first item name
-            previous_first_item_name = first_item_name
-            print(f"Previous First Item: {previous_first_item_name}")
-
-            # Reset current_y for the next swipe
-            current_y = grid_start.y
-            row = 0
-
-            # swipe(
-            #     adb_controller,
-            #     swipe_distance_y,
-            #     grid_start.x,
-            #     grid_start.y,
-            #     item_size.width,
-            # )
-            if not swipe_with_verification(
-                input_controller,
-                swipe_distance,
-                grid_start.x,
-                grid_start.y,
-                item_size.width,
-            ):
-                print("[Swipe] Failed to verify scroll, assuming end of inventory")
-                return True
-
-            # Wait for the screen to update after swiping
-            time.sleep(2.5 * Config.WAIT_TIME_MULTIPLIER)
+        time.sleep(2.5 * Config.WAIT_TIME_MULTIPLIER)
 
 
 def get_student_info(input_controller: InputController) -> bool:
@@ -279,9 +291,6 @@ def get_student_info(input_controller: InputController) -> bool:
             print("Encountered the first student again. Ending loop.")
             return True
 
-        # adb_controller.execute_command(
-        #     f"shell input tap {int(screens.StudentInfo.BUTTONS.NEXT.x)} {int(screens.StudentInfo.BUTTONS.NEXT.y)}"
-        # )
         input_controller.tap(
             int(screens.StudentInfo.BUTTONS.NEXT.x),
             int(screens.StudentInfo.BUTTONS.NEXT.y),
