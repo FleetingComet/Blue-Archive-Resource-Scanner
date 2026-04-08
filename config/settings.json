@@ -1,0 +1,10 @@
+{
+    "adb_host": "127.0.0.1",
+    "adb_port": 16384,
+    "wait_multiplier": 1.0,
+    "wait_screen_nav_multiplier": 1.0,
+    "capture_interval": 0.5,
+    "enable_sync": false,
+    "target_platform": "desktop",
+    "adb_retries": 5
+}

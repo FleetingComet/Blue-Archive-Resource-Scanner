@@ -203,7 +203,7 @@ class Region:
     def contains_point(self, loc: Location):
         return self.x <= loc.x <= self.right and self.y <= loc.y <= self.bottom
 
-    def random_point_in_region(self, offset: int = 5) -> Location:
+    def random_point(self, offset: int = 5) -> Location:
         dx = random.randint(-offset, offset)
         dy = random.randint(-offset, offset)
         return self.center + Location(dx, dy)
