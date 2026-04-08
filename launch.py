@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import json
-import sys
 import subprocess
+import sys
 from pathlib import Path
 
 from rich.console import Console
 from rich.panel import Panel
+from rich.prompt import Confirm, Prompt
 from rich.table import Table
-from rich.prompt import Prompt, Confirm
 from rich.text import Text
 
 console = Console()
@@ -190,7 +190,7 @@ def write_screen_config(enabled_screens: list[str]) -> None:
     if SCREEN_CONFIG.exists():
         try:
             with open(SCREEN_CONFIG) as f:
-                on_disk = json.load(f).get("screens", {})
+                on_disk = json.load(f)
             for name, disk_values in on_disk.items():
                 if name in screens:
                     # Overlay all keys except "enabled" - that is ours to set
@@ -211,7 +211,7 @@ def write_screen_config(enabled_screens: list[str]) -> None:
 
     SCREEN_CONFIG.parent.mkdir(parents=True, exist_ok=True)
     with open(SCREEN_CONFIG, "w") as f:
-        json.dump({"screens": screens}, f, indent=2)
+        json.dump(screens, f, indent=2)
 
 
 def load_screens_from_config() -> list[str]:
@@ -219,7 +219,7 @@ def load_screens_from_config() -> list[str]:
     if SCREEN_CONFIG.exists():
         try:
             with open(SCREEN_CONFIG, encoding="utf-8") as f:
-                screens = json.load(f).get("screens", {})
+                screens = json.load(f)
             return [name for name, cfg in screens.items() if cfg.get("enabled", False)]
         except Exception:
             pass
@@ -299,9 +299,9 @@ def run_wizard(previous: dict) -> dict:
         "[dim]1.0 = normal speed  |  1.5 = 50 % slower  |  2.0 = double wait[/dim]\n"
     )
     wait_mult = ask_float("Wait multiplier", previous.get("wait_multiplier", 1.0))
-    screen_nav_multiplier = ask_float(
+    wait_screen_nav_multiplier = ask_float(
         "Multiplier specifically for screen navigation delays (use for slower screen loads)",
-        previous.get("screen_nav_multiplier", 1.0),
+        previous.get("wait_screen_nav_multiplier", 1.0),
     )
 
     if mode != "emulator" and mode != "device":
@@ -322,7 +322,7 @@ def run_wizard(previous: dict) -> dict:
         "adb_retries": adb_retries,
         "screens": chosen,
         "wait_multiplier": wait_mult,
-        "screen_nav_multiplier": screen_nav_multiplier,
+        "wait_screen_nav_multiplier": wait_screen_nav_multiplier,
         "capture_interval": capture_interval,
         "enable_sync": enable_sync,
     }
