@@ -118,6 +118,12 @@ class ScreenState:
 
         if state == NavState.NAVIGATING:
             cfg = self.config[self.target_screen]
+
+            if self.navigator.identify_screen() == self.target_screen:
+                self._log("Already on target screen, skipping navigation.")
+                self.retry_count = 0
+                return NavState.PROCESSING
+
             # Currencies runs at Home, skip navigation entirely
             if self.target_screen == "Currencies":
                 self.navigator.ensure_at_home()
