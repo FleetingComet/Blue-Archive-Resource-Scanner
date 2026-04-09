@@ -83,20 +83,14 @@ def update_character_data(json_path: str, name: str, current_data: dict):
     # Load the existing data
     data = load_json(json_path)
 
-    # Ensure "characters" is a list in the JSON
-    if "characters" not in data:
-        data["characters"] = []
+    # Ensure "characters" is a dict
+    if not isinstance(data.get("characters"), dict):
+        data["characters"] = {}
 
-    # Search for an existing character entry by name
-    for char in data["characters"]:
-        if char.get("name") == name:
-            # Update the 'current' data
-            char["current"] = current_data
-            break
-    else:
-        # If not found, append a new entry
-        data["characters"].append({"name": name, "current": current_data})
+    if name not in data["characters"]:
+        data["characters"][name] = {}
 
+    data["characters"][name]["current"] = current_data
     # Save the updated data back to the JSON
     save_json(json_path, data)
 
