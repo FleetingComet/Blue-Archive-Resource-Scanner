@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 from typing import Dict, List
 
-import Levenshtein
-
 from config import Config
 from utils.data.base import BaseProcessor
+from utils.data.text_matcher import find_closest
 
 
 @dataclass
@@ -21,15 +20,13 @@ class StudentProcessor(BaseProcessor):
         self.output_file = Config.OUTPUT_FILES["students"]
 
     def _get_student_id(self, name: str, db: List[Student], threshold=0.8) -> str:
-        # print(f"_get_student_id name: {name}")
-        best_match = max(
-            ((Levenshtein.ratio(name, s.name), s) for s in db),
-            key=lambda x: x[0], # I forgot to set the key to select ratio because it's (Ratio, Student Object)
-            default=(0, None),
-        )
-        return (
-            best_match[1].id if best_match[0] >= threshold and best_match[1] else "N/A"
-        )
+        choices = [s.name for s in db]
+        matched_name = find_closest(name, choices, threshold)
+        if matched_name:
+            for student in db:
+                if student.name == matched_name:
+                    return student.id
+        return "N/A"
 
     def map_data(self, students: List[Student], owned_data: Dict) -> Dict:
         mapped = {"characters": []}

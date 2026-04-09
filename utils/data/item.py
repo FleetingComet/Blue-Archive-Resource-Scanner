@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 from typing import Dict, List
 
-import Levenshtein
-
 from config import Config
 from utils.data.base import BaseProcessor
+from utils.data.text_matcher import find_closest
 
 
 @dataclass
@@ -20,19 +19,9 @@ class ItemProcessor(BaseProcessor):
         self.owned_file = Config.OWNED["counts"]
         self.output_file = Config.OUTPUT_FILES["items"]
 
-    def _get_closest_value(
-        self, name: str, name_map: Dict[str, int], threshold=0.8
-    ) -> int:
-        best_match = None
-        best_ratio = 0
-
-        for map_name in name_map:
-            ratio = Levenshtein.ratio(name, map_name)
-            if ratio > best_ratio:
-                best_ratio = ratio
-                best_match = map_name
-
-        return name_map.get(best_match, 0) if best_ratio >= threshold else 0
+    def _get_closest_value(self, name: str, name_map: Dict[str, int], threshold=0.8) -> int:
+        matched = find_closest(name, list(name_map.keys()), threshold)
+        return name_map.get(matched, 0) if matched else 0
 
     def map_data(self, items: List[Item], name_map: Dict) -> Dict:
         # return {item.id: name_map.get(item.name, 0) for item in items}
