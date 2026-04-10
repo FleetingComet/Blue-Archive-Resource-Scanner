@@ -52,7 +52,7 @@ class ScreenState:
             self.logger.propagate = False
 
             Config.LOGS_DIR.mkdir(parents=True, exist_ok=True)
-            log_file = Config.LOGS_DIR / "fsm_navigation.log"
+            log_file = Config.LOGS_DIR / "scanner_state.log"
 
             # File Handler: Timestamps + Level + Message
             fh = logging.FileHandler(log_file, encoding="utf-8")
@@ -132,8 +132,7 @@ class ScreenState:
 
             if not cfg["uses_menu_tab"]:
                 self.navigator.ensure_at_home()
-            else:
-                self.navigator.ensure_menu_state(True)
+            self.navigator.ensure_menu_state(cfg["uses_menu_tab"])
 
             time.sleep(
                 1.0
@@ -251,12 +250,11 @@ class ScreenState:
             get_currencies(self.navigator.input_controller)
 
         if screen_name in ("Equipment", "Items"):
-            print(f"well we're at {screen_name} but we should skip for testing")
-            # startMatching(
-            #     self.navigator.input_controller,
-            #     grid_type=cfg["grid_type"],
-            #     grid_config=cfg["grid_config"],
-            # )
+            startMatching(
+                self.navigator.input_controller,
+                grid_type=cfg["grid_type"],
+                grid_config=cfg["grid_config"],
+            )
 
         elif screen_name == "Students":
             # Tap first student to enter detail view
