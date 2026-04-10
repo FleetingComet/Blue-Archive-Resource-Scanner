@@ -1,13 +1,17 @@
+import concurrent.futures
+import tempfile
 import time
+from pathlib import Path
+
+import cv2
 
 from area import Location, Region, Size
 from config import Config
 from locations import screens
 from locations.search import SearchPattern, StudentSearchPattern
+from utils.data.io import read_json, update_count, write_json
 from utils.data.jsonHelper import (
     map_student_data_to_character,
-    update_character_data,
-    update_name_owned_counts,
 )
 from utils.device.inputs.input_controller import InputController
 from utils.device.swipe_utils import swipe_with_verification
@@ -18,25 +22,118 @@ from utils.ocr.extract import (
 )
 from utils.ocr.item_util import is_empty_slot
 
-# from src.utils.item_util import is_item_empty
+
+def _ocr_image_worker(img_path: Path, grid_type: str) -> tuple[str | None, str | None]:
+    """Runs OCR on a single saved screenshot. it's for parallel execution."""
+    img = cv2.imread(str(img_path))
+    if img is None:
+        return None, None
+    name = extract_item_name(img, grid_type)
+    count = extract_owned_count(img, grid_type)
+    return name, count
 
 
+def _ocr_student_worker(img_path: Path) -> dict | None:
+    """Runs full student OCR on a single saved screenshot."""
+    image = cv2.imread(str(img_path))
+    if image is None:
+        return None
+
+    return {
+        "Name": extract_from_region(
+            image,
+            StudentSearchPattern.STUDENT_NAME.value,
+            image_type="name",
+        ),
+        "Level": extract_from_region(
+            image,
+            StudentSearchPattern.LEVEL.value,
+            image_type="level_indicator",
+        ),
+        "Bond Level": extract_from_region(
+            image,
+            StudentSearchPattern.BOND_LEVEL.value,
+            image_type="number_in_circle",
+        ),
+        "Rarity": extract_from_region(
+            image,
+            StudentSearchPattern.STAR_QUANTITY.value,
+            image_type="star",
+        ),
+        "Gear 1 Tier": extract_from_region(
+            image,
+            StudentSearchPattern.GEAR_1_TIER.value,
+            image_type="gear",
+        ),
+        "Gear 2 Tier": extract_from_region(
+            image,
+            StudentSearchPattern.GEAR_2_TIER.value,
+            image_type="gear",
+        ),
+        "Gear 3 Tier": extract_from_region(
+            image,
+            StudentSearchPattern.GEAR_3_TIER.value,
+            image_type="gear",
+        ),
+        "Gear Bond Tier": extract_from_region(
+            image,
+            StudentSearchPattern.GEAR_BOND_TIER.value,
+            image_type="gear",
+        ),
+        "Unique Equipment Star Quantity": extract_from_region(
+            image,
+            StudentSearchPattern.UNIQUE_EQUIPMENT_STAR_QUANTITY.value,
+            image_type="ue_star",
+        ),
+        "Unique Equipment Level": extract_from_region(
+            image,
+            StudentSearchPattern.UNIQUE_EQUIPMENT_LEVEL.value,
+            image_type="ue_level",
+        ),
+        "Skill EX": extract_from_region(
+            image,
+            StudentSearchPattern.SKILL_EX.value,
+            image_type="skill_level_indicator",
+        ),
+        "Skill Basic": extract_from_region(
+            image,
+            StudentSearchPattern.SKILL_BASIC.value,
+            image_type="skill_level_indicator",
+        ),
+        "Skill Enhanced": extract_from_region(
+            image,
+            StudentSearchPattern.SKILL_ENHANCED.value,
+            image_type="skill_level_indicator",
+        ),
+        "Skill Sub": extract_from_region(
+            image,
+            StudentSearchPattern.SKILL_SUB.value,
+            image_type="skill_level_indicator",
+        ),
+    }
+
+
+# TODO: Fix this
 def startMatching(
     input_controller: InputController,
     grid_type: str = "Equipment",
     grid_config: dict = None,
+    ocr_workers=4,
 ) -> bool:
     """
     Capture a screenshot from the device and perform the ocr.
     Scan the item/equipment grid by iterating page by page, row by row, col by col.
 
-    Flow per cell:
+    Flow per loop:
       1. Capture fresh grid screenshot (once per page, reused for all empty checks)
       2. If slot is empty -> end of inventory (items are always packed left-to-right)
       3. Click item -> detail panel updates (the left side)
       4. Capture detail screenshot
-      5. Extract name + owned count
-      6. update_name_owned_counts
+
+    and then:
+    5. Extract name + owned count
+    6. update_name_owned_counts
+
     After all cols in a row -> advance to next row.
     After all rows in a page -> swipe.
 
@@ -90,213 +187,172 @@ def startMatching(
         rows_per_page * stride_y,
     )
 
-    screen_number = 0
+    with tempfile.TemporaryDirectory(prefix="ba_scanner_") as tmp_dir:
+        tmp_path = Path(tmp_dir)
+        captured_paths = []
+        screen_number = 0
 
-    while True:
-        screen_number += 1
-        print(f"\nScreen {screen_number}")
+        while True:
+            screen_number += 1
+            grid_image = input_controller.capture_screenshot()
+            if grid_image is None:
+                print("Failed to capture grid screenshot.")
+                return False
 
-        # One clean grid screenshot per page — used only for empty-slot detection.
-        # We capture a separate detail screenshot per tap for OCR.
-        grid_image = input_controller.capture_screenshot()
-        if grid_image is None:
-            print("Failed to capture grid screenshot.")
-            return False
+            for row in range(rows_per_page):
+                current_y = grid_start.y + row * stride_y
+                found_item_in_row = False
 
-        for row in range(rows_per_page):
-            current_y = grid_start.y + row * stride_y
-            found_item_in_row = False  # Track if we found any item in this row
-
-            if current_y + item_size.height > grid_end_y:
-                print(f"Row {row} exceeds grid end_y — stopping page early.")
-                break
-
-            for col in range(cols_per_row):
-                current_x = grid_start.x + col * item_size.width
-
-                if current_x + item_size.width > grid_image.shape[1]:
-                    print(f"Col {col} exceeds image width — stopping row.")
+                if current_y + item_size.height > grid_end_y:
                     break
 
-                item_region = Region(
-                    current_x,
-                    current_y,
-                    item_size.width,
-                    item_size.height,
-                )
+                for col in range(cols_per_row):
+                    current_x = grid_start.x + col * item_size.width
 
-                # Empty check
-                # Items are always packed left-to-right, so the first empty
-                # slot we encounter after seeing items in this row is the tail end.
-                if is_empty_slot(grid_image, item_region):
-                    if found_item_in_row:
-                        # Empty slot after we've seen items in this row = end of inventory
-                        print(
-                            f"\n[screen={screen_number}, row={row}, col={col}] "
-                            f"Empty slot after items - end of inventory."
-                        )
-                        return True
-                    else:
-                        # Empty at start of row (shouldn't happen per game logic), skip
+                    if current_x + item_size.width > grid_image.shape[1]:
+                        break
+
+                    item_region = Region(
+                        current_x, current_y, item_size.width, item_size.height
+                    )
+
+                    if is_empty_slot(grid_image, item_region):
+                        if found_item_in_row:
+                            return False
                         continue
 
-                found_item_in_row = True
+                    found_item_in_row = True
+                    center = item_region.center
 
-                # Tap the item
-                center = item_region.center
-                print(f"Tapping ({int(center.x)}, {int(center.y)})")
-                input_controller.tap(int(center.x), int(center.y))
-                time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+                    # Tap → minimal wait → capture → save
+                    input_controller.tap(int(center.x), int(center.y))
+                    time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)  # Reduced from 0.5
 
-                # Capture detail panel
-                detail_image = input_controller.capture_screenshot()
-                if detail_image is None:
-                    print("Failed to capture detail screenshot.")
-                    return False
-                time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+                    detail_img = input_controller.capture_screenshot()
+                    if detail_img is None:
+                        continue
 
-                # Extract
-                item_name = extract_item_name(detail_image, grid_type=grid_type)
-                time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
-                owned_count = extract_owned_count(detail_image, grid_type=grid_type)
+                    save_name = f"p{screen_number}_r{row}_c{col}.png"
+                    save_path = tmp_path / save_name
+                    cv2.imwrite(str(save_path), detail_img)
+                    captured_paths.append(save_path)
 
-                # Persist
-                if item_name and owned_count:
-                    print(
-                        f"[screen={screen_number}, row={row}, col={col}] "
-                        f"{item_name} — x{owned_count}"
-                    )
-                    update_name_owned_counts(
-                        Config.OWNED["counts"], item_name, owned_count
-                    )
-                else:
-                    print(
-                        f"[screen={screen_number}, row={row}, col={col}] "
-                        f"Warning: extraction failed "
-                        f"(name={item_name!r}, owned={owned_count!r})"
-                    )
+            # Swipe
+            if not swipe_with_verification(
+                input_controller,
+                swipe_distance,
+                grid_start.x,
+                grid_start.y,
+                item_size.width,
+            ):
+                return True
+            time.sleep(1.5 * Config.WAIT_TIME_MULTIPLIER)  # Slightly reduced
 
-        # Swipe to next page
-        print(f"Swiping {swipe_distance}px to next page...")
-        if not swipe_with_verification(
-            input_controller,
-            swipe_distance,
-            grid_start.x,
-            grid_start.y,
-            item_size.width,
-        ):
-            print("[Swipe] No movement detected — end of inventory.")
-            return True
+    print(
+        f"\nProcessing {len(captured_paths)} images with {ocr_workers} OCR workers..."
+    )
+    results = {}
 
-        time.sleep(2.5 * Config.WAIT_TIME_MULTIPLIER)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=ocr_workers) as executor:
+        futures = {
+            executor.submit(_ocr_image_worker, p, grid_type): p for p in captured_paths
+        }
+        for future in concurrent.futures.as_completed(futures):
+            name, count = future.result()
+            if name and count:
+                try:
+                    results[name] = int(count)
+                except ValueError:
+                    pass  # Skip malformed counts
+
+    if results:
+        print(
+            f"Found {len(results)} unique items. Writing to {Config.OWNED['counts']}..."
+        )
+
+        existing = read_json(Config.OWNED["counts"])
+        existing.update(results)
+        write_json(Config.OWNED["counts"], existing)
+
+    return True
 
 
 def get_student_info(input_controller: InputController) -> bool:
     first_name = None
     iteration = 0
+    captured_paths = []
 
-    while True:
-        iteration += 1
+    with tempfile.TemporaryDirectory(prefix="ba_students_") as tmp_dir:
+        tmp_path = Path(tmp_dir)
 
-        image = input_controller.capture_screenshot()
+        while True:
+            iteration += 1
+            image = input_controller.capture_screenshot()
+            if image is None:
+                print("Failed to capture screenshot.")
+                return False
 
-        if image is None:
+            # Lightweight name check ONLY for loop termination
+            current_name = extract_from_region(
+                image, StudentSearchPattern.STUDENT_NAME.value, image_type="name"
+            )
+
+            if first_name is None:
+                first_name = current_name
+                print(f"First student name set to: {first_name}")
+            elif current_name and current_name == first_name:
+                print("Encountered the first student again. Ending capture loop.")
+                break
+
+            save_path = tmp_path / f"stu_{iteration:03d}.png"
+            cv2.imwrite(str(save_path), image)
+            captured_paths.append(save_path)
+
+            # Tap Next
+            input_controller.tap(
+                int(screens.StudentInfo.BUTTONS.NEXT.x),
+                int(screens.StudentInfo.BUTTONS.NEXT.y),
+            )
+            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+
+        if not captured_paths:
+            print("⚠️ No students captured.")
             return False
 
-        student_data = {
-            "Name": extract_from_region(
-                image,
-                StudentSearchPattern.STUDENT_NAME.value,
-                image_type="name",
-            ),
-            "Level": extract_from_region(
-                image,
-                StudentSearchPattern.LEVEL.value,
-                image_type="level_indicator",
-            ),
-            "Bond Level": extract_from_region(
-                image,
-                StudentSearchPattern.BOND_LEVEL.value,
-                image_type="number_in_circle",
-            ),
-            "Rarity": extract_from_region(
-                image,
-                StudentSearchPattern.STAR_QUANTITY.value,
-                image_type="star",
-            ),
-            "Gear 1 Tier": extract_from_region(
-                image,
-                StudentSearchPattern.GEAR_1_TIER.value,
-                image_type="gear",
-            ),
-            "Gear 2 Tier": extract_from_region(
-                image,
-                StudentSearchPattern.GEAR_2_TIER.value,
-                image_type="gear",
-            ),
-            "Gear 3 Tier": extract_from_region(
-                image,
-                StudentSearchPattern.GEAR_3_TIER.value,
-                image_type="gear",
-            ),
-            "Gear Bond Tier": extract_from_region(
-                image,
-                StudentSearchPattern.GEAR_BOND_TIER.value,
-                image_type="gear",
-            ),
-            "Unique Equipment Star Quantity": extract_from_region(
-                image,
-                StudentSearchPattern.UNIQUE_EQUIPMENT_STAR_QUANTITY.value,
-                image_type="ue_star",
-            ),
-            "Unique Equipment Level": extract_from_region(
-                image,
-                StudentSearchPattern.UNIQUE_EQUIPMENT_LEVEL.value,
-                image_type="ue_level",
-            ),
-            "Skill EX": extract_from_region(
-                image,
-                StudentSearchPattern.SKILL_EX.value,
-                image_type="skill_level_indicator",
-            ),
-            "Skill Basic": extract_from_region(
-                image,
-                StudentSearchPattern.SKILL_BASIC.value,
-                image_type="skill_level_indicator",
-            ),
-            "Skill Enhanced": extract_from_region(
-                image,
-                StudentSearchPattern.SKILL_ENHANCED.value,
-                image_type="skill_level_indicator",
-            ),
-            "Skill Sub": extract_from_region(
-                image,
-                StudentSearchPattern.SKILL_SUB.value,
-                image_type="skill_level_indicator",
-            ),
-        }
-
-        name, current_data = map_student_data_to_character(student_data)
-        print(f"Student {iteration}")
-        print("Character Name:", name)
-        print("Current Data:", current_data)
-
-        update_character_data(Config.OWNED["students"], name, current_data)
-
-        if first_name is None:
-            first_name = name
-            print("First student name set to:", first_name)
-
-        elif name == first_name:
-            print("Encountered the first student again. Ending loop.")
-            return True
-
-        input_controller.tap(
-            int(screens.StudentInfo.BUTTONS.NEXT.x),
-            int(screens.StudentInfo.BUTTONS.NEXT.y),
+        workers = min(4, len(captured_paths))
+        print(
+            f"Processing {len(captured_paths)} screenshots with {workers} OCR workers..."
         )
 
-        time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+        raw_results = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {
+                executor.submit(_ocr_student_worker, p): p for p in captured_paths
+            }
+            for future in concurrent.futures.as_completed(futures):
+                data = future.result()
+                if data and data.get("Name"):
+                    raw_results.append(data)
+
+        print(f"Extracted {len(raw_results)} student records. Formatting & saving...")
+
+        final_data = {"characters": []}
+        seen_names = set()
+
+        for r in raw_results:
+            name, current_data = map_student_data_to_character(r)
+            if name not in seen_names:
+                seen_names.add(name)
+                final_data["characters"].append({"name": name, "current": current_data})
+            else:
+                # Duplicate hit after loop boundary (rare OCR edge case)
+                break
+
+        write_json(Config.OWNED["students"], final_data)
+        print(
+            f"Saved {len(final_data['characters'])} students → {Config.OWNED['students']}"
+        )
+        return True
 
 
 def get_currencies(input_controller: InputController) -> bool:
@@ -316,8 +372,6 @@ def get_currencies(input_controller: InputController) -> bool:
         if currency.name == "AP":
             AP = how_many.split("/", 1)
             AP = {"Remaining": AP[0], "Max": AP[-1]}
-            update_name_owned_counts(owned_currencies_file, currency.name.title(), AP)
+            update_count(owned_currencies_file, currency.name.title(), AP)
         else:
-            update_name_owned_counts(
-                owned_currencies_file, currency.name.title(), how_many
-            )
+            update_count(owned_currencies_file, currency.name.title(), how_many)
