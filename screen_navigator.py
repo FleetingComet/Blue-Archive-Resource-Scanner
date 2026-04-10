@@ -7,7 +7,7 @@ from config import Config
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
 from utils.device.inputs.input_controller import InputController
-from utils.ocr.extract import extract_text
+from utils.ocr.engine import extract_text
 from utils.ocr.matchers import match_image_using_file
 from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.screen.screenshot_provider import ScreenshotProvider
@@ -57,7 +57,9 @@ class ScreenNavigator:
         """
         Returns the detected title string or an empty string if not found.
         """
-        time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER)
+        time.sleep(
+            0.5 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+        )
         image = self._get_screenshot()
 
         if image is None:
@@ -74,7 +76,8 @@ class ScreenNavigator:
         if preprocessed is None:
             return ""
 
-        text = extract_text(preprocessed, config).replace("\r", "").replace("\n", " ")
+        # text = extract_text(preprocessed, config).replace("\r", "").replace("\n", " ")
+        text = extract_text(preprocessed).replace("\r", "").replace("\n", " ")
         text = text.split()[0] if text.split() else ""
         known_screens = ["Items", "Equipment", "Students", "Student"]
         return text if text in known_screens else ""
@@ -92,9 +95,15 @@ class ScreenNavigator:
             self.input_controller.tap(
                 int(button.random_point().x), int(button.random_point().y)
             )
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER)
+            time.sleep(
+                0.5
+                * Config.WAIT_TIME_MULTIPLIER
+                * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+            )
 
-        time.sleep(1.5 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER)
+        time.sleep(
+            1.5 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+        )
 
         if self.at_home():
             return NavigationResult(success=True, screen_detected="Home")
@@ -114,7 +123,9 @@ class ScreenNavigator:
             print("Closing Menu Tab (Pressing Home)...")
             self.ensure_at_home()
 
-        time.sleep(1.0 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER)
+        time.sleep(
+            1.0 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+        )
         return NavigationResult(success=True, screen_detected="MenuStateAdjusted")
 
     def navigate_to_target(self, location: str, in_menu_tab: bool) -> NavigationResult:
@@ -132,7 +143,9 @@ class ScreenNavigator:
 
         center = button.random_point()
         self.input_controller.tap(int(center.x), int(center.y))
-        time.sleep(2.0 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER)
+        time.sleep(
+            2.0 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+        )
 
         detected = self.identify_screen()
         return NavigationResult(success=bool(detected), screen_detected=detected)
@@ -145,7 +158,11 @@ class ScreenNavigator:
         if button:
             point = button.random_point(2)
             self.input_controller.tap(int(point.x), int(point.y))
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER)
+            time.sleep(
+                0.5
+                * Config.WAIT_TIME_MULTIPLIER
+                * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+            )
 
     def is_menu_tab_open(self) -> bool:
         """
@@ -165,7 +182,8 @@ class ScreenNavigator:
         if preprocessed is None:
             return False
 
-        text = extract_text(preprocessed, config).replace("\r", "").replace("\n", " ")
+        # text = extract_text(preprocessed, config).replace("\r", "").replace("\n", " ")
+        text = extract_text(preprocessed).replace("\r", "").replace("\n", " ")
         return text == "Menu Tab"
 
     def at_home(self, threshold: float = 0.45) -> bool:

@@ -1,6 +1,3 @@
-import cv2
-import pytesseract
-
 from area import Region
 from locations.search import SearchPattern
 from utils.ocr.color_util import (
@@ -8,23 +5,10 @@ from utils.ocr.color_util import (
     remove_non_white,
     retain_colors,
 )
-from utils.ocr.matchers import match_star, match_tier
+from utils.ocr.engine import extract_text
+from utils.ocr.matchers import match_star
 from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.ocr.text_util import is_close_to
-
-
-def extract_text(image, config=None) -> str:
-    """Extract text from preprocessed image"""
-
-    if config is None:
-        config = "--psm 6 -c tessedit_char_whitelist=0123456789"
-    # Trained data
-    # config += r" --tessdata-dir ./tessdata -l BlueArchive"
-
-    # print(f"Tesseract Config: {config}")
-
-    text: str = pytesseract.image_to_string(image, config=config)
-    return text.strip()
 
 
 def crop_image(image, region: Region):
@@ -56,12 +40,8 @@ def extract_from_region(image, region: Region, image_type=None):
     if crop_img is None:
         return None
 
-    cv2.imshow('image',crop_img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-    if image_type == "gear":
-        return match_tier(crop_img, grayscale=True)
+    # if image_type == "gear":
+    #     return match_tier(crop_img, grayscale=True)
 
     if image_type == "star":
         # hex_colors = ["FFD700"]
@@ -91,12 +71,15 @@ def extract_from_region(image, region: Region, image_type=None):
         crop_img, _ = retain_colors(crop_img, hex_colors, tolerance=20)
         # crop_img, mask = retain_specific_color(crop_img, hex_color="3c4e66")
 
-    preprocessed_crop, config = preprocess_image_for_ocr(
-        crop_img, image_type=image_type
-    )
+    preprocessed_crop = crop_img
+    if image_type != "gear":
+        preprocessed_crop, config = preprocess_image_for_ocr(
+            crop_img, image_type=image_type
+        )
 
     if preprocessed_crop is not None:
-        text = extract_text(preprocessed_crop, config=config)
+        # text = extract_text(preprocessed_crop, config=config)
+        text = extract_text(preprocessed_crop)
 
         if image_type == "skill_level_indicator" and is_close_to(text, threshold=0.65):
             return "MAX"
