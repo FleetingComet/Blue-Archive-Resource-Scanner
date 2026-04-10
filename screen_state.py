@@ -250,11 +250,12 @@ class ScreenState:
             get_currencies(self.navigator.input_controller)
 
         if screen_name in ("Equipment", "Items"):
-            startMatching(
-                self.navigator.input_controller,
-                grid_type=cfg["grid_type"],
-                grid_config=cfg["grid_config"],
-            )
+            print(f"this screen still being fixed: {screen_name}, skipping for now")
+            # startMatching(
+            #     self.navigator.input_controller,
+            #     grid_type=cfg["grid_type"],
+            #     grid_config=cfg["grid_config"],
+            # )
 
         elif screen_name == "Students":
             # Tap first student to enter detail view
