@@ -33,6 +33,8 @@ class EquipmentProcessor(BaseProcessor):
         self.output_file = Config.OUTPUT_FILES["equipment"]
 
     def _get_closest_value(self, name: str, name_map: Dict[str, int], threshold=0.8) -> int:
+        if not isinstance(name_map, dict) or not name_map:
+            return 0
         choices = list(name_map.keys())
         matched = find_closest(name, choices, threshold)
         return name_map.get(matched, 0) if matched else 0

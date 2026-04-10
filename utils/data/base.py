@@ -4,8 +4,11 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
-def _ensure_file(path: Path, default=[]):
+def _ensure_file(path: Path, default=None):
     """Create file + parent dirs if missing, and initialize with default."""
+    if default is None:
+        default = []
+
     path.parent.mkdir(parents=True, exist_ok=True)
 
     if not path.exists():
@@ -23,7 +26,7 @@ class BaseProcessor:
     def load_processed_data(self) -> List[Dict]:
         path = Path(self.processed_file)
 
-        _ensure_file(path)
+        _ensure_file(path, default={})
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
 
