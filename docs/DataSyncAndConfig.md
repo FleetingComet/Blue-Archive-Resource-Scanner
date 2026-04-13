@@ -1,67 +1,33 @@
-# Data sync & configuration - Quick start for users
+# Data Sync & Configuration
 
-This page explains the simple, safe way this project handles its local data files and how you can configure automatic updates from remote sources.
+This project handles game data safely via local JSON files and an optional online sync mechanism. All runtime settings are managed through the `launch.py` wizard and saved to `config/settings.json`.
 
-the scanner reads local JSON files in `assets/data/`. If you run data sync, the app will try to download updated copies from a configured URL and replace the local files - it will never try to open a web URL directly.
+## Configuration Files
 
-## What files matter
+- `config/settings.json` -> Stores ADB host/port, wait multipliers, sync toggle, and target platform. **Managed automatically by `launch.py`.**
+- `config/screen_config.json` -> Lists enabled screens, grid coordinates, and menu navigation rules.
+
+> ⚠️ **Do not edit `config.py` directly.** It acts as a loader/model validator for `settings.json`. Manual edits will be overwritten on next launch.
+
+## What Data Files Matter?
+
+The processors read these local files:
 
 - `assets/data/equipment_processed.json` - equipment definitions used for matching
 - `assets/data/items_processed.json` - item definitions
 - `assets/data/students_processed.json` - student metadata
 
-Processors always read these local files. If a file is missing the app still typically falls back to bundled defaults - make a backup before forcing replacements.
+If a file is missing, the app falls back to defaults. Always back up before manually replacing them.
 
-## Quick user settings (what to change)
+## Data Sync
 
-Open `config.py` and edit:
+By default, the app uses local data. To enable online updates:
 
-- `WAIT_TIME_MULTIPLIER` - general delay multiplier. Lower = faster, higher = more stable on slow devices. Try `0.1` for fast devices.
-- `SCREEN_NAV_MULTIPLIER` - multiplies delays used for screen transitions. Default is `3.0`. If navigation is flaky, raise this value.
+1. Run `python launch.py` and answer **Yes** to `Enable online data sync?`.
+2. On startup, the scanner will attempt to download updated JSONs from the configured GitHub repo.
+3. Files are compared via SHA256 and written atomically (`*.tmp` -> rename). If the network fails, your local files remain untouched.
 
-Example safe starting values you can paste into `config.py`:
-
-```python
-WAIT_TIME_MULTIPLIER = 0.1
-SCREEN_NAV_MULTIPLIER = 3.0
-CAPTURE_INTERVAL = 0.1
-```
-
-These give a good balance for many setups: short individual actions, longer delays during page loads.
-
-## Data sync
-
-This repository ships with local data. If you want the app to try updating that data from an online repo, do the following (recommended):
-
-
-1. Configure sync sources (optional)
-
-The `DataSyncManager` ships with reasonable built-in default URLs. You don't need to change `config.py` to use sync.
-
-If you want to override the default remote sources or tune retries, you can set attributes on the manager directly before calling `update_from_online()`:
-
-```python
-from utils.sync.data_sync_manager import DataSyncManager
-
-mgr = DataSyncManager()
-# Replace the default list of remote files (mapping: key -> url)
-mgr.remote_sources = {
-  'equipment': '{your url}/equipment.json',
-}
-# Tune retries/backoff
-mgr.retries = 3
-mgr.retry_backoff = 1.0
-mgr.update_from_online()
-```
-
-2. Run the data sync tool [`tools/sync_data.py`](../tools/sync_data.py) or call the `DataSyncManager` in `utils/sync/` - it will:
-   - Try to download each configured URL (short timeout + retries).
-   - Compare the downloaded file with the local one (SHA256). If different, it writes the new file atomically into `assets/data/`.
-   - If download fails, it leaves your local files untouched.
-
-Important: Sync never replaces config entries with URLs. The code keeps `Config.PROCESSED_DATA` as local paths so the rest of the app can open files normally.
-
-### Utilities
+### Manual Sync
 
 - [`tools/sync_data.py`](../tools/sync_data.py) - small CLI that runs the `DataSyncManager` standalone. Use this when you want to run sync manually without starting the main app:
 
@@ -69,13 +35,20 @@ Important: Sync never replaces config entries with URLs. The code keeps `Config.
 python -m tools.sync_data
 ```
 
-- `--offline` CLI flag for `app.py` - if you run `python app.py --offline` the app will skip any network sync at startup.
+## Performance Tuning (Wait Multipliers)
+
+If your device is slow or navigation fails, adjust these in `config/settings.json` or via `launch.py -e`:
+
+- `wait_multiplier` (default `1.0`): Scales short action delays (taps, waits between captures).
+- `wait_screen_nav_multiplier` (default `2.0`): Scales navigation delays (screen loads, menu transitions).
+
+**Recommended for laggy devices**: `wait_multiplier: 1.2`, `wait_screen_nav_multiplier: 3.0`
 
 ## Troubleshooting
 
-- "I changed the URL and the app still uses old data": the app only writes a new file if the content changes. Check `assets/data/` timestamps and logs.
-- "Sync failed" / network errors: there is a timeout and a retry policy. If your connection is flaky, try again or increase the timeout in the sync code or manually replace them.
-- "Screens aren't detected after updates": if you replace data files while a screen capture thread is running, restart the app. Also ensure `SCREEN_NAV_MULTIPLIER` is high enough for your device.
+- **"Sync failed"**: Check internet connection. The manager retries 3 times with backoff. Use `python -m tools.sync_data` to debug.
+- **"Screens not detected"**: Increase `wait_screen_nav_multiplier`. Ensure `screen_config.json` has correct `enabled: true` flags.
+- **Linux/AMD GPU screenshot corruption**: ADB's `exec-out` may leak stderr into PNG bytes. The code already handles this, but if it fails, ensure your ADB version is up to date.
 
 ## Advanced notes (if you care)
 

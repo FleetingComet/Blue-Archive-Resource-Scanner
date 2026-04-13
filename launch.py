@@ -229,7 +229,7 @@ def load_screens_from_config() -> list[str]:
 # Dependency Check
 def check_dependencies():
     try:
-        import pytesseract  # noqa
+        from rapidocr import RapidOCR  # noqa
         import cv2  # noqa
 
         console.print("[green]✓ Dependencies OK[/green]")
