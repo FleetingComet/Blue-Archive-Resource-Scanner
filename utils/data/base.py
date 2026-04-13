@@ -7,7 +7,7 @@ from typing import Any, Dict, List
 def _ensure_file(path: Path, default=None):
     """Create file + parent dirs if missing, and initialize with default."""
     if default is None:
-        default = []
+        default = {}
 
     path.parent.mkdir(parents=True, exist_ok=True)
 
