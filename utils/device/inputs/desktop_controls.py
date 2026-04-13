@@ -1,8 +1,8 @@
 import pyautogui
+
 from area import Location, Region, Size
 
-pyautogui.FAILSAFE = False
-
+# pyautogui.FAILSAFE = False
 
 class DesktopControls:
     """Window-aware input helper using pyautogui."""

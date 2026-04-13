@@ -3,8 +3,9 @@
 Usage: python -m tools.sync_data
 """
 
-from utils.sync.data_sync_manager import DataSyncManager
 import argparse
+
+from utils.sync.data_sync_manager import DataSyncManager
 
 
 def main():

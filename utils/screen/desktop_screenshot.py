@@ -1,11 +1,11 @@
 import platform
-from typing import Any
-from utils.device.window_capture_mss import WindowCaptureMSS
-from utils.device.window_capture import WindowCapture
-from utils.screen.screenshot_provider import ScreenshotProvider
-
-from threading import Thread, Lock
 import time
+from threading import Lock, Thread
+from typing import Any
+
+from utils.device.window_capture import WindowCapture
+from utils.device.window_capture_mss import WindowCaptureMSS
+from utils.screen.screenshot_provider import ScreenshotProvider
 
 
 class DesktopScreenCapture(ScreenshotProvider):

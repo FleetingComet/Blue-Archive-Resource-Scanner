@@ -231,9 +231,9 @@ class ScreenState:
             time.sleep(0.1)  # Yield slightly to avoid tight loops
 
         if self.current_state == NavState.COMPLETED:
-            print("🎉 All screens completed successfully.")
+            print("All screens completed successfully.")
         else:
-            print(f"❌ Navigation aborted. Remaining unvisited: {self.unvisited}")
+            print(f"Navigation aborted. Remaining unvisited: {self.unvisited}")
         return self.current_state == NavState.COMPLETED
 
     def _execute_process(self, screen_name: str, cfg: dict):
@@ -244,7 +244,7 @@ class ScreenState:
             screen_name (str): Name of the screen.
             cfg: grid_config
         """
-        print(f"⚙️ Processing: {screen_name}")
+        print(f"Processing: {screen_name}")
 
         if screen_name in ["Currencies"]:
             get_currencies(self.navigator.input_controller)

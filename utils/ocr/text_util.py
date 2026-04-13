@@ -1,7 +1,8 @@
 import re
+
 import Levenshtein
 
-
+#? Note: we leave this for some uses idk where/when
 def is_close_to(text: str, target: str = "MAX", threshold: float = 0.8) -> bool:
     """
     Compares the given text to the target string (default "MAX")

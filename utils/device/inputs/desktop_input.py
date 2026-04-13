@@ -1,7 +1,8 @@
+import numpy as np
+
+from utils.device.inputs.desktop_controls import DesktopControls
 from utils.device.inputs.input_controller import InputController
 from utils.device.window_capture import WindowCapture
-from utils.device.inputs.desktop_controls import DesktopControls
-import numpy as np
 
 
 class DesktopInputController(InputController):

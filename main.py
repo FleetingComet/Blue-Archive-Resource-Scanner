@@ -1,21 +1,13 @@
-from config import Config
 import argparse
-from locations.search import StudentSearchPattern
+
+from config import Config
 from screen_navigator import ScreenNavigator
 from screen_state import ScreenState
-from utils.data.jsonHelper import map_student_data_to_character
 from utils.data.equipment import EquipmentProcessor
 from utils.data.item import ItemProcessor
 from utils.data.student import StudentProcessor
-
-from utils.device.adb_controller import ADBController
-from utils.device.inputs.adb_input import ADBInputController
-from utils.device.inputs.desktop_input import DesktopInputController
-from utils.device.window_capture import WindowCapture
-from utils.ocr.extract import extract_from_region
 from utils.screen.capture_backend import (
     get_adb_components,
-    get_capture_backend,
     get_desktop_components,
 )
 from utils.sync.data_sync_manager import DataSyncManager
@@ -88,7 +80,7 @@ def mainpage(navigator: ScreenNavigator):
     Handles navigation and starts the matching process.
     Logic:
       - If the current screen is None (meaning we're either on Home or on a Page),
-        if we're on a Page then go Home.
+        if we're on a Page then a. go Home if that certain screen is finished, b. start immediately.
       - Then loop through each screen defined.
       - Skip already visited screens.
       - If not on the target screen, navigate to it.
