@@ -1,9 +1,7 @@
-from typing import Union
-import numpy as np
 import mss
-import mss.tools
-import win32gui
+import numpy as np
 import win32con
+import win32gui
 
 from area import Location, Region, Size
 

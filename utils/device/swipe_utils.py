@@ -1,5 +1,7 @@
 import time
+
 import numpy as np
+
 from utils.device.inputs.input_controller import InputController
 
 

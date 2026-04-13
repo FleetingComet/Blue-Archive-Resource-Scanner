@@ -3,6 +3,7 @@ import numpy as np
 
 from utils.ocr.color_util import remove_colors
 
+
 # TODO: CLEAN THIS UP AAAAA
 def preprocess_image_for_ocr(image, image_type=None):
     """

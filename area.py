@@ -3,9 +3,9 @@
 # https://github.com/Fate-Grand-Automata/FGA/blob/master/libautomata/src/main/java/io/github/lib_automata/Location.kt
 # and https://github.com/Fate-Grand-Automata/FGA/blob/master/libautomata/src/main/java/io/github/lib_automata/Size.kt
 
-from math import isclose
 import random
 from functools import total_ordering
+from math import isclose
 
 
 @total_ordering

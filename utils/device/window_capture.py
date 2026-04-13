@@ -1,6 +1,7 @@
 import numpy as np
 import win32gui
-from windows_capture import WindowsCapture, Frame, InternalCaptureControl
+from windows_capture import Frame, InternalCaptureControl, WindowsCapture
+
 from area import Region, Size
 
 

@@ -1,8 +1,9 @@
 from ctypes import windll
+
 import numpy as np
+import win32con
 import win32gui
 import win32ui
-import win32con
 
 from area import Region, Size
 

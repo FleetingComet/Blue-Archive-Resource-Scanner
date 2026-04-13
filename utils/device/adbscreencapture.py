@@ -1,5 +1,6 @@
-from threading import Lock, Thread
 import time
+from threading import Lock, Thread
+
 from utils.device.adb_controller import ADBController
 from utils.screen.screenshot_provider import ScreenshotProvider
 

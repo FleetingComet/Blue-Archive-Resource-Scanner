@@ -1,6 +1,7 @@
-from utils.device.inputs.input_controller import InputController
-from utils.device.adb_controller import ADBController
 import numpy as np
+
+from utils.device.adb_controller import ADBController
+from utils.device.inputs.input_controller import InputController
 
 
 class ADBInputController(InputController):
