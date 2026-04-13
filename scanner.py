@@ -21,6 +21,7 @@ from utils.ocr.extract import (
     extract_owned_count,
 )
 from utils.ocr.item_util import is_empty_slot
+from utils.ocr.text_util import normalize_value
 
 
 def _ocr_image_worker(img_path: Path, grid_type: str) -> tuple[str | None, str | None]:
@@ -181,11 +182,12 @@ def startMatching(
     )
 
     # Auto-calculate swipe distance: exactly one full page scroll
-    # Items: 4 rows × 101 = 404px  |  Equipment: 5 rows × 101 = 505px
-    swipe_distance = config.get(
-        "swipe_distance",
-        rows_per_page * stride_y,
-    )
+    # Start: Bottom of the last row's first item
+    # End:   Top of the first row's first item
+    # swipe_start_x = grid_start.x + item_size.width // 2
+    # swipe_start_y = grid_start.y + (rows_per_page - 1) * stride_y + item_size.height
+    swipe_start_y = grid_end_y
+    swipe_end_y = grid_start.y  # Top of first row
 
     with tempfile.TemporaryDirectory(prefix="ba_scanner_") as tmp_dir:
         tmp_path = Path(tmp_dir)
@@ -199,16 +201,24 @@ def startMatching(
                 print("Failed to capture grid screenshot.")
                 return False
 
+            found_empty: bool = False
             for row in range(rows_per_page):
-                current_y = grid_start.y + row * stride_y
-                found_item_in_row = False
+                if found_empty:
+                    break
 
+                current_y = grid_start.y + row * stride_y
+
+                # boundary
                 if current_y + item_size.height > grid_end_y:
                     break
 
                 for col in range(cols_per_row):
+                    # if col != 0:
+                    #     continue  # skip for debug
+
                     current_x = grid_start.x + col * item_size.width
 
+                    # boundary
                     if current_x + item_size.width > grid_image.shape[1]:
                         break
 
@@ -217,18 +227,18 @@ def startMatching(
                     )
 
                     if is_empty_slot(grid_image, item_region):
-                        if found_item_in_row:
-                            return False
-                        continue
+                        print("Empty slot detected. End of inventory.")
+                        found_empty = True
+                        break
 
-                    found_item_in_row = True
-                    center = item_region.center
+                    point = item_region.random_point(10)
 
                     # Tap → minimal wait → capture → save
-                    input_controller.tap(int(center.x), int(center.y))
-                    time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)  # Reduced from 0.5
+                    input_controller.tap(int(point.x), int(point.y))
+                    time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)
 
                     detail_img = input_controller.capture_screenshot()
+
                     if detail_img is None:
                         continue
 
@@ -237,42 +247,55 @@ def startMatching(
                     cv2.imwrite(str(save_path), detail_img)
                     captured_paths.append(save_path)
 
+            # Stop entirely if an empty slot was hit - no point swiping
+            if found_empty:
+                break
+
             # Swipe
             if not swipe_with_verification(
                 input_controller,
-                swipe_distance,
                 grid_start.x,
                 grid_start.y,
+                swipe_start_y,
+                swipe_end_y,
                 item_size.width,
+                grid_end_y,
+                cols_per_row,
             ):
-                return True
-            time.sleep(1.5 * Config.WAIT_TIME_MULTIPLIER)  # Slightly reduced
+                break
+            time.sleep(1.5 * Config.WAIT_TIME_MULTIPLIER)
 
-    print(
-        f"\nProcessing {len(captured_paths)} images with {ocr_workers} OCR workers..."
-    )
-    results = {}
-
-    with concurrent.futures.ThreadPoolExecutor(max_workers=ocr_workers) as executor:
-        futures = {
-            executor.submit(_ocr_image_worker, p, grid_type): p for p in captured_paths
-        }
-        for future in concurrent.futures.as_completed(futures):
-            name, count = future.result()
-            if name and count:
-                try:
-                    results[name] = int(count)
-                except ValueError:
-                    pass  # Skip malformed counts
-
-    if results:
         print(
-            f"Found {len(results)} unique items. Writing to {Config.OWNED['counts']}..."
+            f"\nProcessing {len(captured_paths)} images with {ocr_workers} OCR workers..."
         )
+        results = {}
 
-        existing = read_json(Config.OWNED["counts"])
-        existing.update(results)
-        write_json(Config.OWNED["counts"], existing)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=ocr_workers) as executor:
+            futures = {
+                executor.submit(_ocr_image_worker, p, grid_type): p
+                for p in captured_paths
+            }
+            for future in concurrent.futures.as_completed(futures):
+                name, count = future.result()
+                if name and count:
+                    parsed = normalize_value(count)
+
+                    if parsed is None:
+                        print(
+                            f"[Scanner] result → name={name!r}, count={count!r}, parsed={parsed!r}"
+                        )
+                        pass  # Skip malformed counts
+
+                    results[name] = parsed
+
+        if results:
+            print(
+                f"Found {len(results)} unique items. Writing to {Config.OWNED['counts']}..."
+            )
+
+            existing = read_json(Config.OWNED["counts"])
+            existing.update(results)
+            write_json(Config.OWNED["counts"], existing)
 
     return True
 

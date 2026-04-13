@@ -28,4 +28,4 @@ class DesktopInputController(InputController):
         return True
 
     def capture_screenshot(self) -> np.ndarray:
-        return self.wc.get_screenshot()
+        return self.wc.get_screenshot().copy()
