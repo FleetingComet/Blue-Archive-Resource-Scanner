@@ -20,4 +20,4 @@ class ADBInputController(InputController):
         )
 
     def capture_screenshot(self) -> np.ndarray:
-        return self.adb.capture_screenshot()
+        return self.adb.capture_screenshot().copy()
