@@ -1,4 +1,15 @@
+Levenshtein==0.27.1
+mss==10.1.0
 numpy==2.1.3
 opencv-python==4.10.0.84
-pytesseract==0.3.13
-levenshtein==0.27.1
+PyAutoGUI==0.9.54
+pytest==8.4.2
+pywin32==311
+rapidfuzz==3.14.5
+rapidocr==3.8.0
+onnxruntime==1.24.4
+requests==2.33.0
+rich==14.3.3
+windows-capture==1.5.0
+pydantic==2.12.5
+pydantic-core==2.41.5
