@@ -30,7 +30,8 @@ def is_close_to(text: str, target: str = "MAX", threshold: float = 0.8) -> bool:
 
 def normalize_skill_value(value, max_level: int):
     """
-    Convert a skill value to its numeric representation if it's "MAX".
+    Convert a skill value to its numeric representation.
+    Handles "MAX" (case-insensitive) and formats like "Lv.7".
 
     Args:
         value: The extracted skill value (could be a string like "MAX" or a numeric string).
@@ -41,12 +42,14 @@ def normalize_skill_value(value, max_level: int):
     """
     if isinstance(value, str) and value.strip().upper() == "MAX":
         return max_level
-    return value
+    # Fallback to normalize_value to handle "Lv.X", plain numbers, etc.
+    return normalize_value(value)
 
 
 def normalize_value(value, default=0):
     """
     Remove non-digit characters from a value and convert it to an int.
+    Automatically handles strings like "Lv.7", "LV. 8", "T9", or plain "81".
 
     Args:
         value: The value as extracted (e.g., "T9" or "9").
@@ -55,11 +58,14 @@ def normalize_value(value, default=0):
     Returns:
         int: The numeric value.
     """
-    if not value:
-        return 0
+    if value is None:
+        return default
 
     try:
-        numeric_str = re.sub(r"\D", "", str(value))
+        val_str = str(value).strip()
+        # \D matches ANY non-digit character. Removing it leaves only numbers.
+        numeric_str = re.sub(r"\D", "", val_str)
         return int(numeric_str) if numeric_str else default
-    except Exception:
+
+    except (ValueError, TypeError):
         return default
