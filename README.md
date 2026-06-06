@@ -1,6 +1,6 @@
 # Blue Archive Resources Scanner
 
-![Logo](assets/images/BA-Scanner_symbolon.png)
+![Logo](assets/images/BA-Scanner-banner-light.png)
 
 A Python-based tool to scan and count owned resources in **Blue Archive**.
 
@@ -54,8 +54,8 @@ To use the Blue Archive Resources Scanner, ensure you have the following install
 
 ## Documentation
 
-See the docs index for quick links to user and developer guides:
-
+See the docs/website index for quick links to user and developer guides:
+- [https://fleetingcomet.github.io/BA-Resource-Scanner-Docs/](https://fleetingcomet.github.io/BA-Resource-Scanner-Docs/)
 - [`docs/REFERENCE.md`](docs/REFERENCE.md)
 
 ## Usage

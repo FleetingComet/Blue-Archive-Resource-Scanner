@@ -1526,5 +1526,77 @@
         "tier": 10,
         "icon": "equipment_icon_necklace_tier10_piece",
         "name": "Memory Necklace Blueprint"
+    },
+    {
+        "id": 501000,
+        "category": "Hat",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_hat_useall_piece",
+        "name": "帽子の万能設計図"
+    },
+    {
+        "id": 502000,
+        "category": "Gloves",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_gloves_useall_piece",
+        "name": "グローブの万能設計図"
+    },
+    {
+        "id": 503000,
+        "category": "Shoes",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_shoes_useall_piece",
+        "name": "シューズの万能設計図"
+    },
+    {
+        "id": 504000,
+        "category": "Bag",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_bag_useall_piece",
+        "name": "バッグの万能設計図"
+    },
+    {
+        "id": 505000,
+        "category": "Badge",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_badge_useall_piece",
+        "name": "バッジの万能設計図"
+    },
+    {
+        "id": 506000,
+        "category": "Hairpin",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_hairpin_useall_piece",
+        "name": "ヘアピンの万能設計図"
+    },
+    {
+        "id": 507000,
+        "category": "Charm",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_charm_useall_piece",
+        "name": "お守りの万能設計図"
+    },
+    {
+        "id": 508000,
+        "category": "Watch",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_watch_useall_piece",
+        "name": "腕時計の万能設計図"
+    },
+    {
+        "id": 509000,
+        "category": "Necklace",
+        "rarity": "N",
+        "tier": 0,
+        "icon": "equipment_icon_necklace_useall_piece",
+        "name": "ネックレスの万能設計図"
     }
 ]

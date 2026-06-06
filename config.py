@@ -33,7 +33,7 @@ class Config:
         for dir_path in [self.OUTPUT_DIR, self.CONFIG_DIR, self.LOGS_DIR]:
             dir_path.mkdir(parents=True, exist_ok=True)
 
-        self.settings = self.load_settings()
+        self.settings: UserSettings = self.load_settings()
 
         # Map settings to class attributes for backward compatibility with utils
         self.ADB_HOST = self.settings.adb_host

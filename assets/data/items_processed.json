@@ -1568,6 +1568,26 @@
         "name": "Eimi (Armed)'s Eleph"
     },
     {
+        "id": 10137,
+        "name": "Konoka's Eleph"
+    },
+    {
+        "id": 10138,
+        "name": "Rena's Eleph"
+    },
+    {
+        "id": 10139,
+        "name": "Niko's Eleph"
+    },
+    {
+        "id": 10140,
+        "name": "Kurumi's Eleph"
+    },
+    {
+        "id": 10141,
+        "name": "Haruka (Dress)'s Eleph"
+    },
+    {
         "id": 13000,
         "name": "Akane's Eleph"
     },
@@ -1706,6 +1726,10 @@
     {
         "id": 16019,
         "name": "Toki (Armed)'s Eleph"
+    },
+    {
+        "id": 16020,
+        "name": "Otogi's Eleph"
     },
     {
         "id": 20000,
@@ -1934,6 +1958,18 @@
     {
         "id": 20056,
         "name": "Koyuki (Pajamas)'s Eleph"
+    },
+    {
+        "id": 20057,
+        "name": "Akane (School)'s Eleph"
+    },
+    {
+        "id": 20058,
+        "name": "Erika's Eleph"
+    },
+    {
+        "id": 20059,
+        "name": "Mutsuki (Dress)'s Eleph"
     },
     {
         "id": 23000,
@@ -2877,83 +2913,83 @@
     },
     {
         "id": 80700,
-        "name": "イベントPt"
+        "name": "Event Points"
     },
     {
         "id": 80701,
-        "name": "遊園地チケット"
+        "name": "Amusement Park Ticket"
     },
     {
         "id": 80702,
-        "name": "ポップコーンバケット"
+        "name": "Popcorn Container"
     },
     {
         "id": 80703,
-        "name": "ボーダーランドコイン"
+        "name": "Borderland Coin"
     },
     {
         "id": 80710,
-        "name": "イベントPt"
+        "name": "Event Points"
     },
     {
         "id": 80711,
-        "name": "評論ノート"
+        "name": "Critique Notebook"
     },
     {
         "id": 80712,
-        "name": "伝票の束"
+        "name": "Sales Receipt Bundle"
     },
     {
         "id": 80713,
-        "name": "文化的書籍の見本誌"
+        "name": "Cultural Book Excerpt"
     },
     {
         "id": 80730,
-        "name": "イベントPt"
+        "name": "Event Points"
     },
     {
         "id": 80731,
-        "name": "忍者の耳飾り"
+        "name": "Ninja Ear Adornments"
     },
     {
         "id": 80732,
-        "name": "洒脱な扇子"
+        "name": "Fashionable Folding Fan"
     },
     {
         "id": 80733,
-        "name": "麺きちペイカード"
+        "name": "MEN-Kitschpay Premium Card"
     },
     {
         "id": 80740,
-        "name": "預言者のコア"
+        "name": "Prophet's Core"
     },
     {
         "id": 80750,
-        "name": "分析USB"
+        "name": "Analysis USB"
     },
     {
         "id": 80754,
-        "name": "謎の物質A"
+        "name": "Mysterious Substance A"
     },
     {
         "id": 80755,
-        "name": "謎の物質B"
+        "name": "Mysterious Substance B"
     },
     {
         "id": 80756,
-        "name": "アバンギャルドコインA"
+        "name": "Avant Guard Coin A"
     },
     {
         "id": 80757,
-        "name": "アバンギャルドコインB"
+        "name": "Avant Guard Coin B"
     },
     {
         "id": 80758,
-        "name": "プライベートビーチのパンフレット"
+        "name": "Private Beach Guide"
     },
     {
         "id": 80759,
-        "name": "謎の物質C"
+        "name": "Mysterious Substance C"
     },
     {
         "id": 80760,
@@ -2978,6 +3014,82 @@
     {
         "id": 80771,
         "name": "バレンタインデーのお誘い"
+    },
+    {
+        "id": 80780,
+        "name": "フィールドサイン"
+    },
+    {
+        "id": 80781,
+        "name": "謎の雑誌"
+    },
+    {
+        "id": 80782,
+        "name": "謎の健康グッズ"
+    },
+    {
+        "id": 80783,
+        "name": "謎のお札"
+    },
+    {
+        "id": 80800,
+        "name": "イベントPt"
+    },
+    {
+        "id": 80801,
+        "name": "クーリングパック"
+    },
+    {
+        "id": 80802,
+        "name": "SRT小隊用レーション"
+    },
+    {
+        "id": 80803,
+        "name": "キュウリ味の歯磨き粉"
+    },
+    {
+        "id": 80804,
+        "name": "経路図"
+    },
+    {
+        "id": 80805,
+        "name": "乱数が書かれたメモ"
+    },
+    {
+        "id": 80806,
+        "name": "爆弾の図面"
+    },
+    {
+        "id": 80807,
+        "name": "未返却図書と図書カード"
+    },
+    {
+        "id": 80808,
+        "name": "SDカード"
+    },
+    {
+        "id": 80809,
+        "name": "新聞スクラップ"
+    },
+    {
+        "id": 80810,
+        "name": "使用済みの乗車券"
+    },
+    {
+        "id": 80830,
+        "name": "イベントPt"
+    },
+    {
+        "id": 80831,
+        "name": "クーリングパック"
+    },
+    {
+        "id": 80832,
+        "name": "SRT小隊用レーション"
+    },
+    {
+        "id": 80833,
+        "name": "キュウリ味の歯磨き粉"
     },
     {
         "id": 100000,
@@ -3153,7 +3265,15 @@
     },
     {
         "id": 150047,
-        "name": "WB選択ボックス"
+        "name": "Workbook Choice Box"
+    },
+    {
+        "id": 150048,
+        "name": "T10装備設計図選択ボックス"
+    },
+    {
+        "id": 150049,
+        "name": "リコレクト・メモリー-ive aLIVE!交換チケット"
     },
     {
         "id": 151000,
@@ -3249,7 +3369,11 @@
     },
     {
         "id": 151023,
-        "name": "輸送船シリーズ選択ボックス"
+        "name": "Transport Ship Furniture Choice Box"
+    },
+    {
+        "id": 151024,
+        "name": "ヴァルキューレ警察学校シリーズ選択ボックス"
     },
     {
         "id": 151991,
@@ -3717,7 +3841,7 @@
     },
     {
         "id": 180111,
-        "name": "Operation Officer's Chocolate"
+        "name": "Operations Officer's Chocolate"
     },
     {
         "id": 180112,
@@ -3773,67 +3897,67 @@
     },
     {
         "id": 180125,
-        "name": "野球用品三種の神器チョコレート"
+        "name": "Baseball Chocolate Set"
     },
     {
         "id": 180126,
-        "name": "ちょー新作チョコレートボール！！"
+        "name": "Flaming Choco Balls!"
     },
     {
         "id": 180127,
-        "name": "疲労回復栄養ゼリー"
+        "name": "Fatigue Recovery Gummies"
     },
     {
         "id": 180128,
-        "name": "くしゃくしゃの封筒とメモ"
+        "name": "Crumpled Bag and a Note"
     },
     {
         "id": 180129,
-        "name": "白い乙女"
+        "name": "Ivory Lady Cookies"
     },
     {
         "id": 180130,
-        "name": "化粧箱入りのチョコレート"
+        "name": "Fancy Boxed Chocolates"
     },
     {
         "id": 180131,
-        "name": "魔力（?）入りチョコ"
+        "name": "Magical Chocolates"
     },
     {
         "id": 180132,
-        "name": "おばけチョコマフィン"
+        "name": "Chocolate Ghost Muffin"
     },
     {
         "id": 180133,
-        "name": "文学的ティラミス"
+        "name": "Literary Tiramisu"
     },
     {
         "id": 180134,
-        "name": "特大チョコレートゴブストッパー"
+        "name": "Supersized Chocolate Jawbreaker"
     },
     {
         "id": 180135,
-        "name": "チョコスタチュー"
+        "name": "Chocolate Statue"
     },
     {
         "id": 180136,
-        "name": "ミシン目入りチョコ"
+        "name": "Perforated Chocolate"
     },
     {
         "id": 180137,
-        "name": "チョコメレンゲクッキー"
+        "name": "Chocolate Meringue Cookies"
     },
     {
         "id": 180138,
-        "name": "カルトーシュカ"
+        "name": "Kartoshka"
     },
     {
         "id": 180139,
-        "name": "チョコレートメドヴィク"
+        "name": "Chocolate Medovik"
     },
     {
         "id": 180140,
-        "name": "市販（？）のチョコレート"
+        "name": "Store-bought(?) Chocolates"
     },
     {
         "id": 190000,
@@ -3977,7 +4101,11 @@
     },
     {
         "id": 191023,
-        "name": "輸送船シリーズ抽選ボックス"
+        "name": "Transport Ship Furniture Raffle Box"
+    },
+    {
+        "id": 191024,
+        "name": "ヴァルキューレ警察学校シリーズ抽選ボックス"
     },
     {
         "id": 191991,
@@ -4005,11 +4133,11 @@
     },
     {
         "id": 200002,
-        "name": "プレナパテスの大人のカード"
+        "name": "Phrenapates' Credit Card"
     },
     {
         "id": 200003,
-        "name": "粉々になった大人のカード"
+        "name": "Credit Card Shards"
     },
     {
         "id": 20000000,
