@@ -119,6 +119,9 @@ def map_student_data_to_character(student_data):
         "ue_level": normalize_value(student_data.get("Unique Equipment Level", 0)),
         "ue": normalize_value(student_data.get("Unique Equipment Star Quantity", 1)),
         "star": normalize_value(student_data.get("Rarity", 1)),
+        "talent_atk": normalize_value(student_data.get("Talent_ATK", 0)),
+        "talent_hp": normalize_value(student_data.get("Talent_HP", 0)),
+        "talent_healing": normalize_value(student_data.get("Talent_HEALING", 0)),
     }
 
     return name, current_data

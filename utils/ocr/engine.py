@@ -1,3 +1,5 @@
+import re
+
 import numpy as np
 from rapidocr import LangRec, RapidOCR
 
@@ -13,9 +15,9 @@ def get_engine():
             params={
                 "Global.text_score": 0.8,
                 "Global.use_cls": False,
-                "Global.use_det": False,  
+                "Global.use_det": False,
                 "Rec.lang_type": LangRec.EN,
-            }
+            },
         )
     return _engine
 
@@ -35,3 +37,35 @@ def extract_text(image: np.ndarray) -> str:
     except Exception as e:
         print(f"[RapidOCR] Error: {e}")
         return ""
+
+
+def extract_text_talent(image: np.ndarray) -> str:
+    """SPECIAL: Extracts talent level."""
+    try:
+        engine = get_engine()
+        result = engine(image)
+
+        # Handle the result object structure
+        if result and hasattr(result, "txts") and result.txts:
+            # Join multiple lines if detected, otherwise return single line
+            joined = "".join(result.txts).strip()
+            return get_lv(joined)
+        return ""
+
+    except Exception as e:
+        print(f"[RapidOCR] Error: {e}")
+        return ""
+
+
+def get_lv(text: str):
+    """
+    Extract the number after "Lv."
+
+    Args:
+        text (str): extract text from oct
+
+    Returns:
+        _str_: stripped text
+    """
+    match = re.search(r"\[?\s*Lv\.?\s*(\d+)", text, re.IGNORECASE)
+    return str(match.group(1)) if match else None

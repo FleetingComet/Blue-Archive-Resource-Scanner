@@ -17,12 +17,11 @@ class SearchPattern(Enum):
     # PYROXENE = Region(965, 10, 105, 30)
 
     # AP = Region(510, 20, 105, 35)
-    AP = Region(475, 20, 102, 35) # -10 from true value idk why
+    AP = Region(475, 20, 102, 35)  # -10 from true value idk why
     # CREDIT = Region(700, 20, 120, 35)
-    CREDIT = Region(660, 20, 150, 35) # -10
+    CREDIT = Region(660, 20, 150, 35)  # -10
     # PYROXENE = Region(870, 20, 100, 35)
     PYROXENE = Region(860, 20, 100, 35)
-
 
 
 class StudentSearchPattern(Enum):
@@ -37,14 +36,14 @@ class StudentSearchPattern(Enum):
 
     # BOND_LEVEL = Region(40, 555, 30, 25) #working former
     BOND_LEVEL = Region(30, 550, 35, 35)
-    # BOND_LEVEL = Region(50, 555, 20, 25) # 
+    # BOND_LEVEL = Region(50, 555, 20, 25) #
 
     # STAR_QUANTITY = Region(260, 560, 80, 30)
     STAR_QUANTITY = Region(250, 560, 90, 30)
     # UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1030, 510, 60, 20) #Exclusive Weapon
-    UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1020, 510, 70, 20) #Exclusive Weapon
+    UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1020, 510, 70, 20)  # Exclusive Weapon
     # UNIQUE_EQUIPMENT_LEVEL = Region(779, 455, 61, 21) #Exclusive Weapon Level
-    UNIQUE_EQUIPMENT_LEVEL = Region(775, 455, 61, 21) #Exclusive Weapon Level
+    UNIQUE_EQUIPMENT_LEVEL = Region(775, 455, 61, 21)  # Exclusive Weapon Level
 
     GEAR_1_TIER = Region(676, 615, 29, 19)
     GEAR_2_TIER = Region(770, 615, 29, 19)
@@ -60,9 +59,20 @@ class StudentSearchPattern(Enum):
     # GEAR_BOND_TIER = Region(965, 617, 20, 15)
 
     # SKILL_EX = Region(686, 403, 86, 20) #
-    SKILL_EX = Region(686, 402, 80, 20) #
+    SKILL_EX = Region(686, 402, 80, 20)  #
     SKILL_BASIC = Region(796, 403, 80, 20)
-    SKILL_ENHANCED = Region(901, 403, 80, 20)#
+    SKILL_ENHANCED = Region(901, 403, 80, 20)  #
     # SKILL_SUB = Region(1008, 403, 80, 20)
     SKILL_SUB = Region(1008, 402, 79, 22)
 
+    class TALENT(Enum):
+        """
+        HP, ATK = Top Row
+        DEF (Not Used), HEALING = Bottom Row
+        ...
+        HP, DEF = LEFT COLUMN
+        ATK, HEALING = RIGHT COLUMN
+        """
+        HP = Region(675, 225, 215, 35)
+        ATK = Region(890, 225, 215, 35)
+        HEALING = Region(890, 260, 205, 35)

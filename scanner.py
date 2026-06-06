@@ -111,6 +111,21 @@ def _ocr_student_worker(img_path: Path) -> dict | None:
             StudentSearchPattern.SKILL_SUB.value,
             image_type="skill_level_indicator",
         ),
+        "Talent_ATK": extract_from_region(
+            image,
+            StudentSearchPattern.TALENT.ATK.value,
+            image_type="talent",
+        ),
+        "Talent_HP": extract_from_region(
+            image,
+            StudentSearchPattern.TALENT.HP.value,
+            image_type="talent",
+        ),
+        "Talent_HEALING": extract_from_region(
+            image,
+            StudentSearchPattern.TALENT.HEALING.value,
+            image_type="talent",
+        ),
     }
 
 
@@ -150,24 +165,21 @@ def startMatching(
         bool: True if the process is completed, False otherwise.
     """
 
-    config = (
-        grid_config
-        or {
-            # Starting coordinates and dimensions
-            "start_x": 701 if grid_type == "Items" else 690,
-            "start_y": 160,
-            "item_width": 110,
-            "item_height": 90,
-            "cols_per_row": 5,
-            "y_padding": 11,  # the padding is 10 but I need extra 1px because some shenanigans are happening
-            # equipment_grid_end_y = 660  # Y-end for equipment grid
-            # items_grid_end_y = 560  # Y-end for items grid
-            "end_y": 560 if grid_type == "Items" else 660,
-            # Perform the swipe
-            # "swipe_distance": 450,
-            # "rows_per_page": 5 if grid_type == "Equipment" else 4,
-        }
-    )
+    config = grid_config or {
+        # Starting coordinates and dimensions
+        "start_x": 701 if grid_type == "Items" else 690,
+        "start_y": 160,
+        "item_width": 110,
+        "item_height": 90,
+        "cols_per_row": 5,
+        "y_padding": 11,  # the padding is 10 but I need extra 1px because some shenanigans are happening
+        # equipment_grid_end_y = 660  # Y-end for equipment grid
+        # items_grid_end_y = 560  # Y-end for items grid
+        "end_y": 560 if grid_type == "Items" else 660,
+        # Perform the swipe
+        # "swipe_distance": 450,
+        # "rows_per_page": 5 if grid_type == "Equipment" else 4,
+    }
 
     grid_start = Location(config["start_x"], config["start_y"])
     item_size = Size(config["item_width"], config["item_height"])

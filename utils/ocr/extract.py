@@ -1,3 +1,5 @@
+import cv2
+
 from area import Region
 from locations.search import SearchPattern
 from utils.ocr.color_util import (
@@ -5,7 +7,7 @@ from utils.ocr.color_util import (
     remove_non_white,
     retain_colors,
 )
-from utils.ocr.engine import extract_text
+from utils.ocr.engine import extract_text, extract_text_talent
 from utils.ocr.matchers import match_star
 from utils.ocr.preprocessor import preprocess_image_for_ocr
 from utils.ocr.text_util import is_close_to
@@ -71,15 +73,32 @@ def extract_from_region(image, region: Region, image_type=None):
         crop_img, _ = retain_colors(crop_img, hex_colors, tolerance=20)
         # crop_img, mask = retain_specific_color(crop_img, hex_color="3c4e66")
 
+    # if image_type == "talent":
+        # hex_colors = ["2d4663", "ecf4f8", "000000"]
+        # crop_img, _ = remove_colors(crop_img, hex_colors, tolerance=5)
+        # crop_img = remove_non_white(crop_img)
+        # retain_hex_colors = ["fcfcfc", "fcf918"]
+        # crop_img, _ = retain_colors(crop_img, retain_hex_colors, tolerance=20)
+        # cv2.imshow('image',crop_img)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+
     preprocessed_crop = crop_img
-    if image_type != "gear":
+    if image_type != "gear" or image_type != "talent":
         preprocessed_crop, config = preprocess_image_for_ocr(
             crop_img, image_type=image_type
         )
 
     if preprocessed_crop is not None:
         # text = extract_text(preprocessed_crop, config=config)
-        text = extract_text(preprocessed_crop)
+        if image_type != "talent":
+            text = extract_text(preprocessed_crop)
+        else:
+            text = extract_text_talent(preprocessed_crop)
+
+        if text is None:
+            return None
 
         if image_type == "skill_level_indicator" and is_close_to(text, threshold=0.65):
             return "MAX"
