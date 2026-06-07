@@ -1,15 +1,13 @@
-import cv2
-
 from area import Region
 from locations.search import SearchPattern
 from utils.ocr.color_util import (
-    remove_colors,
     remove_non_white,
     retain_colors,
 )
 from utils.ocr.engine import extract_text, extract_text_talent
 from utils.ocr.matchers import match_star
 from utils.ocr.preprocessor import preprocess_image_for_ocr
+from utils.ocr.star_util import count_blue_stars_adaptive
 from utils.ocr.text_util import is_close_to
 
 
@@ -46,43 +44,17 @@ def extract_from_region(image, region: Region, image_type=None):
     #     return match_tier(crop_img, grayscale=True)
 
     if image_type == "star":
-        # hex_colors = ["FFD700"]
-        # retained_image, mask = retain_colors(crop_img, hex_colors, tolerance=10)
-
-        # cv2.imshow("Star", retained_image)
-        # cv2.imshow("Original Star", crop_img)
-        # cv2.waitKey(0)
         return match_star(crop_img)
 
     if image_type == "ue_star":
-        hex_colors = ["e7f1f6", "e6f0f4"]
-        crop_img, _ = remove_colors(crop_img, hex_colors, tolerance=5, black_bg=True)
-
-        # cv2.imshow("ue_star", removed_color_image)
-        # cv2.waitKey(0)
-        # cv2.imwrite("ue_star.png", removed_color_image)
-        return match_star(crop_img, blue=True)
+        return count_blue_stars_adaptive(crop_img, debug=False)
 
     if image_type == "ue_level":
-        # hex_colors = ["ffffff"]
-        # crop_img, mask = retain_colors(crop_img, hex_colors, tolerance=5)
         crop_img = remove_non_white(crop_img)
 
     if image_type == "number_in_circle":
         hex_colors = ["3c4e66"]
         crop_img, _ = retain_colors(crop_img, hex_colors, tolerance=20)
-        # crop_img, mask = retain_specific_color(crop_img, hex_color="3c4e66")
-
-    # if image_type == "talent":
-        # hex_colors = ["2d4663", "ecf4f8", "000000"]
-        # crop_img, _ = remove_colors(crop_img, hex_colors, tolerance=5)
-        # crop_img = remove_non_white(crop_img)
-        # retain_hex_colors = ["fcfcfc", "fcf918"]
-        # crop_img, _ = retain_colors(crop_img, retain_hex_colors, tolerance=20)
-        # cv2.imshow('image',crop_img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-
 
     preprocessed_crop = crop_img
     if image_type != "gear" or image_type != "talent":
@@ -91,7 +63,6 @@ def extract_from_region(image, region: Region, image_type=None):
         )
 
     if preprocessed_crop is not None:
-        # text = extract_text(preprocessed_crop, config=config)
         if image_type != "talent":
             text = extract_text(preprocessed_crop)
         else:
