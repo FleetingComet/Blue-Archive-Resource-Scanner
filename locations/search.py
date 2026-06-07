@@ -41,7 +41,8 @@ class StudentSearchPattern(Enum):
     # STAR_QUANTITY = Region(260, 560, 80, 30)
     STAR_QUANTITY = Region(250, 560, 90, 30)
     # UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1030, 510, 60, 20) #Exclusive Weapon
-    UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1020, 510, 70, 20)  # Exclusive Weapon
+    # UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1020, 510, 70, 20)  # Exclusive Weapon
+    UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(977, 504, 93, 22)  # Exclusive Weapon
     # UNIQUE_EQUIPMENT_LEVEL = Region(779, 455, 61, 21) #Exclusive Weapon Level
     UNIQUE_EQUIPMENT_LEVEL = Region(775, 455, 61, 21)  # Exclusive Weapon Level
 
