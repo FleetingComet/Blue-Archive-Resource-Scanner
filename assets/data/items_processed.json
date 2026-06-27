@@ -1588,6 +1588,18 @@
         "name": "Haruka (Dress)'s Eleph"
     },
     {
+        "id": 10142,
+        "name": "Nagusa (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 10143,
+        "name": "Shun (Swimsuit)'s Eleph"
+    },
+    {
+        "id": 10145,
+        "name": "Kisaki (Swimsuit)'s Eleph"
+    },
+    {
         "id": 13000,
         "name": "Akane's Eleph"
     },
@@ -3092,6 +3104,22 @@
         "name": "キュウリ味の歯磨き粉"
     },
     {
+        "id": 80840,
+        "name": "フォトカードコレクション"
+    },
+    {
+        "id": 80841,
+        "name": "査察計画書"
+    },
+    {
+        "id": 80842,
+        "name": "施設入場券"
+    },
+    {
+        "id": 80843,
+        "name": "特産品のお菓子"
+    },
+    {
         "id": 100000,
         "name": "Gift Box"
     },
@@ -3365,7 +3393,7 @@
     },
     {
         "id": 151022,
-        "name": "Wildhunt Furniture Choice Box"
+        "name": "Wildhunt Campus Furniture Choice Box"
     },
     {
         "id": 151023,
@@ -3705,7 +3733,7 @@
     },
     {
         "id": 180077,
-        "name": "Decadent Chocolate"
+        "name": "Good Diver Chocolate"
     },
     {
         "id": 180078,
