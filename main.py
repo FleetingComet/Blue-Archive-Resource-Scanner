@@ -24,7 +24,7 @@ def main():
 
     # Sync Data
     # Sync if CLI is NOT offline AND settings say Enable Sync is True
-    if not args.offline and Config.settings.offline_mode:
+    if not args.offline and Config.settings.enable_sync:
         try:
             DataSyncManager().update_from_online()
         except Exception:
