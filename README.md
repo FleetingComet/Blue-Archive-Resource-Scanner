@@ -1,5 +1,10 @@
 # Blue Archive Resources Scanner
 
+<h1 align="center">⚠️Attention: This project is being rewritten.
+
+Go here: [BA-Scanner](https://github.com/FleetingComet/BA-Scanner)
+</h1>
+
 ![Logo](assets/images/BA-Scanner-banner-light.png)
 
 A Python-based tool to scan and count owned resources in **Blue Archive**.
