@@ -41,11 +41,12 @@ def match_image_using_directory(
 
     if grayscale:
         input_image = cv2.cvtColor(input_image, cv2.COLOR_BGR2GRAY)
-        h, w = input_image.shape[:2]
-        if h < 50 or w < 50:
-            input_image = cv2.resize(
-                input_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR
-            )
+        
+    h, w = input_image.shape[:2]
+    if h < 50 or w < 50:
+        input_image = cv2.resize(
+            input_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR
+        )
 
     if input_image.ndim == 3 and input_image.shape[2] == 4:
         input_image = input_image[:, :, :3]
