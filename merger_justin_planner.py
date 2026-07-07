@@ -20,17 +20,21 @@ if __name__ == "__main__":
         if isinstance(char, dict) and "target" not in char:
             char["target"] = {
                 "level": "90",
-                "ue_level": "50",
-                "bond": "23",
+                "ue_level": "60",
+                "bond": "1",
                 "ex": "5",
                 "basic": "10",
                 "passive": "10",
                 "sub": "10",
-                "gear1": "9",
-                "gear2": "9",
-                "gear3": "9",
+                "gear1": "10",
+                "gear2": "10",
+                "gear3": "10",
+                "bond_gear": "0", # safe for no bond gear students
+                "book_hp": "25",
+                "book_atk": "25",
+                "book_heal": "25",
                 "star": 5,
-                "ue": 3,
+                "ue": 4,
             }
 
     previous_data["characters"] = new_resources["characters"]
