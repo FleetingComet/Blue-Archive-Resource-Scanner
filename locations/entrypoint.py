@@ -1,5 +1,5 @@
 from enum import Enum
-from area import Region
+from src.core.area import Region
 
 
 # # 1280x720p

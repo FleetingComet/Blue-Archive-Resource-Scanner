@@ -1,4 +1,4 @@
-from utils.data.text_matcher import find_closest
+from src.utils.data.text_matcher import find_closest
 
 
 class TestFuzzyMatcher:

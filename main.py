@@ -1,16 +1,16 @@
 import argparse
 
-from config import Config
-from screen_navigator import ScreenNavigator
-from screen_state import ScreenState
-from utils.data.equipment import EquipmentProcessor
-from utils.data.item import ItemProcessor
-from utils.data.student import StudentProcessor
-from utils.screen.capture_backend import (
+from src.core.config import Config
+from src.core.navigator import ScreenNavigator
+from src.core.state import ScreenState
+from src.utils.data.equipment import EquipmentProcessor
+from src.utils.data.item import ItemProcessor
+from src.utils.data.student import StudentProcessor
+from src.utils.screen.capture_backend import (
     get_adb_components,
     get_desktop_components,
 )
-from utils.sync.data_sync_manager import DataSyncManager
+from src.utils.sync.data_sync_manager import DataSyncManager
 
 
 def main():

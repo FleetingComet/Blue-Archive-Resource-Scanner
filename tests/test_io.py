@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from utils.data.io import read_json, update_count, update_student, write_json
+from src.utils.data.io import read_json, update_count, update_student, write_json
 
 
 class TestIO:

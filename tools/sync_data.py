@@ -5,7 +5,7 @@ Usage: python -m tools.sync_data
 
 import argparse
 
-from utils.sync.data_sync_manager import DataSyncManager
+from src.utils.sync.data_sync_manager import DataSyncManager
 
 
 def main():
