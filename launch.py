@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import json
 import subprocess
 import sys
@@ -6,7 +5,7 @@ from pathlib import Path
 
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Confirm, Prompt
+from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 from rich.table import Table
 from rich.text import Text
 
@@ -32,24 +31,6 @@ def header(title: str):
 
 def ask(prompt: str, default: str = "") -> str:
     return Prompt.ask(prompt, default=default)
-
-
-def ask_int(prompt: str, default: int) -> int:
-    while True:
-        val = Prompt.ask(prompt, default=str(default))
-        try:
-            return int(val)
-        except ValueError:
-            console.print("[red]Please enter a valid number.[/red]")
-
-
-def ask_float(prompt: str, default: float) -> float:
-    while True:
-        val = Prompt.ask(prompt, default=str(default))
-        try:
-            return float(val)
-        except ValueError:
-            console.print("[red]Please enter a valid decimal number.[/red]")
 
 
 def choose(prompt: str, options: list, default: str = "") -> str:
@@ -84,7 +65,7 @@ def save_settings(settings: dict):
     SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     try:
-        from config import UserSettings
+        from src.core.config import UserSettings
 
         validated = UserSettings(**settings)
 
@@ -265,13 +246,17 @@ def run_wizard(previous: dict) -> dict:
 
     if mode == "emulator":
         console.print("[dim]MuMu → 16384 | LD/BlueStacks → 5555[/dim]")
-        adb_port = ask_int("ADB port", previous.get("adb_port", 16384))
-        adb_retries = ask_int("ADB Retries", previous.get("adb_retries", 5))
+        adb_port = IntPrompt.ask("ADB port", default=previous.get("adb_port", 16384))
+        adb_retries = IntPrompt.ask(
+            "ADB Retries", default=previous.get("adb_retries", 5)
+        )
 
     elif mode == "device":
         console.print("[yellow]Tip: Enable wireless ADB[/yellow]")
-        adb_host = ask("Device IP address", previous.get("adb_host", "192.168.1.100"))
-        adb_port = ask_int("ADB port", previous.get("adb_port", 5555))
+        adb_host = ask(
+            "Device IP address", default=previous.get("adb_host", "192.168.1.100")
+        )
+        adb_port = IntPrompt.ask("ADB port", default=previous.get("adb_port", 5555))
 
     header("Step 2 - Scan Targets")
 
@@ -298,14 +283,16 @@ def run_wizard(previous: dict) -> dict:
     console.print(
         "[dim]1.0 = normal speed  |  1.5 = 50 % slower  |  2.0 = double wait[/dim]\n"
     )
-    wait_mult = ask_float("Wait multiplier", previous.get("wait_multiplier", 1.0))
-    wait_screen_nav_multiplier = ask_float(
+    wait_mult = FloatPrompt.ask(
+        "Wait multiplier", default=previous.get("wait_multiplier", 1.0)
+    )
+    wait_screen_nav_multiplier = FloatPrompt.ask(
         "Multiplier specifically for screen navigation delays (use for slower screen loads)",
-        previous.get("wait_screen_nav_multiplier", 1.0),
+        default=previous.get("wait_screen_nav_multiplier", 1.0),
     )
 
     if mode != "emulator" and mode != "device":
-        capture_interval = ask_float(
+        capture_interval = FloatPrompt.ask(
             "Seconds between captures", previous.get("capture_interval", 0.5)
         )
 
