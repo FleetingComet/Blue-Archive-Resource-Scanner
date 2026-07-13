@@ -1,5 +1,5 @@
 import json
-from utils.data.student import StudentProcessor
+from src.utils.data.student import StudentProcessor
 
 
 def test_student_matching(tmp_config):

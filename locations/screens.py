@@ -1,4 +1,4 @@
-from area import Location, Region
+from src.core.area import Location, Region
 
 
 class StudentInfo:

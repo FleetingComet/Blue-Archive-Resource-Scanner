@@ -1,6 +1,6 @@
 import json
 
-from utils.data.equipment import EquipmentProcessor
+from src.utils.data.equipment import EquipmentProcessor
 
 
 def test_equipment_processing(tmp_config):

@@ -1,8 +1,8 @@
 from pathlib import Path
 import requests
 
-from utils.sync.data_sync_manager import DataSyncManager
-from config import Config
+from src.utils.sync.data_sync_manager import DataSyncManager
+from src.core.config import Config
 
 
 class DummyResp:
