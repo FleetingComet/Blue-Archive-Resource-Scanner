@@ -293,7 +293,7 @@ def run_wizard(previous: dict) -> dict:
 
     if mode != "emulator" and mode != "device":
         capture_interval = FloatPrompt.ask(
-            "Seconds between captures", previous.get("capture_interval", 0.5)
+            "Seconds between captures", default=previous.get("capture_interval", 0.5)
         )
 
     header("Step 4 - Network")
@@ -350,31 +350,31 @@ def main():
     )
 
     force_edit = _parse_args()
-    previous = load_settings()
-    first_launch = not previous
+    previous_settings = load_settings()
+    first_launch = not previous_settings
+    from_config = load_screens_from_config()
+    if from_config:
+        previous_settings["screens"] = from_config
 
     if force_edit:
         # User explicitly asked to reconfigure
-        if previous:
+        if previous_settings:
             console.print(
                 "[dim]Edit mode - previous settings loaded as defaults.[/dim]\n"
             )
-        settings = run_wizard(previous)
+        settings = run_wizard(previous_settings)
         save_settings(settings)
     elif first_launch:
         # No saved settings yet - must run wizard
         console.print("[dim]First launch - let's get you set up.[/dim]\n")
         check_dependencies()
-        settings = run_wizard(previous)
+        settings = run_wizard(previous_settings)
         save_settings(settings)
     else:
         # Saved settings exist and no --edit flag - use them silently
         console.print("[green]Using saved settings.[/green]\n")
         console.print("[dim]Run with -e / --edit to change them.\n")
-        from_config = load_screens_from_config()
-        if from_config:
-            previous["screens"] = from_config
-        settings = previous
+        settings = previous_settings
 
     launch(settings)
 
