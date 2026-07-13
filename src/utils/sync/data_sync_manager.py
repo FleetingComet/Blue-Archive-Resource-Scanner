@@ -3,7 +3,7 @@ from src.core.config import Config
 import hashlib
 import requests
 import time
-from typing import Dict, Optional
+from typing import Optional
 
 
 class DataSyncManager:

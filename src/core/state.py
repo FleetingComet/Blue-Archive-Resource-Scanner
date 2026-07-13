@@ -6,8 +6,8 @@ from enum import Enum, auto
 from typing import Optional, Set
 
 from src.core.config import Config
-from scanner import get_currencies, get_student_info, startMatching
 from src.core.navigator import ScreenNavigator
+from src.services.scanner import get_currencies, get_student_info, startMatching
 
 
 class NavState(Enum):
