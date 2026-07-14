@@ -5,10 +5,11 @@ from pathlib import Path
 
 import cv2
 
-from src.core.area import Location, Region, Size
-from src.core.config import Config
 from locations import screens
 from locations.search import SearchPattern, StudentSearchPattern
+from services.workers import item_ocr_worker, student_ocr_worker
+from src.core.area import Location, Region, Size
+from src.core.config import Config
 from src.utils.data.io import read_json, update_count, write_json
 from src.utils.data.jsonHelper import (
     map_student_data_to_character,
@@ -17,116 +18,9 @@ from src.utils.device.inputs.input_controller import InputController
 from src.utils.device.swipe_utils import swipe_with_verification
 from src.utils.ocr.extract import (
     extract_from_region,
-    extract_item_name,
-    extract_owned_count,
 )
 from src.utils.ocr.item_util import is_empty_slot
 from src.utils.ocr.text_util import normalize_value
-
-
-def _ocr_image_worker(img_path: Path, grid_type: str) -> tuple[str | None, str | None]:
-    """Runs OCR on a single saved screenshot. it's for parallel execution."""
-    img = cv2.imread(str(img_path))
-    if img is None:
-        return None, None
-    name = extract_item_name(img, grid_type)
-    count = extract_owned_count(img, grid_type)
-    return name, count
-
-
-def _ocr_student_worker(img_path: Path) -> dict | None:
-    """Runs full student OCR on a single saved screenshot."""
-    image = cv2.imread(str(img_path))
-    if image is None:
-        return None
-
-    return {
-        "Name": extract_from_region(
-            image,
-            StudentSearchPattern.STUDENT_NAME.value,
-            image_type="name",
-        ),
-        "Level": extract_from_region(
-            image,
-            StudentSearchPattern.LEVEL.value,
-            image_type="level_indicator",
-        ),
-        "Bond Level": extract_from_region(
-            image,
-            StudentSearchPattern.BOND_LEVEL.value,
-            image_type="number_in_circle",
-        ),
-        "Rarity": extract_from_region(
-            image,
-            StudentSearchPattern.STAR_QUANTITY.value,
-            image_type="star",
-        ),
-        "Gear 1 Tier": extract_from_region(
-            image,
-            StudentSearchPattern.GEAR_1_TIER.value,
-            image_type="gear",
-        ),
-        "Gear 2 Tier": extract_from_region(
-            image,
-            StudentSearchPattern.GEAR_2_TIER.value,
-            image_type="gear",
-        ),
-        "Gear 3 Tier": extract_from_region(
-            image,
-            StudentSearchPattern.GEAR_3_TIER.value,
-            image_type="gear",
-        ),
-        "Gear Bond Tier": extract_from_region(
-            image,
-            StudentSearchPattern.GEAR_BOND_TIER.value,
-            image_type="gear",
-        ),
-        "Unique Equipment Star Quantity": extract_from_region(
-            image,
-            StudentSearchPattern.UNIQUE_EQUIPMENT_STAR_QUANTITY.value,
-            image_type="ue_star",
-        ),
-        "Unique Equipment Level": extract_from_region(
-            image,
-            StudentSearchPattern.UNIQUE_EQUIPMENT_LEVEL.value,
-            image_type="ue_level",
-        ),
-        "Skill EX": extract_from_region(
-            image,
-            StudentSearchPattern.SKILL_EX.value,
-            image_type="skill_level_indicator",
-        ),
-        "Skill Basic": extract_from_region(
-            image,
-            StudentSearchPattern.SKILL_BASIC.value,
-            image_type="skill_level_indicator",
-        ),
-        "Skill Enhanced": extract_from_region(
-            image,
-            StudentSearchPattern.SKILL_ENHANCED.value,
-            image_type="skill_level_indicator",
-        ),
-        "Skill Sub": extract_from_region(
-            image,
-            StudentSearchPattern.SKILL_SUB.value,
-            image_type="skill_level_indicator",
-        ),
-        "Talent_ATK": extract_from_region(
-            image,
-            StudentSearchPattern.TALENT.ATK.value,
-            image_type="talent",
-        ),
-        "Talent_HP": extract_from_region(
-            image,
-            StudentSearchPattern.TALENT.HP.value,
-            image_type="talent",
-        ),
-        "Talent_HEALING": extract_from_region(
-            image,
-            StudentSearchPattern.TALENT.HEALING.value,
-            image_type="talent",
-        ),
-    }
 
 
 # TODO: Fix this
@@ -284,11 +178,12 @@ def startMatching(
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=ocr_workers) as executor:
             futures = {
-                executor.submit(_ocr_image_worker, p, grid_type): p
+                executor.submit(item_ocr_worker, p, grid_type): p
                 for p in captured_paths
             }
             for future in concurrent.futures.as_completed(futures):
-                name, count = future.result()
+                result = future.result()
+                name, count = result["name"], result["count"]
                 if name and count:
                     parsed = normalize_value(count)
 
@@ -362,7 +257,7 @@ def get_student_info(input_controller: InputController) -> bool:
         raw_results = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
             futures = {
-                executor.submit(_ocr_student_worker, p): p for p in captured_paths
+                executor.submit(student_ocr_worker, p): p for p in captured_paths
             }
             for future in concurrent.futures.as_completed(futures):
                 data = future.result()
