@@ -1,27 +1,31 @@
 import json
+from enum import Enum
 from pathlib import Path
 
 from pydantic import BaseModel
 
 
-class UserSettings(BaseModel):
+class TargetPlatform(str, Enum):
+    EMULATOR = "emulator"
+    DEVICE = "device"
+    DESKTOP = "desktop"
+
+
+class AppSettings(BaseModel):
     # ADB Settings
     adb_host: str = "127.0.0.1"  # or "localhost"
     adb_port: int = 16384  # Default MuMu Player 12 port
+    adb_retries: int = 3  # Retries the connection up to retries times (default 3).
 
-    # increase this if your device is laggy (eg. 1.1 or 1.8 or 2)
     wait_multiplier: float = 1.0
-    # Multiplier specifically for screen navigation delays (use for slower screen loads)
     wait_screen_nav_multiplier: float = 2.0
     capture_interval: float = 0.5  # seconds between captures
     enable_sync: bool = False
-    target_platform: str = "emulator"  # emulator, desktop, device
-
-    adb_retries: int = 3  # Retries the connection up to retries times (default 3).
+    # target_platform: str = "emulator"  # emulator, desktop, device
+    target_platform: TargetPlatform = TargetPlatform.EMULATOR
 
 
 class Config:
-    # --- Directories ---
     BASE_DIR = Path(__file__).parent
 
     path = Path(__file__).resolve()
@@ -42,7 +46,7 @@ class Config:
         for dir_path in [self.OUTPUT_DIR, self.CONFIG_DIR, self.LOGS_DIR]:
             dir_path.mkdir(parents=True, exist_ok=True)
 
-        self.settings: UserSettings = self.load_settings()
+        self.settings: AppSettings = self.load_settings()
         # Map settings to class attributes for backward compatibility with utils
         self.ADB_HOST = self.settings.adb_host
         self.ADB_PORT = self.settings.adb_port
@@ -50,11 +54,6 @@ class Config:
         self.WAIT_TIME_SCREEN_NAV_MULTIPLIER = self.settings.wait_screen_nav_multiplier
         self.CAPTURE_INTERVAL = self.settings.capture_interval
         self.ADB_RETRIES = self.settings.adb_retries
-
-        # File Paths
-        self.SCREENSHOTS_DIR = self.PROJECT_ROOT / "screenshots"
-        self.SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
-        self.SCREENSHOT_PATH = self.SCREENSHOTS_DIR / "latest_screenshot.png"
 
         self.OWNED_DIR = self.OUTPUT_DIR / "owned"
         self.OWNED_DIR.mkdir(parents=True, exist_ok=True)
@@ -79,18 +78,18 @@ class Config:
             "merger": self.OUTPUT_DIR / "justin_data_final.json",
         }
 
-    def load_settings(self) -> UserSettings:
+    def load_settings(self) -> AppSettings:
         settings_file = Path(self.CONFIG_DIR / "settings.json")
 
         if settings_file.exists():
             try:
                 data = json.loads(settings_file.read_text(encoding="utf-8"))
-                return UserSettings(**data)
+                return AppSettings(**data)
             except Exception:
                 pass
-        return UserSettings()
+        return AppSettings()
 
-    def save_settings(self, settings: UserSettings):
+    def save_settings(self, settings: AppSettings):
         settings_file = self.CONFIG_DIR / "settings.json"
         settings_file.write_text(settings.model_dump_json(indent=4), encoding="utf-8")
 
