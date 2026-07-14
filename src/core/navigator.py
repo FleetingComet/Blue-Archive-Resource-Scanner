@@ -6,11 +6,10 @@ from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
 from src.core.area import Region
 from src.core.config import Config
-from src.utils.device.inputs.input_controller import InputController
+from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.engine import extract_text
 from src.utils.ocr.matchers import match_image_using_file
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
-from src.utils.screen.screenshot_provider import ScreenshotProvider
 
 
 @dataclass
@@ -21,37 +20,15 @@ class NavigationResult:
 
 
 class ScreenNavigator:
-    def __init__(
-        self,
-        input_controller: InputController,
-        screencap: Optional[ScreenshotProvider] = None,
-    ):
+    def __init__(self, device: DeviceController):
         """
-        Initialize the ScreenNavigator with an InputController and optional ScreenshotProvider.
-        If no screencap is provided, a new one is created and started.
+        Initialize the ScreenNavigator with an DeviceController.
         """
-        self.input_controller = input_controller
-        self.screencap = screencap
-
-        # Ensure background capture thread is running if provided
-        if self.screencap and (
-            not hasattr(self.screencap, "thread")
-            or (
-                hasattr(self.screencap, "thread")
-                and (
-                    self.screencap.thread is None
-                    or not self.screencap.thread.is_alive()
-                )
-            )
-        ):
-            if hasattr(self.screencap, "start"):
-                self.screencap.start()
+        self.device = device
 
     def _get_screenshot(self):
-        """Get screenshot from screencap or capture directly"""
-        if self.screencap:
-            return self.screencap.get_latest_screenshot()
-        return self.input_controller.capture_screenshot()
+        """Get screenshot from DeviceController"""
+        return self.device.capture_screenshot()
 
     def identify_screen(self) -> str:
         """
@@ -92,7 +69,7 @@ class ScreenNavigator:
         button = self.determine_button("home")
 
         if button:
-            self.input_controller.tap(
+            self.device.tap(
                 int(button.random_point().x), int(button.random_point().y)
             )
             time.sleep(
@@ -142,7 +119,7 @@ class ScreenNavigator:
                 return res
 
         center = button.random_point()
-        self.input_controller.tap(int(center.x), int(center.y))
+        self.device.tap(int(center.x), int(center.y))
         time.sleep(
             2.0 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
         )
@@ -157,7 +134,7 @@ class ScreenNavigator:
         button: Region = self.determine_button("menu")
         if button:
             point = button.random_point(2)
-            self.input_controller.tap(int(point.x), int(point.y))
+            self.device.tap(int(point.x), int(point.y))
             time.sleep(
                 0.5
                 * Config.WAIT_TIME_MULTIPLIER

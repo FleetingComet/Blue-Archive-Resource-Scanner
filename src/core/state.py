@@ -188,7 +188,7 @@ class ScreenState:
             self.unvisited.discard("Students")
 
             # Extract all students automatically
-            get_student_info(self.navigator.input_controller)
+            get_student_info(self.navigator.device)
 
             self.visited.add("Student")
             self.unvisited.discard("Student")
@@ -247,11 +247,11 @@ class ScreenState:
         print(f"Processing: {screen_name}")
 
         if screen_name in ["Currencies"]:
-            get_currencies(self.navigator.input_controller)
+            get_currencies(self.navigator.device)
 
         if screen_name in ("Equipment", "Items"):
             startMatching(
-                self.navigator.input_controller,
+                self.navigator.device,
                 grid_type=cfg["grid_type"],
                 grid_config=cfg["grid_config"],
             )
@@ -261,4 +261,4 @@ class ScreenState:
             self.navigator.navigate_to_target("first_student", in_menu_tab=False)
 
         elif screen_name == "Student":
-            get_student_info(self.navigator.input_controller)
+            get_student_info(self.navigator.device)
