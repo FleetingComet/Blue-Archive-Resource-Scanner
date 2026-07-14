@@ -1,5 +1,7 @@
-from src.core.area import Region
+import cv2
+
 from locations.search import SearchPattern
+from src.core.area import Region
 from src.utils.ocr.color_util import (
     remove_non_white,
     retain_colors,
@@ -44,7 +46,9 @@ def extract_from_region(image, region: Region, image_type=None):
     #     return match_tier(crop_img, grayscale=True)
 
     if image_type == "star":
-        return match_star(crop_img)
+        # return match_star(crop_img)
+        # Temporary
+        return None
 
     if image_type == "ue_star":
         return count_blue_stars_adaptive(crop_img, debug=False)
@@ -57,16 +61,17 @@ def extract_from_region(image, region: Region, image_type=None):
         crop_img, _ = retain_colors(crop_img, hex_colors, tolerance=20)
 
     preprocessed_crop = crop_img
+
     if image_type != "gear" or image_type != "talent":
         preprocessed_crop, config = preprocess_image_for_ocr(
             crop_img, image_type=image_type
         )
 
     if preprocessed_crop is not None:
-        if image_type != "talent":
-            text = extract_text(preprocessed_crop)
-        else:
+        if image_type == "talent":
             text = extract_text_talent(preprocessed_crop)
+        else:
+            text = extract_text(preprocessed_crop)
 
         if text is None:
             return None

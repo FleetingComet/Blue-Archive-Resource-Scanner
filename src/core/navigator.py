@@ -2,10 +2,10 @@ import time
 from dataclasses import dataclass
 from typing import Optional
 
-from src.core.area import Region
-from src.core.config import Config
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
+from src.core.area import Region
+from src.core.config import Config
 from src.utils.device.inputs.input_controller import InputController
 from src.utils.ocr.engine import extract_text
 from src.utils.ocr.matchers import match_image_using_file
@@ -112,7 +112,7 @@ class ScreenNavigator:
     def ensure_menu_state(self, should_open: bool) -> NavigationResult:
         """Open or close menu tab to match desired state."""
         current_open = self.is_menu_tab_open()
-        print(f"is menu tab open?: {current_open}")
+        print(f"is Menu Tab open?: {current_open}")
         if current_open == should_open:
             return NavigationResult(success=True, screen_detected="MenuStateOK")
 
