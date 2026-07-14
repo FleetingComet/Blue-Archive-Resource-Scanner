@@ -2,11 +2,11 @@ import time
 
 import numpy as np
 
-from src.utils.device.inputs.input_controller import InputController
+from src.utils.device.interfaces import DeviceController
 
 
 def swipe_with_verification(
-    input_controller: InputController,
+    device: DeviceController,
     start_x: int,
     start_y: int,
     swipe_start_y: int,
@@ -23,10 +23,10 @@ def swipe_with_verification(
 
     for attempt in range(max_retries):
         # Capture before swipe
-        before = input_controller.capture_screenshot()
+        before = device.capture_screenshot()
 
         # Perform swipe
-        input_controller.swipe(
+        device.swipe(
             swipe_start_x, swipe_start_y - 5, swipe_start_x, swipe_end_y, duration_ms=2000
         )
 
@@ -34,7 +34,7 @@ def swipe_with_verification(
         time.sleep(2.5)
 
         # Capture after swipe
-        after = input_controller.capture_screenshot()
+        after = device.capture_screenshot()
 
         # Verify screen changed using full grid region
         if _screens_are_different(

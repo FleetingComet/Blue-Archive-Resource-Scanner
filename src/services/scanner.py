@@ -14,7 +14,7 @@ from src.utils.data.io import read_json, update_count, write_json
 from src.utils.data.jsonHelper import (
     map_student_data_to_character,
 )
-from src.utils.device.inputs.input_controller import InputController
+from src.utils.device.interfaces import DeviceController
 from src.utils.device.swipe_utils import swipe_with_verification
 from src.utils.ocr.extract import (
     extract_from_region,
@@ -25,7 +25,7 @@ from src.utils.ocr.text_util import normalize_value
 
 # TODO: Fix this
 def startMatching(
-    input_controller: InputController,
+    device: DeviceController,
     grid_type: str = "Equipment",
     grid_config: dict = None,
     ocr_workers=4,
@@ -52,7 +52,7 @@ def startMatching(
       - swipe_with_verification returns False (no scroll = truly at end)
 
     Args:
-        input_controller (InputController): Platform-agnostic input controller
+        device (DeviceController): Platform-agnostic device controller
         grid_type (str): "Equipment" or "Items".
         grid_config (dict): Grid configuration from screen_config.json
     Returns:
@@ -102,7 +102,7 @@ def startMatching(
 
         while True:
             screen_number += 1
-            grid_image = input_controller.capture_screenshot()
+            grid_image = device.capture_screenshot()
             if grid_image is None:
                 print("Failed to capture grid screenshot.")
                 return False
@@ -140,10 +140,10 @@ def startMatching(
                     point = item_region.random_point(10)
 
                     # Tap → minimal wait → capture → save
-                    input_controller.tap(int(point.x), int(point.y))
+                    device.tap(int(point.x), int(point.y))
                     time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)
 
-                    detail_img = input_controller.capture_screenshot()
+                    detail_img = device.capture_screenshot()
 
                     if detail_img is None:
                         continue
@@ -159,7 +159,7 @@ def startMatching(
 
             # Swipe
             if not swipe_with_verification(
-                input_controller,
+                device,
                 grid_start.x,
                 grid_start.y,
                 swipe_start_y,
@@ -207,7 +207,7 @@ def startMatching(
     return True
 
 
-def get_student_info(input_controller: InputController) -> bool:
+def get_student_info(device: DeviceController) -> bool:
     first_name = None
     iteration = 0
     captured_paths = []
@@ -217,7 +217,7 @@ def get_student_info(input_controller: InputController) -> bool:
 
         while True:
             iteration += 1
-            image = input_controller.capture_screenshot()
+            image = device.capture_screenshot()
             if image is None:
                 print("Failed to capture screenshot.")
                 return False
@@ -239,7 +239,7 @@ def get_student_info(input_controller: InputController) -> bool:
             captured_paths.append(save_path)
 
             # Tap Next
-            input_controller.tap(
+            device.tap(
                 int(screens.StudentInfo.BUTTONS.NEXT.x),
                 int(screens.StudentInfo.BUTTONS.NEXT.y),
             )
@@ -285,8 +285,8 @@ def get_student_info(input_controller: InputController) -> bool:
         return True
 
 
-def get_currencies(input_controller: InputController) -> bool:
-    image = input_controller.capture_screenshot()
+def get_currencies(device: DeviceController) -> bool:
+    image = device.capture_screenshot()
 
     if image is None:
         return False

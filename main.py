@@ -1,20 +1,20 @@
 import argparse
+from typing import Set
 
-from src.core.config import Config
+from src.core.config import Config, TargetPlatform
 from src.core.navigator import ScreenNavigator
 from src.core.state import ScreenState
 from src.utils.data.equipment import EquipmentProcessor
 from src.utils.data.item import ItemProcessor
 from src.utils.data.student import StudentProcessor
-from src.utils.device.inputs.input_controller import InputController
-from src.utils.screen.capture_backend import (
-    get_adb_components,
-    get_desktop_components,
-)
+from src.utils.device.adb.adb_device import ADBDevice
+from src.utils.device.desktop.desktop_device import DesktopDevice
+from src.utils.device.factory import create_device
+from src.utils.device.interfaces import DeviceController
 from src.utils.sync.data_sync_manager import DataSyncManager
 
 
-def run_post_processing(visited_screens):
+def run_post_processing(visited_screens: Set[str]):
     """
     Only runs processors if the corresponding screen
     was actually successfully scanned.
@@ -51,37 +51,17 @@ def main():
         except Exception:
             pass
 
-    global sc, input_c
+    # Create device controller based on platform
+    device = create_device(Config.settings)
 
-    # Create input controller based on platform
-    if (
-        Config.settings.target_platform == "emulator"
-        or Config.settings.target_platform == "device"
-    ):
-        screencap, input_controller, adb_controller = get_adb_components()
-        sc = screencap
-        input_c = input_controller
-        # device connected (not emu) example:
-        # adb_controller = ADBController(host="192.168.254.156", port=5037)
-        # Mumu Emulator is the default
-        if not adb_controller.connect(retries=Config.ADB_RETRIES):
-            print("❌ Failed to connect to ADB after multiple attempts.")
-            print("Please check your ADB connection settings.")
-            screencap.stop()
-            exit(1)
-    else:
-        print("Desktop mode selected.")
-        screencap, input_controller, wc = get_desktop_components()
-        sc = screencap
-        input_c = input_controller
+    if not device.connect(Config.ADB_RETRIES):
+        print("❌ Failed to connect to ADB.")
+        exit(1)
 
-    sc.start()
-    mainpage(input_c, sc)
-    sc.stop()
-    exit(1)
+    mainpage(device)
 
 
-def mainpage(input_controller: InputController, screencap):
+def mainpage(device: DeviceController):
     """
     Handles navigation and starts the matching process.
     Logic:
@@ -93,11 +73,10 @@ def mainpage(input_controller: InputController, screencap):
         For "Students" and "Student", these are accessed without using the Menu Tab.
       - If navigation is successful, call the matching process (or get info).
     """
-    navigator = ScreenNavigator(input_controller, screencap)
+    navigator = ScreenNavigator(device)
     state = ScreenState(navigator)
-    finished = state.run()
 
-    if finished:
+    if state.run():
         run_post_processing(state.visited)
     else:
         print("⚠️ Matching process failed or was interrupted.")
