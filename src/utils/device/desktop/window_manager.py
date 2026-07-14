@@ -27,20 +27,32 @@ class WindowManager:
         return hwnd
 
     def _bring_to_front(self):
-        win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
+        if win32gui.IsIconic(self.hwnd):  # Check if minimized
+            win32gui.ShowWindow(self.hwnd, win32con.SW_RESTORE)
         win32gui.SetForegroundWindow(self.hwnd)
 
     def get_client_region(self) -> Region:
         """Returns the inner region of the window (minus borders)."""
-        left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
-        full = Region(x=left, y=top, width=right - left, height=bottom - top)
+        # left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
+        _, _, w, h = win32gui.GetClientRect(self.hwnd)
+
+        # Find where the (0,0) of the game area is on the monitor
+        point = win32gui.ClientToScreen(self.hwnd, (0, 0))
+
+        if w <= 0 or h <= 0:
+            # Fallback for minimized windows
+            return Region(0, 0, 1280, 720)
+
+        return Region(x=point[0], y=point[1], width=w, height=h)
+
+        # full = Region(x=left, y=top, width=right - left, height=bottom - top)
         # Windows standard border/titlebar offsets
-        return Region(
-            x=full.x + self.BORDER_PX,
-            y=full.y + self.TITLEBAR_PX,
-            width=full.width - (2 * self.BORDER_PX),
-            height=full.height - self.TITLEBAR_PX - self.BORDER_PX,
-        )
+        # return Region(
+        #     x=full.x + self.BORDER_PX,
+        #     y=full.y + self.TITLEBAR_PX,
+        #     width=full.width - (2 * self.BORDER_PX),
+        #     height=full.height - self.TITLEBAR_PX - self.BORDER_PX,
+        # )
 
     def get_screenshot(self) -> np.ndarray:
         """Try the first capture method, fallback to MSS."""
@@ -50,7 +62,7 @@ class WindowManager:
             return self._capture_mss()
 
     def _capture(self):
-        region = self.get_client_region()
+        client = self.get_client_region()
         capture = WindowsCapture(window_name=self.window_name)
         image = None
 
@@ -67,9 +79,20 @@ class WindowManager:
         capture.start()
 
         if image is None:
-            return np.zeros((region.height, region.width, 3), dtype=np.uint8)
+            return np.zeros((client.height, client.width, 3), dtype=np.uint8)
 
-        return image[region.height, region.width, 3]
+        left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
+        full_width = right - left
+        full_height = bottom - top
+
+        # Crop offsets
+        offset_x = (full_width - client.width) // 2
+        # Usually, borders are equal on left/right, and the remainder is on top
+        offset_y = full_height - client.height - offset_x
+
+        return image[
+            offset_y : offset_y + client.height, offset_x : offset_x + client.width
+        ].copy()
 
     def _capture_mss(self):
         reg = self.get_client_region()
