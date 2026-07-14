@@ -9,6 +9,8 @@ from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 from rich.table import Table
 from rich.text import Text
 
+from src.core.config import TargetPlatform
+
 console = Console()
 
 # Paths
@@ -65,9 +67,9 @@ def save_settings(settings: dict):
     SETTINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     try:
-        from src.core.config import UserSettings
+        from src.core.config import AppSettings
 
-        validated = UserSettings(**settings)
+        validated = AppSettings(**settings)
 
         with open(SETTINGS_FILE, "w", encoding="utf-8") as f:
             f.write(validated.model_dump_json(indent=4))
@@ -233,13 +235,19 @@ def run_wizard(previous: dict) -> dict:
         "How are you running Blue Archive?",
         [
             (
-                "emulator",
+                TargetPlatform.DESKTOP.value,
+                "PC client / desktop window (Blue Archive PC app)",
+            ),
+            (
+                TargetPlatform.EMULATOR.value,
                 "Emulator on this PC  (MuMu Player 12, LDPlayer, BlueStacks …)",
             ),
-            ("desktop", "PC client / desktop window (Blue Archive PC app)"),
-            ("device", "Real Android phone / tablet over USB or Wi-Fi"),
+            (
+                TargetPlatform.DEVICE.value,
+                "Real Android phone / tablet over USB or Wi-Fi",
+            ),
         ],
-        default=previous.get("target_platform", "emulator"),
+        default=previous.get("target_platform", TargetPlatform.EMULATOR.value),
     )
 
     adb_host, adb_port, adb_retries = "127.0.0.1", 16384, 5
