@@ -23,10 +23,19 @@ class UserSettings(BaseModel):
 class Config:
     # --- Directories ---
     BASE_DIR = Path(__file__).parent
-    ASSETS_DIR = BASE_DIR / "assets"
-    OUTPUT_DIR = BASE_DIR / "output"
-    CONFIG_DIR = BASE_DIR / "config"
-    LOGS_DIR = BASE_DIR / "logs"
+
+    path = Path(__file__).resolve()
+
+    while not (path / "main.py").exists():
+        if path.parent == path:
+            raise RuntimeError("Could not locate project root.")
+        path = path.parent
+
+    PROJECT_ROOT = path
+    ASSETS_DIR = PROJECT_ROOT / "assets"
+    OUTPUT_DIR = PROJECT_ROOT / "output"
+    CONFIG_DIR = PROJECT_ROOT / "config"
+    LOGS_DIR = PROJECT_ROOT / "logs"
 
     def __init__(self):
         # Ensure directories exist
@@ -34,7 +43,6 @@ class Config:
             dir_path.mkdir(parents=True, exist_ok=True)
 
         self.settings: UserSettings = self.load_settings()
-
         # Map settings to class attributes for backward compatibility with utils
         self.ADB_HOST = self.settings.adb_host
         self.ADB_PORT = self.settings.adb_port
@@ -44,7 +52,7 @@ class Config:
         self.ADB_RETRIES = self.settings.adb_retries
 
         # File Paths
-        self.SCREENSHOTS_DIR = self.BASE_DIR / "screenshots"
+        self.SCREENSHOTS_DIR = self.PROJECT_ROOT / "screenshots"
         self.SCREENSHOTS_DIR.mkdir(parents=True, exist_ok=True)
         self.SCREENSHOT_PATH = self.SCREENSHOTS_DIR / "latest_screenshot.png"
 
@@ -72,7 +80,8 @@ class Config:
         }
 
     def load_settings(self) -> UserSettings:
-        settings_file = self.CONFIG_DIR / "settings.json"
+        settings_file = Path(self.CONFIG_DIR / "settings.json")
+
         if settings_file.exists():
             try:
                 data = json.loads(settings_file.read_text(encoding="utf-8"))

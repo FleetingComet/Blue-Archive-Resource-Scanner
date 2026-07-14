@@ -6,11 +6,32 @@ from src.core.state import ScreenState
 from src.utils.data.equipment import EquipmentProcessor
 from src.utils.data.item import ItemProcessor
 from src.utils.data.student import StudentProcessor
+from src.utils.device.inputs.input_controller import InputController
 from src.utils.screen.capture_backend import (
     get_adb_components,
     get_desktop_components,
 )
 from src.utils.sync.data_sync_manager import DataSyncManager
+
+
+def run_post_processing(visited_screens):
+    """
+    Only runs processors if the corresponding screen
+    was actually successfully scanned.
+    """
+    processor_map = {
+        "Equipment": EquipmentProcessor,
+        "Items": ItemProcessor,
+        "Students": StudentProcessor,
+    }
+
+    for screen_name, ProcessorClass in processor_map.items():
+        if screen_name in visited_screens:
+            try:
+                print(f"Post-processing {screen_name} data...")
+                ProcessorClass().process()
+            except Exception as e:
+                print(f"Failed to process {screen_name}: {e}")
 
 
 def main():
@@ -30,11 +51,7 @@ def main():
         except Exception:
             pass
 
-    # Connect Device
-    if Config.settings.target_platform == "desktop":
-        print("Desktop mode selected.")
-
-    global sc
+    global sc, input_c
 
     # Create input controller based on platform
     if (
@@ -43,6 +60,7 @@ def main():
     ):
         screencap, input_controller, adb_controller = get_adb_components()
         sc = screencap
+        input_c = input_controller
         # device connected (not emu) example:
         # adb_controller = ADBController(host="192.168.254.156", port=5037)
         # Mumu Emulator is the default
@@ -52,30 +70,18 @@ def main():
             screencap.stop()
             exit(1)
     else:
+        print("Desktop mode selected.")
         screencap, input_controller, wc = get_desktop_components()
         sc = screencap
+        input_c = input_controller
 
     sc.start()
-
-    navigator = ScreenNavigator(input_controller, screencap)
-
-    finished = mainpage(navigator)
-
-    if not finished:
-        print("⚠️ Matching process failed or was interrupted.")
-        screencap.stop()
-        exit(1)
-
-    # Process Equipment
-    EquipmentProcessor().process()
-    # Process Items
-    ItemProcessor().process()
-    # Process Students
-    StudentProcessor().process()
-    screencap.stop()
+    mainpage(input_c, sc)
+    sc.stop()
+    exit(1)
 
 
-def mainpage(navigator: ScreenNavigator):
+def mainpage(input_controller: InputController, screencap):
     """
     Handles navigation and starts the matching process.
     Logic:
@@ -87,8 +93,15 @@ def mainpage(navigator: ScreenNavigator):
         For "Students" and "Student", these are accessed without using the Menu Tab.
       - If navigation is successful, call the matching process (or get info).
     """
-    screen_state = ScreenState(navigator)
-    return screen_state.run()
+    navigator = ScreenNavigator(input_controller, screencap)
+    state = ScreenState(navigator)
+    finished = state.run()
+
+    if finished:
+        run_post_processing(state.visited)
+    else:
+        print("⚠️ Matching process failed or was interrupted.")
+
 
 if __name__ == "__main__":
     main()

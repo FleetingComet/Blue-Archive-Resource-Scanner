@@ -4,7 +4,7 @@ from typing import TypedDict
 import cv2
 
 from locations.search import StudentSearchPattern
-from utils.ocr.extract import (
+from src.utils.ocr.extract import (
     extract_from_region,
     extract_item_name,
     extract_owned_count,

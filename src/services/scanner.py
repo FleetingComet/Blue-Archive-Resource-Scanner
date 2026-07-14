@@ -7,9 +7,9 @@ import cv2
 
 from locations import screens
 from locations.search import SearchPattern, StudentSearchPattern
-from services.workers import item_ocr_worker, student_ocr_worker
 from src.core.area import Location, Region, Size
 from src.core.config import Config
+from src.services.workers import item_ocr_worker, student_ocr_worker
 from src.utils.data.io import read_json, update_count, write_json
 from src.utils.data.jsonHelper import (
     map_student_data_to_character,
