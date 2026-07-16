@@ -1,3 +1,4 @@
+import logging
 import time
 from dataclasses import dataclass
 from typing import Optional
@@ -10,6 +11,8 @@ from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.engine import extract_text
 from src.utils.ocr.matchers import match_image_using_file
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
+
+logger = logging.getLogger("BA-Scanner")
 
 
 @dataclass
@@ -69,9 +72,7 @@ class ScreenNavigator:
         button = self.determine_button("home")
 
         if button:
-            self.device.tap(
-                int(button.random_point().x), int(button.random_point().y)
-            )
+            self.device.tap(int(button.random_point().x), int(button.random_point().y))
             time.sleep(
                 0.5
                 * Config.WAIT_TIME_MULTIPLIER
@@ -89,15 +90,15 @@ class ScreenNavigator:
     def ensure_menu_state(self, should_open: bool) -> NavigationResult:
         """Open or close menu tab to match desired state."""
         current_open = self.is_menu_tab_open()
-        print(f"is Menu Tab open?: {current_open}")
+        logger.debug(f"is Menu Tab open?: {current_open}")
         if current_open == should_open:
             return NavigationResult(success=True, screen_detected="MenuStateOK")
 
         if should_open:
-            print("Opening Menu Tab...")
+            logger.info("Opening Menu Tab...")
             self.press_menu_tab()
         else:
-            print("Closing Menu Tab (Pressing Home)...")
+            logger.info("Closing Menu Tab (Pressing Home)...")
             self.ensure_at_home()
 
         time.sleep(
@@ -136,7 +137,7 @@ class ScreenNavigator:
             point = button.random_point(2)
             self.device.tap(int(point.x), int(point.y))
             time.sleep(
-                0.5
+                0.8
                 * Config.WAIT_TIME_MULTIPLIER
                 * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
             )
@@ -160,8 +161,14 @@ class ScreenNavigator:
             return False
 
         # text = extract_text(preprocessed, config).replace("\r", "").replace("\n", " ")
-        text = extract_text(preprocessed).replace("\r", "").replace("\n", " ")
-        return text == "Menu Tab"
+        text = (
+            extract_text(preprocessed)
+            .replace("\r", "")
+            .replace("\n", " ")
+            .strip()
+            .lower()
+        )
+        return "Menu" in text
 
     def at_home(self, threshold: float = 0.45) -> bool:
         """

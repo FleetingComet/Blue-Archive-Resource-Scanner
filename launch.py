@@ -338,8 +338,7 @@ def launch(settings: dict):
         cmd.append("--offline")
 
     try:
-        with console.status("[cyan]Running scanner: [/cyan]", spinner="dots"):
-            subprocess.run(cmd, check=True)
+        subprocess.run(cmd, check=True)
 
     except KeyboardInterrupt:
         console.print("[yellow]\nScan interrupted.[/yellow]")
