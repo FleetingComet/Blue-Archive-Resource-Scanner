@@ -1,8 +1,7 @@
 # Blue Archive Resources Scanner
 
-<h1 align="center">⚠️Attention: This project is being rewritten.
+<h1 align="center">⚠️Attention: Look at dev branch if you want latest code.
 
-Go here: [BA-Scanner](https://github.com/FleetingComet/BA-Scanner)
 </h1>
 
 ![Logo](assets/images/BA-Scanner-banner-light.png)
