@@ -1,4 +1,5 @@
 import concurrent.futures
+import logging
 import tempfile
 import time
 from pathlib import Path
@@ -21,6 +22,8 @@ from src.utils.ocr.extract import (
 )
 from src.utils.ocr.item_util import is_empty_slot
 from src.utils.ocr.text_util import normalize_value
+
+logger = logging.getLogger("BA-Scanner")
 
 
 # TODO: Fix this
@@ -104,7 +107,7 @@ def startMatching(
             screen_number += 1
             grid_image = device.capture_screenshot()
             if grid_image is None:
-                print("Failed to capture grid screenshot.")
+                logger.error("Failed to capture grid screenshot.")
                 return False
 
             found_empty: bool = False
@@ -133,7 +136,7 @@ def startMatching(
                     )
 
                     if is_empty_slot(grid_image, item_region):
-                        print("Empty slot detected. End of inventory.")
+                        logger.info("Empty slot detected. End of inventory.")
                         found_empty = True
                         break
 
@@ -171,7 +174,7 @@ def startMatching(
                 break
             time.sleep(1.5 * Config.WAIT_TIME_MULTIPLIER)
 
-        print(
+        logger.info(
             f"\nProcessing {len(captured_paths)} images with {ocr_workers} OCR workers..."
         )
         results = {}
@@ -188,7 +191,7 @@ def startMatching(
                     parsed = normalize_value(count)
 
                     if parsed is None:
-                        print(
+                        logger.info(
                             f"[Scanner] result → name={name!r}, count={count!r}, parsed={parsed!r}"
                         )
                         pass  # Skip malformed counts
@@ -196,7 +199,7 @@ def startMatching(
                     results[name] = parsed
 
         if results:
-            print(
+            logger.info(
                 f"Found {len(results)} unique items. Writing to {Config.OWNED['counts']}..."
             )
 
@@ -219,7 +222,7 @@ def get_student_info(device: DeviceController) -> bool:
             iteration += 1
             image = device.capture_screenshot()
             if image is None:
-                print("Failed to capture screenshot.")
+                logger.error("Failed to capture screenshot.")
                 return False
 
             # Lightweight name check ONLY for loop termination
@@ -229,9 +232,9 @@ def get_student_info(device: DeviceController) -> bool:
 
             if first_name is None:
                 first_name = current_name
-                print(f"First student name set to: {first_name}")
+                logger.info(f"First student name set to: {first_name}")
             elif current_name and current_name == first_name:
-                print("Encountered the first student again. Ending capture loop.")
+                logger.info("Encountered the first student again. Ending capture loop.")
                 break
 
             save_path = tmp_path / f"stu_{iteration:03d}.png"
@@ -246,11 +249,11 @@ def get_student_info(device: DeviceController) -> bool:
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
         if not captured_paths:
-            print("⚠️ No students captured.")
+            logger.warning("⚠️ No students captured.")
             return False
 
         workers = min(4, len(captured_paths))
-        print(
+        logger.info(
             f"Processing {len(captured_paths)} screenshots with {workers} OCR workers..."
         )
 
@@ -264,7 +267,9 @@ def get_student_info(device: DeviceController) -> bool:
                 if data and data.get("Name"):
                     raw_results.append(data)
 
-        print(f"Extracted {len(raw_results)} student records. Formatting & saving...")
+        logger.info(
+            f"Extracted {len(raw_results)} student records. Formatting & saving..."
+        )
 
         final_data = {"characters": []}
         seen_names = set()
@@ -279,7 +284,7 @@ def get_student_info(device: DeviceController) -> bool:
                 break
 
         write_json(Config.OWNED["students"], final_data)
-        print(
+        logger.info(
             f"Saved {len(final_data['characters'])} students → {Config.OWNED['students']}"
         )
         return True
@@ -298,7 +303,9 @@ def get_currencies(device: DeviceController) -> bool:
         how_many = extract_from_region(
             image, currency.value, image_type="level_indicator"
         )  # reuse
-        print(f"Currency {currency.name}: {how_many}")
+        logger.info(
+            f"Detected [bold]Currency[/bold] {currency.name}: [cyan]{how_many}[/cyan]"
+        )
         if currency.name == "AP":
             AP = how_many.split("/", 1)
             AP = {"Remaining": AP[0], "Max": AP[-1]}
