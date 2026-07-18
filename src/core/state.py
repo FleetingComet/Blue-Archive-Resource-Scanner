@@ -21,6 +21,7 @@ from src.core.config import Config
 from src.core.navigator import ScreenNavigator
 from src.services.scanner import get_currencies, get_student_info, startMatching
 from src.utils.data.io import read_json
+from src.utils.log.plain_text_formatter import PlainTextFormatter
 
 
 class NavState(Enum):
@@ -52,6 +53,13 @@ class ScreenState:
         self._init_logging()
 
     def _init_logging(self):
+        self.logger = logging.getLogger("BA-Scanner")
+        self.logger.setLevel(logging.INFO)
+
+        # Clear existing handlers to prevent duplicate logs on re-init
+        if self.logger.handlers:
+            self.logger.handlers.clear()
+
         rich_handler = RichHandler(
             console=self.console,
             show_path=False,
@@ -59,20 +67,24 @@ class ScreenState:
             markup=True,
             omit_repeated_times=False,
         )
+        # Console format: only the message (Rich adds the timestamp column itself)
+        rich_handler.setFormatter(logging.Formatter("%(message)s"))
 
-        logging.basicConfig(
-            level="INFO",
-            format="%(message)s",
-            datefmt="[%X]",
-            handlers=[
-                rich_handler,
-                logging.FileHandler(
-                    Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log",
-                    encoding="utf-8",
-                ),
-            ],
+        log_path = Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"
+        file_handler = logging.FileHandler(log_path, encoding="utf-8")
+
+        file_format = logging.Formatter(
+            fmt="%(asctime)s | %(levelname)-8s | %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
         )
-        self.logger = logging.getLogger("BA-Scanner")
+
+        file_handler.setFormatter(
+            PlainTextFormatter(file_format._fmt, file_format.datefmt)
+        )
+
+        self.logger.addHandler(rich_handler)
+        self.logger.addHandler(file_handler)
+        self.logger.propagate = False
 
     def _load_config(self, path: str) -> dict:
         data = read_json(path)
@@ -161,15 +173,13 @@ class ScreenState:
         if state == NavState.NAVIGATING:
             cfg = self.config[self.target_screen]
 
-            progress.update(
-                task_id,
-                description=f"[bold blue]Navigating to[/bold blue] {self.target_screen}",
-            )
             try:
                 # Skip navigation for Currencies (at home)
-                if self.target_screen != "Currencies":
-                    self._safe_navigate(cfg)
-                else:
+                if self.target_screen == "Currencies":
+                    progress.update(
+                        task_id,
+                        description="[bold blue]Going Home[/bold blue] for Currencies...",
+                    )
                     self.navigator.ensure_at_home()
                     self.navigator.ensure_menu_state(should_open=False)
                     time.sleep(
@@ -177,11 +187,22 @@ class ScreenState:
                         * Config.WAIT_TIME_MULTIPLIER
                         * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
                     )
+                else:
+                    progress.update(
+                        task_id,
+                        description=f"[bold blue]Navigating to[/bold blue] {self.target_screen}",
+                    )
+                    self._safe_navigate(cfg)
+
                 return NavState.PROCESSING
-            except Exception:
-                self.logger.error(f"Abandoning {self.target_screen} after retries.")
+            except Exception as e:
+                self.logger.error(
+                    f"[bold red]Error:[/bold red] Abandoning {self.target_screen} - {str(e)}"
+                )
                 self.visited.add(self.target_screen)  # Skip it
                 progress.advance(task_id)
+                # Ensure we return home to clear any stuck menus before trying the next screen
+                self.navigator.ensure_at_home()
                 return NavState.CHECKING_CONTEXT
 
         if state == NavState.PROCESSING:
