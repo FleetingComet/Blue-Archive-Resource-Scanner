@@ -1,8 +1,11 @@
+import logging
 import time
 
 import numpy as np
 
 from src.utils.device.interfaces import DeviceController
+
+logger = logging.getLogger("BA-Scanner")
 
 
 def swipe_with_verification(
@@ -27,7 +30,11 @@ def swipe_with_verification(
 
         # Perform swipe
         device.swipe(
-            swipe_start_x, swipe_start_y - 5, swipe_start_x, swipe_end_y, duration_ms=2000
+            swipe_start_x,
+            swipe_start_y - 5,
+            swipe_start_x,
+            swipe_end_y,
+            duration_ms=2000,
         )
 
         # Wait for animation
@@ -41,8 +48,9 @@ def swipe_with_verification(
             before, after, start_x, start_y, item_width, grid_end_y, cols_per_row
         ):
             return True
-
-        print(f"[Swipe] Attempt {attempt + 1} failed, retrying...")
+        logger.warning(
+            "[bold yellow]Swipe: [/bold yellow] Attempt {attempt + 1} failed, retrying..."
+        )
 
     return False
 
@@ -55,7 +63,7 @@ def _screens_are_different(
     item_width: int,
     grid_end_y: int,
     cols_per_row: int = 5,
-    threshold: float = 0.1,
+    threshold: float = 0.05,
 ) -> bool:
     """
     Compare the full grid region to detect if swipe actually changed content.
@@ -79,6 +87,8 @@ def _screens_are_different(
     diff = np.abs(before_sample.astype(float) - after_sample.astype(float))
     diff_ratio = np.mean(diff) / 255.0
 
-    print(f"[Swipe] diff_ratio = {diff_ratio:.4f}  (threshold = {threshold})")
+    logger.info(
+        f"[bold yellow]Swipe: [/bold yellow] diff_ratio = {diff_ratio:.4f}  (threshold = {threshold})"
+    )
 
     return diff_ratio > threshold
