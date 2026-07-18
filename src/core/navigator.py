@@ -168,7 +168,8 @@ class ScreenNavigator:
             .strip()
             .lower()
         )
-        return "Menu" in text
+
+        return "menu" in text
 
     def at_home(self, threshold: float = 0.45) -> bool:
         """
