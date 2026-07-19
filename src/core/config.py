@@ -41,6 +41,8 @@ class Config:
     CONFIG_DIR = PROJECT_ROOT / "config"
     LOGS_DIR = PROJECT_ROOT / "logs"
 
+    DEBUG = False
+
     def __init__(self):
         # Ensure directories exist
         for dir_path in [self.OUTPUT_DIR, self.CONFIG_DIR, self.LOGS_DIR]:

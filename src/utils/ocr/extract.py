@@ -22,14 +22,20 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
 
     Steps:
       1. Crop the image to the specified region.
-      2. Process the cropped image based on image_type.
+      2. Process the cropped image based on Extraction Mode.
       3. Preprocess the processed image for OCR.
       4. Extract and clean up the text.
 
     Args:
         image: OpenCV image (a NumPy array).
         region (Region): The region to extract text from.
-        image_type: blablbaba
+        mode (ExtractionMode): The type of image. Supported types include:
+            - "number_in_circle": For numeric values inside a circle (like bond level).
+            - "skill_level_indicator": For skill level indicators (e.g., "MAX").
+            - "level_indicator" or "number": For level indicators or numbers.
+            - "multi_line_name": For multi line text labels (e.g. Names on Equipment and Items).
+            - "name" or "text": For text labels.
+            - Otherwise, default processing is applied.
 
     Returns:
         str: The extracted text, or None if extraction fails.
