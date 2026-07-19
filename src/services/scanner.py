@@ -17,6 +17,7 @@ from src.utils.data.jsonHelper import (
 )
 from src.utils.device.interfaces import DeviceController
 from src.utils.device.swipe_utils import swipe_with_verification
+from src.enums.ExtractionMode import ExtractionMode
 from src.utils.ocr.extract import (
     extract_from_region,
 )
@@ -227,7 +228,7 @@ def get_student_info(device: DeviceController) -> bool:
 
             # Lightweight name check ONLY for loop termination
             current_name = extract_from_region(
-                image, StudentSearchPattern.STUDENT_NAME.value, image_type="name"
+                image, StudentSearchPattern.STUDENT_NAME.value, mode=ExtractionMode.NAME
             )
 
             if first_name is None:
@@ -247,6 +248,9 @@ def get_student_info(device: DeviceController) -> bool:
                 int(screens.StudentInfo.BUTTONS.NEXT.y),
             )
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+
+            if iteration >= 2:
+                break
 
         if not captured_paths:
             logger.warning("⚠️ No students captured.")
@@ -301,7 +305,7 @@ def get_currencies(device: DeviceController) -> bool:
 
     for currency in currencies:
         how_many = extract_from_region(
-            image, currency.value, image_type="level_indicator"
+            image, currency.value, mode=ExtractionMode.NUMBER
         )  # reuse
         logger.info(
             f"Detected [bold]Currency[/bold] {currency.name}: [cyan]{how_many}[/cyan]"

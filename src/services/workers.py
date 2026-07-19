@@ -4,6 +4,7 @@ from typing import TypedDict
 import cv2
 
 from locations.search import StudentSearchPattern
+from src.enums.ExtractionMode import ExtractionMode
 from src.utils.ocr.extract import (
     extract_from_region,
     extract_item_name,
@@ -38,86 +39,86 @@ def student_ocr_worker(img_path: Path):
         "Name": extract_from_region(
             image,
             StudentSearchPattern.STUDENT_NAME.value,
-            image_type="name",
+            mode=ExtractionMode.NAME,
         ),
         "Level": extract_from_region(
             image,
             StudentSearchPattern.LEVEL.value,
-            image_type="level_indicator",
+            mode=ExtractionMode.LEVEL,
         ),
         "Bond Level": extract_from_region(
             image,
             StudentSearchPattern.BOND_LEVEL.value,
-            image_type="number_in_circle",
+            mode=ExtractionMode.BOND_LEVEL,
         ),
         "Rarity": extract_from_region(
             image,
             StudentSearchPattern.STAR_QUANTITY.value,
-            image_type="star",
+            mode=ExtractionMode.STAR,
         ),
         "Gear 1 Tier": extract_from_region(
             image,
             StudentSearchPattern.GEAR_1_TIER.value,
-            image_type="gear",
+            mode=ExtractionMode.GEAR,
         ),
         "Gear 2 Tier": extract_from_region(
             image,
             StudentSearchPattern.GEAR_2_TIER.value,
-            image_type="gear",
+            mode=ExtractionMode.GEAR,
         ),
         "Gear 3 Tier": extract_from_region(
             image,
             StudentSearchPattern.GEAR_3_TIER.value,
-            image_type="gear",
+            mode=ExtractionMode.GEAR,
         ),
         "Gear Bond Tier": extract_from_region(
             image,
             StudentSearchPattern.GEAR_BOND_TIER.value,
-            image_type="gear",
+            mode=ExtractionMode.GEAR,
         ),
         "Unique Equipment Star Quantity": extract_from_region(
             image,
             StudentSearchPattern.UNIQUE_EQUIPMENT_STAR_QUANTITY.value,
-            image_type="ue_star",
+            mode=ExtractionMode.UE_STAR,
         ),
         "Unique Equipment Level": extract_from_region(
             image,
             StudentSearchPattern.UNIQUE_EQUIPMENT_LEVEL.value,
-            image_type="ue_level",
+            mode=ExtractionMode.UE_LEVEL,
         ),
         "Skill EX": extract_from_region(
             image,
             StudentSearchPattern.SKILL_EX.value,
-            image_type="skill_level_indicator",
+            mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Basic": extract_from_region(
             image,
             StudentSearchPattern.SKILL_BASIC.value,
-            image_type="skill_level_indicator",
+            mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Enhanced": extract_from_region(
             image,
             StudentSearchPattern.SKILL_ENHANCED.value,
-            image_type="skill_level_indicator",
+            mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Sub": extract_from_region(
             image,
             StudentSearchPattern.SKILL_SUB.value,
-            image_type="skill_level_indicator",
+            mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Talent_ATK": extract_from_region(
             image,
             StudentSearchPattern.TALENT.ATK.value,
-            image_type="talent",
+            mode=ExtractionMode.TALENT,
         ),
         "Talent_HP": extract_from_region(
             image,
             StudentSearchPattern.TALENT.HP.value,
-            image_type="talent",
+            mode=ExtractionMode.TALENT,
         ),
         "Talent_HEALING": extract_from_region(
             image,
             StudentSearchPattern.TALENT.HEALING.value,
-            image_type="talent",
+            mode=ExtractionMode.TALENT,
         ),
     }

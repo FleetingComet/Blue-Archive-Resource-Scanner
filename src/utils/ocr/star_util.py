@@ -41,7 +41,7 @@ def count_blue_stars_adaptive(cropped_image, debug=False):
     mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
     if debug:
-        cv2.imwrite("debug_mask_blue.png", mask)
+        cv2.imwrite("test/debug_mask_blue.png", mask)
         print(f"Mask non-zero pixels: {np.count_nonzero(mask)}")
 
     # Find contours
@@ -96,6 +96,47 @@ def count_blue_stars_adaptive(cropped_image, debug=False):
                 (0, 255, 0),
                 1,
             )
-        cv2.imwrite("stars_adaptive_blue.png", debug_img)
+        cv2.imwrite("test/stars_adaptive_blue.png", debug_img)
+
+    return star_count
+
+
+def count_stars(crop_img, debug=False):
+    """
+    Counts stars by detecting connected yellow/blue blobs.
+    Works well even if the stars are pixelated or slightly different shapes.
+    """
+    if crop_img is None or crop_img.size == 0:
+        return 0
+
+    # Convert to grayscale
+    gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+
+    # Threshold to make it a pure black and white mask
+    _, thresh = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
+
+    # This removes tiny single-pixel specks that aren't actually stars
+    kernel = np.ones((2, 2), np.uint8)
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+
+    # RETR_EXTERNAL only gets the outer shapes
+    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    star_count = 0
+    for cnt in contours:
+        area = cv2.contourArea(cnt)
+
+        # Ignore anything too small (noise) or too large (UI artifacts)
+        if 5 < area < 500:
+            star_count += 1
+
+            if debug:
+                # Draw boxes around what it found for testing
+                x, y, w, h = cv2.boundingRect(cnt)
+                cv2.rectangle(crop_img, (x, y), (x + w, y + h), (0, 255, 0), 1)
+
+    if debug:
+        cv2.imshow("Detected Stars", crop_img)
+        cv2.waitKey(0)
 
     return star_count
