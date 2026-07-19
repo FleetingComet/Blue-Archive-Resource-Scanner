@@ -28,11 +28,13 @@ class Equipment:
 class EquipmentProcessor(BaseProcessor):
     def __init__(self):
         self.dataclass = Equipment
-        self.processed_file = Config.PROCESSED_DATA["equipment"]
-        self.owned_file = Config.OWNED["counts"]
-        self.output_file = Config.OUTPUT_FILES["equipment"]
+        self.processed_file = Config.equipment_processed
+        self.owned_file = Config.scanned_counts
+        self.output_file = Config.final_equipment
 
-    def _get_closest_value(self, name: str, name_map: Dict[str, int], threshold=0.8) -> int:
+    def _get_closest_value(
+        self, name: str, name_map: Dict[str, int], threshold=0.8
+    ) -> int:
         if not isinstance(name_map, dict) or not name_map:
             return 0
         choices = list(name_map.keys())
