@@ -5,11 +5,13 @@ import time
 from pathlib import Path
 
 import cv2
+from rich.markup import escape
 
 from locations import screens
 from locations.search import SearchPattern, StudentSearchPattern
 from src.core.area import Location, Region, Size
 from src.core.config import Config
+from src.enums.ExtractionMode import ExtractionMode
 from src.services.workers import item_ocr_worker, student_ocr_worker
 from src.utils.data.io import read_json, update_count, write_json
 from src.utils.data.jsonHelper import (
@@ -17,7 +19,6 @@ from src.utils.data.jsonHelper import (
 )
 from src.utils.device.interfaces import DeviceController
 from src.utils.device.swipe_utils import swipe_with_verification
-from src.enums.ExtractionMode import ExtractionMode
 from src.utils.ocr.extract import (
     extract_from_region,
 )
@@ -123,8 +124,10 @@ def startMatching(
                     break
 
                 for col in range(cols_per_row):
-                    # if col != 0:
-                    #     continue  # skip for debug
+
+                    if Config.DEBUG:
+                        if col != 0:
+                            continue  # skip for debug
 
                     current_x = grid_start.x + col * item_size.width
 
@@ -233,7 +236,10 @@ def get_student_info(device: DeviceController) -> bool:
 
             if first_name is None:
                 first_name = current_name
-                logger.info(f"First student name set to: {first_name}")
+                logger.info(
+                    f"[bold]First student name[/bold] set to: [cyan]{first_name}[/cyan]"
+                )
+
             elif current_name and current_name == first_name:
                 logger.info("Encountered the first student again. Ending capture loop.")
                 break
@@ -249,8 +255,9 @@ def get_student_info(device: DeviceController) -> bool:
             )
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
-            if iteration >= 2:
-                break
+            if Config.DEBUG:
+                if iteration >= 2:
+                    break
 
         if not captured_paths:
             logger.warning("⚠️ No students captured.")
@@ -258,7 +265,7 @@ def get_student_info(device: DeviceController) -> bool:
 
         workers = min(4, len(captured_paths))
         logger.info(
-            f"Processing {len(captured_paths)} screenshots with {workers} OCR workers..."
+            f"[bold yellow]Processing[/bold yellow] {len(captured_paths)} screenshots with {workers} OCR workers..."
         )
 
         raw_results = []
@@ -272,7 +279,7 @@ def get_student_info(device: DeviceController) -> bool:
                     raw_results.append(data)
 
         logger.info(
-            f"Extracted {len(raw_results)} student records. Formatting & saving..."
+            f"[bold yellow]Extracted[/bold yellow] {len(raw_results)} student records. Formatting & saving..."
         )
 
         final_data = {"characters": []}
@@ -289,7 +296,10 @@ def get_student_info(device: DeviceController) -> bool:
 
         write_json(Config.OWNED["students"], final_data)
         logger.info(
-            f"Saved {len(final_data['characters'])} students → {Config.OWNED['students']}"
+            f"[bold yellow]Saved[/bold yellow] "
+            f"{len(final_data['characters'])} students → "
+            f":open_file_folder: [link file://{Config.OWNED['students']}]"
+            f"{escape(str(Config.OWNED['students'].as_uri()))}"
         )
         return True
 
@@ -308,8 +318,9 @@ def get_currencies(device: DeviceController) -> bool:
             image, currency.value, mode=ExtractionMode.NUMBER
         )  # reuse
         logger.info(
-            f"Detected [bold]Currency[/bold] {currency.name}: [cyan]{how_many}[/cyan]"
+            f"[bold yellow]Detected[/bold yellow] [bold]Currency[/bold] {currency.name}: [cyan]{how_many}[/cyan]"
         )
+
         if currency.name == "AP":
             AP = how_many.split("/", 1)
             AP = {"Remaining": AP[0], "Max": AP[-1]}

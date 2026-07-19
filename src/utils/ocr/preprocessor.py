@@ -14,9 +14,9 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
         mode (ExtractionMode): The type of image. Supported types include:
             - "number_in_circle": For numeric values inside a circle (like bond level).
             - "skill_level_indicator": For skill level indicators (e.g., "MAX").
-            - "level_indicator": For level indicators.
+            - "level_indicator" or "number": For level indicators or numbers.
             - "multi_line_name": For multi line text labels (e.g. Names on Equipment and Items).
-            - "name": For text labels.
+            - "name" or "text": For text labels.
             - Otherwise, default processing is applied.
 
     Returns:
@@ -67,7 +67,7 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         return binary
 
-    elif mode == ExtractionMode.NAME:  # single line label
+    elif mode == ExtractionMode.NAME or mode == ExtractionMode.TEXT:  # single line label
         gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
         gray = sharpen_image(gray)
         gray = unsharp_mask(gray)

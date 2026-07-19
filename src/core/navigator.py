@@ -8,6 +8,7 @@ from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
 from src.core.area import Region
 from src.core.config import Config
+from src.enums.ExtractionMode import ExtractionMode
 from src.utils.data.text_matcher import find_closest
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.engine import extract_text
@@ -54,7 +55,7 @@ class ScreenNavigator:
             title_region.x : title_region.right,
         ]
 
-        preprocessed = preprocess_image_for_ocr(title_crop, image_type="name")
+        preprocessed = preprocess_image_for_ocr(title_crop, mode=ExtractionMode.TEXT)
         if preprocessed is None:
             return ""
 
@@ -98,10 +99,10 @@ class ScreenNavigator:
             return NavigationResult(success=True, screen_detected="MenuStateOK")
 
         if should_open:
-            logger.info("Opening Menu Tab...")
+            logger.info("[bold yellow]Opening Menu Tab[/bold yellow]")
             self.press_menu_tab()
         else:
-            logger.info("Closing Menu Tab (Pressing Home)...")
+            logger.info("[bold yellow]Closing Menu Tab (Pressing Home)[/bold yellow]")
             self.ensure_at_home()
 
         time.sleep(
@@ -159,7 +160,7 @@ class ScreenNavigator:
             menu_region.y : menu_region.bottom,
             menu_region.x : menu_region.right,
         ]
-        preprocessed = preprocess_image_for_ocr(crop, image_type="name")
+        preprocessed = preprocess_image_for_ocr(crop, mode=ExtractionMode.TEXT)
         if preprocessed is None:
             return False
 

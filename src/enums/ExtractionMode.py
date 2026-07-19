@@ -4,7 +4,6 @@ from enum import Enum
 class ExtractionMode(Enum):
     # Text-based modes (OCR)
     NAME = "name"
-    NUMBER = "number"
     MULTI_LINE_NAME = "multi_line_name"
     LEVEL = "level_indicator"
     SKILL_LEVEL = "skill_level_indicator"
@@ -18,3 +17,7 @@ class ExtractionMode(Enum):
 
     # something
     GEAR = "gear"
+
+    # others
+    TEXT = "text"
+    NUMBER = "number"
