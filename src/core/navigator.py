@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+import cv2
+
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
 from src.core.area import Region
@@ -12,7 +14,7 @@ from src.enums.ExtractionMode import ExtractionMode
 from src.utils.data.text_matcher import find_closest
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.engine import extract_text
-from src.utils.ocr.matchers import match_image_using_file
+from src.utils.ocr.matchers import find_template_location
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
 
 logger = logging.getLogger("BA-Scanner")
@@ -75,7 +77,10 @@ class ScreenNavigator:
 
         button = self.determine_button("home")
 
-        if button:
+        max_attempts = 10
+        attempt = 0
+
+        while attempt < max_attempts:
             self.device.tap(int(button.random_point().x), int(button.random_point().y))
             time.sleep(
                 0.5
@@ -83,32 +88,59 @@ class ScreenNavigator:
                 * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
             )
 
-        time.sleep(
-            1.5 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
-        )
+            time.sleep(
+                1.5
+                * Config.WAIT_TIME_MULTIPLIER
+                * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+            )
 
-        if self.at_home():
-            return NavigationResult(success=True, screen_detected="Home")
+            if self.at_home():
+                return NavigationResult(success=True, screen_detected="Home")
+
+            attempt += 1
+
         return NavigationResult(success=False, error_msg="Failed to reach Home screen")
 
-    def ensure_menu_state(self, should_open: bool) -> NavigationResult:
+    def ensure_menu_state(
+        self, should_open: bool, max_attempts: int = 5
+    ) -> NavigationResult:
         """Open or close menu tab to match desired state."""
         current_open = self.is_menu_tab_open()
         logger.debug(f"is Menu Tab open?: {current_open}")
         if current_open == should_open:
             return NavigationResult(success=True, screen_detected="MenuStateOK")
 
-        if should_open:
-            logger.info("[bold yellow]Opening Menu Tab[/bold yellow]")
-            self.press_menu_tab()
-        else:
-            logger.info("[bold yellow]Closing Menu Tab (Pressing Home)[/bold yellow]")
-            self.ensure_at_home()
+        action = "Opening" if should_open else "Closing"
+        logger.info(f"[bold yellow]{action} Menu Tab[/bold yellow]")
 
-        time.sleep(
-            1.0 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
-        )
-        return NavigationResult(success=True, screen_detected="MenuStateAdjusted")
+        attempt = 0
+        while attempt < max_attempts:
+            self.press_menu_tab()
+
+            time.sleep(
+                1.0
+                * Config.WAIT_TIME_MULTIPLIER
+                * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+            )
+
+            current_open = self.is_menu_tab_open()
+
+            logger.debug(f"Attempt {attempt + 1}: Menu Tab open? {current_open}")
+
+            if current_open == should_open:
+                logger.info(
+                    f"[green]Successfully {'opened' if should_open else 'closed'} Menu Tab[/green]"
+                )
+                return NavigationResult(
+                    success=True, screen_detected="MenuStateAdjusted"
+                )
+
+            attempt += 1
+
+            time.sleep(1.0 * Config.WAIT_TIME_MULTIPLIER)
+        error_msg = f"Failed to {'open' if should_open else 'close'} Menu Tab after {max_attempts} attempts"
+        logger.error(f"[red]{error_msg}[/red]")
+        return NavigationResult(success=False, error_msg=error_msg)
 
     def navigate_to_target(self, location: str, in_menu_tab: bool) -> NavigationResult:
         """Navigate to a target button location with state verification."""
@@ -171,10 +203,9 @@ class ScreenNavigator:
             .strip()
             .lower()
         )
-
         return "menu" in text
 
-    def at_home(self, threshold: float = 0.45) -> bool:
+    def at_home(self, threshold: float = 0.80) -> bool:
         """
         Check if the user is currently at the home screen by image matching.
         Returns True if the menu button is detected.
@@ -185,14 +216,18 @@ class ScreenNavigator:
             return False
 
         crop = img[
-            Home.MENU_BUTTON.y : Home.MENU_BUTTON.bottom,
-            Home.MENU_BUTTON.x : Home.MENU_BUTTON.right,
+            Home.MENU_REGION.y : Home.MENU_REGION.bottom,
+            Home.MENU_REGION.x : Home.MENU_REGION.right,
         ]
 
-        home_button_asset = Path("assets/images/menu_button.png")
-        return match_image_using_file(crop, home_button_asset, threshold)
+        if Config.DEBUG:
+            cv2.imshow("Cropped Home Legend", crop)
+            cv2.waitKey(0)
 
-    def at_page(self, threshold: float = 0.45) -> bool:
+        home_button_asset = Path("assets/images/menu_button.png")
+        return find_template_location(crop, home_button_asset, threshold)
+
+    def at_page(self, threshold: float = 0.80) -> bool:
         """
         Check if the user is currently at the main page by image matching.
         Returns True if the home button is detected.
@@ -202,12 +237,16 @@ class ScreenNavigator:
             return False
 
         crop = img[
-            Page.HOME_BUTTON.y : Page.HOME_BUTTON.bottom,
-            Page.HOME_BUTTON.x : Page.HOME_BUTTON.right,
+            Page.MENU_REGION.y : Page.MENU_REGION.bottom,
+            Page.MENU_REGION.x : Page.MENU_REGION.right,
         ]
 
+        if Config.DEBUG:
+            cv2.imshow("Cropped Home Legend", crop)
+            cv2.waitKey(0)
+
         page_button_asset = Path("assets/images/home_button.png")
-        return match_image_using_file(crop, page_button_asset, threshold)
+        return find_template_location(crop, page_button_asset, threshold)
 
     def determine_button(self, region: str) -> Optional[Region]:
         """

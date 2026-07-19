@@ -1,8 +1,15 @@
+import logging
 from pathlib import Path
+from typing import Optional
 
 import cv2
 
+from src.core.area import Region
 
+logger = logging.getLogger("BA-Scanner")
+
+
+# * Will leave this here, maybe we can use this in future
 def match_image_using_directory(
     input_image, reference_image_paths: list[Path], threshold=0.9, grayscale=False
 ):
@@ -51,7 +58,7 @@ def match_image_using_directory(
             )
             _, max_value, _, _ = cv2.minMaxLoc(result)
 
-            print(f"Max Value for {reference_path}: {max_value}")
+            logger.info(f"Max Value for {reference_path}: {max_value}")
 
             # Check if this is the best match so far
             if max_value > current_max_value:
@@ -60,7 +67,7 @@ def match_image_using_directory(
                 if max_value >= 0.99:
                     break
         except cv2.error as e:
-            print(f"Matcher: {e}")
+            logger.error(f"[red]Matcher: {e}[/red]")
             continue
 
     if current_max_value >= threshold:
@@ -69,55 +76,39 @@ def match_image_using_directory(
     return None
 
 
-def match_image_using_file(
+def find_template_location(
     input_image, reference_image_path: Path, threshold=0.8, grayscale=False
-) -> bool:
+) -> Optional[Region]:
     """
-    Match the input image against a single reference image using template matching.
-
-    Parameters:
-        input_image (np.array): The input image.
-        reference_image_path (Path): Path to the reference image file.
-        threshold (float): The matching threshold. Only matches with a max value
-                           above this threshold are considered valid.
-        grayscale (bool): Whether to perform matching in grayscale.
+    Find the location of a template in the input image.
 
     Returns:
-        bool : True if the match is above threshold; otherwise, False.
+        Region class or None if not found
     """
     # Convert input image to grayscale if needed.
     if grayscale:
         input_image = cv2.cvtColor(input_image, cv2.COLOR_BGR2GRAY)
-        h, w = input_image.shape[:2]
-        if h < 50 or w < 50:
-            input_image = cv2.resize(
-                input_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR
-            )
 
     # Ensure input image has 3 channels if not in grayscale.
     if not grayscale and input_image.ndim == 3 and input_image.shape[2] == 4:
         input_image = input_image[:, :, :3]
 
-    # Load the reference image.
-    if grayscale:
-        reference_image = cv2.imread(str(reference_image_path), cv2.IMREAD_GRAYSCALE)
-        h, w = reference_image.shape[:2]
-        if h < 50 or w < 50:
-            reference_image = cv2.resize(
-                reference_image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR
-            )
-    else:
-        reference_image = cv2.imread(str(reference_image_path), cv2.IMREAD_COLOR)
+    ref_flag = cv2.IMREAD_GRAYSCALE if grayscale else cv2.IMREAD_COLOR
+    reference_image = cv2.imread(str(reference_image_path), ref_flag)
 
     if reference_image is None:
-        print(f"Failed to load reference image: {str(reference_image_path)}")
+        logger.error(f"Failed to load reference image: {str(reference_image_path)}")
         return None
 
     result = cv2.matchTemplate(input_image, reference_image, cv2.TM_CCOEFF_NORMED)
-    _, max_value, _, _ = cv2.minMaxLoc(result)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
 
-    # print(f"Max Value for {reference_image_path}: {max_value}")
+    logger.info(f"Max Value for {reference_image_path}: {max_val}")
 
-    if max_value >= threshold:
-        return True
-    return False
+    if max_val >= threshold:
+        # Get the dimensions of the template
+        h, w = reference_image.shape[:2]
+        x, y = max_loc
+        return Region(x=x, y=y, width=w, height=h)
+
+    return None

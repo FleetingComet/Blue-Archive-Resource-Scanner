@@ -11,8 +11,10 @@ class StudentList:
 
 
 class Home:
-    MENU_BUTTON: Region = Region(1200, 25, 50, 30)
+    # MENU_BUTTON: Region = Region(1150, 25, 50, 30)
+    MENU_REGION: Region = Region(1010, 0, 270, 70)
 
 
 class Page:
-    HOME_BUTTON: Region = Region(1210, 5, 50, 38)
+    # HOME_BUTTON: Region = Region(1210, 5, 50, 38)
+    MENU_REGION: Region = Region(1010, 0, 270, 70)
