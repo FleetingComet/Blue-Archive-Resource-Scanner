@@ -15,9 +15,9 @@ class Student:
 class StudentProcessor(BaseProcessor):
     def __init__(self):
         self.dataclass = Student
-        self.processed_file = Config.PROCESSED_DATA["students"]
-        self.owned_file = Config.OWNED["students"]
-        self.output_file = Config.OUTPUT_FILES["students"]
+        self.processed_file = Config.students_processed
+        self.owned_file = Config.scanned_students
+        self.output_file = Config.final_students
 
     def _get_student_id(self, name: str, db: List[Student], threshold=0.8) -> str:
         choices = [s.name for s in db]

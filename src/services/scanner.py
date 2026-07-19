@@ -204,12 +204,12 @@ def startMatching(
 
         if results:
             logger.info(
-                f"Found {len(results)} unique items. Writing to {Config.OWNED['counts']}..."
+                f"Found {len(results)} unique items. Writing to {Config.scanned_counts}..."
             )
 
-            existing = read_json(Config.OWNED["counts"])
+            existing = read_json(Config.scanned_counts)
             existing.update(results)
-            write_json(Config.OWNED["counts"], existing)
+            write_json(Config.scanned_counts, existing)
 
     return True
 
@@ -294,12 +294,12 @@ def get_student_info(device: DeviceController) -> bool:
                 # Duplicate hit after loop boundary (rare OCR edge case)
                 break
 
-        write_json(Config.OWNED["students"], final_data)
+        write_json(Config.scanned_students, final_data)
         logger.info(
             f"[bold yellow]Saved[/bold yellow] "
             f"{len(final_data['characters'])} students → "
-            f":open_file_folder: [link file://{Config.OWNED['students']}]"
-            f"{escape(str(Config.OWNED['students'].as_uri()))}"
+            f":open_file_folder: [link file://{Config.scanned_students}]"
+            f"{escape(str(Config.scanned_students.as_uri()))}"
         )
         return True
 
@@ -311,7 +311,7 @@ def get_currencies(device: DeviceController) -> bool:
         return False
 
     currencies = [SearchPattern.AP, SearchPattern.CREDIT, SearchPattern.PYROXENE]
-    owned_currencies_file = Config.OWNED["currencies"]
+    owned_currencies_file = Config.scanned_currencies
 
     for currency in currencies:
         how_many = extract_from_region(

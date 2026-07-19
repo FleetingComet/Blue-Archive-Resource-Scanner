@@ -15,11 +15,13 @@ class Item:
 class ItemProcessor(BaseProcessor):
     def __init__(self):
         self.dataclass = Item
-        self.processed_file = Config.PROCESSED_DATA["items"]
-        self.owned_file = Config.OWNED["counts"]
-        self.output_file = Config.OUTPUT_FILES["items"]
+        self.processed_file = Config.equipment_processed
+        self.owned_file = Config.scanned_counts
+        self.output_file = Config.final_items
 
-    def _get_closest_value(self, name: str, name_map: Dict[str, int], threshold=0.8) -> int:
+    def _get_closest_value(
+        self, name: str, name_map: Dict[str, int], threshold=0.8
+    ) -> int:
         if not isinstance(name_map, dict) or not name_map:
             return 0
         matched = find_closest(name, list(name_map.keys()), threshold)
