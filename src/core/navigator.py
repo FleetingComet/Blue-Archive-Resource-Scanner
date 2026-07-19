@@ -1,12 +1,14 @@
 import logging
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
 
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
 from src.core.area import Region
 from src.core.config import Config
+from src.utils.data.text_matcher import find_closest
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.engine import extract_text
 from src.utils.ocr.matchers import match_image_using_file
@@ -52,15 +54,16 @@ class ScreenNavigator:
             title_region.x : title_region.right,
         ]
 
-        preprocessed, config = preprocess_image_for_ocr(title_crop, image_type="name")
+        preprocessed = preprocess_image_for_ocr(title_crop, image_type="name")
         if preprocessed is None:
             return ""
 
-        # text = extract_text(preprocessed, config).replace("\r", "").replace("\n", " ")
         text = extract_text(preprocessed).replace("\r", "").replace("\n", " ")
         text = text.split()[0] if text.split() else ""
         known_screens = ["Items", "Equipment", "Students", "Student"]
-        return text if text in known_screens else ""
+
+        matched = find_closest(text, known_screens)
+        return matched
 
     def ensure_at_home(self) -> NavigationResult:
         """
@@ -156,11 +159,10 @@ class ScreenNavigator:
             menu_region.y : menu_region.bottom,
             menu_region.x : menu_region.right,
         ]
-        preprocessed, config = preprocess_image_for_ocr(crop, image_type="name")
+        preprocessed = preprocess_image_for_ocr(crop, image_type="name")
         if preprocessed is None:
             return False
 
-        # text = extract_text(preprocessed, config).replace("\r", "").replace("\n", " ")
         text = (
             extract_text(preprocessed)
             .replace("\r", "")
@@ -186,7 +188,7 @@ class ScreenNavigator:
             Home.MENU_BUTTON.x : Home.MENU_BUTTON.right,
         ]
 
-        home_button_asset = r"assets\\images\\menu_button.png"
+        home_button_asset = Path("assets/images/menu_button.png")
         return match_image_using_file(crop, home_button_asset, threshold)
 
     def at_page(self, threshold: float = 0.45) -> bool:
@@ -203,7 +205,7 @@ class ScreenNavigator:
             Page.HOME_BUTTON.x : Page.HOME_BUTTON.right,
         ]
 
-        page_button_asset = r"assets\\images\\home_button.png"
+        page_button_asset = Path("assets/images/home_button.png")
         return match_image_using_file(crop, page_button_asset, threshold)
 
     def determine_button(self, region: str) -> Optional[Region]:

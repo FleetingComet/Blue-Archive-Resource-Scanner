@@ -1,15 +1,13 @@
-import cv2
-
 from locations.search import SearchPattern
 from src.core.area import Region
+from src.enums.ExtractionMode import ExtractionMode
 from src.utils.ocr.color_util import (
     remove_non_white,
     retain_colors,
 )
 from src.utils.ocr.engine import extract_text, extract_text_talent
-from src.utils.ocr.matchers import match_star
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
-from src.utils.ocr.star_util import count_blue_stars_adaptive
+from src.utils.ocr.star_util import count_blue_stars_adaptive, count_stars
 from src.utils.ocr.text_util import is_close_to
 
 
@@ -18,7 +16,7 @@ def crop_image(image, region: Region):
     return image[region.y : region.bottom, region.x : region.right]
 
 
-def extract_from_region(image, region: Region, image_type=None):
+def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     """
     Extract text from a specific region in the screenshot.
 
@@ -42,51 +40,49 @@ def extract_from_region(image, region: Region, image_type=None):
     if crop_img is None:
         return None
 
-    # if image_type == "gear":
-    #     return match_tier(crop_img, grayscale=True)
+    if mode == ExtractionMode.STAR:
+        hex_colors = ["fee424"]
+        cleaned, _ = retain_colors(crop_img, hex_colors, tolerance=20)
+        return count_stars(cleaned)
 
-    if image_type == "star":
-        # return match_star(crop_img)
-        # Temporary
-        return None
-
-    if image_type == "ue_star":
+    if mode == ExtractionMode.UE_STAR:
         return count_blue_stars_adaptive(crop_img, debug=False)
 
-    if image_type == "ue_level":
+    if mode == ExtractionMode.UE_LEVEL:
         crop_img = remove_non_white(crop_img)
 
-    if image_type == "number_in_circle":
+    if mode == ExtractionMode.BOND_LEVEL:
         hex_colors = ["3c4e66"]
         crop_img, _ = retain_colors(crop_img, hex_colors, tolerance=20)
 
-    preprocessed_crop = crop_img
+    # preprocessed_crop = crop_img
 
-    if image_type != "gear" or image_type != "talent":
-        preprocessed_crop, config = preprocess_image_for_ocr(
-            crop_img, image_type=image_type
-        )
+    # if image_type != "gear" or image_type != "talent":
+    #     preprocessed_crop = preprocess_image_for_ocr(crop_img, image_type=image_type)
 
-    if preprocessed_crop is not None:
-        if image_type == "talent":
-            text = extract_text_talent(preprocessed_crop)
-        else:
-            text = extract_text(preprocessed_crop)
+    processed_img = preprocess_image_for_ocr(crop_img, mode)
 
-        if text is None:
-            return None
+    if processed_img is None:
+        return None
 
-        if image_type == "skill_level_indicator" and is_close_to(text, threshold=0.65):
-            return "MAX"
+    if mode == ExtractionMode.TALENT:
+        text = extract_text_talent(processed_img)
+    else:
+        text = extract_text(processed_img)
 
-        return (
-            text.replace("\r", "")
-            .replace("\n", " ")
-            # for replacing left and right single quotes to '
-            .replace("\u2018", "'")
-            .replace("\u2019", "'")
-        )
-    return None
+    if text is None:
+        return None
+
+    if mode == ExtractionMode.SKILL_LEVEL and is_close_to(text, threshold=0.65):
+        return "MAX"
+
+    return (
+        text.replace("\r", "")
+        .replace("\n", " ")
+        # for replacing left and right single quotes to '
+        .replace("\u2018", "'")
+        .replace("\u2019", "'")
+    )
 
 
 def extract_item_name(image, grid_type: str = "Equipment") -> str:
@@ -101,7 +97,7 @@ def extract_item_name(image, grid_type: str = "Equipment") -> str:
     return extract_from_region(
         image,
         pattern,
-        image_type="multi_line_name",
+        mode=ExtractionMode.MULTI_LINE_NAME,
     )
 
 
@@ -118,5 +114,4 @@ def extract_owned_count(image_path: str, grid_type: str = "Equipment") -> str:
     return extract_from_region(
         image_path,
         pattern,
-        image_type=None,
     )

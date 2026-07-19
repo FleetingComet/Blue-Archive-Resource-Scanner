@@ -1,17 +1,18 @@
 import argparse
+import logging
 from typing import Set
 
-from src.core.config import Config, TargetPlatform
+from src.core.config import Config
 from src.core.navigator import ScreenNavigator
 from src.core.state import ScreenState
 from src.utils.data.equipment import EquipmentProcessor
 from src.utils.data.item import ItemProcessor
 from src.utils.data.student import StudentProcessor
-from src.utils.device.adb.adb_device import ADBDevice
-from src.utils.device.desktop.desktop_device import DesktopDevice
 from src.utils.device.factory import create_device
 from src.utils.device.interfaces import DeviceController
 from src.utils.sync.data_sync_manager import DataSyncManager
+
+logger = logging.getLogger("BA-Scanner")
 
 
 def run_post_processing(visited_screens: Set[str]):
@@ -28,10 +29,10 @@ def run_post_processing(visited_screens: Set[str]):
     for screen_name, ProcessorClass in processor_map.items():
         if screen_name in visited_screens:
             try:
-                print(f"Post-processing {screen_name} data...")
+                logger.info(f"Post-processing {screen_name} data...")
                 ProcessorClass().process()
             except Exception as e:
-                print(f"Failed to process {screen_name}: {e}")
+                logger.error(f"Failed to process {screen_name}: {e}")
 
 
 def main():
@@ -55,7 +56,7 @@ def main():
     device = create_device(Config.settings)
 
     if not device.connect(Config.ADB_RETRIES):
-        print("❌ Failed to connect to ADB.")
+        logger.error("❌ Failed to connect to ADB.")
         exit(1)
 
     mainpage(device)
@@ -79,7 +80,7 @@ def mainpage(device: DeviceController):
     if state.run():
         run_post_processing(state.visited)
     else:
-        print("⚠️ Matching process failed or was interrupted.")
+        logger.warning("⚠️ Matching process failed or was interrupted.")
 
 
 if __name__ == "__main__":

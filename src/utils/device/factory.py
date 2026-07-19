@@ -1,8 +1,11 @@
+import logging
+
 from src.core.config import AppSettings, TargetPlatform
 from src.utils.device.adb.adb_device import ADBDevice
 from src.utils.device.desktop.desktop_device import DesktopDevice
 from src.utils.device.interfaces import DeviceController
 
+logger = logging.getLogger("BA-Scanner")
 
 def create_device(settings: AppSettings) -> DeviceController:
     platform_ = settings.target_platform
@@ -10,7 +13,7 @@ def create_device(settings: AppSettings) -> DeviceController:
         platform_ = platform_.value
 
     if platform_ == TargetPlatform.DESKTOP.value:
-        print("Desktop mode selected.")
+        logger.info("Desktop mode selected.")
         return DesktopDevice()
     if platform_ in (TargetPlatform.EMULATOR.value, TargetPlatform.DEVICE.value):
         return ADBDevice(
