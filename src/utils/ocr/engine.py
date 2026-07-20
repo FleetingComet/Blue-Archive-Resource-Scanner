@@ -49,7 +49,7 @@ def extract_text_talent(image: np.ndarray) -> str:
         if result and hasattr(result, "txts") and result.txts:
             # Join multiple lines if detected, otherwise return single line
             joined = "".join(result.txts).strip()
-            return get_lv(joined)
+            return get_talent_level(joined)
         return ""
 
     except Exception as e:
@@ -57,15 +57,25 @@ def extract_text_talent(image: np.ndarray) -> str:
         return ""
 
 
-def get_lv(text: str):
+def get_talent_level(text: str):
     """
     Extract the number after "Lv."
 
     Args:
-        text (str): extract text from oct
+        text (str): extract text from ocr
 
     Returns:
         _str_: stripped text
     """
     match = re.search(r"\[?\s*Lv\.?\s*(\d+)", text, re.IGNORECASE)
     return str(match.group(1)) if match else None
+
+
+def get_tier_level(text: str):
+    # Remove everything before and including some '(') + T
+    text = re.sub(r".*?\(?T", "", text)
+    # Remove ")"" and everything after
+    text = re.sub(r"\).*", "", text)
+    match = re.search(r"\d+", text)
+
+    return match.group(0) if match else None

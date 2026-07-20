@@ -1,3 +1,5 @@
+import cv2
+
 from locations.search import SearchPattern
 from src.core.area import Region
 from src.enums.ExtractionMode import ExtractionMode
@@ -5,7 +7,7 @@ from src.utils.ocr.color_util import (
     remove_non_white,
     retain_colors,
 )
-from src.utils.ocr.engine import extract_text, extract_text_talent
+from src.utils.ocr.engine import extract_text, extract_text_talent, get_tier_level
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
 from src.utils.ocr.star_util import count_blue_stars_adaptive, count_stars
 from src.utils.ocr.text_util import is_close_to
@@ -35,6 +37,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
             - "level_indicator" or "number": For level indicators or numbers.
             - "multi_line_name": For multi line text labels (e.g. Names on Equipment and Items).
             - "name" or "text": For text labels.
+            - "gear": For gear tiers (e.g., "T9", "T7").
             - Otherwise, default processing is applied.
 
     Returns:
@@ -61,12 +64,11 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
         hex_colors = ["3c4e66"]
         crop_img, _ = retain_colors(crop_img, hex_colors, tolerance=20)
 
-    # preprocessed_crop = crop_img
-
-    # if image_type != "gear" or image_type != "talent":
-    #     preprocessed_crop = preprocess_image_for_ocr(crop_img, image_type=image_type)
-
     processed_img = preprocess_image_for_ocr(crop_img, mode)
+
+    if mode == ExtractionMode.GEAR:
+        result = extract_text(processed_img)
+        return get_tier_level(result)
 
     if processed_img is None:
         return None
