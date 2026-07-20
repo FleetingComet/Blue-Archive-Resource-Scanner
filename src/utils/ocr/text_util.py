@@ -2,7 +2,8 @@ import re
 
 import Levenshtein
 
-#? Note: we leave this for some uses idk where/when
+
+# ? Note: we leave this for some uses idk where/when
 def is_close_to(text: str, target: str = "MAX", threshold: float = 0.8) -> bool:
     """
     Compares the given text to the target string (default "MAX")
@@ -70,3 +71,13 @@ def normalize_value(value, default=0):
 
     except (ValueError, TypeError):
         return default
+
+
+def get_tier_level(text: str) -> str:
+    # Remove everything before and including some '(') + T
+    text = re.sub(r".*?\(?T", "", text)
+    # Remove ")"" and everything after
+    text = re.sub(r"\).*", "", text)
+    match = re.search(r"\d+", text)
+
+    return match.group(0) if match else None

@@ -1,5 +1,3 @@
-import cv2
-
 from locations.search import SearchPattern
 from src.core.area import Region
 from src.enums.ExtractionMode import ExtractionMode
@@ -7,10 +5,10 @@ from src.utils.ocr.color_util import (
     remove_non_white,
     retain_colors,
 )
-from src.utils.ocr.engine import extract_text, extract_text_talent, get_tier_level
+from src.utils.ocr.engine import extract_text, extract_text_talent
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
 from src.utils.ocr.star_util import count_blue_stars_adaptive, count_stars
-from src.utils.ocr.text_util import is_close_to
+from src.utils.ocr.text_util import get_tier_level, is_close_to
 
 
 def crop_image(image, region: Region):
@@ -21,12 +19,6 @@ def crop_image(image, region: Region):
 def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     """
     Extract text from a specific region in the screenshot.
-
-    Steps:
-      1. Crop the image to the specified region.
-      2. Process the cropped image based on Extraction Mode.
-      3. Preprocess the processed image for OCR.
-      4. Extract and clean up the text.
 
     Args:
         image: OpenCV image (a NumPy array).
@@ -49,6 +41,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     if crop_img is None:
         return None
 
+    # * Non OCR Counting (shape-based, not text-based)
     if mode == ExtractionMode.STAR:
         hex_colors = ["fee424"]
         cleaned, _ = retain_colors(crop_img, hex_colors, tolerance=20)
@@ -57,18 +50,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     if mode == ExtractionMode.UE_STAR:
         return count_blue_stars_adaptive(crop_img, debug=False)
 
-    if mode == ExtractionMode.UE_LEVEL:
-        crop_img = remove_non_white(crop_img)
-
-    if mode == ExtractionMode.BOND_LEVEL:
-        hex_colors = ["3c4e66"]
-        crop_img, _ = retain_colors(crop_img, hex_colors, tolerance=20)
-
     processed_img = preprocess_image_for_ocr(crop_img, mode)
-
-    if mode == ExtractionMode.GEAR:
-        result = extract_text(processed_img)
-        return get_tier_level(result)
 
     if processed_img is None:
         return None
@@ -80,6 +62,9 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
 
     if text is None:
         return None
+
+    if mode == ExtractionMode.GEAR:
+        return get_tier_level(text)
 
     if mode == ExtractionMode.SKILL_LEVEL and is_close_to(text, threshold=0.65):
         return "MAX"
