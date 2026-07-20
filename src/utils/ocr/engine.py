@@ -1,6 +1,7 @@
 import re
 
 import numpy as np
+
 from rapidocr import LangRec, RapidOCR
 
 # Lazy init to avoid slowing down scanner startup
@@ -69,13 +70,3 @@ def get_talent_level(text: str):
     """
     match = re.search(r"\[?\s*Lv\.?\s*(\d+)", text, re.IGNORECASE)
     return str(match.group(1)) if match else None
-
-
-def get_tier_level(text: str):
-    # Remove everything before and including some '(') + T
-    text = re.sub(r".*?\(?T", "", text)
-    # Remove ")"" and everything after
-    text = re.sub(r"\).*", "", text)
-    match = re.search(r"\d+", text)
-
-    return match.group(0) if match else None

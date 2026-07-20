@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 from src.enums.ExtractionMode import ExtractionMode
-from src.utils.ocr.color_util import remove_colors, retain_colors
+from src.utils.ocr.color_util import remove_colors, remove_non_white, retain_colors
 
 
 def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
@@ -21,33 +21,32 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
             - Otherwise, default processing is applied.
 
     Returns:
-        tuple: (binary, config)
         binary (np.array): The preprocessed binary image.
     """
 
-    if mode == ExtractionMode.GEAR:
-        h, w = image.shape[:2]
-        image = cv2.resize(image, (w * 5, h * 5), interpolation=cv2.INTER_CUBIC)
-        # Tier Color
-        hex_colors = [
-            "0f88bc",
-        ]
-        result, _ = retain_colors(image, hex_colors, tolerance=70)
-
-        return result
-
     h, w = image.shape[:2]
-    if h < 50 or w < 50:
+    if h < 50 or w < 50 and mode != ExtractionMode.GEAR:
         image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
 
-    # if image.shape[2] == 4:
-    #     image = image[:, :, :3]
+    if mode == ExtractionMode.GEAR:
+        image = cv2.resize(image, (w * 5, h * 5), interpolation=cv2.INTER_CUBIC)
+        # Tier Color
+        hex_colors = ["0f88bc"]
+        image, _ = retain_colors(image, hex_colors, tolerance=70)
+        return image
 
-    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    # h, w = gray.shape[:2]
-    # if h < 50 or w < 50:
-    #     gray = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+    elif mode == ExtractionMode.SKILL_LEVEL:
+        hex_colors = ["dceffa", "e0effa", "e7f3fb", "d8dadc", "bcccd8"]
+        image, _ = remove_colors(image, hex_colors)
 
+    elif mode == ExtractionMode.BOND_LEVEL:
+        hex_colors = ["3c4e66"]
+        image, _ = retain_colors(image, hex_colors, tolerance=20)
+
+    elif mode == ExtractionMode.UE_LEVEL:
+        image = remove_non_white(image)
+
+    # Standardization to Grayscale
     if image.ndim == 3:
         if image.shape[2] == 4:
             image = image[:, :, :3]
@@ -55,33 +54,7 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
     else:
         gray = image
 
-    if mode == ExtractionMode.BOND_LEVEL:  # in bond or somewhere
-        # gray = cv2.equalizeHist(gray)
-        # _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        binary = gray
-        binary = 255 - binary
-        return binary
-
-    elif mode == ExtractionMode.SKILL_LEVEL:  # Skill Level
-        hex_colors = ["dceffa", "e0effa", "e7f3fb", "d8dadc", "bcccd8"]
-        binary, _ = remove_colors(image, hex_colors)
-
-        gray = cv2.cvtColor(binary, cv2.COLOR_BGR2GRAY)
-        gray = cv2.convertScaleAbs(gray, alpha=1.3, beta=0)
-        _, binary = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        binary = cv2.resize(binary, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
-        # binary = 255 - binary
-        return binary
-
-    elif (
-        mode == ExtractionMode.LEVEL or mode == ExtractionMode.NUMBER
-    ):  # Level or Number
-        _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        return binary
-
-    elif (
-        mode == ExtractionMode.NAME or mode == ExtractionMode.TEXT
-    ):  # single line label
+    if mode in [ExtractionMode.NAME, ExtractionMode.TEXT]:  # single line label
         gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
         gray = sharpen_image(gray)
         gray = unsharp_mask(gray)
@@ -92,7 +65,25 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         return binary
 
-    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    elif mode == ExtractionMode.BOND_LEVEL:  # in bond or somewhere
+        binary = 255 - gray
+        return binary
+
+    elif mode == ExtractionMode.SKILL_LEVEL:  # Skill Level
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.convertScaleAbs(gray, alpha=1.3, beta=0)
+        _, binary = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        binary = cv2.resize(binary, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+        # binary = 255 - binary
+        return binary
+
+    elif mode in [ExtractionMode.LEVEL, ExtractionMode.NUMBER]:  # Level or Number
+        _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        return binary
+
+    else:
+        _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
     return binary
 
 
