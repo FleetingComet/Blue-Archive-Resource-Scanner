@@ -11,61 +11,35 @@ class SearchPattern(Enum):
     EQUIPMENT_OWNED = Region(530, 595, 90, 30)  # plus 5 for y (for ocr to detect it)
     EQUIPMENT_NAME = Region(60, 560, 420, 80)
 
-    # in page
-    # AP = Region(560, 10, 105, 30)
-    # CREDITS = Region(770, 10, 140, 30)
-    # PYROXENE = Region(965, 10, 105, 30)
-
-    # AP = Region(510, 20, 105, 35)
     AP = Region(475, 20, 102, 35)  # -10 from true value idk why
-    # CREDIT = Region(700, 20, 120, 35)
     CREDIT = Region(660, 20, 150, 35)  # -10
-    # PYROXENE = Region(870, 20, 100, 35)
     PYROXENE = Region(860, 20, 100, 35)
 
 
 class StudentSearchPattern(Enum):
-    # STUDENT_NAME = Region(70, 550, 190, 35) #working former
     STUDENT_NAME = Region(65, 550, 185, 40)
-    # LEVEL = Region(30, 585, 50, 30) #working former
     LEVEL = Region(30, 585, 45, 30)
 
-    # At Level up tab
-    # LEVEL = Region(760, 230, 90, 25)
-    # EXP_BAR = Region(950, 230, 242, 25)
-
-    # BOND_LEVEL = Region(40, 555, 30, 25) #working former
     BOND_LEVEL = Region(30, 550, 35, 35)
-    # BOND_LEVEL = Region(50, 555, 20, 25) #
 
-    # STAR_QUANTITY = Region(260, 560, 80, 30)
-    # STAR_QUANTITY = Region(250, 560, 90, 30)
     STAR_QUANTITY = Region(245, 560, 82, 25)
-    # UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1030, 510, 60, 20) #Exclusive Weapon
-    # UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(1020, 510, 70, 20)  # Exclusive Weapon
     UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(977, 504, 93, 22)  # Exclusive Weapon
-    # UNIQUE_EQUIPMENT_LEVEL = Region(779, 455, 61, 21) #Exclusive Weapon Level
     UNIQUE_EQUIPMENT_LEVEL = Region(775, 455, 61, 21)  # Exclusive Weapon Level
 
-    GEAR_1_TIER = Region(676, 615, 29, 19)
-    GEAR_2_TIER = Region(770, 615, 29, 19)
-    GEAR_3_TIER = Region(864, 615, 29, 19)
-    # GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
-    GEAR_BOND_TIER = Region(957, 615, 29, 19)
-
-    # !! Former working
-    # GEAR_1_TIER = Region(686, 617, 20, 15)
-    # GEAR_2_TIER = Region(779, 617, 20, 15)
-    # GEAR_3_TIER = Region(872, 617, 20, 15)
-    # # GEAR_BOND_TIER = Region(960, 615, 30, 20) #works idk why
-    # GEAR_BOND_TIER = Region(965, 617, 20, 15)
-
-    # SKILL_EX = Region(686, 403, 86, 20) #
     SKILL_EX = Region(686, 402, 80, 20)  #
     SKILL_BASIC = Region(796, 403, 80, 20)
     SKILL_ENHANCED = Region(901, 403, 80, 20)  #
-    # SKILL_SUB = Region(1008, 403, 80, 20)
     SKILL_SUB = Region(1008, 402, 79, 22)
+
+    class GEAR_SLOT(Enum):
+        """
+        Gear 1 to 3 and Bond Gear
+        """
+
+        GEAR_1 = Region(665 + 12, 600, 20, 25 + 5)  # ? +12 Xoffset, widthOffset +5
+        GEAR_2 = Region(755 + 12, 600, 20, 25 + 5)
+        GEAR_3 = Region(850 + 10, 600, 20, 25 + 5)  # ? idk
+        GEAR_BOND = Region(940 + 11, 600, 20, 25 + 4)  # ? idk
 
     class TALENT(Enum):
         """
@@ -75,6 +49,7 @@ class StudentSearchPattern(Enum):
         HP, DEF = LEFT COLUMN
         ATK, HEALING = RIGHT COLUMN
         """
+
         HP = Region(675, 225, 215, 35)
         ATK = Region(890, 225, 215, 35)
         HEALING = Region(890, 260, 205, 35)

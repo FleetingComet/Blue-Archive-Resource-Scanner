@@ -58,22 +58,22 @@ def student_ocr_worker(img_path: Path):
         ),
         "Gear 1 Tier": extract_from_region(
             image,
-            StudentSearchPattern.GEAR_1_TIER.value,
+            StudentSearchPattern.GEAR_SLOT.GEAR_1.value,
             mode=ExtractionMode.GEAR,
         ),
         "Gear 2 Tier": extract_from_region(
             image,
-            StudentSearchPattern.GEAR_2_TIER.value,
+            StudentSearchPattern.GEAR_SLOT.GEAR_2.value,
             mode=ExtractionMode.GEAR,
         ),
         "Gear 3 Tier": extract_from_region(
             image,
-            StudentSearchPattern.GEAR_3_TIER.value,
+            StudentSearchPattern.GEAR_SLOT.GEAR_3.value,
             mode=ExtractionMode.GEAR,
         ),
         "Gear Bond Tier": extract_from_region(
             image,
-            StudentSearchPattern.GEAR_BOND_TIER.value,
+            StudentSearchPattern.GEAR_SLOT.GEAR_BOND.value,
             mode=ExtractionMode.GEAR,
         ),
         "Unique Equipment Star Quantity": extract_from_region(
