@@ -1,3 +1,5 @@
+from ctypes import windll
+
 import mss
 import numpy as np
 import win32con
@@ -15,6 +17,14 @@ class WindowManager:
 
     def __init__(self, window_name: str):
         self.window_name = window_name
+        try:
+            windll.shcore.SetProcessDpiAwareness(1)
+        except Exception:
+            try:
+                windll.user32.SetProcessDPIAware()
+            except Exception:
+                pass
+
         self.hwnd = self._find_window()
         # what we work on
         self.base_res = Size(1280, 720)
@@ -63,7 +73,7 @@ class WindowManager:
 
     def _capture(self):
         client = self.get_client_region()
-        capture = WindowsCapture(window_name=self.window_name)
+        capture = WindowsCapture(window_name=self.window_name, cursor_capture=False)
         image = None
 
         @capture.event
@@ -82,13 +92,11 @@ class WindowManager:
             return np.zeros((client.height, client.width, 3), dtype=np.uint8)
 
         left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
-        full_width = right - left
-        full_height = bottom - top
 
         # Crop offsets
-        offset_x = (full_width - client.width) // 2
+        offset_x = client.x - left
         # Usually, borders are equal on left/right, and the remainder is on top
-        offset_y = full_height - client.height - offset_x
+        offset_y = client.y - top
 
         return image[
             offset_y : offset_y + client.height, offset_x : offset_x + client.width
