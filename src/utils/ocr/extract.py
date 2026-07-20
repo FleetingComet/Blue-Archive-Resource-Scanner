@@ -2,7 +2,6 @@ from locations.search import SearchPattern
 from src.core.area import Region
 from src.enums.ExtractionMode import ExtractionMode
 from src.utils.ocr.color_util import (
-    remove_non_white,
     retain_colors,
 )
 from src.utils.ocr.engine import extract_text, extract_text_talent

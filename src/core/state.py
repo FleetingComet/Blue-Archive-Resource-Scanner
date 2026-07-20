@@ -114,6 +114,9 @@ class ScreenState:
         res = self.navigator.navigate_to_target(
             cfg["menu_location"], cfg["uses_menu_tab"]
         )
+        time.sleep(
+            2 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+        )
         if not res.success:
             self.navigator.ensure_at_home()  # Go home on failure
             raise RuntimeError(f"Navigation to {self.target_screen} failed")
@@ -183,7 +186,7 @@ class ScreenState:
                     self.navigator.ensure_at_home()
                     self.navigator.ensure_menu_state(should_open=False)
                     time.sleep(
-                        0.5
+                        2
                         * Config.WAIT_TIME_MULTIPLIER
                         * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
                     )
@@ -219,6 +222,11 @@ class ScreenState:
                     "[bold blue]Reached Students List.[/bold blue] Entering detail view..."
                 )
                 self.navigator.navigate_to_target("first_student", in_menu_tab=False)
+                time.sleep(
+                    2
+                    * Config.WAIT_TIME_MULTIPLIER
+                    * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+                )
 
             else:
                 self._execute_process(self.target_screen, cfg)

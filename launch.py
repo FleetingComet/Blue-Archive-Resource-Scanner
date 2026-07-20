@@ -1,3 +1,4 @@
+import argparse
 import json
 import subprocess
 import sys
@@ -9,6 +10,7 @@ from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 from rich.table import Table
 from rich.text import Text
 
+from src.constant import SCREEN_DEFAULTS, USER_FACING_SCREENS
 from src.core.config import TargetPlatform
 
 console = Console()
@@ -90,66 +92,6 @@ def load_settings() -> dict:
     return {}
 
 
-# Screen Config
-SCREEN_DEFAULTS = {
-    "Currencies": {
-        "menu_location": "currencies",
-        "grid_type": "currencies",
-        "uses_menu_tab": False,
-        "grid_config": None,  # No grid scanning for currencies
-    },
-    "Equipment": {
-        "menu_location": "menu_equipment",
-        "grid_type": "Equipment",
-        "uses_menu_tab": True,
-        "grid_config": {
-            "start_x": 690,
-            "start_y": 160,
-            "item_width": 110,
-            "item_height": 90,
-            "cols_per_row": 5,
-            "rows_per_page": 5,
-            "y_padding": 11,
-            "swipe_distance": 450,
-            "end_y": 660,
-        },
-    },
-    "Items": {
-        "menu_location": "menu_items",
-        "grid_type": "Items",
-        "uses_menu_tab": True,
-        "grid_config": {
-            "start_x": 690,
-            "start_y": 160,
-            "item_width": 110,
-            "item_height": 90,
-            "cols_per_row": 5,
-            "rows_per_page": 5,
-            "y_padding": 11,
-            "swipe_distance": 450,
-            "end_y": 560,
-        },
-    },
-    "Students": {
-        "menu_location": "menu_students",
-        "grid_type": "Students",
-        "uses_menu_tab": False,
-        "grid_config": None,  # No grid scanning for students list
-    },
-    "Student": {
-        "menu_location": "first_student",
-        "grid_type": "Student",
-        "uses_menu_tab": False,
-        "grid_config": None,  # Individual student info, no grid
-    },
-}
-
-# Screens the user explicitly toggles in the wizard.
-# "Student" is excluded - it is a sub-screen of "Students" and is
-# enabled/disabled automatically alongside it.
-USER_FACING_SCREENS = ["Equipment", "Items", "Students", "Currencies"]
-
-
 def write_screen_config(enabled_screens: list[str]) -> None:
     """
     Update the ``enabled`` flag in config/screen_config.json.
@@ -217,7 +159,7 @@ def check_dependencies():
 
         console.print("[green]✓ Dependencies OK[/green]")
     except ImportError:
-        console.print("[yellow]✗ Missing dependencies (tesseract, cv2)[/yellow]")
+        console.print("[yellow]✗ Missing dependencies (rapidocr, cv2)[/yellow]")
 
         if Confirm.ask("Install now?"):
             subprocess.run(
@@ -268,7 +210,6 @@ def run_wizard(previous: dict) -> dict:
 
     header("Step 2 - Scan Targets")
 
-    # screens = ["Equipment", "Items", "Students", "Currencies"]
     screens = previous.get("screens", USER_FACING_SCREENS)
     chosen: list[str] = []
 
@@ -289,7 +230,7 @@ def run_wizard(previous: dict) -> dict:
         "\n[bold]Wait-time multiplier[/bold] - increase if your device/emulator is slow.\n"
     )
     console.print(
-        "[dim]1.0 = normal speed  |  1.5 = 50 % slower  |  2.0 = double wait[/dim]\n"
+        "[dim]1.0 = normal speed  |  1.5 = 50 \% slower  |  2.0 = double wait[/dim]\n"
     )
     wait_mult = FloatPrompt.ask(
         "Wait multiplier", default=previous.get("wait_multiplier", 1.0)
@@ -320,6 +261,7 @@ def run_wizard(previous: dict) -> dict:
         "wait_screen_nav_multiplier": wait_screen_nav_multiplier,
         "capture_interval": capture_interval,
         "enable_sync": enable_sync,
+        "debug_mode": debug_mode,
     }
 
 
@@ -356,7 +298,12 @@ def main():
         )
     )
 
-    force_edit = _parse_args()
+    args = _parse_args()
+
+    global debug_mode
+    debug_mode = args.debug
+    force_edit = args.edit
+
     previous_settings = load_settings()
     first_launch = not previous_settings
     from_config = load_screens_from_config()
@@ -382,23 +329,27 @@ def main():
         console.print("[green]Using saved settings.[/green]\n")
         console.print("[dim]Run with -e / --edit to change them.\n")
         settings = previous_settings
+        if debug_mode:
+            settings["debug_mode"] = debug_mode
 
     launch(settings)
 
 
-def _parse_args() -> bool:
-    """
-    Return True if the user wants to re-run the wizard.
+def _parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-e",
+        "--edit",
+        action="store_true",
+        help="Re-run the setup wizard.",
+    )
 
-    Default behaviour (no flags):
-      - Settings file exists  → skip wizard, use saved settings.
-      - Settings file missing → run wizard (first launch).
-
-    Flags that force the wizard to run:
-      --edit / -e   re-configure even when saved settings exist.
-    """
-    edit_flags = {"--edit", "-e"}
-    return bool(edit_flags & set(sys.argv[1:]))
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable debug mode.",
+    )
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
