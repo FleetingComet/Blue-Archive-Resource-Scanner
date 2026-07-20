@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-from src.utils.ocr.color_util import remove_colors
 from src.enums.ExtractionMode import ExtractionMode
+from src.utils.ocr.color_util import remove_colors, retain_colors
 
 
 def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
@@ -17,12 +17,24 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
             - "level_indicator" or "number": For level indicators or numbers.
             - "multi_line_name": For multi line text labels (e.g. Names on Equipment and Items).
             - "name" or "text": For text labels.
+            - "gear": For gear tiers (e.g., "T9", "T7").
             - Otherwise, default processing is applied.
 
     Returns:
         tuple: (binary, config)
         binary (np.array): The preprocessed binary image.
     """
+
+    if mode == ExtractionMode.GEAR:
+        h, w = image.shape[:2]
+        image = cv2.resize(image, (w * 5, h * 5), interpolation=cv2.INTER_CUBIC)
+        # Tier Color
+        hex_colors = [
+            "0f88bc",
+        ]
+        result, _ = retain_colors(image, hex_colors, tolerance=70)
+
+        return result
 
     h, w = image.shape[:2]
     if h < 50 or w < 50:
@@ -67,7 +79,9 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
         _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         return binary
 
-    elif mode == ExtractionMode.NAME or mode == ExtractionMode.TEXT:  # single line label
+    elif (
+        mode == ExtractionMode.NAME or mode == ExtractionMode.TEXT
+    ):  # single line label
         gray = cv2.convertScaleAbs(gray, alpha=1.5, beta=0)
         gray = sharpen_image(gray)
         gray = unsharp_mask(gray)
