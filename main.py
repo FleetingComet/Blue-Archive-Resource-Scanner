@@ -1,6 +1,6 @@
 import argparse
 import logging
-from typing import Set
+import sys
 
 from src.core.config import Config
 from src.core.navigator import ScreenNavigator
@@ -15,7 +15,7 @@ from src.utils.sync.data_sync_manager import DataSyncManager
 logger = logging.getLogger("BA-Scanner")
 
 
-def run_post_processing(visited_screens: Set[str]):
+def run_post_processing(visited_screens: set[str]):
     """
     Only runs processors if the corresponding screen
     was actually successfully scanned.
@@ -31,7 +31,7 @@ def run_post_processing(visited_screens: Set[str]):
             try:
                 logger.info(f"Post-processing {screen_name} data...")
                 ProcessorClass().process()
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error(f"Failed to process {screen_name}: {e}")
 
 
@@ -49,7 +49,7 @@ def main():
     if not args.offline and Config.settings.enable_sync:
         try:
             DataSyncManager().update_from_online()
-        except Exception:
+        except Exception:  # noqa: BLE001, S110
             pass
 
     # Create device controller based on platform
@@ -57,7 +57,7 @@ def main():
 
     if not device.connect(Config.ADB_RETRIES):
         logger.error("❌ Failed to connect to ADB.")
-        exit(1)
+        sys.exit(1)
 
     mainpage(device)
 

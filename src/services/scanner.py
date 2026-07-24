@@ -14,7 +14,7 @@ from src.core.config import Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.services.workers import item_ocr_worker, student_ocr_worker
 from src.utils.data.io import read_json, update_count, write_json
-from src.utils.data.jsonHelper import (
+from src.utils.data.student_skill_helper import (
     map_student_data_to_character,
 )
 from src.utils.device.interfaces import DeviceController

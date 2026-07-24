@@ -3,7 +3,6 @@ import logging
 import os
 import time
 from enum import Enum, auto
-from typing import Optional, Set
 
 from rich.console import Console
 from rich.logging import RichHandler
@@ -39,16 +38,16 @@ class ScreenState:
     data collection/matching processes for each defined screen.
     """
 
-    def __init__(self, navigator: ScreenNavigator, config_path: Optional[str] = None):
+    def __init__(self, navigator: ScreenNavigator, config_path: str | None = None):
         self.navigator = navigator
         self.console = Console()
         self.config = self._load_config(
             config_path or os.path.join("config", "screen_config.json")
         )
 
-        self.visited: Set[str] = set()
+        self.visited: set[str] = set()
         self.current_state = NavState.INIT
-        self.target_screen: Optional[str] = None
+        self.target_screen: str | None = None
 
         self._init_logging()
 
@@ -70,7 +69,9 @@ class ScreenState:
         # Console format: only the message (Rich adds the timestamp column itself)
         rich_handler.setFormatter(logging.Formatter("%(message)s"))
 
-        log_path = Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"
+        log_path = (
+            Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"  # noqa: DTZ011
+        )  # I don't need timezone aware date because it lives in your local filesystem
         file_handler = logging.FileHandler(log_path, encoding="utf-8")
 
         file_format = logging.Formatter(
@@ -239,9 +240,9 @@ class ScreenState:
                     self._safe_navigate(cfg)
 
                 return NavState.PROCESSING
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 self.logger.error(
-                    f"[bold red]Error:[/bold red] Abandoning {self.target_screen} - {str(e)}"
+                    f"[bold red]Error:[/bold red] Abandoning {self.target_screen} - {e!s}"
                 )
                 self.visited.add(self.target_screen)  # Skip it
                 progress.advance(task_id)
