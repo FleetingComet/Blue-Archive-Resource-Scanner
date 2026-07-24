@@ -177,11 +177,11 @@ class ScreenState:
             cfg = self.config[self.target_screen]
 
             try:
-                # Skip navigation for Currencies (at home)
-                if self.target_screen == "Currencies":
+                # Ensure clean Home state for screens that require it
+                if self.target_screen in ["Currencies", "Students"]:
                     progress.update(
                         task_id,
-                        description="[bold blue]Going Home[/bold blue] for Currencies...",
+                        description=f"[bold blue]Going Home[/bold blue] for {self.target_screen}...",
                     )
                     self.navigator.ensure_at_home()
                     self.navigator.ensure_menu_state(should_open=False)
@@ -190,7 +190,8 @@ class ScreenState:
                         * Config.WAIT_TIME_MULTIPLIER
                         * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
                     )
-                else:
+
+                if self.target_screen != "Currencies":
                     progress.update(
                         task_id,
                         description=f"[bold blue]Navigating to[/bold blue] {self.target_screen}",
