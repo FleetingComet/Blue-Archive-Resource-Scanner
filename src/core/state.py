@@ -158,6 +158,26 @@ class ScreenState:
         state = self.current_state
 
         if state == NavState.INIT:
+            progress.update(
+                task_id, description="[cyan]Checking current screen...[/cyan]"
+            )
+            # Identify what screen we are currently sitting on
+            detected = self.navigator.identify_screen()
+            if not detected and self.navigator.at_home():
+                detected = "Currencies"
+
+            # If current screen is enabled in config, set as target immediately
+            if detected and detected in self.config:
+                self.logger.info(
+                    f"[bold green]Starting from current screen:[/bold green] {detected}"
+                )
+                self.target_screen = detected
+                progress.update(
+                    task_id, description=f"[cyan]Targeting:[/cyan] {self.target_screen}"
+                )
+                return NavState.NAVIGATING
+
+            # Otherwise, fall back to default order
             return NavState.CHECKING_CONTEXT
 
         if state == NavState.CHECKING_CONTEXT:
@@ -177,6 +197,26 @@ class ScreenState:
             cfg = self.config[self.target_screen]
 
             try:
+
+                # Check if ALREADY on target screen to bypass unnecessary navigation
+                already_at_target = False
+                if self.target_screen == "Currencies":
+                    if self.navigator.at_home():
+                        already_at_target = True
+
+                else:
+                    current = self.navigator.identify_screen()
+                    if current == self.target_screen:
+                        already_at_target = True
+
+                if already_at_target:
+                    self.logger.info(
+                        f"[bold green]Already on[/bold green] {self.target_screen}. Skipping navigation."
+                    )
+                    if self.target_screen == "Currencies":
+                        self.navigator.ensure_menu_state(should_open=False)
+                    return NavState.PROCESSING
+
                 # Ensure clean Home state for screens that require it
                 if self.target_screen in ["Currencies", "Students"]:
                     progress.update(
@@ -234,6 +274,10 @@ class ScreenState:
 
             self.visited.add(self.target_screen)
             progress.advance(task_id)
+            if self.target_screen == "Students":
+                # We are forcing the target screen to Student to avoid getting derailed
+                self.target_screen = "Student"
+                return NavState.NAVIGATING
             return NavState.CHECKING_CONTEXT
 
         return NavState.FAILED
