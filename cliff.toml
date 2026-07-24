@@ -114,3 +114,6 @@ topo_order_commits = false
 sort_commits = "newest"
 # Process submodules commits
 recurse_submodules = false
+
+[remote]
+offline = true
