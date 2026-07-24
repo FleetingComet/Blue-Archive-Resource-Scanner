@@ -1,57 +1,52 @@
-import json
 from dataclasses import fields
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
-
-def _ensure_file(path: Path, default=None):
-    """Create file + parent dirs if missing, and initialize with default."""
-    if default is None:
-        default = {}
-
-    path.parent.mkdir(parents=True, exist_ok=True)
-
-    if not path.exists():
-        path.write_text(
-            json.dumps(default, indent=4, ensure_ascii=False), encoding="utf-8"
-        )
+from src.utils.data.io import read_json, write_json
+from src.utils.data.text_matcher import find_closest
 
 
 class BaseProcessor:
-    dataclass = None
-    processed_file: Path = None
-    owned_file: Path = None
-    output_file: Path = None
+    dataclass: type[Any] | None = None
+    processed_file: Path | None = None
+    owned_file: Path | None = None
+    output_file: Path | None = None
 
-    def load_processed_data(self) -> List[Dict]:
-        path = Path(self.processed_file)
+    def load_processed_data(self) -> list[dict]:
+        data = read_json(self.processed_file)
 
-        _ensure_file(path, default={})
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        return data if isinstance(data, list) else []
 
-    def load_owned_data(self) -> Dict:
-        path = Path(self.owned_file)
-        _ensure_file(path)
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+    def load_owned_data(self) -> dict:
+        return read_json(self.owned_file)
 
-    def process_json(self, raw_data: List[Dict]) -> List[Any]:
+    def process_json(self, raw_data: list[dict]) -> list[Any]:
+        if not self.dataclass:
+            return []
         return [self.dataclass(**item) for item in raw_data if self.validate_item(item)]
 
-    def validate_item(self, item: Dict) -> bool:
+    def validate_item(self, item: dict) -> bool:
+        if not self.dataclass:
+            return False
+
         try:
             return all(field.name in item for field in fields(self.dataclass))
-        except KeyError:
+        except (KeyError, TypeError):
             return False
 
     def save_result(self, result: Any):
-        path = Path(self.output_file)
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(result, f, indent=4, ensure_ascii=False)
-        
-    def map_data(self, processed_items: List[Any], owned_data: Dict) -> Any:
+        write_json(self.output_file, result)
+
+    def get_closest_value(
+        self, name: str, name_map: dict[str, Any], threshold: float = 0.8
+    ) -> Any:
+        """Helper to match a name against dictionary keys using fuzzy matching."""
+        if not isinstance(name_map, dict) or not name_map:
+            return 0
+        matched = find_closest(name, name_map.keys(), threshold)
+        return name_map.get(matched, 0) if matched else 0
+
+    def map_data(self, processed_items: list[Any], owned_data: dict) -> Any:
         raise NotImplementedError
 
     def process(self):
