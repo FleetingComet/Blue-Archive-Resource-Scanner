@@ -1,1070 +1,1337 @@
 [
     {
         "id": 10000,
-        "name": "Aru"
+        "name": "Aru",
+        "icon": "enemyinfo_aru_sr"
     },
     {
         "id": 10001,
-        "name": "Eimi"
+        "name": "Eimi",
+        "icon": "enemyinfo_eimi_sg"
     },
     {
         "id": 10002,
-        "name": "Haruna"
+        "name": "Haruna",
+        "icon": "enemyinfo_haruna_sr"
     },
     {
         "id": 10003,
-        "name": "Hifumi"
+        "name": "Hifumi",
+        "icon": "enemyinfo_hihumi_ar"
     },
     {
         "id": 10004,
-        "name": "Hina"
+        "name": "Hina",
+        "icon": "enemyinfo_hina_mg"
     },
     {
         "id": 10005,
-        "name": "Hoshino"
+        "name": "Hoshino",
+        "icon": "enemyinfo_hoshino_sg"
     },
     {
         "id": 10006,
-        "name": "Iori"
+        "name": "Iori",
+        "icon": "enemyinfo_iori_sr"
     },
     {
         "id": 10007,
-        "name": "Maki"
+        "name": "Maki",
+        "icon": "enemyinfo_maki_mg"
     },
     {
         "id": 10008,
-        "name": "Neru"
+        "name": "Neru",
+        "icon": "enemyinfo_neru_smg"
     },
     {
         "id": 10009,
-        "name": "Izumi"
+        "name": "Izumi",
+        "icon": "enemyinfo_izumi_mg"
     },
     {
         "id": 10010,
-        "name": "Shiroko"
+        "name": "Shiroko",
+        "icon": "enemyinfo_shiroko_ar"
     },
     {
         "id": 10011,
-        "name": "Shun"
+        "name": "Shun",
+        "icon": "enemyinfo_shun_sr"
     },
     {
         "id": 10012,
-        "name": "Sumire"
+        "name": "Sumire",
+        "icon": "enemyinfo_sumire_sg"
     },
     {
         "id": 10013,
-        "name": "Tsurugi"
+        "name": "Tsurugi",
+        "icon": "enemyinfo_tsurugi_sg"
     },
     {
         "id": 13000,
-        "name": "Akane"
+        "name": "Akane",
+        "icon": "enemyinfo_akane_hg"
     },
     {
         "id": 13001,
-        "name": "Chise"
+        "name": "Chise",
+        "icon": "enemyinfo_chise_gl"
     },
     {
         "id": 13002,
-        "name": "Akari"
+        "name": "Akari",
+        "icon": "enemyinfo_akari_ar"
     },
     {
         "id": 13003,
-        "name": "Hasumi"
+        "name": "Hasumi",
+        "icon": "enemyinfo_hasumi_sr"
     },
     {
         "id": 13004,
-        "name": "Nonomi"
+        "name": "Nonomi",
+        "icon": "enemyinfo_nonomi_mg"
     },
     {
         "id": 13005,
-        "name": "Kayoko"
+        "name": "Kayoko",
+        "icon": "enemyinfo_kayoko_hg"
     },
     {
         "id": 13006,
-        "name": "Mutsuki"
+        "name": "Mutsuki",
+        "icon": "enemyinfo_mutsuki_hmg"
     },
     {
         "id": 13007,
-        "name": "Junko"
+        "name": "Junko",
+        "icon": "enemyinfo_zunko_ar"
     },
     {
         "id": 13008,
-        "name": "Serika"
+        "name": "Serika",
+        "icon": "enemyinfo_serika_ar"
     },
     {
         "id": 13009,
-        "name": "Tsubaki"
+        "name": "Tsubaki",
+        "icon": "enemyinfo_tsubaki_smg"
     },
     {
         "id": 13010,
-        "name": "Yuuka"
+        "name": "Yuuka",
+        "icon": "enemyinfo_yuuka_smg"
     },
     {
         "id": 16000,
-        "name": "Haruka"
+        "name": "Haruka",
+        "icon": "enemyinfo_haruka_sg"
     },
     {
         "id": 16001,
-        "name": "Asuna"
+        "name": "Asuna",
+        "icon": "enemyinfo_asuna_ar"
     },
     {
         "id": 16002,
-        "name": "Kotori"
+        "name": "Kotori",
+        "icon": "enemyinfo_kotori_mg"
     },
     {
         "id": 16003,
-        "name": "Suzumi"
+        "name": "Suzumi",
+        "icon": "enemyinfo_suzumi_ar"
     },
     {
         "id": 16004,
-        "name": "Pina"
+        "name": "Pina",
+        "icon": "enemyinfo_pina_mg"
     },
     {
         "id": 20000,
-        "name": "Hibiki"
+        "name": "Hibiki",
+        "icon": "enemyinfo_hibiki_mt"
     },
     {
         "id": 20001,
-        "name": "Karin"
+        "name": "Karin",
+        "icon": "enemyinfo_karin_sr"
     },
     {
         "id": 20002,
-        "name": "Saya"
+        "name": "Saya",
+        "icon": "enemyinfo_saya_original"
     },
     {
         "id": 23000,
-        "name": "Airi"
+        "name": "Airi",
+        "icon": "enemyinfo_airi_smg"
     },
     {
         "id": 23001,
-        "name": "Fuuka"
+        "name": "Fuuka",
+        "icon": "enemyinfo_fuuka_smg"
     },
     {
         "id": 23002,
-        "name": "Hanae"
+        "name": "Hanae",
+        "icon": "enemyinfo_hanae_ar"
     },
     {
         "id": 23003,
-        "name": "Hare"
+        "name": "Hare",
+        "icon": "enemyinfo_hare_ar"
     },
     {
         "id": 23004,
-        "name": "Utaha"
+        "name": "Utaha",
+        "icon": "enemyinfo_utaha_smg"
     },
     {
         "id": 23005,
-        "name": "Ayane"
+        "name": "Ayane",
+        "icon": "enemyinfo_ayane_hg"
     },
     {
         "id": 26000,
-        "name": "Chinatsu"
+        "name": "Chinatsu",
+        "icon": "enemyinfo_chinatsu_hg"
     },
     {
         "id": 26001,
-        "name": "Kotama"
+        "name": "Kotama",
+        "icon": null
     },
     {
         "id": 26002,
-        "name": "Juri"
+        "name": "Juri",
+        "icon": "enemyinfo_juri_sg"
     },
     {
         "id": 26003,
-        "name": "Serina"
+        "name": "Serina",
+        "icon": "enemyinfo_serina_ar"
     },
     {
         "id": 26004,
-        "name": "Shimiko"
+        "name": "Shimiko",
+        "icon": "enemyinfo_shimiko_ar"
     },
     {
         "id": 26005,
-        "name": "Yoshimi"
+        "name": "Yoshimi",
+        "icon": "enemyinfo_yoshimi_ar"
     },
     {
         "id": 20003,
-        "name": "Mashiro"
+        "name": "Mashiro",
+        "icon": "enemyinfo_mashiro_sr"
     },
     {
         "id": 10014,
-        "name": "Izuna"
+        "name": "Izuna",
+        "icon": "enemyinfo_izuna_smg"
     },
     {
         "id": 23006,
-        "name": "Shizuko"
+        "name": "Shizuko",
+        "icon": "enemyinfo_shizuko_hg"
     },
     {
         "id": 10015,
-        "name": "Aris"
+        "name": "Aris",
+        "icon": "enemyinfo_aris_rg"
     },
     {
         "id": 10016,
-        "name": "Midori"
+        "name": "Midori",
+        "icon": "enemyinfo_midori_sr"
     },
     {
         "id": 13011,
-        "name": "Momoi"
+        "name": "Momoi",
+        "icon": "enemyinfo_momoi_ar"
     },
     {
         "id": 10017,
-        "name": "Cherino"
+        "name": "Cherino",
+        "icon": "enemyinfo_cherino_hg"
     },
     {
         "id": 26006,
-        "name": "Nodoka"
+        "name": "Nodoka",
+        "icon": "enemyinfo_nodoka_original_smg"
     },
     {
         "id": 10018,
-        "name": "Yuzu"
+        "name": "Yuzu",
+        "icon": "enemyinfo_yuzu_gl"
     },
     {
         "id": 10019,
-        "name": "Azusa"
+        "name": "Azusa",
+        "icon": "enemyinfo_azusa_ar"
     },
     {
         "id": 23007,
-        "name": "Hanako"
+        "name": "Hanako",
+        "icon": "enemyinfo_hanako_ar"
     },
     {
         "id": 10020,
-        "name": "Koharu"
+        "name": "Koharu",
+        "icon": "enemyinfo_koharu_sr"
     },
     {
         "id": 10021,
-        "name": "Azusa (Swimsuit)"
+        "name": "Azusa (Swimsuit)",
+        "icon": null
     },
     {
         "id": 20004,
-        "name": "Mashiro (Swimsuit)"
+        "name": "Mashiro (Swimsuit)",
+        "icon": null
     },
     {
         "id": 16005,
-        "name": "Tsurugi (Swimsuit)"
+        "name": "Tsurugi (Swimsuit)",
+        "icon": null
     },
     {
         "id": 20005,
-        "name": "Hifumi (Swimsuit)"
+        "name": "Hifumi (Swimsuit)",
+        "icon": "enemyinfo_ch0058_ar"
     },
     {
         "id": 10022,
-        "name": "Hina (Swimsuit)"
+        "name": "Hina (Swimsuit)",
+        "icon": null
     },
     {
         "id": 10023,
-        "name": "Iori (Swimsuit)"
+        "name": "Iori (Swimsuit)",
+        "icon": null
     },
     {
         "id": 16006,
-        "name": "Izumi (Swimsuit)"
+        "name": "Izumi (Swimsuit)",
+        "icon": "enemyinfo_izumi_swimsuit_mg"
     },
     {
         "id": 10024,
-        "name": "Shiroko (Cycling)"
+        "name": "Shiroko (Cycling)",
+        "icon": null
     },
     {
         "id": 10025,
-        "name": "Shun (Small)"
+        "name": "Shun (Small)",
+        "icon": "enemyinfo_ch0066"
     },
     {
         "id": 13012,
-        "name": "Kirino"
+        "name": "Kirino",
+        "icon": "enemyinfo_kirino_hg"
     },
     {
         "id": 20006,
-        "name": "Saya (Casual)"
+        "name": "Saya (Casual)",
+        "icon": "enemyinfo_saya_casual"
     },
     {
         "id": 10026,
-        "name": "Neru (Bunny)"
+        "name": "Neru (Bunny)",
+        "icon": null
     },
     {
         "id": 10027,
-        "name": "Karin (Bunny)"
+        "name": "Karin (Bunny)",
+        "icon": null
     },
     {
         "id": 10028,
-        "name": "Asuna (Bunny)"
+        "name": "Asuna (Bunny)",
+        "icon": null
     },
     {
         "id": 10029,
-        "name": "Natsu"
+        "name": "Natsu",
+        "icon": "enemyinfo_ch0155_smg"
     },
     {
         "id": 23008,
-        "name": "Mari"
+        "name": "Mari",
+        "icon": "enemyinfo_mari_hg"
     },
     {
         "id": 20007,
-        "name": "Hatsune Miku"
+        "name": "Hatsune Miku",
+        "icon": null
     },
     {
         "id": 20008,
-        "name": "Ako"
+        "name": "Ako",
+        "icon": "enemyinfo_ako_hg"
     },
     {
         "id": 20009,
-        "name": "Cherino (Hot Spring)"
+        "name": "Cherino (Hot Spring)",
+        "icon": null
     },
     {
         "id": 10030,
-        "name": "Chinatsu (Hot Spring)"
+        "name": "Chinatsu (Hot Spring)",
+        "icon": "enemyinfo_ch0163"
     },
     {
         "id": 16007,
-        "name": "Tomoe"
+        "name": "Tomoe",
+        "icon": "enemyinfo_tomoe_sr"
     },
     {
         "id": 20010,
-        "name": "Nodoka (Hot Spring)"
+        "name": "Nodoka (Hot Spring)",
+        "icon": null
     },
     {
         "id": 10031,
-        "name": "Aru (New Year)"
+        "name": "Aru (New Year)",
+        "icon": null
     },
     {
         "id": 10032,
-        "name": "Mutsuki (New Year)"
+        "name": "Mutsuki (New Year)",
+        "icon": null
     },
     {
         "id": 20011,
-        "name": "Serika (New Year)"
+        "name": "Serika (New Year)",
+        "icon": null
     },
     {
         "id": 10033,
-        "name": "Wakamo"
+        "name": "Wakamo",
+        "icon": "enemyinfo_wakamo_sr"
     },
     {
         "id": 16008,
-        "name": "Fubuki"
+        "name": "Fubuki",
+        "icon": "enemyinfo_fubuki_sr"
     },
     {
         "id": 20012,
-        "name": "Sena"
+        "name": "Sena",
+        "icon": "enemyinfo_ch0081_gl"
     },
     {
         "id": 20013,
-        "name": "Chihiro"
+        "name": "Chihiro",
+        "icon": "enemyinfo_ch0160_ar"
     },
     {
         "id": 10034,
-        "name": "Mimori"
+        "name": "Mimori",
+        "icon": "enemyinfo_mimori_hg"
     },
     {
         "id": 10035,
-        "name": "Ui"
+        "name": "Ui",
+        "icon": null
     },
     {
         "id": 10036,
-        "name": "Hinata"
+        "name": "Hinata",
+        "icon": "enemyinfo_hinata_hg"
     },
     {
         "id": 10037,
-        "name": "Marina"
+        "name": "Marina",
+        "icon": "enemyinfo_marina_original_smg"
     },
     {
         "id": 10038,
-        "name": "Miyako"
+        "name": "Miyako",
+        "icon": "enemyinfo_miyako_smg"
     },
     {
         "id": 20014,
-        "name": "Saki"
+        "name": "Saki",
+        "icon": "enemyinfo_saki_mg"
     },
     {
         "id": 10039,
-        "name": "Miyu"
+        "name": "Miyu",
+        "icon": "enemyinfo_miyu_sr"
     },
     {
         "id": 20015,
-        "name": "Kaede"
+        "name": "Kaede",
+        "icon": "enemyinfo_kaede_hg"
     },
     {
         "id": 20016,
-        "name": "Iroha"
+        "name": "Iroha",
+        "icon": "enemyinfo_ch0156_hg"
     },
     {
         "id": 16009,
-        "name": "Michiru"
+        "name": "Michiru",
+        "icon": null
     },
     {
         "id": 10040,
-        "name": "Tsukuyo"
+        "name": "Tsukuyo",
+        "icon": null
     },
     {
         "id": 10041,
-        "name": "Misaki"
+        "name": "Misaki",
+        "icon": "enemyinfo_misaki_rl"
     },
     {
         "id": 20017,
-        "name": "Hiyori"
+        "name": "Hiyori",
+        "icon": "enemyinfo_hiyori_sr"
     },
     {
         "id": 10042,
-        "name": "Atsuko"
+        "name": "Atsuko",
+        "icon": "enemyinfo_atsuko_smg"
     },
     {
         "id": 10043,
-        "name": "Wakamo (Swimsuit)"
+        "name": "Wakamo (Swimsuit)",
+        "icon": "enemyinfo_wakamo_swimsuit_original"
     },
     {
         "id": 10044,
-        "name": "Nonomi (Swimsuit)"
+        "name": "Nonomi (Swimsuit)",
+        "icon": null
     },
     {
         "id": 26007,
-        "name": "Ayane (Swimsuit)"
+        "name": "Ayane (Swimsuit)",
+        "icon": "enemyinfo_ch0176"
     },
     {
         "id": 10045,
-        "name": "Hoshino (Swimsuit)"
+        "name": "Hoshino (Swimsuit)",
+        "icon": null
     },
     {
         "id": 26008,
-        "name": "Shizuko (Swimsuit)"
+        "name": "Shizuko (Swimsuit)",
+        "icon": null
     },
     {
         "id": 10046,
-        "name": "Izuna (Swimsuit)"
+        "name": "Izuna (Swimsuit)",
+        "icon": null
     },
     {
         "id": 10047,
-        "name": "Chise (Swimsuit)"
+        "name": "Chise (Swimsuit)",
+        "icon": null
     },
     {
         "id": 10048,
-        "name": "Saori"
+        "name": "Saori",
+        "icon": "enemyinfo_saori_ar"
     },
     {
         "id": 20018,
-        "name": "Moe"
+        "name": "Moe",
+        "icon": "enemyinfo_moe"
     },
     {
         "id": 10049,
-        "name": "Kazusa"
+        "name": "Kazusa",
+        "icon": "enemyinfo_kazusa_mg"
     },
     {
         "id": 10050,
-        "name": "Kokona"
+        "name": "Kokona",
+        "icon": "enemyinfo_ch0137"
     },
     {
         "id": 10051,
-        "name": "Utaha (Cheer Squad)"
+        "name": "Utaha (Cheer Squad)",
+        "icon": null
     },
     {
         "id": 10052,
-        "name": "Noa"
+        "name": "Noa",
+        "icon": "enemyinfo_ch0095"
     },
     {
         "id": 16010,
-        "name": "Hibiki (Cheer Squad)"
+        "name": "Hibiki (Cheer Squad)",
+        "icon": null
     },
     {
         "id": 20019,
-        "name": "Akane (Bunny)"
+        "name": "Akane (Bunny)",
+        "icon": null
     },
     {
         "id": 10053,
-        "name": "Yuuka (Track)"
+        "name": "Yuuka (Track)",
+        "icon": null
     },
     {
         "id": 10054,
-        "name": "Mari (Track)"
+        "name": "Mari (Track)",
+        "icon": null
     },
     {
         "id": 16011,
-        "name": "Hasumi (Track)"
+        "name": "Hasumi (Track)",
+        "icon": null
     },
     {
         "id": 20020,
-        "name": "Himari"
+        "name": "Himari",
+        "icon": "enemyinfo_ch0159"
     },
     {
         "id": 10055,
-        "name": "Shigure"
+        "name": "Shigure",
+        "icon": "enemyinfo_shigure_original_gl"
     },
     {
         "id": 10056,
-        "name": "Serina (Christmas)"
+        "name": "Serina (Christmas)",
+        "icon": null
     },
     {
         "id": 20021,
-        "name": "Hanae (Christmas)"
+        "name": "Hanae (Christmas)",
+        "icon": null
     },
     {
         "id": 10057,
-        "name": "Haruna (New Year)"
+        "name": "Haruna (New Year)",
+        "icon": null
     },
     {
         "id": 20022,
-        "name": "Fuuka (New Year)"
+        "name": "Fuuka (New Year)",
+        "icon": null
     },
     {
         "id": 16012,
-        "name": "Junko (New Year)"
+        "name": "Junko (New Year)",
+        "icon": null
     },
     {
         "id": 10058,
-        "name": "Mine"
+        "name": "Mine",
+        "icon": null
     },
     {
         "id": 10059,
-        "name": "Mika"
+        "name": "Mika",
+        "icon": "enemyinfo_mikaenemy_smg"
     },
     {
         "id": 10060,
-        "name": "Megu"
+        "name": "Megu",
+        "icon": "enemyinfo_megu_onsendev_ft"
     },
     {
         "id": 20023,
-        "name": "Kanna"
+        "name": "Kanna",
+        "icon": null
     },
     {
         "id": 10061,
-        "name": "Sakurako"
+        "name": "Sakurako",
+        "icon": null
     },
     {
         "id": 10062,
-        "name": "Toki"
+        "name": "Toki",
+        "icon": "enemyinfo_toki_cnc_mg_boss"
     },
     {
         "id": 20024,
-        "name": "Nagisa"
+        "name": "Nagisa",
+        "icon": null
     },
     {
         "id": 10063,
-        "name": "Koyuki"
+        "name": "Koyuki",
+        "icon": "enemyinfo_ch0198"
     },
     {
         "id": 10064,
-        "name": "Kayoko (New Year)"
+        "name": "Kayoko (New Year)",
+        "icon": null
     },
     {
         "id": 20025,
-        "name": "Haruka (New Year)"
+        "name": "Haruka (New Year)",
+        "icon": null
     },
     {
         "id": 10065,
-        "name": "Kaho"
+        "name": "Kaho",
+        "icon": null
     },
     {
         "id": 10066,
-        "name": "Aris (Maid)"
+        "name": "Aris (Maid)",
+        "icon": "enemyinfo_ch0200"
     },
     {
         "id": 10067,
-        "name": "Toki (Bunny)"
+        "name": "Toki (Bunny)",
+        "icon": "enemyinfo_ch0211"
     },
     {
         "id": 26009,
-        "name": "Yuzu (Maid)"
+        "name": "Yuzu (Maid)",
+        "icon": "enemyinfo_ch0203"
     },
     {
         "id": 10068,
-        "name": "Reisa"
+        "name": "Reisa",
+        "icon": null
     },
     {
         "id": 10069,
-        "name": "Rumi"
+        "name": "Rumi",
+        "icon": "enemyinfo_ch0135"
     },
     {
         "id": 10070,
-        "name": "Mina"
+        "name": "Mina",
+        "icon": "enemyinfo_ch0138"
     },
     {
         "id": 20026,
-        "name": "Minori"
+        "name": "Minori",
+        "icon": "enemyinfo_ch0214"
     },
     {
         "id": 10071,
-        "name": "Miyako (Swimsuit)"
+        "name": "Miyako (Swimsuit)",
+        "icon": "enemyinfo_ch0215"
     },
     {
         "id": 10072,
-        "name": "Saki (Swimsuit)"
+        "name": "Saki (Swimsuit)",
+        "icon": "enemyinfo_ch0217"
     },
     {
         "id": 26010,
-        "name": "Miyu (Swimsuit)"
+        "name": "Miyu (Swimsuit)",
+        "icon": "enemyinfo_ch0218"
     },
     {
         "id": 20027,
-        "name": "Shiroko (Swimsuit)"
+        "name": "Shiroko (Swimsuit)",
+        "icon": "enemyinfo_ch0188"
     },
     {
         "id": 10073,
-        "name": "Ui (Swimsuit)"
+        "name": "Ui (Swimsuit)",
+        "icon": "enemyinfo_ch0204"
     },
     {
         "id": 20028,
-        "name": "Hinata (Swimsuit)"
+        "name": "Hinata (Swimsuit)",
+        "icon": "enemyinfo_ch0210"
     },
     {
         "id": 16013,
-        "name": "Koharu (Swimsuit)"
+        "name": "Koharu (Swimsuit)",
+        "icon": "enemyinfo_ch0205"
     },
     {
         "id": 10074,
-        "name": "Hanako (Swimsuit)"
+        "name": "Hanako (Swimsuit)",
+        "icon": "enemyinfo_ch0209"
     },
     {
         "id": 20029,
-        "name": "Mimori (Swimsuit)"
+        "name": "Mimori (Swimsuit)",
+        "icon": null
     },
     {
         "id": 10075,
-        "name": "Meru"
+        "name": "Meru",
+        "icon": "enemyinfo_ch0124"
     },
     {
         "id": 13013,
-        "name": "Momiji"
+        "name": "Momiji",
+        "icon": "enemyinfo_momiji_default"
     },
     {
         "id": 10076,
-        "name": "Kotori (Cheer Squad)"
+        "name": "Kotori (Cheer Squad)",
+        "icon": null
     },
     {
         "id": 20030,
-        "name": "Haruna (Track)"
+        "name": "Haruna (Track)",
+        "icon": null
     },
     {
         "id": 10077,
-        "name": "Ichika"
+        "name": "Ichika",
+        "icon": "enemyinfo_ch0071"
     },
     {
         "id": 10078,
-        "name": "Kasumi"
+        "name": "Kasumi",
+        "icon": "enemyinfo_ch0089"
     },
     {
         "id": 20031,
-        "name": "Shigure (Hot Spring)"
+        "name": "Shigure (Hot Spring)",
+        "icon": null
     },
     {
         "id": 10079,
-        "name": "Misaka Mikoto"
+        "name": "Misaka Mikoto",
+        "icon": "enemyinfo_ch9998"
     },
     {
         "id": 10080,
-        "name": "Shokuhou Misaki"
+        "name": "Shokuhou Misaki",
+        "icon": "enemyinfo_ch9997"
     },
     {
         "id": 26011,
-        "name": "Saten Ruiko"
+        "name": "Saten Ruiko",
+        "icon": "enemyinfo_ch9996"
     },
     {
         "id": 10081,
-        "name": "Yukari"
+        "name": "Yukari",
+        "icon": "enemyinfo_ch0161"
     },
     {
         "id": 10082,
-        "name": "Renge"
+        "name": "Renge",
+        "icon": "enemyinfo_ch0224"
     },
     {
         "id": 10083,
-        "name": "Kikyou"
+        "name": "Kikyou",
+        "icon": "enemyinfo_ch0225"
     },
     {
         "id": 20032,
-        "name": "Eimi (Swimsuit)"
+        "name": "Eimi (Swimsuit)",
+        "icon": "enemyinfo_ch0219"
     },
     {
         "id": 10084,
-        "name": "Kotama (Camp)"
+        "name": "Kotama (Camp)",
+        "icon": "enemyinfo_ch0232"
     },
     {
         "id": 10085,
-        "name": "Hare (Camp)"
+        "name": "Hare (Camp)",
+        "icon": "enemyinfo_ch0233"
     },
     {
         "id": 10087,
-        "name": "Ako (Dress)"
+        "name": "Ako (Dress)",
+        "icon": "enemyinfo_ch0231"
     },
     {
         "id": 16014,
-        "name": "Ibuki"
+        "name": "Ibuki",
+        "icon": "enemyinfo_ch0077"
     },
     {
         "id": 20033,
-        "name": "Makoto"
+        "name": "Makoto",
+        "icon": "enemyinfo_ch0079"
     },
     {
         "id": 10086,
-        "name": "Hina (Dress)"
+        "name": "Hina (Dress)",
+        "icon": "enemyinfo_ch0230"
     },
     {
         "id": 10088,
-        "name": "Kayoko (Dress)"
+        "name": "Kayoko (Dress)",
+        "icon": "enemyinfo_ch0239"
     },
     {
         "id": 10089,
-        "name": "Aru (Dress)"
+        "name": "Aru (Dress)",
+        "icon": "enemyinfo_ch0240"
     },
     {
         "id": 20034,
-        "name": "Akari (New Year)"
+        "name": "Akari (New Year)",
+        "icon": "enemyinfo_ch0196"
     },
     {
         "id": 10090,
-        "name": "Umika"
+        "name": "Umika",
+        "icon": "enemyinfo_ch0110"
     },
     {
         "id": 20035,
-        "name": "Tsubaki (Guide)"
+        "name": "Tsubaki (Guide)",
+        "icon": "enemyinfo_ch0255"
     },
     {
         "id": 10091,
-        "name": "Kazusa (Band)"
+        "name": "Kazusa (Band)",
+        "icon": "enemyinfo_ch0250"
     },
     {
         "id": 10092,
-        "name": "Yoshimi (Band)"
+        "name": "Yoshimi (Band)",
+        "icon": "enemyinfo_ch0220"
     },
     {
         "id": 16015,
-        "name": "Airi (Band)"
+        "name": "Airi (Band)",
+        "icon": "enemyinfo_ch0251"
     },
     {
         "id": 10093,
-        "name": "Kirara"
+        "name": "Kirara",
+        "icon": "enemyinfo_kirara"
     },
     {
         "id": 10094,
-        "name": "Momoi (Maid)"
+        "name": "Momoi (Maid)",
+        "icon": "enemyinfo_ch0201"
     },
     {
         "id": 10095,
-        "name": "Midori (Maid)"
+        "name": "Midori (Maid)",
+        "icon": "enemyinfo_ch0202"
     },
     {
         "id": 20036,
-        "name": "Serika (Swimsuit)"
+        "name": "Serika (Swimsuit)",
+        "icon": "enemyinfo_ch0189"
     },
     {
         "id": 10096,
-        "name": "Kanna (Swimsuit)"
+        "name": "Kanna (Swimsuit)",
+        "icon": "enemyinfo_ch0260"
     },
     {
         "id": 20037,
-        "name": "Fubuki (Swimsuit)"
+        "name": "Fubuki (Swimsuit)",
+        "icon": "enemyinfo_ch0261"
     },
     {
         "id": 26012,
-        "name": "Kirino (Swimsuit)"
+        "name": "Kirino (Swimsuit)",
+        "icon": "enemyinfo_ch0262"
     },
     {
         "id": 10097,
-        "name": "Moe (Swimsuit)"
+        "name": "Moe (Swimsuit)",
+        "icon": "enemyinfo_ch0216"
     },
     {
         "id": 10098,
-        "name": "Hoshino (Armed)"
+        "name": "Hoshino (Armed)",
+        "icon": "enemyinfo_ch0258_02_enemy"
     },
     {
         "id": 10099,
-        "name": "Hoshino (Armed)"
+        "name": "Hoshino (Armed)",
+        "icon": "enemyinfo_ch0258_01_enemy"
     },
     {
         "id": 10100,
-        "name": "Shiroko*Terror"
+        "name": "Shiroko*Terror",
+        "icon": "enemyinfo_ch0263"
     },
     {
         "id": 26013,
-        "name": "Atsuko (Swimsuit)"
+        "name": "Atsuko (Swimsuit)",
+        "icon": "enemyinfo_ch0267"
     },
     {
         "id": 10101,
-        "name": "Saori (Swimsuit)"
+        "name": "Saori (Swimsuit)",
+        "icon": "enemyinfo_ch0266"
     },
     {
         "id": 10102,
-        "name": "Hiyori (Swimsuit)"
+        "name": "Hiyori (Swimsuit)",
+        "icon": "enemyinfo_ch0269"
     },
     {
         "id": 10103,
-        "name": "Marina (Qipao)"
+        "name": "Marina (Qipao)",
+        "icon": "enemyinfo_ch0270"
     },
     {
         "id": 20038,
-        "name": "Tomoe (Qipao)"
+        "name": "Tomoe (Qipao)",
+        "icon": "enemyinfo_ch0271"
     },
     {
         "id": 10104,
-        "name": "Reijo"
+        "name": "Reijo",
+        "icon": "enemyinfo_reizyo"
     },
     {
         "id": 20039,
-        "name": "Kisaki"
+        "name": "Kisaki",
+        "icon": "enemyinfo_ch0139"
     },
     {
         "id": 10105,
-        "name": "Mari (Pop Idol)"
+        "name": "Mari (Pop Idol)",
+        "icon": "enemyinfo_ch0273"
     },
     {
         "id": 10106,
-        "name": "Sakurako (Pop Idol)"
+        "name": "Sakurako (Pop Idol)",
+        "icon": "enemyinfo_ch0274"
     },
     {
         "id": 16016,
-        "name": "Mine (Pop Idol)"
+        "name": "Mine (Pop Idol)",
+        "icon": "enemyinfo_ch0275"
     },
     {
         "id": 10107,
-        "name": "Chiaki"
+        "name": "Chiaki",
+        "icon": "enemyinfo_ch0238"
     },
     {
         "id": 20040,
-        "name": "Satsuki"
+        "name": "Satsuki",
+        "icon": "enemyinfo_ch0080"
     },
     {
         "id": 10108,
-        "name": "Yuuka (Pajamas)"
+        "name": "Yuuka (Pajamas)",
+        "icon": "enemyinfo_ch0284"
     },
     {
         "id": 10109,
-        "name": "Noa (Pajamas)"
+        "name": "Noa (Pajamas)",
+        "icon": "enemyinfo_ch0285"
     },
     {
         "id": 10110,
-        "name": "Seia"
+        "name": "Seia",
+        "icon": "enemyinfo_ch0070"
     },
     {
         "id": 10112,
-        "name": "Asuna (School)"
+        "name": "Asuna (School)",
+        "icon": "enemyinfo_ch0281"
     },
     {
         "id": 26014,
-        "name": "Karin (School)"
+        "name": "Karin (School)",
+        "icon": "enemyinfo_ch0282"
     },
     {
         "id": 10111,
-        "name": "Neru (School)"
+        "name": "Neru (School)",
+        "icon": "enemyinfo_ch0280"
     },
     {
         "id": 20041,
-        "name": "Rio"
+        "name": "Rio",
+        "icon": "enemyinfo_ch0158"
     },
     {
         "id": 20042,
-        "name": "Maki (Camp)"
+        "name": "Maki (Camp)",
+        "icon": "enemyinfo_ch0235"
     },
     {
         "id": 10113,
-        "name": "Sena (Casual)"
+        "name": "Sena (Casual)",
+        "icon": "enemyinfo_ch0082"
     },
     {
         "id": 10114,
-        "name": "Juri (Part-Timer)"
+        "name": "Juri (Part-Timer)",
+        "icon": "enemyinfo_ch0286"
     },
     {
         "id": 20043,
-        "name": "Izumi (New Year)"
+        "name": "Izumi (New Year)",
+        "icon": "enemyinfo_ch0197"
     },
     {
         "id": 10115,
-        "name": "Rei"
+        "name": "Rei",
+        "icon": "enemyinfo_ch0245"
     },
     {
         "id": 20044,
-        "name": "Sumire (Part-Timer)"
+        "name": "Sumire (Part-Timer)",
+        "icon": "enemyinfo_ch0287"
     },
     {
         "id": 10116,
-        "name": "Saori (Dress)"
+        "name": "Saori (Dress)",
+        "icon": "enemyinfo_ch0259"
     },
     {
         "id": 10117,
-        "name": "Hikari"
+        "name": "Hikari",
+        "icon": "enemyinfo_ch0242"
     },
     {
         "id": 10118,
-        "name": "Nozomi"
+        "name": "Nozomi",
+        "icon": "enemyinfo_ch0243"
     },
     {
         "id": 16017,
-        "name": "Aoba"
+        "name": "Aoba",
+        "icon": "enemyinfo_ch0288"
     },
     {
         "id": 20045,
-        "name": "Pina (Guide)"
+        "name": "Pina (Guide)",
+        "icon": "enemyinfo_ch0257"
     },
     {
         "id": 10119,
-        "name": "Nagusa"
+        "name": "Nagusa",
+        "icon": "enemyinfo_ch0222"
     },
     {
         "id": 20046,
-        "name": "Niya"
+        "name": "Niya",
+        "icon": "enemyinfo_ch0109"
     },
     {
         "id": 10120,
-        "name": "Natsu (Band)"
+        "name": "Natsu (Band)",
+        "icon": "enemyinfo_ch0221"
     },
     {
         "id": 10121,
-        "name": "Yukari (Swimsuit)"
+        "name": "Yukari (Swimsuit)",
+        "icon": "enemyinfo_ch0301"
     },
     {
         "id": 13014,
-        "name": "Renge (Swimsuit)"
+        "name": "Renge (Swimsuit)",
+        "icon": "enemyinfo_ch0302"
     },
     {
         "id": 20047,
-        "name": "Kikyou (Swimsuit)"
+        "name": "Kikyou (Swimsuit)",
+        "icon": "enemyinfo_ch0300"
     },
     {
         "id": 10123,
-        "name": "Seia (Swimsuit)"
+        "name": "Seia (Swimsuit)",
+        "icon": "enemyinfo_ch0295"
     },
     {
         "id": 10124,
-        "name": "Hasumi (Swimsuit)"
+        "name": "Hasumi (Swimsuit)",
+        "icon": "enemyinfo_ch0291"
     },
     {
         "id": 26015,
-        "name": "Ichika (Swimsuit)"
+        "name": "Ichika (Swimsuit)",
+        "icon": "enemyinfo_ch0292"
     },
     {
         "id": 20048,
-        "name": "Nagisa (Swimsuit)"
+        "name": "Nagisa (Swimsuit)",
+        "icon": "enemyinfo_ch0293"
     },
     {
         "id": 10122,
-        "name": "Mika (Swimsuit)"
+        "name": "Mika (Swimsuit)",
+        "icon": "enemyinfo_ch0294"
     },
     {
         "id": 10125,
-        "name": "Eri"
+        "name": "Eri",
+        "icon": "enemyinfo_ch0304"
     },
     {
         "id": 10126,
-        "name": "Kanoe"
+        "name": "Kanoe",
+        "icon": "enemyinfo_ch0306"
     },
     {
         "id": 20049,
-        "name": "Misaki (Swimsuit)"
+        "name": "Misaki (Swimsuit)",
+        "icon": "enemyinfo_ch0268"
     },
     {
         "id": 10127,
-        "name": "Miyo"
+        "name": "Miyo",
+        "icon": "enemyinfo_ch0317"
     },
     {
         "id": 10128,
-        "name": "Fuyu"
+        "name": "Fuyu",
+        "icon": "enemyinfo_ch0318"
     },
     {
         "id": 20050,
-        "name": "Ritsu"
+        "name": "Ritsu",
+        "icon": "enemyinfo_ch0319"
     },
     {
         "id": 20051,
-        "name": "Reisa (Magical)"
+        "name": "Reisa (Magical)",
+        "icon": "enemyinfo_ch0326"
     },
     {
         "id": 10129,
-        "name": "Suzumi (Magical)"
+        "name": "Suzumi (Magical)",
+        "icon": "enemyinfo_ch0325"
     },
     {
         "id": 16018,
-        "name": "Rabu"
+        "name": "Rabu",
+        "icon": "enemyinfo_ch0166"
     },
     {
         "id": 10130,
-        "name": "Subaru"
+        "name": "Subaru",
+        "icon": "enemyinfo_ch0309"
     },
     {
         "id": 10131,
-        "name": "Takane"
+        "name": "Takane",
+        "icon": "enemyinfo_ch0229"
     },
     {
         "id": 20052,
-        "name": "Yakumo"
+        "name": "Yakumo",
+        "icon": "enemyinfo_ch0228"
     },
     {
         "id": 10132,
-        "name": "Tsukuyo (Dress)"
+        "name": "Tsukuyo (Dress)",
+        "icon": "enemyinfo_ch0297"
     },
     {
         "id": 20053,
-        "name": "Michiru (Dress)"
+        "name": "Michiru (Dress)",
+        "icon": "enemyinfo_ch0296"
     },
     {
         "id": 10133,
-        "name": "Rio (Armed)"
+        "name": "Rio (Armed)",
+        "icon": "enemyinfo_ch0331"
     },
     {
         "id": 16019,
-        "name": "Toki (Armed)"
+        "name": "Toki (Armed)",
+        "icon": "enemyinfo_ch0333"
     },
     {
         "id": 20054,
-        "name": "Himari (Armed)"
+        "name": "Himari (Armed)",
+        "icon": "enemyinfo_ch0332"
     },
     {
         "id": 10134,
-        "name": "Aris (Armed)"
+        "name": "Aris (Armed)",
+        "icon": "enemyinfo_ch0334"
     },
     {
         "id": 10135,
-        "name": "Kei"
+        "name": "Kei",
+        "icon": "enemyinfo_ch0335"
     },
     {
         "id": 10136,
-        "name": "Eimi (Armed)"
+        "name": "Eimi (Armed)",
+        "icon": "enemyinfo_ch0337"
     },
     {
         "id": 20055,
-        "name": "Yuzu (Armed)"
+        "name": "Yuzu (Armed)",
+        "icon": "enemyinfo_ch0336"
     },
     {
         "id": 20056,
-        "name": "Koyuki (Pajamas)"
+        "name": "Koyuki (Pajamas)",
+        "icon": "enemyinfo_ch0310"
     },
     {
         "id": 10137,
-        "name": "Konoka"
+        "name": "Konoka",
+        "icon": "enemyinfo_ch0264"
     },
     {
         "id": 10138,
-        "name": "Rena"
+        "name": "Rena",
+        "icon": "enemyinfo_ch0305"
     },
     {
         "id": 20057,
-        "name": "Akane (School)"
+        "name": "Akane (School)",
+        "icon": "enemyinfo_ch0307"
     },
     {
         "id": 10139,
-        "name": "Niko"
+        "name": "Niko",
+        "icon": "enemyinfo_ch0172"
     },
     {
         "id": 10140,
-        "name": "Kurumi"
+        "name": "Kurumi",
+        "icon": "enemyinfo_ch0173"
     },
     {
         "id": 16020,
-        "name": "Otogi"
+        "name": "Otogi",
+        "icon": "enemyinfo_ch0174"
     },
     {
         "id": 20058,
-        "name": "Erika"
+        "name": "Erika",
+        "icon": "enemyinfo_ch0076"
     },
     {
         "id": 10141,
-        "name": "Haruka (Dress)"
+        "name": "Haruka (Dress)",
+        "icon": "enemyinfo_ch0247"
     },
     {
         "id": 20059,
-        "name": "Mutsuki (Dress)"
+        "name": "Mutsuki (Dress)",
+        "icon": "enemyinfo_ch0246"
     },
     {
         "id": 10142,
-        "name": "Nagusa (Swimsuit)"
+        "name": "Nagusa (Swimsuit)",
+        "icon": "enemyinfo_ch0303"
     },
     {
         "id": 10143,
-        "name": "Shun (Swimsuit)"
+        "name": "Shun (Swimsuit)",
+        "icon": "enemyinfo_ch0355_01"
     },
     {
         "id": 10144,
-        "name": "Shun (Swimsuit)"
+        "name": "Shun (Swimsuit)",
+        "icon": "enemyinfo_ch0355_02"
     },
     {
         "id": 10145,
-        "name": "Kisaki (Swimsuit)"
+        "name": "Kisaki (Swimsuit)",
+        "icon": "enemyinfo_ch0356"
     }
 ]
