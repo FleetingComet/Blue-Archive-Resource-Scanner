@@ -1,13 +1,14 @@
-import logging
 import time
 from pathlib import Path
 
 import requests
+from rich.console import Console
+from tenacity import Retrying, stop_after_attempt, wait_fixed
 
 from src.core.config import Config
 from src.utils.data.io import read_json, write_json
 
-logger = logging.getLogger("BA-Scanner")
+console = Console()
 
 
 class DataSyncManager:
@@ -58,7 +59,9 @@ class DataSyncManager:
             retry_backoff = getattr(self, "retry_backoff", 1.0)
             last_exc: Exception | None = None
 
-            for attempt in range(1, retries + 1):
+            for attempt in Retrying(
+                stop=stop_after_attempt(retries), wait=wait_fixed(retry_backoff)
+            ):
                 try:
                     response = requests.get(url, timeout=6)
                     response.raise_for_status()
@@ -68,27 +71,29 @@ class DataSyncManager:
 
                     # Compare and write atomically if different
                     if local_data == remote_data:
-                        logger.info(f"[bold blue][DataSync][/bold blue] Local {key} is up to date.")
+                        console.print(
+                            f"[bold blue][DataSync][/bold blue] Local {key} is up to date."
+                        )
                     else:
                         write_json(tmp_path, remote_data)
                         tmp_path.replace(local_path)
-                        logger.info(f"[DataSync] Updated local {key} from {url}")
+                        console.print(f"[DataSync] Updated local {key} from {url}")
 
                     last_exc = None
                     break
                 except requests.RequestException as exc:
                     last_exc = exc
                     wait = retry_backoff * attempt
-                    logger.error(
+                    console.print(
                         f"[DataSync] Attempt {attempt} failed for {key} ({exc}), retrying in {wait}s"
                     )
                     time.sleep(wait)
                 except Exception as exc:  # noqa: BLE001
                     last_exc = exc
-                    logger.error(f"[DataSync] Unexpected error updating {key}: {exc}")
+                    console.print(f"[DataSync] Unexpected error updating {key}: {exc}")
                     break
 
             if last_exc is not None:
-                logger.error(
+                console.print(
                     f"[DataSync] Failed to update {key} after {retries} attempts. Using local {local_path}"
                 )
