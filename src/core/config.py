@@ -38,6 +38,7 @@ class ConfigManager:
 
         # Directory Structure
         self.ASSETS_DIR = self.PROJECT_ROOT / "assets"
+        self.INPUT_DIR = self.PROJECT_ROOT / "input"
         self.OUTPUT_DIR = self.PROJECT_ROOT / "output"
         self.CONFIG_DIR = self.PROJECT_ROOT / "config"
         self.LOGS_DIR = self.PROJECT_ROOT / "logs"
@@ -55,8 +56,10 @@ class ConfigManager:
         self.final_equipment = self.OUTPUT_DIR / "equipment_final_values.json"
         self.final_items = self.OUTPUT_DIR / "items_final_values.json"
         self.final_students = self.OUTPUT_DIR / "students_final_values.json"
-        self.justin_planner = self.OUTPUT_DIR / "converted_to_justin_planner.json"
-        self.merger_output = self.OUTPUT_DIR / "justin_data_final.json"
+
+        # Justin Planner
+        self.justin_planner_data = self.INPUT_DIR / "justin_data.json"
+        self.justin_planner_merged_output = self.OUTPUT_DIR / "justin_data_final.json"
 
         self.settings: AppSettings = self.load_settings()
         # Map settings to class attributes for backward compatibility with utils
