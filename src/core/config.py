@@ -98,5 +98,4 @@ class ConfigManager:
 
 
 # Global instance
-global Config
 Config = ConfigManager()

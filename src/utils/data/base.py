@@ -1,9 +1,12 @@
+import logging
 from dataclasses import fields
 from pathlib import Path
 from typing import Any
 
 from src.utils.data.io import read_json, write_json
 from src.utils.data.text_matcher import find_closest
+
+logger = logging.getLogger("BA-Scanner")
 
 
 class BaseProcessor:
@@ -55,4 +58,4 @@ class BaseProcessor:
         owned_data = self.load_owned_data()
         result = self.map_data(items, owned_data)
         self.save_result(result)
-        print(f"Data saved to {self.output_file}")
+        logger.info(f"Data saved to [bold cyan]{self.output_file}[/bold cyan]")

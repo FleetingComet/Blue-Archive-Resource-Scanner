@@ -1,26 +1,8 @@
 from collections import defaultdict
-from dataclasses import dataclass
-from enum import Enum
 
 from src.core.config import Config
 from src.utils.data.base import BaseProcessor
-
-
-class Rarity(Enum):
-    N = "N"
-    R = "R"
-    SR = "SR"
-    SSR = "SSR"
-
-
-@dataclass
-class Equipment:
-    id: int
-    category: str
-    rarity: Rarity
-    tier: int
-    icon: str
-    name: str
+from src.utils.data.shapes import Equipment
 
 
 class EquipmentProcessor(BaseProcessor):
@@ -36,7 +18,7 @@ class EquipmentProcessor(BaseProcessor):
             category = item.category
             key = item.id if category == "Exp" else item.tier
             # value = name_map.get(item.name, 0)
-            value = self._get_closest_value(item.name, name_map)
+            value = self.get_closest_value(item.name, name_map)
 
             if "WeaponExpGrowth" in category:
                 icon_key = int(item.icon.split("_")[-1]) + 1

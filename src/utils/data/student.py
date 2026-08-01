@@ -1,14 +1,7 @@
-from dataclasses import dataclass
-
 from src.core.config import Config
 from src.utils.data.base import BaseProcessor
+from src.utils.data.shapes import Student
 from src.utils.data.text_matcher import find_closest
-
-
-@dataclass
-class Student:
-    id: str
-    name: str
 
 
 class StudentProcessor(BaseProcessor):
@@ -31,7 +24,7 @@ class StudentProcessor(BaseProcessor):
 
     def map_data(self, students: list[Student], owned_data: dict) -> dict:
         # Build O(1) lookup map
-        name_to_id = {s.name: s.id for s in students}
+        name_to_id = {s.name: str(s.id) for s in students}
 
         mapped = {"characters": []}
         for char in owned_data.get("characters", []):
