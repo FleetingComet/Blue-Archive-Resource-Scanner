@@ -252,26 +252,32 @@ def main():
         description="Convert and merge scanner output into Justin Planner format."
     )
     parser.add_argument(
+        "-m",
         "--max-target",
         action="store_true",
         help="Set target stats to MAX for newly added characters.",
     )
     parser.add_argument(
-        "--base-file",
+        "-f",
+        "--file",
         type=str,
         default=None,
-        help="Path to an existing Justin Planner export file to merge with.",
+        help="Path to an existing Justin Planner export file to merge with. Leave it empty for default path",
+    )
+    parser.add_argument(
+        "-o", "--online", action="store_true", help="Download latest data"
     )
     args = parser.parse_args()
 
     # try update processed data
-    try:
-        DataSyncManager().update_from_online()
-    except Exception:  # noqa: BLE001, S110
-        pass
+    if args.online:
+        try:
+            DataSyncManager().update_from_online()
+        except Exception:  # noqa: BLE001, S110
+            pass
 
     processor = JustinPlannerProcessor()
-    processor.process(set_max_target=args.max_target, base_file_path=args.base_file)
+    processor.process(set_max_target=args.max_target, base_file_path=args.file)
 
 
 if __name__ == "__main__":
