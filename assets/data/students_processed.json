@@ -2,1336 +2,1633 @@
     {
         "id": 10000,
         "name": "Aru",
-        "icon": "enemyinfo_aru_sr"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10001,
         "name": "Eimi",
-        "icon": "enemyinfo_eimi_sg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10002,
         "name": "Haruna",
-        "icon": "enemyinfo_haruna_sr"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10003,
         "name": "Hifumi",
-        "icon": "enemyinfo_hihumi_ar"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10004,
         "name": "Hina",
-        "icon": "enemyinfo_hina_mg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10005,
         "name": "Hoshino",
-        "icon": "enemyinfo_hoshino_sg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10006,
         "name": "Iori",
-        "icon": "enemyinfo_iori_sr"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10007,
         "name": "Maki",
-        "icon": "enemyinfo_maki_mg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10008,
         "name": "Neru",
-        "icon": "enemyinfo_neru_smg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10009,
         "name": "Izumi",
-        "icon": "enemyinfo_izumi_mg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10010,
         "name": "Shiroko",
-        "icon": "enemyinfo_shiroko_ar"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10011,
         "name": "Shun",
-        "icon": "enemyinfo_shun_sr"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10012,
         "name": "Sumire",
-        "icon": "enemyinfo_sumire_sg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10013,
         "name": "Tsurugi",
-        "icon": "enemyinfo_tsurugi_sg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 13000,
         "name": "Akane",
-        "icon": "enemyinfo_akane_hg"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13001,
         "name": "Chise",
-        "icon": "enemyinfo_chise_gl"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13002,
         "name": "Akari",
-        "icon": "enemyinfo_akari_ar"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13003,
         "name": "Hasumi",
-        "icon": "enemyinfo_hasumi_sr"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13004,
         "name": "Nonomi",
-        "icon": "enemyinfo_nonomi_mg"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13005,
         "name": "Kayoko",
-        "icon": "enemyinfo_kayoko_hg"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13006,
         "name": "Mutsuki",
-        "icon": "enemyinfo_mutsuki_hmg"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13007,
         "name": "Junko",
-        "icon": "enemyinfo_zunko_ar"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13008,
         "name": "Serika",
-        "icon": "enemyinfo_serika_ar"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13009,
         "name": "Tsubaki",
-        "icon": "enemyinfo_tsubaki_smg"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13010,
         "name": "Yuuka",
-        "icon": "enemyinfo_yuuka_smg"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 16000,
         "name": "Haruka",
-        "icon": "enemyinfo_haruka_sg"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 16001,
         "name": "Asuna",
-        "icon": "enemyinfo_asuna_ar"
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 16002,
         "name": "Kotori",
-        "icon": "enemyinfo_kotori_mg"
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 16003,
         "name": "Suzumi",
-        "icon": "enemyinfo_suzumi_ar"
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 16004,
         "name": "Pina",
-        "icon": "enemyinfo_pina_mg"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20000,
         "name": "Hibiki",
-        "icon": "enemyinfo_hibiki_mt"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20001,
         "name": "Karin",
-        "icon": "enemyinfo_karin_sr"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20002,
         "name": "Saya",
-        "icon": "enemyinfo_saya_original"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23000,
         "name": "Airi",
-        "icon": "enemyinfo_airi_smg"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 23001,
         "name": "Fuuka",
-        "icon": "enemyinfo_fuuka_smg"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 23002,
         "name": "Hanae",
-        "icon": "enemyinfo_hanae_ar"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 23003,
         "name": "Hare",
-        "icon": "enemyinfo_hare_ar"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 23004,
         "name": "Utaha",
-        "icon": "enemyinfo_utaha_smg"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 23005,
         "name": "Ayane",
-        "icon": "enemyinfo_ayane_hg"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 26000,
         "name": "Chinatsu",
-        "icon": "enemyinfo_chinatsu_hg"
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 26001,
         "name": "Kotama",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26002,
         "name": "Juri",
-        "icon": "enemyinfo_juri_sg"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26003,
         "name": "Serina",
-        "icon": "enemyinfo_serina_ar"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26004,
         "name": "Shimiko",
-        "icon": "enemyinfo_shimiko_ar"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26005,
         "name": "Yoshimi",
-        "icon": "enemyinfo_yoshimi_ar"
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 20003,
         "name": "Mashiro",
-        "icon": "enemyinfo_mashiro_sr"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10014,
         "name": "Izuna",
-        "icon": "enemyinfo_izuna_smg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23006,
         "name": "Shizuko",
-        "icon": "enemyinfo_shizuko_hg"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10015,
         "name": "Aris",
-        "icon": "enemyinfo_aris_rg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10016,
         "name": "Midori",
-        "icon": "enemyinfo_midori_sr"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 13011,
         "name": "Momoi",
-        "icon": "enemyinfo_momoi_ar"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10017,
         "name": "Cherino",
-        "icon": "enemyinfo_cherino_hg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26006,
         "name": "Nodoka",
-        "icon": "enemyinfo_nodoka_original_smg"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10018,
         "name": "Yuzu",
-        "icon": "enemyinfo_yuzu_gl"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10019,
         "name": "Azusa",
-        "icon": "enemyinfo_azusa_ar"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23007,
         "name": "Hanako",
-        "icon": "enemyinfo_hanako_ar"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10020,
         "name": "Koharu",
-        "icon": "enemyinfo_koharu_sr"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10021,
         "name": "Azusa (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20004,
         "name": "Mashiro (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16005,
         "name": "Tsurugi (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20005,
         "name": "Hifumi (Swimsuit)",
-        "icon": "enemyinfo_ch0058_ar"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10022,
         "name": "Hina (Swimsuit)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10023,
         "name": "Iori (Swimsuit)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 16006,
         "name": "Izumi (Swimsuit)",
-        "icon": "enemyinfo_izumi_swimsuit_mg"
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 10024,
         "name": "Shiroko (Cycling)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10025,
         "name": "Shun (Small)",
-        "icon": "enemyinfo_ch0066"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 13012,
         "name": "Kirino",
-        "icon": "enemyinfo_kirino_hg"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 20006,
         "name": "Saya (Casual)",
-        "icon": "enemyinfo_saya_casual"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10026,
         "name": "Neru (Bunny)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10027,
         "name": "Karin (Bunny)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10028,
         "name": "Asuna (Bunny)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10029,
         "name": "Natsu",
-        "icon": "enemyinfo_ch0155_smg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23008,
         "name": "Mari",
-        "icon": "enemyinfo_mari_hg"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 20007,
         "name": "Hatsune Miku",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20008,
         "name": "Ako",
-        "icon": "enemyinfo_ako_hg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20009,
         "name": "Cherino (Hot Spring)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10030,
         "name": "Chinatsu (Hot Spring)",
-        "icon": "enemyinfo_ch0163"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16007,
         "name": "Tomoe",
-        "icon": "enemyinfo_tomoe_sr"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20010,
         "name": "Nodoka (Hot Spring)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10031,
         "name": "Aru (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10032,
         "name": "Mutsuki (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20011,
         "name": "Serika (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10033,
         "name": "Wakamo",
-        "icon": "enemyinfo_wakamo_sr"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 16008,
         "name": "Fubuki",
-        "icon": "enemyinfo_fubuki_sr"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20012,
         "name": "Sena",
-        "icon": "enemyinfo_ch0081_gl"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20013,
         "name": "Chihiro",
-        "icon": "enemyinfo_ch0160_ar"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10034,
         "name": "Mimori",
-        "icon": "enemyinfo_mimori_hg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10035,
         "name": "Ui",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10036,
         "name": "Hinata",
-        "icon": "enemyinfo_hinata_hg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10037,
         "name": "Marina",
-        "icon": "enemyinfo_marina_original_smg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10038,
         "name": "Miyako",
-        "icon": "enemyinfo_miyako_smg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20014,
         "name": "Saki",
-        "icon": "enemyinfo_saki_mg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10039,
         "name": "Miyu",
-        "icon": "enemyinfo_miyu_sr"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20015,
         "name": "Kaede",
-        "icon": "enemyinfo_kaede_hg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20016,
         "name": "Iroha",
-        "icon": "enemyinfo_ch0156_hg"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 16009,
         "name": "Michiru",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 10040,
         "name": "Tsukuyo",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10041,
         "name": "Misaki",
-        "icon": "enemyinfo_misaki_rl"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20017,
         "name": "Hiyori",
-        "icon": "enemyinfo_hiyori_sr"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10042,
         "name": "Atsuko",
-        "icon": "enemyinfo_atsuko_smg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10043,
         "name": "Wakamo (Swimsuit)",
-        "icon": "enemyinfo_wakamo_swimsuit_original"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10044,
         "name": "Nonomi (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26007,
         "name": "Ayane (Swimsuit)",
-        "icon": "enemyinfo_ch0176"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10045,
         "name": "Hoshino (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26008,
         "name": "Shizuko (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10046,
         "name": "Izuna (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10047,
         "name": "Chise (Swimsuit)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10048,
         "name": "Saori",
-        "icon": "enemyinfo_saori_ar"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20018,
         "name": "Moe",
-        "icon": "enemyinfo_moe"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10049,
         "name": "Kazusa",
-        "icon": "enemyinfo_kazusa_mg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10050,
         "name": "Kokona",
-        "icon": "enemyinfo_ch0137"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10051,
         "name": "Utaha (Cheer Squad)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10052,
         "name": "Noa",
-        "icon": "enemyinfo_ch0095"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16010,
         "name": "Hibiki (Cheer Squad)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20019,
         "name": "Akane (Bunny)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10053,
         "name": "Yuuka (Track)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10054,
         "name": "Mari (Track)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16011,
         "name": "Hasumi (Track)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20020,
         "name": "Himari",
-        "icon": "enemyinfo_ch0159"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10055,
         "name": "Shigure",
-        "icon": "enemyinfo_shigure_original_gl"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10056,
         "name": "Serina (Christmas)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20021,
         "name": "Hanae (Christmas)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10057,
         "name": "Haruna (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20022,
         "name": "Fuuka (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16012,
         "name": "Junko (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10058,
         "name": "Mine",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10059,
         "name": "Mika",
-        "icon": "enemyinfo_mikaenemy_smg"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10060,
         "name": "Megu",
-        "icon": "enemyinfo_megu_onsendev_ft"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20023,
         "name": "Kanna",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10061,
         "name": "Sakurako",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10062,
         "name": "Toki",
-        "icon": "enemyinfo_toki_cnc_mg_boss"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20024,
         "name": "Nagisa",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10063,
         "name": "Koyuki",
-        "icon": "enemyinfo_ch0198"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10064,
         "name": "Kayoko (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20025,
         "name": "Haruka (New Year)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10065,
         "name": "Kaho",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10066,
         "name": "Aris (Maid)",
-        "icon": "enemyinfo_ch0200"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10067,
         "name": "Toki (Bunny)",
-        "icon": "enemyinfo_ch0211"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26009,
         "name": "Yuzu (Maid)",
-        "icon": "enemyinfo_ch0203"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10068,
         "name": "Reisa",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10069,
         "name": "Rumi",
-        "icon": "enemyinfo_ch0135"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10070,
         "name": "Mina",
-        "icon": "enemyinfo_ch0138"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20026,
         "name": "Minori",
-        "icon": "enemyinfo_ch0214"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10071,
         "name": "Miyako (Swimsuit)",
-        "icon": "enemyinfo_ch0215"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10072,
         "name": "Saki (Swimsuit)",
-        "icon": "enemyinfo_ch0217"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26010,
         "name": "Miyu (Swimsuit)",
-        "icon": "enemyinfo_ch0218"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20027,
         "name": "Shiroko (Swimsuit)",
-        "icon": "enemyinfo_ch0188"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10073,
         "name": "Ui (Swimsuit)",
-        "icon": "enemyinfo_ch0204"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20028,
         "name": "Hinata (Swimsuit)",
-        "icon": "enemyinfo_ch0210"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16013,
         "name": "Koharu (Swimsuit)",
-        "icon": "enemyinfo_ch0205"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10074,
         "name": "Hanako (Swimsuit)",
-        "icon": "enemyinfo_ch0209"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20029,
         "name": "Mimori (Swimsuit)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10075,
         "name": "Meru",
-        "icon": "enemyinfo_ch0124"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 13013,
         "name": "Momiji",
-        "icon": "enemyinfo_momiji_default"
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10076,
         "name": "Kotori (Cheer Squad)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20030,
         "name": "Haruna (Track)",
-        "icon": null
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10077,
         "name": "Ichika",
-        "icon": "enemyinfo_ch0071"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10078,
         "name": "Kasumi",
-        "icon": "enemyinfo_ch0089"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20031,
         "name": "Shigure (Hot Spring)",
-        "icon": null
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10079,
         "name": "Misaka Mikoto",
-        "icon": "enemyinfo_ch9998"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10080,
         "name": "Shokuhou Misaki",
-        "icon": "enemyinfo_ch9997"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26011,
         "name": "Saten Ruiko",
-        "icon": "enemyinfo_ch9996"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10081,
         "name": "Yukari",
-        "icon": "enemyinfo_ch0161"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10082,
         "name": "Renge",
-        "icon": "enemyinfo_ch0224"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10083,
         "name": "Kikyou",
-        "icon": "enemyinfo_ch0225"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20032,
         "name": "Eimi (Swimsuit)",
-        "icon": "enemyinfo_ch0219"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10084,
         "name": "Kotama (Camp)",
-        "icon": "enemyinfo_ch0232"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10085,
         "name": "Hare (Camp)",
-        "icon": "enemyinfo_ch0233"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10087,
         "name": "Ako (Dress)",
-        "icon": "enemyinfo_ch0231"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16014,
         "name": "Ibuki",
-        "icon": "enemyinfo_ch0077"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20033,
         "name": "Makoto",
-        "icon": "enemyinfo_ch0079"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10086,
         "name": "Hina (Dress)",
-        "icon": "enemyinfo_ch0230"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10088,
         "name": "Kayoko (Dress)",
-        "icon": "enemyinfo_ch0239"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10089,
         "name": "Aru (Dress)",
-        "icon": "enemyinfo_ch0240"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20034,
         "name": "Akari (New Year)",
-        "icon": "enemyinfo_ch0196"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10090,
         "name": "Umika",
-        "icon": "enemyinfo_ch0110"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20035,
         "name": "Tsubaki (Guide)",
-        "icon": "enemyinfo_ch0255"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10091,
         "name": "Kazusa (Band)",
-        "icon": "enemyinfo_ch0250"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10092,
         "name": "Yoshimi (Band)",
-        "icon": "enemyinfo_ch0220"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16015,
         "name": "Airi (Band)",
-        "icon": "enemyinfo_ch0251"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10093,
         "name": "Kirara",
-        "icon": "enemyinfo_kirara"
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10094,
         "name": "Momoi (Maid)",
-        "icon": "enemyinfo_ch0201"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10095,
         "name": "Midori (Maid)",
-        "icon": "enemyinfo_ch0202"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20036,
         "name": "Serika (Swimsuit)",
-        "icon": "enemyinfo_ch0189"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10096,
         "name": "Kanna (Swimsuit)",
-        "icon": "enemyinfo_ch0260"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20037,
         "name": "Fubuki (Swimsuit)",
-        "icon": "enemyinfo_ch0261"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26012,
         "name": "Kirino (Swimsuit)",
-        "icon": "enemyinfo_ch0262"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10097,
         "name": "Moe (Swimsuit)",
-        "icon": "enemyinfo_ch0216"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10098,
         "name": "Hoshino (Armed)",
-        "icon": "enemyinfo_ch0258_02_enemy"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10099,
         "name": "Hoshino (Armed)",
-        "icon": "enemyinfo_ch0258_01_enemy"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10100,
         "name": "Shiroko*Terror",
-        "icon": "enemyinfo_ch0263"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26013,
         "name": "Atsuko (Swimsuit)",
-        "icon": "enemyinfo_ch0267"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10101,
         "name": "Saori (Swimsuit)",
-        "icon": "enemyinfo_ch0266"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10102,
         "name": "Hiyori (Swimsuit)",
-        "icon": "enemyinfo_ch0269"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10103,
         "name": "Marina (Qipao)",
-        "icon": "enemyinfo_ch0270"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20038,
         "name": "Tomoe (Qipao)",
-        "icon": "enemyinfo_ch0271"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10104,
         "name": "Reijo",
-        "icon": "enemyinfo_reizyo"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20039,
         "name": "Kisaki",
-        "icon": "enemyinfo_ch0139"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10105,
         "name": "Mari (Pop Idol)",
-        "icon": "enemyinfo_ch0273"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10106,
         "name": "Sakurako (Pop Idol)",
-        "icon": "enemyinfo_ch0274"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16016,
         "name": "Mine (Pop Idol)",
-        "icon": "enemyinfo_ch0275"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10107,
         "name": "Chiaki",
-        "icon": "enemyinfo_ch0238"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20040,
         "name": "Satsuki",
-        "icon": "enemyinfo_ch0080"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10108,
         "name": "Yuuka (Pajamas)",
-        "icon": "enemyinfo_ch0284"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10109,
         "name": "Noa (Pajamas)",
-        "icon": "enemyinfo_ch0285"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10110,
         "name": "Seia",
-        "icon": "enemyinfo_ch0070"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10112,
         "name": "Asuna (School)",
-        "icon": "enemyinfo_ch0281"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26014,
         "name": "Karin (School)",
-        "icon": "enemyinfo_ch0282"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10111,
         "name": "Neru (School)",
-        "icon": "enemyinfo_ch0280"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20041,
         "name": "Rio",
-        "icon": "enemyinfo_ch0158"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20042,
         "name": "Maki (Camp)",
-        "icon": "enemyinfo_ch0235"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10113,
         "name": "Sena (Casual)",
-        "icon": "enemyinfo_ch0082"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10114,
         "name": "Juri (Part-Timer)",
-        "icon": "enemyinfo_ch0286"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20043,
         "name": "Izumi (New Year)",
-        "icon": "enemyinfo_ch0197"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10115,
         "name": "Rei",
-        "icon": "enemyinfo_ch0245"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20044,
         "name": "Sumire (Part-Timer)",
-        "icon": "enemyinfo_ch0287"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10116,
         "name": "Saori (Dress)",
-        "icon": "enemyinfo_ch0259"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10117,
         "name": "Hikari",
-        "icon": "enemyinfo_ch0242"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10118,
         "name": "Nozomi",
-        "icon": "enemyinfo_ch0243"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16017,
         "name": "Aoba",
-        "icon": "enemyinfo_ch0288"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20045,
         "name": "Pina (Guide)",
-        "icon": "enemyinfo_ch0257"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10119,
         "name": "Nagusa",
-        "icon": "enemyinfo_ch0222"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20046,
         "name": "Niya",
-        "icon": "enemyinfo_ch0109"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10120,
         "name": "Natsu (Band)",
-        "icon": "enemyinfo_ch0221"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10121,
         "name": "Yukari (Swimsuit)",
-        "icon": "enemyinfo_ch0301"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 13014,
         "name": "Renge (Swimsuit)",
-        "icon": "enemyinfo_ch0302"
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 20047,
         "name": "Kikyou (Swimsuit)",
-        "icon": "enemyinfo_ch0300"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10123,
         "name": "Seia (Swimsuit)",
-        "icon": "enemyinfo_ch0295"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10124,
         "name": "Hasumi (Swimsuit)",
-        "icon": "enemyinfo_ch0291"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26015,
         "name": "Ichika (Swimsuit)",
-        "icon": "enemyinfo_ch0292"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20048,
         "name": "Nagisa (Swimsuit)",
-        "icon": "enemyinfo_ch0293"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10122,
         "name": "Mika (Swimsuit)",
-        "icon": "enemyinfo_ch0294"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10125,
         "name": "Eri",
-        "icon": "enemyinfo_ch0304"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10126,
         "name": "Kanoe",
-        "icon": "enemyinfo_ch0306"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20049,
         "name": "Misaki (Swimsuit)",
-        "icon": "enemyinfo_ch0268"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10127,
         "name": "Miyo",
-        "icon": "enemyinfo_ch0317"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10128,
         "name": "Fuyu",
-        "icon": "enemyinfo_ch0318"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20050,
         "name": "Ritsu",
-        "icon": "enemyinfo_ch0319"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20051,
         "name": "Reisa (Magical)",
-        "icon": "enemyinfo_ch0326"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10129,
         "name": "Suzumi (Magical)",
-        "icon": "enemyinfo_ch0325"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16018,
         "name": "Rabu",
-        "icon": "enemyinfo_ch0166"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10130,
         "name": "Subaru",
-        "icon": "enemyinfo_ch0309"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10131,
         "name": "Takane",
-        "icon": "enemyinfo_ch0229"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20052,
         "name": "Yakumo",
-        "icon": "enemyinfo_ch0228"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10132,
         "name": "Tsukuyo (Dress)",
-        "icon": "enemyinfo_ch0297"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20053,
         "name": "Michiru (Dress)",
-        "icon": "enemyinfo_ch0296"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10133,
         "name": "Rio (Armed)",
-        "icon": "enemyinfo_ch0331"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16019,
         "name": "Toki (Armed)",
-        "icon": "enemyinfo_ch0333"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20054,
         "name": "Himari (Armed)",
-        "icon": "enemyinfo_ch0332"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10134,
         "name": "Aris (Armed)",
-        "icon": "enemyinfo_ch0334"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10135,
         "name": "Kei",
-        "icon": "enemyinfo_ch0335"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10136,
         "name": "Eimi (Armed)",
-        "icon": "enemyinfo_ch0337"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20055,
         "name": "Yuzu (Armed)",
-        "icon": "enemyinfo_ch0336"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20056,
         "name": "Koyuki (Pajamas)",
-        "icon": "enemyinfo_ch0310"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10137,
         "name": "Konoka",
-        "icon": "enemyinfo_ch0264"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10138,
         "name": "Rena",
-        "icon": "enemyinfo_ch0305"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20057,
         "name": "Akane (School)",
-        "icon": "enemyinfo_ch0307"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10139,
         "name": "Niko",
-        "icon": "enemyinfo_ch0172"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10140,
         "name": "Kurumi",
-        "icon": "enemyinfo_ch0173"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16020,
         "name": "Otogi",
-        "icon": "enemyinfo_ch0174"
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20058,
         "name": "Erika",
-        "icon": "enemyinfo_ch0076"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10141,
         "name": "Haruka (Dress)",
-        "icon": "enemyinfo_ch0247"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20059,
         "name": "Mutsuki (Dress)",
-        "icon": "enemyinfo_ch0246"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10142,
         "name": "Nagusa (Swimsuit)",
-        "icon": "enemyinfo_ch0303"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10143,
         "name": "Shun (Swimsuit)",
-        "icon": "enemyinfo_ch0355_01"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10144,
         "name": "Shun (Swimsuit)",
-        "icon": "enemyinfo_ch0355_02"
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10145,
         "name": "Kisaki (Swimsuit)",
-        "icon": "enemyinfo_ch0356"
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 10146,
+        "name": "Makoto (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 10147,
+        "name": "Satsuki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 26016,
+        "name": "Chiaki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
+    },
+    {
+        "id": 10148,
+        "name": "Iroha (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 20060,
+        "name": "Ibuki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     }
 ]
