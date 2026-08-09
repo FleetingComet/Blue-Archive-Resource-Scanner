@@ -1,13 +1,18 @@
+"""
+Usage: python -m tools.justin_planner
+"""
+
 import argparse
-import logging
 from pathlib import Path
 from typing import Any
+
+from rich.console import Console
 
 from src.core.config import Config
 from src.utils.data.io import read_json, write_json
 from src.utils.sync.data_sync_manager import DataSyncManager
 
-logger = logging.getLogger("BA-Scanner")
+console = Console()
 
 
 class JustinPlannerProcessor:
@@ -162,7 +167,7 @@ class JustinPlannerProcessor:
             set_max_target: If True, sets new characters' target stats to MAX (90, EX 5, 10/10/10, etc.).
             base_file_path: Path to an existing Justin Planner JSON to merge into.
         """
-        logger.info("[bold yellow]Processing Justin Planner Export...[/bold yellow]")
+        console.print("[bold yellow]Processing Justin Planner Export...[/bold yellow]")
 
         equipment_raw = read_json(self.equipment_file)
         items_raw = read_json(self.items_file)
@@ -241,8 +246,8 @@ class JustinPlannerProcessor:
         planner_data["characters"] = updated_characters
 
         write_json(self.output_file, planner_data)
-        logger.info(
-            f"[bold green]✔ Successfully exported Justin Planner data to:[/bold green] {self.output_file}"
+        console.print(
+            f"[bold green]✔ Successfully exported Justin Planner data to:[/bold green] \n{self.output_file}"
         )
         return self.output_file
 
@@ -265,7 +270,10 @@ def main():
         help="Path to an existing Justin Planner export file to merge with. Leave it empty for default path",
     )
     parser.add_argument(
-        "-o", "--online", action="store_true", help="Download latest data"
+        "-o",
+        "--online",
+        action="store_true",
+        help="Download latest data online before processing.",
     )
     args = parser.parse_args()
 
