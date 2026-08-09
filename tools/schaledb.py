@@ -95,7 +95,7 @@ class SchaleDBExporter:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Convert scanner output into SchaleDB import format."
+        description="Convert scanner output into Schale DB import format."
     )
     parser.add_argument(
         "-l",
