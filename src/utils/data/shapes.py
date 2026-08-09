@@ -21,9 +21,9 @@ class Item:
 class Student:
     id: int
     name: str
-    icon: str
+    # icon: str
     hasBondGear: bool = False
-    StarGrade: int = 1 # lowest rarity
+    StarGrade: int = 1  # lowest rarity
 
 
 @dataclass
