@@ -26,7 +26,7 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
 
     h, w = image.shape[:2]
     if h < 50 or w < 50 and mode != ExtractionMode.GEAR:
-        image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+        image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
     if mode == ExtractionMode.GEAR:
         image = cv2.resize(image, (w * 5, h * 5), interpolation=cv2.INTER_CUBIC)
@@ -43,7 +43,7 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
         hex_colors = ["3c4e66"]
         image, _ = retain_colors(image, hex_colors, tolerance=20)
 
-    elif mode == ExtractionMode.UE_LEVEL:
+    elif mode == ExtractionMode.UE_LEVEL or mode == ExtractionMode.NAME:
         image = remove_non_white(image)
 
     # Standardization to Grayscale

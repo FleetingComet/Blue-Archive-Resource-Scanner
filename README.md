@@ -60,7 +60,6 @@ To use the Blue Archive Resources Scanner, ensure you have the following install
 
 See the docs/website index for quick links to user and developer guides:
 - [https://fleetingcomet.github.io/BA-Resource-Scanner-Docs/](https://fleetingcomet.github.io/BA-Resource-Scanner-Docs/)
-- [`docs/REFERENCE.md`](docs/REFERENCE.md)
 
 ## Usage
 
@@ -110,34 +109,119 @@ After a successful scan, check the `output/` folder:
 - `owned/scanned_currencies.json` -> AP, Credits, Pyroxene
 - `equipment_final_values.json`, `items_final_values.json`, `students_final_values.json` -> Processed & mapped data ready for planning
 
-#### Optional
+### Exporters
 
-##### 1. Convert to Justin Planner Format
+### Justin163 Planner
 
-Use the Justin Planner converter script to prepare your data:
+Use the Justin163 Planner exporter to convert your scanned data and generate a file compatible with the planner:
 
 ```bash
-python convert_justin_planner.py
+python -m tools.justin_planner
 ```
 
-This script will generate:
+The script will generate:
 
-- **`output/converted_to_justin_planner.json`**: A file compatible with the Justin Planner tool.
+* **`output/justin_data_final.json`**: The converted and/or merged data compatible with Justin Planner.
 
-##### 2. Merge into Your Own Data
+#### Using an Existing Justin Planner Export
 
-To merge the converted data into your existing Justin Planner export:
+If you already have a Justin163 Planner export and want to merge it with the converted data:
 
-1.  Save your Justin Planner export as `justin_data.json`.
-2.  Place the file in the following directory:  
-    **`input/justin_data.json`**
-3.  Run the merger script:
-    ```bash
-    python merger_justin_planner.py
-    ```
-    This script will generate:
-    - **`output/justin_data_final.json`**: The merged file containing the final combined data.
-4.  Import the generated json to Justin Planner
+1. Save your existing Justin Planner export as `justin_data.json`.
+2. Place it in:
+   **`input/justin_data.json`**
+3. Run the exporter:
+
+   ```bash
+   python -m tools.justin_planner
+   ```
+
+The exporter will automatically use `input/justin_data.json` when available.
+
+Alternatively, you can specify a different Justin Planner export using the `--file` option:
+
+```bash
+python -m tools.justin_planner --file path/to/justin_data.json
+```
+
+#### Optional Arguments
+
+The exporter supports the following options:
+
+| Option                | Description                                                                                                           |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `-m`, `--max-target`  | Set target stats to **MAX** for newly added characters.                                                               |
+| `-f`, `--file <path>` | Path to an existing Justin Planner export to merge with. Uses the default `input/justin_data.json` path when omitted. |
+| `-o`, `--online`      | Download the latest data online before processing.                                                                    |
+
+For example:
+
+```bash
+python -m tools.justin_planner -m -o
+```
+
+After processing, import the generated file **`output/justin_data_final.json`** into Justin163 Planner.
+
+---
+
+### Midokuni Roster URL Format
+
+Use the Midokuni exporter to convert your scanned data into a roster URL compatible with Midokuni:
+
+```bash
+python -m tools.midokuni
+```
+
+The exporter will generate the Midokuni roster URL after processing your scanned data.
+
+#### Optional Arguments
+
+The exporter supports the following options:
+
+| Option                        | Description                                        |
+| ----------------------------- | -------------------------------------------------- |
+| `-s`, `--state <blue\|black>` | Set all characters to the specified state.         |
+| `-o`, `--online`              | Download the latest data online before processing. |
+
+For example:
+
+```bash
+python -m tools.midokuni -s blue -o
+```
+
+---
+
+### Schale DB Import Format
+
+Use the Schale DB exporter to convert your scanned data into a format compatible with Schale DB:
+
+```bash
+python -m tools.schaledb
+```
+
+The exporter will generate the Schale DB import data after processing your scanned data.
+
+#### Optional Arguments
+
+The exporter supports the following options:
+
+| Option           | Description                                          |
+| ---------------- | ---------------------------------------------------- |
+| `-l`, `--lock`   | Set the `lock` field to **true** for all characters. |
+| `-o`, `--online` | Download the latest data online before processing.   |
+
+For example, to mark all characters as locked:
+
+```bash
+python -m tools.schaledb --lock
+```
+
+You can also combine both options:
+
+```bash
+python -m tools.schaledb -l -o
+```
+
 
 ---
 
@@ -148,16 +232,14 @@ To merge the converted data into your existing Justin Planner export:
 - Read more resources (some of them needs modification, their [Search Region](/locations/search.py) are already defined)
   - [x] Credits
   - [x] Pyroxene
-  - [x] Items Page
+  - [x] Items Page, Equipment Page
   - [x] Student stats
     - [x] Skill levels (eg.: M/M/7/8)
-    - [x] Unique Equipment level (is UE50? or something)
-    - [ ] UE60 etc...
-- [ ] Different Resolution (also remove bars)
+    - [x] Unique Equipment level (is UE60?, is Level 60?)
+    - [ ] the new constelation stuffs
+- [ ] Different Resolution
 - [x] Make screen capturing faster
 - [x] More accurate and faster data reading
-
-Note: "y" for half completed
 
 <!-- - [ ] Comet Haley -->
 <!-- - [x] Earth (Orbit/Moon) -->
@@ -165,7 +247,6 @@ Note: "y" for half completed
 ### Future Plans:
 
 - Expand support for different resolutions (with bars and notch).
-- [x] Make the tool more efficient and user-friendly.
 - Support other platforms (Linux) (someone tested it using waydroid)
   - Develop an Android app for convenient usage (using Kotlin, pls help I have skill issue).
 
@@ -177,7 +258,9 @@ This project was inspired by and credits:
 
 - [Fate/Grand Automata (FGA)](https://github.com/Fate-Grand-Automata/FGA)
 - [AzurLaneAutoScript (ALAS)](https://github.com/LmeSzinc/AzurLaneAutoScript)
-- [SchaleDB](https://github.com/SchaleDB/SchaleDB)
+- [Schale DB](https://github.com/SchaleDB/SchaleDB)
+- [Justin163 Planner](https://justin163.com/planner/)
+- [Hina Loves Midokuni](https://hina.loves.midokuni.com/)
 
 ---
 

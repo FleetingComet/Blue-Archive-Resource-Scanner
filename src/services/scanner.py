@@ -14,7 +14,7 @@ from src.core.config import Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.services.workers import item_ocr_worker, student_ocr_worker
 from src.utils.data.io import read_json, update_count, write_json
-from src.utils.data.jsonHelper import (
+from src.utils.data.student_skill_helper import (
     map_student_data_to_character,
 )
 from src.utils.device.interfaces import DeviceController
@@ -32,7 +32,7 @@ logger = logging.getLogger("BA-Scanner")
 def startMatching(
     device: DeviceController,
     grid_type: str = "Equipment",
-    grid_config: dict = None,
+    grid_config: dict | None = None,
     ocr_workers=4,
 ) -> bool:
     """
@@ -125,9 +125,8 @@ def startMatching(
 
                 for col in range(cols_per_row):
 
-                    if Config.DEBUG:
-                        if col != 0:
-                            continue  # skip for debug
+                    if Config.DEBUG and col != 0:
+                        continue  # skip for debug
 
                     current_x = grid_start.x + col * item_size.width
 
@@ -198,7 +197,7 @@ def startMatching(
                         logger.info(
                             f"[Scanner] result → name={name!r}, count={count!r}, parsed={parsed!r}"
                         )
-                        pass  # Skip malformed counts
+                        # Skip malformed counts
 
                     results[name] = parsed
 
@@ -255,9 +254,8 @@ def get_student_info(device: DeviceController) -> bool:
             )
             time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
 
-            if Config.DEBUG:
-                if iteration >= 2:
-                    break
+            if Config.DEBUG and iteration >= 2:
+                break
 
         if not captured_paths:
             logger.warning("⚠️ No students captured.")

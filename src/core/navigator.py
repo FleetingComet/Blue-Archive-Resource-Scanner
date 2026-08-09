@@ -26,23 +26,23 @@ class NavigationResult:
 
 
 class ScreenNavigator:
-    BUTTON_MAP = {
-        "home": EntryPointButtons.HOME.value,
-        "menu_students": EntryPointButtons.STUDENTS.value,
-        "first_student": StudentList.FIRST_STUDENT,
-        "menu": EntryPointButtons.MENU_TAB.value,
-        "menu_equipment": EntryPointButtons.MENU_TAB_EQUIPMENT.value,
-        "menu_items": EntryPointButtons.MENU_TAB_ITEMS.value,
-        "currencies": None,
-    }
-
-    KNOWN_SCREENS = ["Items", "Equipment", "Students", "Student"]
 
     def __init__(self, device: DeviceController):
         """
         Initialize the ScreenNavigator with an DeviceController.
         """
         self.device = device
+        self.BUTTON_MAP = {
+            "home": EntryPointButtons.HOME.value,
+            "menu_students": EntryPointButtons.STUDENTS.value,
+            "first_student": StudentList.FIRST_STUDENT,
+            "menu": EntryPointButtons.MENU_TAB.value,
+            "menu_equipment": EntryPointButtons.MENU_TAB_EQUIPMENT.value,
+            "menu_items": EntryPointButtons.MENU_TAB_ITEMS.value,
+            "currencies": None,
+        }
+
+        self.KNOWN_SCREENS = ["Items", "Equipment", "Students", "Student"]
 
     def _get_screenshot(self):
         """Get screenshot from DeviceController"""

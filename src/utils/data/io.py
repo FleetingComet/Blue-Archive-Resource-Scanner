@@ -1,43 +1,62 @@
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
+
+PathLike = str | Path
 
 
-def read_json(path: Path) -> Dict:
-    if isinstance(path, str):
-        path = Path(path)
+def _to_path(path: PathLike) -> Path:
+    """Helper to ensure input is always a Path object."""
+    return Path(path) if isinstance(path, str) else path
 
-    if not path.exists():
+
+def read_json(path: PathLike) -> dict:
+    p = _to_path(path)
+
+    if not p.exists():
         return {}
 
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(p, "r", encoding="utf-8") as f:
             return json.load(f)
-    except (json.JSONDecodeError, UnicodeDecodeError):
+    except (json.JSONDecodeError, UnicodeDecodeError, OSError):
         return {}
 
 
-def write_json(path: Path, data: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+def write_json(path: PathLike, data: Any) -> None:
+    """Writes data to a JSON file, creating parent directories if needed."""
+    p = _to_path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with open(p, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 
-def update_json_key(path: Path, key: str, value: Any):
+def write_text(path: PathLike, data: str) -> None:
+    """Writes data to a TXT file, creating parent directories if needed."""
+    p = _to_path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(data, encoding="utf-8")
+
+
+def update_json_key(path: PathLike, key: str, value: Any):
+    """Updates a single top-level key in a JSON file."""
     data = read_json(path)
     data[key] = value
     write_json(path, data)
 
 
-# TODO: Remove this
-def update_count(path: Path, name: str, value: Any) -> None:
-    data = read_json(path)
-    data[name] = value
-    write_json(path, data)
+def update_count(path: PathLike, name: str, value: Any) -> None:
+    """Updates a named count in a JSON file."""
+    update_json_key(path, name, value)
 
 
-def update_student(path: Path, name: str, stats: Dict) -> None:
+def update_student(path: PathLike, name: str, stats: dict[str, Any]) -> None:
+    """Updates or adds a student's stats under the 'characters' key."""
     data = read_json(path)
-    data.setdefault("characters", {})
-    data["characters"][name] = {"current": stats}
+    characters = data.setdefault("characters", {})
+    if not isinstance(characters, dict):
+        characters = {}
+        data["characters"] = characters
+
+    characters[name] = {"current": stats}
     write_json(path, data)

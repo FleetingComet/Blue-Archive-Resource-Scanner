@@ -230,7 +230,7 @@ def run_wizard(previous: dict) -> dict:
         "\n[bold]Wait-time multiplier[/bold] - increase if your device/emulator is slow.\n"
     )
     console.print(
-        "[dim]1.0 = normal speed  |  1.5 = 50 \% slower  |  2.0 = double wait[/dim]\n"
+        "[dim]1.0 = normal speed  |  1.5 = 50 % slower  |  2.0 = double wait[/dim]\n"
     )
     wait_mult = FloatPrompt.ask(
         "Wait multiplier", default=previous.get("wait_multiplier", 1.0)

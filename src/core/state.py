@@ -3,7 +3,6 @@ import logging
 import os
 import time
 from enum import Enum, auto
-from typing import Optional, Set
 
 from rich.console import Console
 from rich.logging import RichHandler
@@ -39,16 +38,16 @@ class ScreenState:
     data collection/matching processes for each defined screen.
     """
 
-    def __init__(self, navigator: ScreenNavigator, config_path: Optional[str] = None):
+    def __init__(self, navigator: ScreenNavigator, config_path: str | None = None):
         self.navigator = navigator
         self.console = Console()
         self.config = self._load_config(
             config_path or os.path.join("config", "screen_config.json")
         )
 
-        self.visited: Set[str] = set()
+        self.visited: set[str] = set()
         self.current_state = NavState.INIT
-        self.target_screen: Optional[str] = None
+        self.target_screen: str | None = None
 
         self._init_logging()
 
@@ -70,7 +69,9 @@ class ScreenState:
         # Console format: only the message (Rich adds the timestamp column itself)
         rich_handler.setFormatter(logging.Formatter("%(message)s"))
 
-        log_path = Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"
+        log_path = (
+            Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"  # noqa: DTZ011
+        )  # I don't need timezone aware date because it lives in your local filesystem
         file_handler = logging.FileHandler(log_path, encoding="utf-8")
 
         file_format = logging.Formatter(
@@ -158,6 +159,26 @@ class ScreenState:
         state = self.current_state
 
         if state == NavState.INIT:
+            progress.update(
+                task_id, description="[cyan]Checking current screen...[/cyan]"
+            )
+            # Identify what screen we are currently sitting on
+            detected = self.navigator.identify_screen()
+            if not detected and self.navigator.at_home():
+                detected = "Currencies"
+
+            # If current screen is enabled in config, set as target immediately
+            if detected and detected in self.config:
+                self.logger.info(
+                    f"[bold green]Starting from current screen:[/bold green] {detected}"
+                )
+                self.target_screen = detected
+                progress.update(
+                    task_id, description=f"[cyan]Targeting:[/cyan] {self.target_screen}"
+                )
+                return NavState.NAVIGATING
+
+            # Otherwise, fall back to default order
             return NavState.CHECKING_CONTEXT
 
         if state == NavState.CHECKING_CONTEXT:
@@ -177,11 +198,31 @@ class ScreenState:
             cfg = self.config[self.target_screen]
 
             try:
-                # Skip navigation for Currencies (at home)
+
+                # Check if ALREADY on target screen to bypass unnecessary navigation
+                already_at_target = False
                 if self.target_screen == "Currencies":
+                    if self.navigator.at_home():
+                        already_at_target = True
+
+                else:
+                    current = self.navigator.identify_screen()
+                    if current == self.target_screen:
+                        already_at_target = True
+
+                if already_at_target:
+                    self.logger.info(
+                        f"[bold green]Already on[/bold green] {self.target_screen}. Skipping navigation."
+                    )
+                    if self.target_screen == "Currencies":
+                        self.navigator.ensure_menu_state(should_open=False)
+                    return NavState.PROCESSING
+
+                # Ensure clean Home state for screens that require it
+                if self.target_screen in ["Currencies", "Students"]:
                     progress.update(
                         task_id,
-                        description="[bold blue]Going Home[/bold blue] for Currencies...",
+                        description=f"[bold blue]Going Home[/bold blue] for {self.target_screen}...",
                     )
                     self.navigator.ensure_at_home()
                     self.navigator.ensure_menu_state(should_open=False)
@@ -190,7 +231,8 @@ class ScreenState:
                         * Config.WAIT_TIME_MULTIPLIER
                         * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
                     )
-                else:
+
+                if self.target_screen != "Currencies":
                     progress.update(
                         task_id,
                         description=f"[bold blue]Navigating to[/bold blue] {self.target_screen}",
@@ -198,9 +240,9 @@ class ScreenState:
                     self._safe_navigate(cfg)
 
                 return NavState.PROCESSING
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 self.logger.error(
-                    f"[bold red]Error:[/bold red] Abandoning {self.target_screen} - {str(e)}"
+                    f"[bold red]Error:[/bold red] Abandoning {self.target_screen} - {e!s}"
                 )
                 self.visited.add(self.target_screen)  # Skip it
                 progress.advance(task_id)
@@ -233,6 +275,10 @@ class ScreenState:
 
             self.visited.add(self.target_screen)
             progress.advance(task_id)
+            if self.target_screen == "Students":
+                # We are forcing the target screen to Student to avoid getting derailed
+                self.target_screen = "Student"
+                return NavState.NAVIGATING
             return NavState.CHECKING_CONTEXT
 
         return NavState.FAILED

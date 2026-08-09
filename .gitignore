@@ -166,6 +166,7 @@ output/
 input/
 screenshots/
 logs/
+config/
 
 test.png
 test.py

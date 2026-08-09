@@ -1,1070 +1,1634 @@
 [
     {
         "id": 10000,
-        "name": "Aru"
+        "name": "Aru",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10001,
-        "name": "Eimi"
+        "name": "Eimi",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10002,
-        "name": "Haruna"
+        "name": "Haruna",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10003,
-        "name": "Hifumi"
+        "name": "Hifumi",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10004,
-        "name": "Hina"
+        "name": "Hina",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10005,
-        "name": "Hoshino"
+        "name": "Hoshino",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10006,
-        "name": "Iori"
+        "name": "Iori",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10007,
-        "name": "Maki"
+        "name": "Maki",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10008,
-        "name": "Neru"
+        "name": "Neru",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10009,
-        "name": "Izumi"
+        "name": "Izumi",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10010,
-        "name": "Shiroko"
+        "name": "Shiroko",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10011,
-        "name": "Shun"
+        "name": "Shun",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10012,
-        "name": "Sumire"
+        "name": "Sumire",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10013,
-        "name": "Tsurugi"
+        "name": "Tsurugi",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 13000,
-        "name": "Akane"
+        "name": "Akane",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13001,
-        "name": "Chise"
+        "name": "Chise",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13002,
-        "name": "Akari"
+        "name": "Akari",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13003,
-        "name": "Hasumi"
+        "name": "Hasumi",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13004,
-        "name": "Nonomi"
+        "name": "Nonomi",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13005,
-        "name": "Kayoko"
+        "name": "Kayoko",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13006,
-        "name": "Mutsuki"
+        "name": "Mutsuki",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13007,
-        "name": "Junko"
+        "name": "Junko",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13008,
-        "name": "Serika"
+        "name": "Serika",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 13009,
-        "name": "Tsubaki"
+        "name": "Tsubaki",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 13010,
-        "name": "Yuuka"
+        "name": "Yuuka",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 16000,
-        "name": "Haruka"
+        "name": "Haruka",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 16001,
-        "name": "Asuna"
+        "name": "Asuna",
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 16002,
-        "name": "Kotori"
+        "name": "Kotori",
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 16003,
-        "name": "Suzumi"
+        "name": "Suzumi",
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 16004,
-        "name": "Pina"
+        "name": "Pina",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20000,
-        "name": "Hibiki"
+        "name": "Hibiki",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20001,
-        "name": "Karin"
+        "name": "Karin",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20002,
-        "name": "Saya"
+        "name": "Saya",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23000,
-        "name": "Airi"
+        "name": "Airi",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 23001,
-        "name": "Fuuka"
+        "name": "Fuuka",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 23002,
-        "name": "Hanae"
+        "name": "Hanae",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 23003,
-        "name": "Hare"
+        "name": "Hare",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 23004,
-        "name": "Utaha"
+        "name": "Utaha",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 23005,
-        "name": "Ayane"
+        "name": "Ayane",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 26000,
-        "name": "Chinatsu"
+        "name": "Chinatsu",
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 26001,
-        "name": "Kotama"
+        "name": "Kotama",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26002,
-        "name": "Juri"
+        "name": "Juri",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26003,
-        "name": "Serina"
+        "name": "Serina",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26004,
-        "name": "Shimiko"
+        "name": "Shimiko",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 26005,
-        "name": "Yoshimi"
+        "name": "Yoshimi",
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 20003,
-        "name": "Mashiro"
+        "name": "Mashiro",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10014,
-        "name": "Izuna"
+        "name": "Izuna",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23006,
-        "name": "Shizuko"
+        "name": "Shizuko",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10015,
-        "name": "Aris"
+        "name": "Aris",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10016,
-        "name": "Midori"
+        "name": "Midori",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 13011,
-        "name": "Momoi"
+        "name": "Momoi",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10017,
-        "name": "Cherino"
+        "name": "Cherino",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26006,
-        "name": "Nodoka"
+        "name": "Nodoka",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10018,
-        "name": "Yuzu"
+        "name": "Yuzu",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10019,
-        "name": "Azusa"
+        "name": "Azusa",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23007,
-        "name": "Hanako"
+        "name": "Hanako",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10020,
-        "name": "Koharu"
+        "name": "Koharu",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10021,
-        "name": "Azusa (Swimsuit)"
+        "name": "Azusa (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20004,
-        "name": "Mashiro (Swimsuit)"
+        "name": "Mashiro (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16005,
-        "name": "Tsurugi (Swimsuit)"
+        "name": "Tsurugi (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20005,
-        "name": "Hifumi (Swimsuit)"
+        "name": "Hifumi (Swimsuit)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10022,
-        "name": "Hina (Swimsuit)"
+        "name": "Hina (Swimsuit)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10023,
-        "name": "Iori (Swimsuit)"
+        "name": "Iori (Swimsuit)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 16006,
-        "name": "Izumi (Swimsuit)"
+        "name": "Izumi (Swimsuit)",
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 10024,
-        "name": "Shiroko (Cycling)"
+        "name": "Shiroko (Cycling)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10025,
-        "name": "Shun (Small)"
+        "name": "Shun (Small)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 13012,
-        "name": "Kirino"
+        "name": "Kirino",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 20006,
-        "name": "Saya (Casual)"
+        "name": "Saya (Casual)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10026,
-        "name": "Neru (Bunny)"
+        "name": "Neru (Bunny)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10027,
-        "name": "Karin (Bunny)"
+        "name": "Karin (Bunny)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10028,
-        "name": "Asuna (Bunny)"
+        "name": "Asuna (Bunny)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10029,
-        "name": "Natsu"
+        "name": "Natsu",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 23008,
-        "name": "Mari"
+        "name": "Mari",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 20007,
-        "name": "Hatsune Miku"
+        "name": "Hatsune Miku",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20008,
-        "name": "Ako"
+        "name": "Ako",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20009,
-        "name": "Cherino (Hot Spring)"
+        "name": "Cherino (Hot Spring)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10030,
-        "name": "Chinatsu (Hot Spring)"
+        "name": "Chinatsu (Hot Spring)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16007,
-        "name": "Tomoe"
+        "name": "Tomoe",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20010,
-        "name": "Nodoka (Hot Spring)"
+        "name": "Nodoka (Hot Spring)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10031,
-        "name": "Aru (New Year)"
+        "name": "Aru (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10032,
-        "name": "Mutsuki (New Year)"
+        "name": "Mutsuki (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20011,
-        "name": "Serika (New Year)"
+        "name": "Serika (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10033,
-        "name": "Wakamo"
+        "name": "Wakamo",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 16008,
-        "name": "Fubuki"
+        "name": "Fubuki",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20012,
-        "name": "Sena"
+        "name": "Sena",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20013,
-        "name": "Chihiro"
+        "name": "Chihiro",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10034,
-        "name": "Mimori"
+        "name": "Mimori",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10035,
-        "name": "Ui"
+        "name": "Ui",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10036,
-        "name": "Hinata"
+        "name": "Hinata",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10037,
-        "name": "Marina"
+        "name": "Marina",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10038,
-        "name": "Miyako"
+        "name": "Miyako",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20014,
-        "name": "Saki"
+        "name": "Saki",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10039,
-        "name": "Miyu"
+        "name": "Miyu",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20015,
-        "name": "Kaede"
+        "name": "Kaede",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20016,
-        "name": "Iroha"
+        "name": "Iroha",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 16009,
-        "name": "Michiru"
+        "name": "Michiru",
+        "hasBondGear": true,
+        "StarGrade": 1
     },
     {
         "id": 10040,
-        "name": "Tsukuyo"
+        "name": "Tsukuyo",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10041,
-        "name": "Misaki"
+        "name": "Misaki",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20017,
-        "name": "Hiyori"
+        "name": "Hiyori",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10042,
-        "name": "Atsuko"
+        "name": "Atsuko",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10043,
-        "name": "Wakamo (Swimsuit)"
+        "name": "Wakamo (Swimsuit)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10044,
-        "name": "Nonomi (Swimsuit)"
+        "name": "Nonomi (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26007,
-        "name": "Ayane (Swimsuit)"
+        "name": "Ayane (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10045,
-        "name": "Hoshino (Swimsuit)"
+        "name": "Hoshino (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26008,
-        "name": "Shizuko (Swimsuit)"
+        "name": "Shizuko (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10046,
-        "name": "Izuna (Swimsuit)"
+        "name": "Izuna (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10047,
-        "name": "Chise (Swimsuit)"
+        "name": "Chise (Swimsuit)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10048,
-        "name": "Saori"
+        "name": "Saori",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20018,
-        "name": "Moe"
+        "name": "Moe",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10049,
-        "name": "Kazusa"
+        "name": "Kazusa",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10050,
-        "name": "Kokona"
+        "name": "Kokona",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10051,
-        "name": "Utaha (Cheer Squad)"
+        "name": "Utaha (Cheer Squad)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10052,
-        "name": "Noa"
+        "name": "Noa",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16010,
-        "name": "Hibiki (Cheer Squad)"
+        "name": "Hibiki (Cheer Squad)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20019,
-        "name": "Akane (Bunny)"
+        "name": "Akane (Bunny)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10053,
-        "name": "Yuuka (Track)"
+        "name": "Yuuka (Track)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10054,
-        "name": "Mari (Track)"
+        "name": "Mari (Track)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16011,
-        "name": "Hasumi (Track)"
+        "name": "Hasumi (Track)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20020,
-        "name": "Himari"
+        "name": "Himari",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10055,
-        "name": "Shigure"
+        "name": "Shigure",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10056,
-        "name": "Serina (Christmas)"
+        "name": "Serina (Christmas)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20021,
-        "name": "Hanae (Christmas)"
+        "name": "Hanae (Christmas)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10057,
-        "name": "Haruna (New Year)"
+        "name": "Haruna (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20022,
-        "name": "Fuuka (New Year)"
+        "name": "Fuuka (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16012,
-        "name": "Junko (New Year)"
+        "name": "Junko (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10058,
-        "name": "Mine"
+        "name": "Mine",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10059,
-        "name": "Mika"
+        "name": "Mika",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10060,
-        "name": "Megu"
+        "name": "Megu",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20023,
-        "name": "Kanna"
+        "name": "Kanna",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10061,
-        "name": "Sakurako"
+        "name": "Sakurako",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10062,
-        "name": "Toki"
+        "name": "Toki",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20024,
-        "name": "Nagisa"
+        "name": "Nagisa",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10063,
-        "name": "Koyuki"
+        "name": "Koyuki",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10064,
-        "name": "Kayoko (New Year)"
+        "name": "Kayoko (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20025,
-        "name": "Haruka (New Year)"
+        "name": "Haruka (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10065,
-        "name": "Kaho"
+        "name": "Kaho",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10066,
-        "name": "Aris (Maid)"
+        "name": "Aris (Maid)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10067,
-        "name": "Toki (Bunny)"
+        "name": "Toki (Bunny)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26009,
-        "name": "Yuzu (Maid)"
+        "name": "Yuzu (Maid)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10068,
-        "name": "Reisa"
+        "name": "Reisa",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10069,
-        "name": "Rumi"
+        "name": "Rumi",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10070,
-        "name": "Mina"
+        "name": "Mina",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20026,
-        "name": "Minori"
+        "name": "Minori",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10071,
-        "name": "Miyako (Swimsuit)"
+        "name": "Miyako (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10072,
-        "name": "Saki (Swimsuit)"
+        "name": "Saki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26010,
-        "name": "Miyu (Swimsuit)"
+        "name": "Miyu (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20027,
-        "name": "Shiroko (Swimsuit)"
+        "name": "Shiroko (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10073,
-        "name": "Ui (Swimsuit)"
+        "name": "Ui (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20028,
-        "name": "Hinata (Swimsuit)"
+        "name": "Hinata (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16013,
-        "name": "Koharu (Swimsuit)"
+        "name": "Koharu (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10074,
-        "name": "Hanako (Swimsuit)"
+        "name": "Hanako (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20029,
-        "name": "Mimori (Swimsuit)"
+        "name": "Mimori (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10075,
-        "name": "Meru"
+        "name": "Meru",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 13013,
-        "name": "Momiji"
+        "name": "Momiji",
+        "hasBondGear": true,
+        "StarGrade": 2
     },
     {
         "id": 10076,
-        "name": "Kotori (Cheer Squad)"
+        "name": "Kotori (Cheer Squad)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20030,
-        "name": "Haruna (Track)"
+        "name": "Haruna (Track)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10077,
-        "name": "Ichika"
+        "name": "Ichika",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10078,
-        "name": "Kasumi"
+        "name": "Kasumi",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20031,
-        "name": "Shigure (Hot Spring)"
+        "name": "Shigure (Hot Spring)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10079,
-        "name": "Misaka Mikoto"
+        "name": "Misaka Mikoto",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10080,
-        "name": "Shokuhou Misaki"
+        "name": "Shokuhou Misaki",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26011,
-        "name": "Saten Ruiko"
+        "name": "Saten Ruiko",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10081,
-        "name": "Yukari"
+        "name": "Yukari",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10082,
-        "name": "Renge"
+        "name": "Renge",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10083,
-        "name": "Kikyou"
+        "name": "Kikyou",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20032,
-        "name": "Eimi (Swimsuit)"
+        "name": "Eimi (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10084,
-        "name": "Kotama (Camp)"
+        "name": "Kotama (Camp)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10085,
-        "name": "Hare (Camp)"
+        "name": "Hare (Camp)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10087,
-        "name": "Ako (Dress)"
+        "name": "Ako (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16014,
-        "name": "Ibuki"
+        "name": "Ibuki",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20033,
-        "name": "Makoto"
+        "name": "Makoto",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10086,
-        "name": "Hina (Dress)"
+        "name": "Hina (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10088,
-        "name": "Kayoko (Dress)"
+        "name": "Kayoko (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10089,
-        "name": "Aru (Dress)"
+        "name": "Aru (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20034,
-        "name": "Akari (New Year)"
+        "name": "Akari (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10090,
-        "name": "Umika"
+        "name": "Umika",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 20035,
-        "name": "Tsubaki (Guide)"
+        "name": "Tsubaki (Guide)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10091,
-        "name": "Kazusa (Band)"
+        "name": "Kazusa (Band)",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10092,
-        "name": "Yoshimi (Band)"
+        "name": "Yoshimi (Band)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16015,
-        "name": "Airi (Band)"
+        "name": "Airi (Band)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10093,
-        "name": "Kirara"
+        "name": "Kirara",
+        "hasBondGear": true,
+        "StarGrade": 3
     },
     {
         "id": 10094,
-        "name": "Momoi (Maid)"
+        "name": "Momoi (Maid)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10095,
-        "name": "Midori (Maid)"
+        "name": "Midori (Maid)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20036,
-        "name": "Serika (Swimsuit)"
+        "name": "Serika (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10096,
-        "name": "Kanna (Swimsuit)"
+        "name": "Kanna (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20037,
-        "name": "Fubuki (Swimsuit)"
+        "name": "Fubuki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26012,
-        "name": "Kirino (Swimsuit)"
+        "name": "Kirino (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10097,
-        "name": "Moe (Swimsuit)"
+        "name": "Moe (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10098,
-        "name": "Hoshino (Armed)"
+        "name": "Hoshino (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10099,
-        "name": "Hoshino (Armed)"
+        "name": "Hoshino (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10100,
-        "name": "Shiroko*Terror"
+        "name": "Shiroko*Terror",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26013,
-        "name": "Atsuko (Swimsuit)"
+        "name": "Atsuko (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10101,
-        "name": "Saori (Swimsuit)"
+        "name": "Saori (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10102,
-        "name": "Hiyori (Swimsuit)"
+        "name": "Hiyori (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10103,
-        "name": "Marina (Qipao)"
+        "name": "Marina (Qipao)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20038,
-        "name": "Tomoe (Qipao)"
+        "name": "Tomoe (Qipao)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10104,
-        "name": "Reijo"
+        "name": "Reijo",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20039,
-        "name": "Kisaki"
+        "name": "Kisaki",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10105,
-        "name": "Mari (Pop Idol)"
+        "name": "Mari (Pop Idol)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10106,
-        "name": "Sakurako (Pop Idol)"
+        "name": "Sakurako (Pop Idol)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16016,
-        "name": "Mine (Pop Idol)"
+        "name": "Mine (Pop Idol)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10107,
-        "name": "Chiaki"
+        "name": "Chiaki",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20040,
-        "name": "Satsuki"
+        "name": "Satsuki",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10108,
-        "name": "Yuuka (Pajamas)"
+        "name": "Yuuka (Pajamas)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10109,
-        "name": "Noa (Pajamas)"
+        "name": "Noa (Pajamas)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10110,
-        "name": "Seia"
+        "name": "Seia",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10112,
-        "name": "Asuna (School)"
+        "name": "Asuna (School)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26014,
-        "name": "Karin (School)"
+        "name": "Karin (School)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10111,
-        "name": "Neru (School)"
+        "name": "Neru (School)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20041,
-        "name": "Rio"
+        "name": "Rio",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20042,
-        "name": "Maki (Camp)"
+        "name": "Maki (Camp)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10113,
-        "name": "Sena (Casual)"
+        "name": "Sena (Casual)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10114,
-        "name": "Juri (Part-Timer)"
+        "name": "Juri (Part-Timer)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20043,
-        "name": "Izumi (New Year)"
+        "name": "Izumi (New Year)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10115,
-        "name": "Rei"
+        "name": "Rei",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20044,
-        "name": "Sumire (Part-Timer)"
+        "name": "Sumire (Part-Timer)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10116,
-        "name": "Saori (Dress)"
+        "name": "Saori (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10117,
-        "name": "Hikari"
+        "name": "Hikari",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10118,
-        "name": "Nozomi"
+        "name": "Nozomi",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16017,
-        "name": "Aoba"
+        "name": "Aoba",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20045,
-        "name": "Pina (Guide)"
+        "name": "Pina (Guide)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10119,
-        "name": "Nagusa"
+        "name": "Nagusa",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20046,
-        "name": "Niya"
+        "name": "Niya",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10120,
-        "name": "Natsu (Band)"
+        "name": "Natsu (Band)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10121,
-        "name": "Yukari (Swimsuit)"
+        "name": "Yukari (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 13014,
-        "name": "Renge (Swimsuit)"
+        "name": "Renge (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 2
     },
     {
         "id": 20047,
-        "name": "Kikyou (Swimsuit)"
+        "name": "Kikyou (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10123,
-        "name": "Seia (Swimsuit)"
+        "name": "Seia (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10124,
-        "name": "Hasumi (Swimsuit)"
+        "name": "Hasumi (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 26015,
-        "name": "Ichika (Swimsuit)"
+        "name": "Ichika (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20048,
-        "name": "Nagisa (Swimsuit)"
+        "name": "Nagisa (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10122,
-        "name": "Mika (Swimsuit)"
+        "name": "Mika (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10125,
-        "name": "Eri"
+        "name": "Eri",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10126,
-        "name": "Kanoe"
+        "name": "Kanoe",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20049,
-        "name": "Misaki (Swimsuit)"
+        "name": "Misaki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10127,
-        "name": "Miyo"
+        "name": "Miyo",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10128,
-        "name": "Fuyu"
+        "name": "Fuyu",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20050,
-        "name": "Ritsu"
+        "name": "Ritsu",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20051,
-        "name": "Reisa (Magical)"
+        "name": "Reisa (Magical)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10129,
-        "name": "Suzumi (Magical)"
+        "name": "Suzumi (Magical)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16018,
-        "name": "Rabu"
+        "name": "Rabu",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 10130,
-        "name": "Subaru"
+        "name": "Subaru",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10131,
-        "name": "Takane"
+        "name": "Takane",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20052,
-        "name": "Yakumo"
+        "name": "Yakumo",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10132,
-        "name": "Tsukuyo (Dress)"
+        "name": "Tsukuyo (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20053,
-        "name": "Michiru (Dress)"
+        "name": "Michiru (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10133,
-        "name": "Rio (Armed)"
+        "name": "Rio (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16019,
-        "name": "Toki (Armed)"
+        "name": "Toki (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20054,
-        "name": "Himari (Armed)"
+        "name": "Himari (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10134,
-        "name": "Aris (Armed)"
+        "name": "Aris (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10135,
-        "name": "Kei"
+        "name": "Kei",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10136,
-        "name": "Eimi (Armed)"
+        "name": "Eimi (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20055,
-        "name": "Yuzu (Armed)"
+        "name": "Yuzu (Armed)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20056,
-        "name": "Koyuki (Pajamas)"
+        "name": "Koyuki (Pajamas)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10137,
-        "name": "Konoka"
+        "name": "Konoka",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10138,
-        "name": "Rena"
+        "name": "Rena",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20057,
-        "name": "Akane (School)"
+        "name": "Akane (School)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10139,
-        "name": "Niko"
+        "name": "Niko",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10140,
-        "name": "Kurumi"
+        "name": "Kurumi",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 16020,
-        "name": "Otogi"
+        "name": "Otogi",
+        "hasBondGear": false,
+        "StarGrade": 1
     },
     {
         "id": 20058,
-        "name": "Erika"
+        "name": "Erika",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10141,
-        "name": "Haruka (Dress)"
+        "name": "Haruka (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 20059,
-        "name": "Mutsuki (Dress)"
+        "name": "Mutsuki (Dress)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10142,
-        "name": "Nagusa (Swimsuit)"
+        "name": "Nagusa (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10143,
-        "name": "Shun (Swimsuit)"
+        "name": "Shun (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10144,
-        "name": "Shun (Swimsuit)"
+        "name": "Shun (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     },
     {
         "id": 10145,
-        "name": "Kisaki (Swimsuit)"
+        "name": "Kisaki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 10146,
+        "name": "Makoto (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 10147,
+        "name": "Satsuki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 26016,
+        "name": "Chiaki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 1
+    },
+    {
+        "id": 10148,
+        "name": "Iroha (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
+    },
+    {
+        "id": 20060,
+        "name": "Ibuki (Swimsuit)",
+        "hasBondGear": false,
+        "StarGrade": 3
     }
 ]
