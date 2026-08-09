@@ -31,6 +31,13 @@ def write_json(path: PathLike, data: Any) -> None:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 
+def write_text(path: PathLike, data: str) -> None:
+    """Writes data to a TXT file, creating parent directories if needed."""
+    p = _to_path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(data, encoding="utf-8")
+
+
 def update_json_key(path: PathLike, key: str, value: Any):
     """Updates a single top-level key in a JSON file."""
     data = read_json(path)
