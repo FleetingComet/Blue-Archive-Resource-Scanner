@@ -3,21 +3,16 @@
 
 
 [changelog]
-header = """
-# Changelog\n
-
-All notable changes to this project will be documented in this file.\n
-"""
 
 body = """
 {% if version %}\
-    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+    ## [{{ version | trim_start_matches(pat="v") }}]
 {% else %}\
     ## Unreleased
 {% endif %}\
 
 {% for group, commits in commits | group_by(attribute="group") %}
-    ### {{ group }}
+    ### {{ group | split(pat="-->") | last | trim }}
     {% for commit in commits %}
         {%- set lines = commit.message | split(pat="\n") %}
         - **{{ lines | first | split(pat=":") | last | trim | upper_first }}**{% if commit.scope %} ({{ commit.scope }}){% endif %} ([`{{ commit.id | truncate(length=7, end="") }}`](<REPO>/commit/{{ commit.id }}) - {{ commit.author.timestamp | date(format="%Y-%m-%d") }})
@@ -69,6 +64,8 @@ commit_preprocessors = [
     # If the spelling is incorrect, it will be fixed automatically.
     #{ pattern = '.*', replace_command = 'typos --write-changes -' },
     { pattern = '\.$', replace = "" },
+    { pattern = " +", replace = " " },
+    { pattern = "https://github.com/[^ ]/issues/([0-9]+)", replace = "[Issue #${1}]" },
 ]
 # Prevent commits that are breaking from being excluded by commit parsers.
 protect_breaking_commits = false
@@ -76,26 +73,37 @@ protect_breaking_commits = false
 # Assigns commits to groups.
 # Optionally sets the commit's scope and can decide to exclude commits from further processing.
 commit_parsers = [
-    # Documentation
-    { message = "(?i)^.*(readme|doc)", group = "Documentation" },
+    # Ignore merge commits
+    { message = "^Merge pull request #[0-9]+.*", skip = true },
+    { message = "^Merge branch .*", skip = true },
+
+    # Ignore WIP commits
+    { message = "(?i).*WIP.*", skip = true },
+
+    # Ignore reverted commits
+    { message = "(?i)^revert", skip = true },
+
+    # Ignore commits explicitly marked for exclusion
+    { footer = "(?i)^changelog: ?ignore", skip = true },
 
     # Features & Additions
-    { message = "(?i)^(add|support|new)", group = "Features" },
+    { message = "(?i)^(add|create|introduce|enable|integrate|detect|support).*", group = "<!-- 0 -->Features" },
 
     # Bug Fixes
-    { message = "(?i)^(fix|resolve|correct)", group = "Bug Fixes" },
+    { message = "(?i).*(fix|fixed|fixes|resolve|resolved|correct|corrected|error|bug).*", group = "<!-- 1 -->Fixes" },
+
+    # Refactoring & Improvements
+    { message = "(?i).*(refactor|improve|improved|optimize|optimise|extract|unify|separate|separation|adjust|modernize|modernise|rework|simplify|better|switch).*", group = "<!-- 2 -->Refactoring & Improvements" },
 
     # Maintenance & Cleanup
-    { message = "(?i)^(clean|cleanup|move|remove|delete)", group = "Maintenance" },
-    { message = "(?i)^update.*(requirements|deps|dependencies|pkg)", group = "Maintenance" },
+    { message = "(?i).*(clean.?up|cleanup|remove|delete|rename|move|reorganize|reorganise).*", group = "<!-- 3 -->Maintenance" },
+    { message = "(?i)^update.*(requirements|deps|dependencies|pkg)", group = "<!-- 3 -->Maintenance" },
 
-    # Refactoring & Code Quality (Matches Refactor, Improve, Extract, Use, Unify, Make, Switch, etc.)
-    { message = "(?i)^(refactor|improve|optimize|extract|unify|make|use|change|switch)", group = "Refactoring & Improvements" },
-
-    { message = "WIP", group = "Work in Progress" },
+    # Documentation
+    { message = "(?i).*(docs?|documentation|readme).*", group = "<!-- 4 -->Documentation" },
 
     # Everything else
-    { message = ".*", group = "Other Changes" },
+    { message = ".*", group = "<!-- 5 -->Other Changes" },
 ]
 # Exclude commits that are not matched by any commit parser.
 filter_commits = false
