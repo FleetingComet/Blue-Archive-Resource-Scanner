@@ -13,12 +13,11 @@ def get_engine():
     if _engine is None:
         _engine = RapidOCR(
             config_path="./rapidocr/config.yaml",
-            params={
-                "Global.text_score": 0.8,
-                "Global.use_cls": False,
-                "Global.use_det": False,
-                "Rec.lang_type": LangRec.EN,
-            },
+            # params={
+            #     "Global.use_det": True,
+            #     "Global.use_cls": True,
+            #     "Rec.lang_type": LangRec.EN,
+            # },
         )
     return _engine
 
