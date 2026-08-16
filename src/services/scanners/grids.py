@@ -5,23 +5,13 @@ import time
 from pathlib import Path
 
 import cv2
-from rich.markup import escape
 
-from locations import screens
-from locations.search import SearchPattern, StudentSearchPattern
 from src.core.area import Location, Region, Size
 from src.core.config import Config
-from src.enums.ExtractionMode import ExtractionMode
-from src.services.workers import item_ocr_worker, student_ocr_worker
-from src.utils.data.io import read_json, update_count, write_json
-from src.utils.data.student_skill_helper import (
-    map_student_data_to_character,
-)
+from src.services.workers import item_ocr_worker
+from src.utils.data.io import read_json, write_json
 from src.utils.device.interfaces import DeviceController
 from src.utils.device.swipe_utils import swipe_with_verification
-from src.utils.ocr.extract import (
-    extract_from_region,
-)
 from src.utils.ocr.item_util import is_empty_slot
 from src.utils.ocr.text_util import normalize_value
 
@@ -29,7 +19,7 @@ logger = logging.getLogger("BA-Scanner")
 
 
 # TODO: Fix this
-def startMatching(
+def item_grid(
     device: DeviceController,
     grid_type: str = "Equipment",
     grid_config: dict | None = None,
@@ -211,117 +201,3 @@ def startMatching(
             write_json(Config.scanned_counts, existing)
 
     return True
-
-
-def get_student_info(device: DeviceController) -> bool:
-    first_name = None
-    iteration = 0
-    captured_paths = []
-
-    with tempfile.TemporaryDirectory(prefix="ba_students_") as tmp_dir:
-        tmp_path = Path(tmp_dir)
-
-        while True:
-            iteration += 1
-            image = device.capture_screenshot()
-            if image is None:
-                logger.error("Failed to capture screenshot.")
-                return False
-
-            # Lightweight name check ONLY for loop termination
-            current_name = extract_from_region(
-                image, StudentSearchPattern.STUDENT_NAME.value, mode=ExtractionMode.NAME
-            )
-
-            if first_name is None:
-                first_name = current_name
-                logger.info(
-                    f"[bold]First student name[/bold] set to: [cyan]{first_name}[/cyan]"
-                )
-
-            elif current_name and current_name == first_name:
-                logger.info("Encountered the first student again. Ending capture loop.")
-                break
-
-            save_path = tmp_path / f"stu_{iteration:03d}.png"
-            cv2.imwrite(str(save_path), image)
-            captured_paths.append(save_path)
-
-            # Tap Next
-            device.tap(
-                int(screens.StudentInfo.BUTTONS.NEXT.x),
-                int(screens.StudentInfo.BUTTONS.NEXT.y),
-            )
-            time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
-
-            if Config.DEBUG and iteration >= 2:
-                break
-
-        if not captured_paths:
-            logger.warning("⚠️ No students captured.")
-            return False
-
-        workers = min(4, len(captured_paths))
-        logger.info(
-            f"[bold yellow]Processing[/bold yellow] {len(captured_paths)} screenshots with {workers} OCR workers..."
-        )
-
-        raw_results = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = {
-                executor.submit(student_ocr_worker, p): p for p in captured_paths
-            }
-            for future in concurrent.futures.as_completed(futures):
-                data = future.result()
-                if data and data.get("Name"):
-                    raw_results.append(data)
-
-        logger.info(
-            f"[bold yellow]Extracted[/bold yellow] {len(raw_results)} student records. Formatting & saving..."
-        )
-
-        final_data = {"characters": []}
-        seen_names = set()
-
-        for r in raw_results:
-            name, current_data = map_student_data_to_character(r)
-            if name not in seen_names:
-                seen_names.add(name)
-                final_data["characters"].append({"name": name, "current": current_data})
-            else:
-                # Duplicate hit after loop boundary (rare OCR edge case)
-                break
-
-        write_json(Config.scanned_students, final_data)
-        logger.info(
-            f"[bold yellow]Saved[/bold yellow] "
-            f"{len(final_data['characters'])} students → "
-            f":open_file_folder: [link {Config.scanned_students}]"
-            f"{escape(str(Config.scanned_students.as_uri()))}"
-        )
-        return True
-
-
-def get_currencies(device: DeviceController) -> bool:
-    image = device.capture_screenshot()
-
-    if image is None:
-        return False
-
-    currencies = [SearchPattern.AP, SearchPattern.CREDIT, SearchPattern.PYROXENE]
-    owned_currencies_file = Config.scanned_currencies
-
-    for currency in currencies:
-        how_many = extract_from_region(
-            image, currency.value, mode=ExtractionMode.NUMBER
-        )  # reuse
-        logger.info(
-            f"[bold yellow]Detected[/bold yellow] [bold]Currency[/bold] {currency.name}: [cyan]{how_many}[/cyan]"
-        )
-
-        if currency.name == "AP":
-            AP = how_many.split("/", 1)
-            AP = {"Remaining": AP[0], "Max": AP[-1]}
-            update_count(owned_currencies_file, currency.name.title(), AP)
-        else:
-            update_count(owned_currencies_file, currency.name.title(), how_many)

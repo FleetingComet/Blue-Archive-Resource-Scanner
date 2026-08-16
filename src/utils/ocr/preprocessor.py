@@ -25,7 +25,7 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
     """
 
     h, w = image.shape[:2]
-    if h < 50 or w < 50 and mode != ExtractionMode.GEAR:
+    if (h < 50 or w < 50) and mode != ExtractionMode.GEAR:
         image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
     if mode == ExtractionMode.GEAR:
