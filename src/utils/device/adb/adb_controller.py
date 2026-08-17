@@ -3,7 +3,6 @@ import platform
 import subprocess
 import threading
 import time
-from typing import Optional
 
 import cv2
 import numpy as np
@@ -18,7 +17,7 @@ class ADBController:
         """Ensure only one instance of ADBController exists (Singleton Pattern)."""
         with cls._lock:
             if cls._instance is None:
-                cls._instance = super(ADBController, cls).__new__(cls)
+                cls._instance = super().__new__(cls)
         return cls._instance
 
     def __init__(self, host: str = "localhost", port: int = 16384):
@@ -40,6 +39,7 @@ class ADBController:
                     capture_output=True,
                     text=True,
                     timeout=10,
+                    check=False,
                 )
                 output = result.stdout.lower()
                 if (
@@ -72,7 +72,7 @@ class ADBController:
             self.logger.error(f"Failed to execute ADB command: {e}")
             return False
 
-    def capture_screenshot(self) -> Optional[np.ndarray]:
+    def capture_screenshot(self) -> np.ndarray | None:
         """
         Capture a screenshot from the device and return it as an OpenCV image held in memory.
 
@@ -94,7 +94,12 @@ class ADBController:
                 command = f"adb -s {self.host}:{self.port} exec-out 'screencap -p 2>/dev/null'"
             logger.debug(f"ADBController: Running command: {command}")
             result = subprocess.run(
-                command, shell=True, capture_output=True, text=False, timeout=8
+                command,
+                shell=True,
+                capture_output=True,
+                text=False,
+                timeout=8,
+                check=False,
             )
             if result.returncode == 0:
                 # Convert the byte output to an OpenCV image.
@@ -114,6 +119,6 @@ class ADBController:
             return None
 
     @classmethod
-    def get_latest_screenshot(cls) -> Optional[np.ndarray]:
+    def get_latest_screenshot(cls) -> np.ndarray | None:
         """Returns the latest captured screenshot or None."""
         return cls.latest_screenshot

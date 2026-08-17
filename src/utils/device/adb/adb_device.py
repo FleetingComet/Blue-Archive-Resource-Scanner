@@ -1,5 +1,5 @@
+from src.utils.device.adb.adb_controller import ADBController
 from src.utils.device.interfaces import DeviceController
-from src.utils.device.adb_controller import ADBController
 
 
 class ADBDevice(DeviceController):
