@@ -2,7 +2,6 @@ import logging
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
@@ -11,8 +10,8 @@ from src.core.config import Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.utils.data.text_matcher import find_closest
 from src.utils.device.interfaces import DeviceController
-from src.utils.ocr.engine import extract_text
 from src.utils.ocr.matchers import find_template_location
+from src.utils.ocr.ocr_helper import extract_text
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
 
 logger = logging.getLogger("BA-Scanner")
@@ -22,7 +21,7 @@ logger = logging.getLogger("BA-Scanner")
 class NavigationResult:
     success: bool
     screen_detected: str = ""
-    error_msg: Optional[str] = None
+    error_msg: str | None = None
 
 
 class ScreenNavigator:
@@ -212,5 +211,5 @@ class ScreenNavigator:
         )
         return "menu" in text
 
-    def determine_button(self, name: str) -> Optional[Region]:
+    def determine_button(self, name: str) -> Region | None:
         return self.BUTTON_MAP.get(name)

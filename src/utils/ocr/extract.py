@@ -4,7 +4,7 @@ from src.enums.ExtractionMode import ExtractionMode
 from src.utils.ocr.color_util import (
     retain_colors,
 )
-from src.utils.ocr.engine import extract_text, extract_text_talent
+from src.utils.ocr.ocr_helper import extract_text, extract_text_talent
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
 from src.utils.ocr.star_util import count_blue_stars_adaptive, count_stars
 from src.utils.ocr.text_util import get_tier_level, is_close_to

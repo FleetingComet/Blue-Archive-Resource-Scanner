@@ -1,3 +1,4 @@
+import re
 
 from src.utils.ocr.text_util import normalize_skill_value, normalize_value
 
@@ -32,3 +33,17 @@ def map_student_data_to_character(student_data):
     }
 
     return name, current_data
+
+
+def get_talent_level(text: str):
+    """
+    Extract the number after "Lv."
+
+    Args:
+        text (str): extract text from ocr
+
+    Returns:
+        _str_: stripped text
+    """
+    match = re.search(r"\[?\s*Lv\.?\s*(\d+)", text, re.IGNORECASE)
+    return str(match.group(1)) if match else None

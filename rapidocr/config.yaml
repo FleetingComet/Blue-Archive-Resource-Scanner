@@ -21,8 +21,8 @@ Global:
 
 EngineConfig:
     onnxruntime:
-        intra_op_num_threads: -1
-        inter_op_num_threads: -1
+        intra_op_num_threads: 1
+        inter_op_num_threads: 1
         enable_cpu_mem_arena: false
 
         cpu_ep_cfg:
