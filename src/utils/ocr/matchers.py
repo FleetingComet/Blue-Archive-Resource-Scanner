@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Optional
 
 import cv2
 
@@ -78,7 +77,7 @@ def match_image_using_directory(
 
 def find_template_location(
     input_image, reference_image_path: Path, threshold=0.8, grayscale=False
-) -> Optional[Region]:
+) -> Region | None:
     """
     Find the location of a template in the input image.
 
@@ -97,11 +96,11 @@ def find_template_location(
     reference_image = cv2.imread(str(reference_image_path), ref_flag)
 
     if reference_image is None:
-        logger.error(f"Failed to load reference image: {str(reference_image_path)}")
+        logger.error(f"Failed to load reference image: {reference_image_path!s}")
         return None
 
     result = cv2.matchTemplate(input_image, reference_image, cv2.TM_CCOEFF_NORMED)
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    _min_val, max_val, _min_loc, max_loc = cv2.minMaxLoc(result)
 
     logger.info(f"Max Value for {reference_image_path}: {max_val}")
 

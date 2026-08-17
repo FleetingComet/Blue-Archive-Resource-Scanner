@@ -27,10 +27,11 @@ class StudentSearchPattern(Enum):
     UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(977, 504, 93, 22)  # Exclusive Weapon
     UNIQUE_EQUIPMENT_LEVEL = Region(775, 450, 61, 21)  # Exclusive Weapon Level
 
-    SKILL_EX = Region(686, 402, 80, 20)
-    SKILL_BASIC = Region(796, 403, 80, 20)
-    SKILL_ENHANCED = Region(901, 403, 80, 20)
-    SKILL_SUB = Region(1008, 402, 79, 22)
+    class SKILL(Enum):
+        EX = Region(670, 400, 85, 20)
+        BASIC = Region(775, 400, 85, 20)
+        ENHANCED = Region(880, 400, 85, 20)
+        SUB = Region(985, 400, 85, 22)
 
     class GEAR_SLOT(Enum):
         """

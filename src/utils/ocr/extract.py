@@ -1,13 +1,17 @@
+from pathlib import Path
+
 from locations.search import SearchPattern
 from src.core.area import Region
 from src.enums.ExtractionMode import ExtractionMode
+from src.utils.data.text_matcher import find_closest
 from src.utils.ocr.color_util import (
     retain_colors,
 )
+from src.utils.ocr.matchers import find_template_location
 from src.utils.ocr.ocr_helper import extract_text, extract_text_talent
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
 from src.utils.ocr.star_util import count_blue_stars_adaptive, count_stars
-from src.utils.ocr.text_util import get_tier_level, is_close_to
+from src.utils.ocr.text_util import get_tier_level
 
 
 def crop_image(image, region: Region):
@@ -49,6 +53,12 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     if mode == ExtractionMode.UE_STAR:
         return count_blue_stars_adaptive(crop_img, debug=False)
 
+    # * Match Template (image-based)
+    if mode == ExtractionMode.SKILL_LEVEL:
+        TEMPLATE_PATH = Path("assets/images/templates/max.png")
+        if find_template_location(crop_img, TEMPLATE_PATH):
+            return "MAX"
+
     processed_img = preprocess_image_for_ocr(crop_img, mode)
 
     if processed_img is None:
@@ -65,7 +75,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     if mode == ExtractionMode.GEAR:
         return get_tier_level(text)
 
-    if mode == ExtractionMode.SKILL_LEVEL and is_close_to(text, threshold=0.65):
+    if mode == ExtractionMode.SKILL_LEVEL and find_closest(text.upper(), ["MAX"]):
         return "MAX"
 
     return (

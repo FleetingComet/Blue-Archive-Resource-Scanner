@@ -85,22 +85,22 @@ def student_ocr_worker(image: np.ndarray):
         ),
         "Skill EX": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_EX.value,
+            StudentSearchPattern.SKILL.EX.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Basic": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_BASIC.value,
+            StudentSearchPattern.SKILL.BASIC.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Enhanced": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_ENHANCED.value,
+            StudentSearchPattern.SKILL.ENHANCED.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Sub": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_SUB.value,
+            StudentSearchPattern.SKILL.SUB.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Talent_ATK": extract_from_region(
