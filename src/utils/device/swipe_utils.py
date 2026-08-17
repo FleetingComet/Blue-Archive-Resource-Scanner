@@ -2,89 +2,82 @@ import logging
 import time
 
 import numpy as np
+from tenacity import Retrying, retry_if_result, stop_after_attempt, wait_fixed
 
+from src.core.area import Region
 from src.utils.device.interfaces import DeviceController
+from src.utils.ocr.extract import crop_image
 
 logger = logging.getLogger("BA-Scanner")
 
 
 def swipe_with_verification(
     device: DeviceController,
-    start_x: int,
-    start_y: int,
-    swipe_start_y: int,
-    swipe_end_y: int,
-    item_width: int,
-    grid_end_y: int,
-    cols_per_row: int = 5,
-    max_retries: int = 2,
+    grid_region: Region,
+    max_attempts: int = 3,
 ) -> bool:
     """
     Swipe with screenshot verification to ensure it actually scrolled.
     """
-    swipe_start_x = start_x + item_width // 2
 
-    for attempt in range(max_retries):
-        # Capture before swipe
-        before = device.capture_screenshot()
+    for attempt in Retrying(
+        stop=stop_after_attempt(max_attempts),
+        wait=wait_fixed(2.5),
+        retry=retry_if_result(lambda x: x is False),
+    ):
+        with attempt:
+            # Capture before swipe
+            before = device.capture_screenshot()
+            if before is None:
+                return False
 
-        # Perform swipe
-        device.swipe(
-            swipe_start_x,
-            swipe_start_y - 5,
-            swipe_start_x,
-            swipe_end_y,
-            duration_ms=2000,
-        )
+            before_crop = crop_image(before, grid_region)
+            # Swipe from 80% down the grid height to 10% down the grid height
+            start_y = grid_region.y + int(grid_region.height * 0.80)
+            end_y = grid_region.y + int(grid_region.height * 0.10)
+            swipe_x = grid_region.x + (grid_region.width // 2)
 
-        # Wait for animation
-        time.sleep(2.5)
+            # Perform swipe
+            device.swipe(swipe_x, start_y, swipe_x, end_y, duration_ms=2000)
 
-        # Capture after swipe
-        after = device.capture_screenshot()
+            # Wait for animation
+            time.sleep(2.5)
 
-        # Verify screen changed using full grid region
-        if _screens_are_different(
-            before, after, start_x, start_y, item_width, grid_end_y, cols_per_row
-        ):
-            return True
-        logger.warning(
-            "[bold yellow]Swipe: [/bold yellow] Attempt {attempt + 1} failed, retrying..."
-        )
+            # Capture after swipe
+            after = device.capture_screenshot()
+            if after is None:
+                return False
+            after_crop = crop_image(after, grid_region)
 
+            # Verify screen changed using full grid region
+            if _screens_are_different(before_crop, after_crop):
+                return True
+
+            logger.warning(
+                f"[bold yellow]Swipe: [/bold yellow] Attempt {attempt.retry_state.attempt_number} failed, retrying..."
+            )
+            return False
+
+    logger.error("Swipe verification failed after all retries.")
     return False
 
 
 def _screens_are_different(
-    before: np.ndarray,
-    after: np.ndarray,
-    start_x: int,
-    start_y: int,
-    item_width: int,
-    grid_end_y: int,
-    cols_per_row: int = 5,
+    before_crop: np.ndarray,
+    after_crop: np.ndarray,
     threshold: float = 0.05,
 ) -> bool:
     """
     Compare the full grid region to detect if swipe actually changed content.
     """
-    if before is None or after is None:
+    if before_crop is None or after_crop is None:
         return False
 
-    grid_height = grid_end_y - start_y
-    grid_width = item_width * cols_per_row
-
-    before_sample = before[
-        start_y : start_y + grid_height, start_x : start_x + grid_width
-    ]
-    after_sample = after[
-        start_y : start_y + grid_height, start_x : start_x + grid_width
-    ]
-
-    if before_sample.shape != after_sample.shape:
+    # if shapes don't match, assume it changed (or screen resized)
+    if before_crop.shape != after_crop.shape:
         return True
 
-    diff = np.abs(before_sample.astype(float) - after_sample.astype(float))
+    diff = np.abs(before_crop.astype(float) - after_crop.astype(float))
     diff_ratio = np.mean(diff) / 255.0
 
     logger.info(

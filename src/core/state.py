@@ -18,7 +18,9 @@ from tenacity import retry, stop_after_attempt, wait_fixed
 
 from src.core.config import Config
 from src.core.navigator import ScreenNavigator
-from src.services.scanner import get_currencies, get_student_info, startMatching
+from src.services.scanners.currencies import get_currencies
+from src.services.scanners.grids import item_grid
+from src.services.scanners.students import get_student_info
 from src.utils.data.io import read_json
 from src.utils.log.plain_text_formatter import PlainTextFormatter
 
@@ -138,10 +140,9 @@ class ScreenState:
             get_currencies(self.navigator.device)
 
         if screen_name in ("Equipment", "Items"):
-            startMatching(
+            item_grid(
                 self.navigator.device,
                 grid_type=cfg["grid_type"],
-                grid_config=cfg["grid_config"],
             )
 
         elif screen_name == "Students":
