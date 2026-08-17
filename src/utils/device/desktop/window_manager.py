@@ -14,15 +14,17 @@ class WindowManager:
     # window rect so captured pixels line up with in-game coordinates.
     BORDER_PX = 8
     TITLEBAR_PX = 30
+    PROCESS_PER_MONITOR_DPI_AWARE = 2
 
     def __init__(self, window_name: str):
         self.window_name = window_name
+        # https://learn.microsoft.com/en-us/windows/win32/api/shellscalingapi/ne-shellscalingapi-process_dpi_awareness
         try:
-            windll.shcore.SetProcessDpiAwareness(1)
-        except Exception:
+            windll.shcore.SetProcessDpiAwareness(self.PROCESS_PER_MONITOR_DPI_AWARE)
+        except Exception:  # noqa: BLE001
             try:
-                windll.user32.SetProcessDPIAware()
-            except Exception:
+                windll.user32.SetProcessDPIAware(self.PROCESS_PER_MONITOR_DPI_AWARE)
+            except Exception:  # noqa: BLE001, S110
                 pass
 
         self.hwnd = self._find_window()
@@ -68,7 +70,7 @@ class WindowManager:
         """Try the first capture method, fallback to MSS."""
         try:
             return self._capture()
-        except Exception:
+        except Exception:  # noqa: BLE001
             return self._capture_mss()
 
     def _capture(self):
@@ -91,7 +93,7 @@ class WindowManager:
         if image is None:
             return np.zeros((client.height, client.width, 3), dtype=np.uint8)
 
-        left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
+        left, top, _right, _bottom = win32gui.GetWindowRect(self.hwnd)
 
         # Crop offsets
         offset_x = client.x - left

@@ -3,7 +3,9 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+from threading import Event
 
+from pynput import keyboard
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
@@ -87,7 +89,7 @@ def load_settings() -> dict:
         try:
             with open(SETTINGS_FILE, encoding="utf-8") as f:
                 return json.load(f)
-        except Exception:
+        except Exception:  # noqa: BLE001, S110
             pass
     return {}
 
@@ -125,7 +127,7 @@ def write_screen_config(enabled_screens: list[str]) -> None:
                 else:
                     # Unknown screen added manually - keep it untouched
                     screens[name] = disk_values
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             console.print(
                 f"[yellow]Warning: could not read existing screen config - {exc}[/yellow]"
             )
@@ -146,7 +148,7 @@ def load_screens_from_config() -> list[str]:
             with open(SCREEN_CONFIG, encoding="utf-8") as f:
                 screens = json.load(f)
             return [name for name, cfg in screens.items() if cfg.get("enabled", False)]
-        except Exception:
+        except Exception:  # noqa: BLE001, S110
             pass
     return []
 
@@ -163,7 +165,8 @@ def check_dependencies():
 
         if Confirm.ask("Install now?"):
             subprocess.run(
-                [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"]
+                [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"],
+                check=True,
             )
         else:
             sys.exit(1)
@@ -279,14 +282,42 @@ def launch(settings: dict):
     if not settings.get("enable_sync", False):
         cmd.append("--offline")
 
+    stop_event = Event()
+
+    def on_press(key):
+        if key == keyboard.Key.f2:  # to be configurable later
+            stop_event.set()
+            return False  # stop pynput listener
+
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()
+
     try:
-        subprocess.run(cmd, check=True)
+        # subprocess.run(cmd, check=True)
+        process = subprocess.Popen(cmd)
+
+        while process.poll() is None:
+            if stop_event.is_set():
+                console.print("[yellow]\nScan interrupted.[/yellow]")
+                process.terminate()
+                break
+
+            stop_event.wait(0.1)
+
+        process.wait()
 
     except KeyboardInterrupt:
         console.print("[yellow]\nScan interrupted.[/yellow]")
+        process.terminate()
+        process.wait()
+
     except subprocess.CalledProcessError as e:
         console.print("[red]\nScanner crashed. Check logs.[/red]")
         sys.exit(e.returncode)
+
+    finally:
+        listener.stop()
+        listener.join()
 
 
 # Entry
