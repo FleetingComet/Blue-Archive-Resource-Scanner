@@ -98,7 +98,7 @@ class ScreenNavigator:
         Check if the user is currently at the home screen by image matching.
         Returns True if the menu button is detected.
         """
-        return self._check_asset_in_region(Home.MENU_REGION, "menu_button", 0.8)
+        return self._check_asset_in_region(Home.MENU_REGION, "menu_button", 0.7)
 
     def at_page(self) -> bool:
         """
