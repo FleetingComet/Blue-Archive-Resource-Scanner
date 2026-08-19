@@ -23,7 +23,7 @@ logger = logging.getLogger("BA-Scanner")
 def item_grid(
     device: DeviceController,
     grid_type: str = "Equipment",
-    ocr_workers: int = max(1, (os.cpu_count() or 4) - 1),
+    ocr_workers: int = 2,
 ) -> bool:
     """
     Capture a screenshot from the device and perform the ocr.

@@ -21,7 +21,7 @@ logger = logging.getLogger("BA-Scanner")
 
 def get_student_info(
     device: DeviceController,
-    ocr_workers: int = max(1, (os.cpu_count() or 4) - 1),
+    ocr_workers: int = 2,
 ) -> bool:
     first_name = None
     iteration = 0
