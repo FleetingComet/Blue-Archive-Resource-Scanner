@@ -1,6 +1,5 @@
 import concurrent
 import logging
-import os
 import time
 
 import cv2
@@ -159,7 +158,7 @@ def process_grid(image, grid_region):
     # Sorting by Y (row) first, then X (column)
     # Divide by 80 (min box height) to group rows correctly
     valid_boxes = sorted(valid_boxes, key=lambda b: (b[1] // 80, b[0]))
-    print(f"Found {len(valid_boxes)} item boxes.")
+    logger.info(f"Found {len(valid_boxes)} item boxes.")
     valid_regions = []
 
     for i, (x, y, w, h) in enumerate(valid_boxes):

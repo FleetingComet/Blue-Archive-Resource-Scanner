@@ -1,6 +1,5 @@
 import concurrent.futures
 import logging
-import os
 import time
 
 import numpy as np
@@ -82,7 +81,7 @@ def get_student_info(
     write_json(Config.scanned_students, final_data)
     logger.info(
         f"[bold yellow]Saved[/bold yellow] "
-        f"{len(final_data['characters'])} students → "
+        f"{len(final_data['characters'])} students → \n"
         f":open_file_folder: [link {Config.scanned_students}]"
         f"{escape(str(Config.scanned_students.as_uri()))}"
     )
