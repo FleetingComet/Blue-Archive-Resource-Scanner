@@ -131,6 +131,10 @@ class ScreenState:
                 f"Verification failed: Expected {self.target_screen}, got {detected}"
             )
 
+    def _is_skipped(self, screen_name: str) -> bool:
+        deps = self.config[screen_name].get("skip_if_visited", [])
+        return any(d in self.visited for d in deps)
+
     def _execute_process(self, screen_name: str, cfg: dict):
         """Triggers the actual OCR work."""
 
@@ -148,6 +152,7 @@ class ScreenState:
         elif screen_name == "Students":
             # Tap first student to enter detail view
             self.logger.info("Reached Students list, entering individual stat page...")
+            self.visited.add(screen_name)
 
         elif screen_name == "Student":
             get_student_info(self.navigator.device)
@@ -185,7 +190,12 @@ class ScreenState:
         if state == NavState.CHECKING_CONTEXT:
             # Find next unvisited screen
             self.target_screen = next(
-                (s for s in self.config if s not in self.visited), None
+                (
+                    s
+                    for s in self.config
+                    if s not in self.visited and not self._is_skipped(s)
+                ),
+                None,
             )
             if not self.target_screen:
                 return NavState.COMPLETED

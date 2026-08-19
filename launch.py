@@ -80,7 +80,7 @@ def save_settings(settings: dict):
 
         console.print(f"[dim]Saved → {SETTINGS_FILE}[/dim]")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         console.print(f"[red]Error saving settings:[/red] {e}")
 
 
@@ -107,6 +107,9 @@ def write_screen_config(enabled_screens: list[str]) -> None:
     This means the file is never left with missing keys, and values the user
     or a developer edited by hand are never silently clobbered.
     """
+    if "Students" in enabled_screens and "Student" not in enabled_screens:
+        enabled_screens.append("Student")
+
     # Start from code-level defaults
     screens: dict = {
         name: {**defaults, "enabled": False}
@@ -133,7 +136,7 @@ def write_screen_config(enabled_screens: list[str]) -> None:
             )
 
     # Apply the launcher's enabled choices
-    for name in screens:
+    for name in screens:  # noqa: PLC0206
         screens[name]["enabled"] = name in enabled_screens
 
     SCREEN_CONFIG.parent.mkdir(parents=True, exist_ok=True)
@@ -147,7 +150,11 @@ def load_screens_from_config() -> list[str]:
         try:
             with open(SCREEN_CONFIG, encoding="utf-8") as f:
                 screens = json.load(f)
-            return [name for name, cfg in screens.items() if cfg.get("enabled", False)]
+            return [
+                name
+                for name, cfg in screens.items()
+                if cfg.get("enabled", False) and name in USER_FACING_SCREENS
+            ]
         except Exception:  # noqa: BLE001, S110
             pass
     return []
@@ -173,7 +180,7 @@ def check_dependencies():
 
 
 # Wizard
-def run_wizard(previous: dict) -> dict:
+def run_wizard(previous: dict, debug_mode: bool = False) -> dict:
     header("Step 1 - Setup")
 
     mode = choose(
@@ -197,14 +204,14 @@ def run_wizard(previous: dict) -> dict:
 
     adb_host, adb_port, adb_retries = "127.0.0.1", 16384, 5
 
-    if mode == "emulator":
+    if mode == TargetPlatform.EMULATOR.value:
         console.print("[dim]MuMu → 16384 | LD/BlueStacks → 5555[/dim]")
         adb_port = IntPrompt.ask("ADB port", default=previous.get("adb_port", 16384))
         adb_retries = IntPrompt.ask(
             "ADB Retries", default=previous.get("adb_retries", 5)
         )
 
-    elif mode == "device":
+    elif mode == TargetPlatform.DEVICE.value:
         console.print("[yellow]Tip: Enable wireless ADB[/yellow]")
         adb_host = ask(
             "Device IP address", default=previous.get("adb_host", "192.168.1.100")
@@ -243,9 +250,11 @@ def run_wizard(previous: dict) -> dict:
         default=previous.get("wait_screen_nav_multiplier", 1.0),
     )
 
-    if mode != "emulator" and mode != "device":
+    # Bugfix: Always initialize capture_interval so it doesn't throw UnboundLocalError
+    capture_interval = previous.get("capture_interval", 0.5)
+    if mode == TargetPlatform.DESKTOP.value:
         capture_interval = FloatPrompt.ask(
-            "Seconds between captures", default=previous.get("capture_interval", 0.5)
+            "Seconds between captures", default=capture_interval
         )
 
     header("Step 4 - Network")
@@ -272,7 +281,10 @@ def run_wizard(previous: dict) -> dict:
 def launch(settings: dict):
     """Launch the scanner with given settings."""
 
-    save_settings(settings)
+    if not settings:
+        error_msg = "There's no saved settings, please set them."
+        console.print(f"[red]\n{error_msg}[/red]")
+        sys.exit(error_msg)
 
     write_screen_config(settings["screens"])
 
@@ -331,8 +343,7 @@ def main():
 
     args = _parse_args()
 
-    global debug_mode
-    debug_mode = args.debug
+    debug_mode = args.debug if args.debug else False
     force_edit = args.edit
 
     previous_settings = load_settings()
@@ -347,21 +358,20 @@ def main():
             console.print(
                 "[dim]Edit mode - previous settings loaded as defaults.[/dim]\n"
             )
-        settings = run_wizard(previous_settings)
+        settings = run_wizard(previous=previous_settings, debug_mode=debug_mode)
         save_settings(settings)
     elif first_launch:
         # No saved settings yet - must run wizard
         console.print("[dim]First launch - let's get you set up.[/dim]\n")
         check_dependencies()
-        settings = run_wizard(previous_settings)
+        settings = run_wizard(previous=previous_settings, debug_mode=debug_mode)
         save_settings(settings)
     else:
         # Saved settings exist and no --edit flag - use them silently
         console.print("[green]Using saved settings.[/green]\n")
         console.print("[dim]Run with -e / --edit to change them.\n")
         settings = previous_settings
-        if debug_mode:
-            settings["debug_mode"] = debug_mode
+        settings["debug_mode"] = debug_mode
 
     launch(settings)
 

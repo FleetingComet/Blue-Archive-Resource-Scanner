@@ -22,6 +22,7 @@ SCREEN_DEFAULTS = {
         "menu_location": "menu_students",
         "grid_type": "Students",
         "uses_menu_tab": False,
+        "skip_if_visited": ["Student"],
     },
     "Student": {
         "menu_location": "first_student",
