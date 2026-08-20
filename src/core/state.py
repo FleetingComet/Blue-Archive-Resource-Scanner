@@ -55,7 +55,7 @@ class ScreenState:
 
     def _init_logging(self):
         self.logger = logging.getLogger("BA-Scanner")
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG if Config.DEBUG else logging.INFO)
 
         # Clear existing handlers to prevent duplicate logs on re-init
         if self.logger.handlers:

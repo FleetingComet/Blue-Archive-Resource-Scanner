@@ -5,12 +5,13 @@ from src.core.area import Region
 
 # 1280x720p
 class SearchPattern(Enum):
-    ITEM_OWNED = Region(480, 510, 100, 40)
-    ITEM_NAME = Region(55 - 5, 480 - 5, 430, 70)
-    # ITEM_NAME = Region(50, 470, 432, 70)  # plus 5 for x (to avoid ')
+    class EQUIPMENT(Enum):
+        NAME = Region(50, 560, 420, 70)
+        OWNED = Region(530, 590, 75, 40)
 
-    EQUIPMENT_OWNED = Region(530, 595, 90, 30)  # plus 5 for y (for ocr to detect it)
-    EQUIPMENT_NAME = Region(60, 560, 420, 80)
+    class ITEM(Enum):
+        NAME = Region(55 - 5, 480 - 5, 430, 70)
+        OWNED = Region(480, 510, 100, 40)
 
     AP = Region(475, 20, 102, 35)  # -10 from true value idk why
     CREDIT = Region(660, 20, 150, 35)  # -10

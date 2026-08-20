@@ -13,9 +13,9 @@ class RapidOcrEngine(OcrEngine):
         self._engine = RapidOCR(
             config_path="./rapidocr/config.yaml",
             # params={
-            #     "Global.use_det": True,
+            #     "Global.use_det": False,
             #     "Global.use_cls": True,
-            #     "Rec.lang_type": LangRec.EN,
+            #     # "Rec.lang_type": LangRec.EN,
             # },
         )
 

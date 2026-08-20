@@ -57,7 +57,7 @@ def match_image_using_directory(
             )
             _, max_value, _, _ = cv2.minMaxLoc(result)
 
-            logger.info(f"Max Value for {reference_path}: {max_value}")
+            logger.debug(f"Max Value for {reference_path}: {max_value}")
 
             # Check if this is the best match so far
             if max_value > current_max_value:
@@ -102,7 +102,7 @@ def find_template_location(
     result = cv2.matchTemplate(input_image, reference_image, cv2.TM_CCOEFF_NORMED)
     _min_val, max_val, _min_loc, max_loc = cv2.minMaxLoc(result)
 
-    logger.info(f"Max Value for {reference_image_path}: {max_val}")
+    logger.debug(f"Max Value for {reference_image_path}: {max_val}")
 
     if max_val >= threshold:
         # Get the dimensions of the template

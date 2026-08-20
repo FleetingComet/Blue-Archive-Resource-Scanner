@@ -1,8 +1,8 @@
 Global:
     text_score: 0.8
 
-    use_det: true
-    use_cls: true
+    use_det: false
+    use_cls: false
     use_rec: true
 
     min_height: 30
