@@ -5,12 +5,13 @@ from src.core.area import Region
 
 # 1280x720p
 class SearchPattern(Enum):
-    ITEM_OWNED = Region(480, 510, 100, 40)
-    ITEM_NAME = Region(55, 480, 430, 70)  # plus 5 for x (to avoid ')
-    # ITEM_NAME = Region(50, 470, 432, 70)  # plus 5 for x (to avoid ')
+    class EQUIPMENT(Enum):
+        NAME = Region(50, 560, 420, 70)
+        OWNED = Region(530, 590, 75, 40)
 
-    EQUIPMENT_OWNED = Region(530, 595, 90, 30)  # plus 5 for y (for ocr to detect it)
-    EQUIPMENT_NAME = Region(60, 560, 420, 80)
+    class ITEM(Enum):
+        NAME = Region(55 - 5, 480 - 5, 430, 70)
+        OWNED = Region(480, 510, 100, 40)
 
     AP = Region(475, 20, 102, 35)  # -10 from true value idk why
     CREDIT = Region(660, 20, 150, 35)  # -10
@@ -27,10 +28,11 @@ class StudentSearchPattern(Enum):
     UNIQUE_EQUIPMENT_STAR_QUANTITY = Region(977, 504, 93, 22)  # Exclusive Weapon
     UNIQUE_EQUIPMENT_LEVEL = Region(775, 450, 61, 21)  # Exclusive Weapon Level
 
-    SKILL_EX = Region(686, 402, 80, 20)
-    SKILL_BASIC = Region(796, 403, 80, 20)
-    SKILL_ENHANCED = Region(901, 403, 80, 20)
-    SKILL_SUB = Region(1008, 402, 79, 22)
+    class SKILL(Enum):
+        EX = Region(670, 400, 85, 20)
+        BASIC = Region(775, 400, 85, 20)
+        ENHANCED = Region(880, 400, 85, 20)
+        SUB = Region(985, 400, 85, 22)
 
     class GEAR_SLOT(Enum):
         """

@@ -25,7 +25,7 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
     """
 
     h, w = image.shape[:2]
-    if h < 50 or w < 50 and mode != ExtractionMode.GEAR:
+    if (h < 50 or w < 50) and mode != ExtractionMode.GEAR:
         image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
     if mode == ExtractionMode.GEAR:
@@ -70,11 +70,9 @@ def preprocess_image_for_ocr(image, mode: ExtractionMode = None):
         return binary
 
     elif mode == ExtractionMode.SKILL_LEVEL:  # Skill Level
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        gray = cv2.convertScaleAbs(gray, alpha=1.3, beta=0)
-        _, binary = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        binary = cv2.resize(binary, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
-        # binary = 255 - binary
+        binary = cv2.resize(gray, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+        binary = cv2.convertScaleAbs(binary, alpha=1.3, beta=0)
+        _, binary = cv2.threshold(binary, 128, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         return binary
 
     elif mode in [ExtractionMode.LEVEL, ExtractionMode.NUMBER]:  # Level or Number

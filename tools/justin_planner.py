@@ -29,6 +29,12 @@ class JustinPlannerProcessor:
         self.input_file = Config.justin_planner_data
         self.output_file = Config.justin_planner_merged_output
 
+        # Map internal scanner IDs to one allowed IDs (e.g. Hoshino (Armed) Tank and Dealer)
+        self.SITE_ID_MAP = {
+            "10099": "10098",  # Hoshino (Armed): Dealer to Tank
+            "10144": "10143",  # Shunling (Swimsuit) (T_T) to Shun (Swimsuit)
+        }
+
         self.CATEGORY_NAME_MAP = {
             "WeaponExpGrowthA": "Spring",
             "WeaponExpGrowthB": "Hammer",
@@ -208,8 +214,11 @@ class JustinPlannerProcessor:
         scanned_characters = students_raw.get("characters", [])
 
         for char in scanned_characters:
-            char_id = str(char.get("id", ""))
+            original_id = str(char.get("id", ""))
             name = char.get("name", "")
+
+            # Translate scanner ID to allowed ID
+            char_id = self.SITE_ID_MAP.get(original_id, original_id)
 
             # Look up StarGrade and hasBondGear metadata from students_processed.json
             meta = student_map.get(char_id, {})
@@ -273,7 +282,7 @@ def main():
         "-o",
         "--online",
         action="store_true",
-        help="Download latest data online before processing.",
+        help="Download the latest community-maintained data before processing.",
     )
     args = parser.parse_args()
 

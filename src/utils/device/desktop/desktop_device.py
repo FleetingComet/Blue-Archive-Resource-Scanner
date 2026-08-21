@@ -1,8 +1,11 @@
 import pyautogui
+
 from src.utils.device.interfaces import DeviceController
+
 from .window_manager import WindowManager
 
 pyautogui.FAILSAFE = True
+
 
 class DesktopDevice(DeviceController):
     def __init__(self, window_name="Blue Archive"):

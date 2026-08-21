@@ -128,13 +128,15 @@ EngineConfig:
 Det:
     engine_type: "onnxruntime"
     lang_type: "en"
-    model_type: "mobile"
-    ocr_version: "PP-OCRv4"
+    model_type: "small"
+    # ocr_version: "PP-OCRv4"
+    ocr_version: "PP-OCRv6"
 
     task_type: "det"
 
-    model_path: "./rapidocr/models/en_PP-OCRv3_det_mobile.onnx"
-    model_dir: null
+    # model_path: "./rapidocr/models/en_PP-OCRv3_det_mobile.onnx"
+    model_path: "./rapidocr/models/PP-OCRv6_det_small.onnx"
+    # model_dir: null
 
     limit_side_len: 736
     limit_type: min
@@ -152,12 +154,13 @@ Cls:
     engine_type: "onnxruntime"
     lang_type: "ch"
     model_type: "mobile"
-    ocr_version: "PP-OCRv4"
+    ocr_version: "PP-OCRv5"
 
     task_type: "cls"
 
-    model_path: "./rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx"
-    model_dir: null
+    # model_path: "./rapidocr/models/ch_ppocr_mobile_v2.0_cls_mobile.onnx"
+    model_path: "./rapidocr/models/ch_PP-LCNet_x0_25_textline_ori_cls_mobile.onnx"
+    # model_dir: null
 
     cls_image_shape: [3, 48, 192]
     cls_batch_num: 6
@@ -167,13 +170,14 @@ Cls:
 Rec:
     engine_type: "onnxruntime"
     lang_type: "en"
-    model_type: "mobile"
-    ocr_version: "PP-OCRv4"
+    model_type: "small"
+    ocr_version: "PP-OCRv6"
 
     task_type: "rec"
 
-    model_path: "./rapidocr/models/en_PP-OCRv4_rec_mobile.onnx"
-    model_dir: null
+    # model_path: "./rapidocr/models/en_PP-OCRv4_rec_mobile.onnx"
+    model_path: "./rapidocr/models/PP-OCRv6_rec_small.onnx"
+    # model_dir: null
 
     rec_keys_path: null
     rec_img_shape: [3, 48, 320]

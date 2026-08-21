@@ -12,6 +12,10 @@ class TargetPlatform(str, Enum):
     DESKTOP = "desktop"
 
 
+class OCREngine(str, Enum):
+    RAPIDOCR = "rapidocr"
+
+
 class AppSettings(BaseModel):
     """User-adjustable settings saved in config/settings.json"""
 
@@ -34,6 +38,7 @@ class ConfigManager:
     """The project's source of truth for paths and settings."""
 
     def __init__(self):
+        self.OCR_ENGINE = "rapidocr"  # for future
         self.PROJECT_ROOT = self._locate_root()
 
         # Directory Structure
@@ -90,7 +95,7 @@ class ConfigManager:
         if data:
             try:
                 return AppSettings(**data)
-            except Exception:
+            except Exception:  # noqa: BLE001, S110
                 pass
         return AppSettings()
 

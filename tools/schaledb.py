@@ -26,6 +26,14 @@ class SchaleDBExporter:
         self.input_file = Config.final_students
         self.output_file = Config.OUTPUT_DIR / output_filename
 
+        # SchaleDB requires both IDs to update both modes/styles (e.g. Hoshino (Armed) Tank and Dealer)
+        self.DUAL_ID_MAP = {
+            "10098": "10099",  # Hoshino (Armed) Tank
+            "10099": "10098",  # Hoshino (Armed) Dealer
+            "10143": "10144",  # Shun (Swimsuit)
+            "10144": "10143",  # Shunling (Swimsuit) (T_T)
+        }
+
     def _safe_int(self, value: Any, default: int = 0) -> int:
         """Safely parses string/int values to integer."""
         try:
@@ -74,7 +82,14 @@ class SchaleDBExporter:
                 continue
 
             current_stats = char.get("current", {})
-            output_data[char_id] = self.transform_character(current_stats, lock=lock)
+            transformed_stats = self.transform_character(current_stats, lock=lock)
+
+            output_data[char_id] = transformed_stats
+
+            # Check if we need to inject the paired ID for dual-mode/style characters
+            paired_id = self.DUAL_ID_MAP.get(char_id)
+            if paired_id and paired_id not in output_data:
+                output_data[paired_id] = transformed_stats
 
         # Serialize dict to JSON string -> encode bytes -> Base64 string
         json_str = json.dumps(output_data, ensure_ascii=False)
@@ -108,9 +123,8 @@ def main():
         "-o",
         "--online",
         action="store_true",
-        help="Download latest data online before processing.",
+        help="Download the latest community-maintained data before processing.",
     )
-
     args = parser.parse_args()
 
     if args.online:

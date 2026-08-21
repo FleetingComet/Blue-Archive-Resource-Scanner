@@ -18,7 +18,9 @@ from tenacity import retry, stop_after_attempt, wait_fixed
 
 from src.core.config import Config
 from src.core.navigator import ScreenNavigator
-from src.services.scanner import get_currencies, get_student_info, startMatching
+from src.services.scanners.currencies import get_currencies
+from src.services.scanners.grids import item_grid
+from src.services.scanners.students import get_student_info
 from src.utils.data.io import read_json
 from src.utils.log.plain_text_formatter import PlainTextFormatter
 
@@ -53,7 +55,7 @@ class ScreenState:
 
     def _init_logging(self):
         self.logger = logging.getLogger("BA-Scanner")
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG if Config.DEBUG else logging.INFO)
 
         # Clear existing handlers to prevent duplicate logs on re-init
         if self.logger.handlers:
@@ -129,6 +131,10 @@ class ScreenState:
                 f"Verification failed: Expected {self.target_screen}, got {detected}"
             )
 
+    def _is_skipped(self, screen_name: str) -> bool:
+        deps = self.config[screen_name].get("skip_if_visited", [])
+        return any(d in self.visited for d in deps)
+
     def _execute_process(self, screen_name: str, cfg: dict):
         """Triggers the actual OCR work."""
 
@@ -138,15 +144,15 @@ class ScreenState:
             get_currencies(self.navigator.device)
 
         if screen_name in ("Equipment", "Items"):
-            startMatching(
+            item_grid(
                 self.navigator.device,
                 grid_type=cfg["grid_type"],
-                grid_config=cfg["grid_config"],
             )
 
         elif screen_name == "Students":
             # Tap first student to enter detail view
             self.logger.info("Reached Students list, entering individual stat page...")
+            self.visited.add(screen_name)
 
         elif screen_name == "Student":
             get_student_info(self.navigator.device)
@@ -184,7 +190,12 @@ class ScreenState:
         if state == NavState.CHECKING_CONTEXT:
             # Find next unvisited screen
             self.target_screen = next(
-                (s for s in self.config if s not in self.visited), None
+                (
+                    s
+                    for s in self.config
+                    if s not in self.visited and not self._is_skipped(s)
+                ),
+                None,
             )
             if not self.target_screen:
                 return NavState.COMPLETED

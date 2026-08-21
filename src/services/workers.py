@@ -1,7 +1,6 @@
-from pathlib import Path
 from typing import TypedDict
 
-import cv2
+import numpy as np
 
 from locations.search import StudentSearchPattern
 from src.enums.ExtractionMode import ExtractionMode
@@ -17,21 +16,19 @@ class ItemResult(TypedDict):
     count: str | None
 
 
-def item_ocr_worker(img_path: Path, grid_type: str) -> ItemResult:
+def item_ocr_worker(image: np.ndarray, grid_type: str) -> ItemResult:
     """Worker for Equipment/Items"""
-    img = cv2.imread(str(img_path))
-    if img is None:
+    if image is None:
         return None
 
     return {
-        "name": extract_item_name(img, grid_type),
-        "count": extract_owned_count(img, grid_type),
+        "name": extract_item_name(image, grid_type),
+        "count": extract_owned_count(image, grid_type),
     }
 
 
-def student_ocr_worker(img_path: Path):
+def student_ocr_worker(image: np.ndarray):
     """Runs full student OCR on a single saved screenshot."""
-    image = cv2.imread(str(img_path))
     if image is None:
         return None
 
@@ -88,22 +85,22 @@ def student_ocr_worker(img_path: Path):
         ),
         "Skill EX": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_EX.value,
+            StudentSearchPattern.SKILL.EX.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Basic": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_BASIC.value,
+            StudentSearchPattern.SKILL.BASIC.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Enhanced": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_ENHANCED.value,
+            StudentSearchPattern.SKILL.ENHANCED.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Skill Sub": extract_from_region(
             image,
-            StudentSearchPattern.SKILL_SUB.value,
+            StudentSearchPattern.SKILL.SUB.value,
             mode=ExtractionMode.SKILL_LEVEL,
         ),
         "Talent_ATK": extract_from_region(

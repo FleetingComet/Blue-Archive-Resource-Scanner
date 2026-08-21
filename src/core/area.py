@@ -133,6 +133,9 @@ class Region:
     def bottom(self):
         return self.y + self.height
 
+    def __iter__(self):
+        return iter((self.x, self.y, self.width, self.height))
+
     # this function is for game area which is Soon™
     # @property
     # def xFromCenter(self) -> Location:
@@ -164,7 +167,7 @@ class Region:
             round(self.height * scale),
         )
 
-    def __contains__(self, region):
+    def __contains__(self, region: "Region"):
         return (
             self.x <= region.x
             and self.y <= region.y
