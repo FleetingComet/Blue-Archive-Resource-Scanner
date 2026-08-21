@@ -224,7 +224,7 @@ def main():
         "-o",
         "--online",
         action="store_true",
-        help="Download latest data online before processing.",
+        help="Download the latest community-maintained data before processing.",
     )
     args = parser.parse_args()
 

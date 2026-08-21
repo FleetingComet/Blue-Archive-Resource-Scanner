@@ -259,7 +259,7 @@ def run_wizard(previous: dict, debug_mode: bool = False) -> dict:
 
     header("Step 4 - Network")
     enable_sync = Confirm.ask(
-        "Enable online data sync? (Download latest item/student data)",
+        "Enable online data sync? (Download the latest community-maintained data.)",
         default=previous.get("enable_sync", False),
     )
 
