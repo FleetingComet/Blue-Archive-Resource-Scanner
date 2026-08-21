@@ -45,6 +45,12 @@ class MidokuniRosterExporter:
         self.input_file = Config.final_students
         self.output_file = Config.OUTPUT_DIR / output_filename
 
+        # Map internal scanner IDs to valid IDs
+        self.SITE_ID_MAP = {
+            "10099": "10098",  # Hoshino (Armed): Dealer to Tank
+            "10144": "10143",  # Shunling (Swimsuit) (T_T) to Shun (Swimsuit)
+        }
+
     def to_base66(self, n: int) -> str:
         """Encodes a non-negative integer into a Base66 string."""
         if n == 0:
@@ -186,6 +192,7 @@ class MidokuniRosterExporter:
         for char in characters:
             char_id = str(char.get("id", ""))
             if char_id and char_id != "N/A":
+                char_id = self.SITE_ID_MAP.get(char_id, char_id)
                 student_states[char_id] = target_state.value
 
         roster_params = self.build_roster_params(student_states)
