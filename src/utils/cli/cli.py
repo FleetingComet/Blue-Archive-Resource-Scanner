@@ -1,6 +1,6 @@
 from rich.console import Console, Group
 from rich.panel import Panel
-from rich.prompt import Prompt
+from rich.prompt import IntPrompt, Prompt
 from rich.table import Table
 from rich.text import Text
 
@@ -37,18 +37,24 @@ def choose(prompt: str, options: list, default: str = "") -> str:
 
     for i, (key, label) in enumerate(options, 1):
         marker = "▶ " if key == default else "  "
+        style = "bold cyan" if key == default else "white"
         if key == default:
             default_index = i
-        table.add_row(f"{i}", f"{marker}{label}")
+
+        table.add_row(f"{i}", f"[{style}]{marker}{label}[/{style}]")
 
     console.print(table)
 
+    if default:
+        console.print(f"[dim]Default: {default}[/dim]")
+
     while True:
-        raw = Prompt.ask("Enter number", default=str(default_index))
-        if raw.isdigit():
-            idx = int(raw)
-            if 1 <= idx <= len(options):
-                return options[idx - 1][0]
+        # raw = Prompt.ask("Enter number", default=str(default_index)).strip()
+        raw = IntPrompt.ask("Enter number", default=default_index)
+        # if raw.isdigit():
+        idx = int(raw)
+        if 1 <= idx <= len(options):
+            return options[idx - 1][0]
 
         console.print(f"[red]Choose between 1 and {len(options)}[/red]")
 
