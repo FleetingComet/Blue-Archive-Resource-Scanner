@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from src.core.config import Config
+from src.core.config import Path_Config
 from src.utils.data.base import BaseProcessor
 from src.utils.data.shapes import Equipment
 
@@ -8,9 +8,9 @@ from src.utils.data.shapes import Equipment
 class EquipmentProcessor(BaseProcessor):
     def __init__(self):
         self.dataclass = Equipment
-        self.processed_file = Config.equipment_processed
-        self.owned_file = Config.scanned_counts
-        self.output_file = Config.final_equipment
+        self.processed_file = Path_Config.equipment_processed
+        self.owned_file = Path_Config.scanned_counts
+        self.output_file = Path_Config.final_equipment
 
     def map_data(self, equipment_list: list[Equipment], name_map: dict) -> dict:
         grouped = defaultdict(dict)

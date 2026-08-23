@@ -10,7 +10,7 @@ from typing import Any
 
 from rich.console import Console
 
-from src.core.config import Config
+from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_text
 from src.utils.sync.data_sync_manager import DataSyncManager
 
@@ -23,8 +23,8 @@ class SchaleDBExporter:
     """
 
     def __init__(self, output_filename: str = "SchaleDB_import.txt"):
-        self.input_file = Config.final_students
-        self.output_file = Config.OUTPUT_DIR / output_filename
+        self.input_file = Path_Config.final_students
+        self.output_file = Path_Config.OUTPUT_DIR / output_filename
 
         # SchaleDB requires both IDs to update both modes/styles (e.g. Hoshino (Armed) Tank and Dealer)
         self.DUAL_ID_MAP = {

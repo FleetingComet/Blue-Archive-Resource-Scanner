@@ -2,7 +2,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+from rich.console import Console
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
+
 PathLike = str | Path
+console = Console()
 
 
 def _to_path(path: PathLike) -> Path:
@@ -19,16 +23,24 @@ def read_json(path: PathLike) -> dict:
     try:
         with open(p, "r", encoding="utf-8") as f:
             return json.load(f)
-    except (json.JSONDecodeError, UnicodeDecodeError, OSError):
+    except (json.JSONDecodeError, UnicodeDecodeError, OSError) as e:
+        console.print(f"Corrupt or unreadable JSON at {p}: {e}")
         return {}
 
 
+@retry(
+    retry=retry_if_exception_type((PermissionError, OSError)),
+    stop=stop_after_attempt(3),
+    wait=wait_fixed(0.2),
+)
 def write_json(path: PathLike, data: Any) -> None:
     """Writes data to a JSON file, creating parent directories if needed."""
     p = _to_path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
-    with open(p, "w", encoding="utf-8") as f:
+    tmp = p.with_suffix(p.suffix + ".tmp")
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+    tmp.replace(p)
 
 
 def write_text(path: PathLike, data: str) -> None:

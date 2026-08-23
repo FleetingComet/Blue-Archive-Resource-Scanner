@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 
 from src.core.area import Region
-from src.core.config import Config
+from src.core.config import Config, Path_Config
 from src.services.workers import item_ocr_worker
 from src.utils.data.io import read_json, write_json
 from src.utils.device.interfaces import DeviceController
@@ -94,7 +94,7 @@ def item_grid(
 
             # Tap -> minimal wait -> capture -> save
             device.tap(int(point.x), int(point.y))
-            time.sleep(0.3 * Config.WAIT_TIME_MULTIPLIER)
+            time.sleep(0.3 * Config.settings.wait_multiplier)
             detail_img = device.capture_screenshot()
 
             if detail_img is None:
@@ -111,18 +111,18 @@ def item_grid(
         # Swipe
         if not swipe_with_verification(device=device, grid_region=grid_region):
             break
-        time.sleep(1.5 * Config.WAIT_TIME_MULTIPLIER)
+        time.sleep(1.5 * Config.settings.wait_multiplier)
 
     results = process_ocr_results(captured_images, grid_type, ocr_workers)
 
     if results:
         logger.info(
-            f"Found {len(results)} unique items. Writing to {Config.scanned_counts}..."
+            f"Found {len(results)} unique items. Writing to {Path_Config.scanned_counts}..."
         )
 
-        existing = read_json(Config.scanned_counts)
+        existing = read_json(Path_Config.scanned_counts)
         existing.update(results)
-        write_json(Config.scanned_counts, existing)
+        write_json(Path_Config.scanned_counts, existing)
 
     return True
 

@@ -1,7 +1,7 @@
 import logging
 
 from locations.search import SearchPattern
-from src.core.config import Config
+from src.core.config import Path_Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.utils.data.io import update_count
 from src.utils.device.interfaces import DeviceController
@@ -17,7 +17,7 @@ def get_currencies(device: DeviceController) -> bool:
         return False
 
     currencies = [SearchPattern.AP, SearchPattern.CREDIT, SearchPattern.PYROXENE]
-    owned_currencies_file = Config.scanned_currencies
+    owned_currencies_file = Path_Config.scanned_currencies
 
     for currency in currencies:
         how_many = extract_from_region(

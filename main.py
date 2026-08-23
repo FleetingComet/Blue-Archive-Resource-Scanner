@@ -2,7 +2,7 @@ import argparse
 import logging
 import sys
 
-from src.core.config import Config
+from src.core.config import Config, Path_Config
 from src.core.navigator import ScreenNavigator
 from src.core.state import ScreenState
 from src.utils.data.equipment import EquipmentProcessor
@@ -42,7 +42,7 @@ def main():
     )
     args = parser.parse_args()
 
-    Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    Path_Config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # Sync Data
     # Sync if CLI is NOT offline AND settings say Enable Sync is True
@@ -55,7 +55,7 @@ def main():
     # Create device controller based on platform
     device = create_device(Config.settings)
 
-    if not device.connect(Config.ADB_RETRIES):
+    if not device.connect(Config.settings.adb_retries):
         logger.error("❌ Failed to connect to ADB.")
         sys.exit(1)
 

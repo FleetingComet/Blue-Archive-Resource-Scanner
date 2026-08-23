@@ -1,4 +1,4 @@
-from src.core.config import Config
+from src.core.config import Path_Config
 from src.utils.data.base import BaseProcessor
 from src.utils.data.shapes import Student
 from src.utils.data.text_matcher import find_closest
@@ -7,9 +7,9 @@ from src.utils.data.text_matcher import find_closest
 class StudentProcessor(BaseProcessor):
     def __init__(self):
         self.dataclass = Student
-        self.processed_file = Config.students_processed
-        self.owned_file = Config.scanned_students
-        self.output_file = Config.final_students
+        self.processed_file = Path_Config.students_processed
+        self.owned_file = Path_Config.scanned_students
+        self.output_file = Path_Config.final_students
 
     def _get_student_id(
         self, name: str, name_to_id: dict[str, str], threshold=0.8

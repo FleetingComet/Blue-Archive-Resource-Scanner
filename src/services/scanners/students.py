@@ -7,7 +7,7 @@ from rich.markup import escape
 
 from locations import screens
 from locations.search import StudentSearchPattern
-from src.core.config import Config
+from src.core.config import Config, Path_Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.services.workers import student_ocr_worker
 from src.utils.data.io import write_json
@@ -55,9 +55,9 @@ def get_student_info(
             int(screens.StudentInfo.BUTTONS.NEXT.x),
             int(screens.StudentInfo.BUTTONS.NEXT.y),
         )
-        time.sleep(0.5 * Config.WAIT_TIME_MULTIPLIER)
+        time.sleep(0.5 * Config.settings.wait_multiplier)
 
-        if Config.DEBUG and iteration >= 2:
+        if Config.settings.debug and iteration >= 2:
             break
 
     results = process_ocr_results(captured_images, ocr_workers)
@@ -78,12 +78,12 @@ def get_student_info(
             # Duplicate hit after loop boundary (rare OCR edge case)
             break
 
-    write_json(Config.scanned_students, final_data)
+    write_json(Path_Config.scanned_students, final_data)
     logger.info(
         f"[bold yellow]Saved[/bold yellow] "
         f"{len(final_data['characters'])} students → \n"
-        f":open_file_folder: [link {Config.scanned_students}]"
-        f"{escape(str(Config.scanned_students.as_uri()))}"
+        f":open_file_folder: [link {Path_Config.scanned_students}]"
+        f"{escape(str(Path_Config.scanned_students.as_uri()))}"
     )
     return True
 

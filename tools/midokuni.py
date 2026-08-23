@@ -8,7 +8,7 @@ from urllib.parse import urlencode
 
 from rich.console import Console
 
-from src.core.config import Config
+from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_json
 from src.utils.sync.data_sync_manager import DataSyncManager
 
@@ -42,8 +42,8 @@ class MidokuniRosterExporter:
             None: State.SELECTED,
         }
 
-        self.input_file = Config.final_students
-        self.output_file = Config.OUTPUT_DIR / output_filename
+        self.input_file = Path_Config.final_students
+        self.output_file = Path_Config.OUTPUT_DIR / output_filename
 
         # Map internal scanner IDs to valid IDs
         self.SITE_ID_MAP = {

@@ -8,7 +8,7 @@ from typing import Any
 
 from rich.console import Console
 
-from src.core.config import Config
+from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_json
 from src.utils.sync.data_sync_manager import DataSyncManager
 
@@ -22,12 +22,12 @@ class JustinPlannerProcessor:
     """
 
     def __init__(self):
-        self.equipment_file = Config.final_equipment
-        self.items_file = Config.final_items
-        self.students_file = Config.final_students
-        self.processed_students_file = Config.students_processed
-        self.input_file = Config.justin_planner_data
-        self.output_file = Config.justin_planner_merged_output
+        self.equipment_file = Path_Config.final_equipment
+        self.items_file = Path_Config.final_items
+        self.students_file = Path_Config.final_students
+        self.processed_students_file = Path_Config.students_processed
+        self.input_file = Path_Config.justin_planner_data
+        self.output_file = Path_Config.justin_planner_merged_output
 
         # Map internal scanner IDs to one allowed IDs (e.g. Hoshino (Armed) Tank and Dealer)
         self.SITE_ID_MAP = {

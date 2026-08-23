@@ -94,7 +94,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     if mode == ExtractionMode.SKILL_LEVEL and find_closest(text.upper(), ["MAX"]):
         return "MAX"
 
-    if Config.DEBUG:
+    if Config.settings.debug:
         cv2.destroyAllWindows()
 
     return (
@@ -200,7 +200,7 @@ def extract_multiline_text(processed_img: np.ndarray):
 
     line_bounds = split_text_lines(processed_img)
 
-    if Config.DEBUG:
+    if Config.settings.debug:
         debug_img = cv2.resize(
             processed_img,
             None,
@@ -226,7 +226,7 @@ def extract_multiline_text(processed_img: np.ndarray):
 
         band = processed_img[y1:y2, :]
 
-        if Config.DEBUG:
+        if Config.settings.debug:
             logger.debug(f"OCR band: y={y1}:{y2}, shape={band.shape}")
 
             debug_band = cv2.resize(

@@ -2,8 +2,11 @@ from enum import Enum
 from pathlib import Path
 
 from pydantic import BaseModel
+from rich.console import Console
 
 from src.utils.data.io import read_json, write_json
+
+console = Console()
 
 
 class TargetPlatform(str, Enum):
@@ -26,19 +29,17 @@ class AppSettings(BaseModel):
 
     wait_multiplier: float = 1.0
     wait_screen_nav_multiplier: float = 2.0
-    capture_interval: float = 0.5  # seconds between captures
 
     enable_sync: bool = False
     target_platform: TargetPlatform = TargetPlatform.EMULATOR
 
-    debug_mode: bool = False
+    debug: bool = False
 
 
-class ConfigManager:
-    """The project's source of truth for paths and settings."""
+class PathConfig:
+    """The project's source of truth for paths."""
 
     def __init__(self):
-        self.OCR_ENGINE = "rapidocr"  # for future
         self.PROJECT_ROOT = self._locate_root()
 
         # Directory Structure
@@ -66,14 +67,7 @@ class ConfigManager:
         self.justin_planner_data = self.INPUT_DIR / "justin_data.json"
         self.justin_planner_merged_output = self.OUTPUT_DIR / "justin_data_final.json"
 
-        self.settings: AppSettings = self.load_settings()
-        # Map settings to class attributes for backward compatibility with utils
-        self.WAIT_TIME_MULTIPLIER = self.settings.wait_multiplier
-        self.WAIT_TIME_SCREEN_NAV_MULTIPLIER = self.settings.wait_screen_nav_multiplier
-        self.ADB_RETRIES = self.settings.adb_retries
-        self.DEBUG = self.settings.debug_mode
-
-        self._ensure_directories()
+        self.SETTINGS_FILE = self.CONFIG_DIR / "settings.json"
 
     def _locate_root(self) -> Path:
         path = Path(__file__).resolve()
@@ -83,27 +77,51 @@ class ConfigManager:
             path = path.parent
         return path
 
-    def _ensure_directories(self):
+    def ensure_directories(self):
         """Create required folders (logic folders that might stay empty for a while)."""
         for folder in [self.OUTPUT_DIR, self.CONFIG_DIR, self.LOGS_DIR, self.OWNED_DIR]:
             folder.mkdir(parents=True, exist_ok=True)
 
-    def load_settings(self) -> AppSettings:
-        path = Path(self.CONFIG_DIR / "settings.json")
 
-        data = read_json(path)
-        if data:
-            try:
-                return AppSettings(**data)
-            except Exception:  # noqa: BLE001, S110
-                pass
-        return AppSettings()
+Path_Config = PathConfig()
 
-    def save_settings(self, settings: AppSettings):
+
+class ConfigManager:
+    """The project's source of truth for settings."""
+
+    _instance = None
+
+    @classmethod
+    def get(cls) -> "ConfigManager":
+        if cls._instance is None:
+            cls._instance = cls(path_config=Path_Config)
+        return cls._instance
+
+    def __init__(self, path_config: PathConfig):
+        self._path_config = path_config
+        self.settings: AppSettings = self.load()
+        self.OCR_ENGINE = OCREngine.RAPIDOCR.value  # for future
+
+    def load(self) -> AppSettings:
+        try:
+            data = read_json(self._path_config.SETTINGS_FILE)
+        except ValueError as e:
+            console.print(f"[yellow]{e} — using defaults[/yellow]")
+            return AppSettings()
+
+        if not data:
+            return AppSettings()
+
+        try:
+            return AppSettings(**data)
+        except Exception as e:  # noqa: BLE001
+            console.print(f"[yellow]Invalid settings ({e}) — using defaults[/yellow]")
+            return AppSettings()
+
+    def save(self, settings: AppSettings):
         self.settings = settings
-        path = self.CONFIG_DIR / "settings.json"
-        write_json(path, settings.model_dump())
+        write_json(self._path_config.SETTINGS_FILE, self.settings.model_dump())
 
 
 # Global instance
-Config = ConfigManager()
+Config = ConfigManager.get()

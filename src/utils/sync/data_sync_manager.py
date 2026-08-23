@@ -5,7 +5,7 @@ import requests
 from rich.console import Console
 from tenacity import Retrying, stop_after_attempt, wait_fixed
 
-from src.core.config import Config
+from src.core.config import Config, Path_Config
 from src.utils.data.io import read_json, write_json
 
 console = Console()
@@ -29,9 +29,9 @@ class DataSyncManager:
         }
 
         self.local_paths: dict[str, Path] = {
-            "equipment": Config.equipment_processed,
-            "items": Config.items_processed,
-            "students": Config.students_processed,
+            "equipment": Path_Config.equipment_processed,
+            "items": Path_Config.items_processed,
+            "students": Path_Config.students_processed,
         }
         self.retries: int = Config.settings.adb_retries
         self.retry_backoff: float = 1.0

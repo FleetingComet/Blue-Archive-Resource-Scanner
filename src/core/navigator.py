@@ -49,9 +49,9 @@ class ScreenNavigator:
 
     def _wait(self, seconds: float, nav: bool = False):
         """Standardized wait logic using Config multipliers."""
-        mult = Config.WAIT_TIME_MULTIPLIER
+        mult = Config.settings.wait_multiplier
         if nav:
-            mult *= Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+            mult *= Config.settings.wait_screen_nav_multiplier
         time.sleep(seconds * mult)
 
     def identify_screen(self) -> str:

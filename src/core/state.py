@@ -16,7 +16,7 @@ from rich.progress import (
 )
 from tenacity import retry, stop_after_attempt, wait_fixed
 
-from src.core.config import Config
+from src.core.config import Config, Path_Config
 from src.core.navigator import ScreenNavigator
 from src.services.scanners.currencies import get_currencies
 from src.services.scanners.grids import item_grid
@@ -55,7 +55,7 @@ class ScreenState:
 
     def _init_logging(self):
         self.logger = logging.getLogger("BA-Scanner")
-        self.logger.setLevel(logging.DEBUG if Config.DEBUG else logging.INFO)
+        self.logger.setLevel(logging.DEBUG if Config.settings.debug else logging.INFO)
 
         # Clear existing handlers to prevent duplicate logs on re-init
         if self.logger.handlers:
@@ -72,7 +72,7 @@ class ScreenState:
         rich_handler.setFormatter(logging.Formatter("%(message)s"))
 
         log_path = (
-            Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"  # noqa: DTZ011
+            Path_Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"  # noqa: DTZ011
         )  # I don't need timezone aware date because it lives in your local filesystem
         file_handler = logging.FileHandler(log_path, encoding="utf-8")
 
@@ -118,7 +118,7 @@ class ScreenState:
             cfg["menu_location"], cfg["uses_menu_tab"]
         )
         time.sleep(
-            2 * Config.WAIT_TIME_MULTIPLIER * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+            2 * Config.settings.wait_multiplier * Config.settings.wait_screen_nav_multiplier
         )
         if not res.success:
             self.navigator.ensure_at_home()  # Go home on failure
@@ -239,8 +239,8 @@ class ScreenState:
                     self.navigator.ensure_menu_state(should_open=False)
                     time.sleep(
                         2
-                        * Config.WAIT_TIME_MULTIPLIER
-                        * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+                        * Config.settings.wait_multiplier
+                        * Config.settings.wait_screen_nav_multiplier
                     )
 
                 if self.target_screen != "Currencies":
@@ -277,8 +277,8 @@ class ScreenState:
                 self.navigator.navigate_to_target("first_student", in_menu_tab=False)
                 time.sleep(
                     2
-                    * Config.WAIT_TIME_MULTIPLIER
-                    * Config.WAIT_TIME_SCREEN_NAV_MULTIPLIER
+                    * Config.settings.wait_multiplier
+                    * Config.settings.wait_screen_nav_multiplier
                 )
 
             else:
