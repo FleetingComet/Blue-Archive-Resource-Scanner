@@ -23,6 +23,7 @@ from src.services.scanners.grids import item_grid
 from src.services.scanners.students import get_student_info
 from src.utils.data.io import read_json
 from src.utils.log.plain_text_formatter import PlainTextFormatter
+from src.utils.wait_utils import wait
 
 
 class NavState(Enum):
@@ -72,7 +73,8 @@ class ScreenState:
         rich_handler.setFormatter(logging.Formatter("%(message)s"))
 
         log_path = (
-            Path_Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"  # noqa: DTZ011
+            Path_Config.LOGS_DIR
+            / f"{datetime.date.today()}_scanner.log"  # noqa: DTZ011
         )  # I don't need timezone aware date because it lives in your local filesystem
         file_handler = logging.FileHandler(log_path, encoding="utf-8")
 
@@ -117,9 +119,7 @@ class ScreenState:
         res = self.navigator.navigate_to_target(
             cfg["menu_location"], cfg["uses_menu_tab"]
         )
-        time.sleep(
-            2 * Config.settings.wait_multiplier * Config.settings.wait_screen_nav_multiplier
-        )
+        wait(2, nav=True)
         if not res.success:
             self.navigator.ensure_at_home()  # Go home on failure
             raise RuntimeError(f"Navigation to {self.target_screen} failed")
@@ -137,7 +137,9 @@ class ScreenState:
 
     def _execute_process(self, screen_name: str, cfg: dict):
         """Triggers the actual OCR work."""
-
+        self.logger.debug(
+            f"[dim]_execute_process: screen={screen_name}, cfg={cfg}[/dim]"
+        )
         self.logger.info(f"[bold yellow]Scanning[/bold yellow] {screen_name}...")
 
         if screen_name in ["Currencies"]:
@@ -163,6 +165,7 @@ class ScreenState:
         """
 
         state = self.current_state
+        self.logger.debug(f"[dim]_transition: entering state={state.name}[/dim]")
 
         if state == NavState.INIT:
             progress.update(
@@ -237,11 +240,7 @@ class ScreenState:
                     )
                     self.navigator.ensure_at_home()
                     self.navigator.ensure_menu_state(should_open=False)
-                    time.sleep(
-                        2
-                        * Config.settings.wait_multiplier
-                        * Config.settings.wait_screen_nav_multiplier
-                    )
+                    wait(2, nav=True)
 
                 if self.target_screen != "Currencies":
                     progress.update(
@@ -275,11 +274,7 @@ class ScreenState:
                     "[bold blue]Reached Students List.[/bold blue] Entering detail view..."
                 )
                 self.navigator.navigate_to_target("first_student", in_menu_tab=False)
-                time.sleep(
-                    2
-                    * Config.settings.wait_multiplier
-                    * Config.settings.wait_screen_nav_multiplier
-                )
+                wait(2, nav=True)
 
             else:
                 self._execute_process(self.target_screen, cfg)

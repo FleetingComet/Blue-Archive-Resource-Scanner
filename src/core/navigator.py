@@ -1,18 +1,17 @@
 import logging
-import time
 from dataclasses import dataclass
 from pathlib import Path
 
 from locations.entrypoint import EntryPointButtons, EntryPointTitles
 from locations.screens import Home, Page, StudentList
 from src.core.area import Region
-from src.core.config import Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.utils.data.text_matcher import find_closest
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.matchers import find_template_location
 from src.utils.ocr.ocr_helper import extract_text
 from src.utils.ocr.preprocessor import preprocess_image_for_ocr
+from src.utils.wait_utils import wait, wait_until
 
 logger = logging.getLogger("BA-Scanner")
 
@@ -47,18 +46,11 @@ class ScreenNavigator:
         """Get screenshot from DeviceController"""
         return self.device.capture_screenshot()
 
-    def _wait(self, seconds: float, nav: bool = False):
-        """Standardized wait logic using Config multipliers."""
-        mult = Config.settings.wait_multiplier
-        if nav:
-            mult *= Config.settings.wait_screen_nav_multiplier
-        time.sleep(seconds * mult)
-
     def identify_screen(self) -> str:
         """
         Returns the detected title string (fuzzy matched) or an empty string if not found.
         """
-        self._wait(0.5, nav=True)
+        wait(0.5, nav=True)
         image = self._get_screenshot()
 
         if image is None:
@@ -77,8 +69,11 @@ class ScreenNavigator:
 
         text = extract_text(preprocessed).replace("\r", "").replace("\n", " ")
         text = text.split()[0] if text.split() else ""
-
-        return find_closest(text, self.KNOWN_SCREENS)
+        detected = find_closest(text, self.KNOWN_SCREENS)
+        logger.debug(
+            f"[dim]identify_screen: raw={text!r} -> matched={detected!r}[/dim]"
+        )
+        return detected
 
     def _check_asset_in_region(
         self, region: Region, asset_name: str, threshold: float
@@ -119,13 +114,18 @@ class ScreenNavigator:
 
         max_attempts = 10
 
-        for _ in range(max_attempts):
+        for attempt in range(max_attempts):
             self.device.tap(int(button.random_point().x), int(button.random_point().y))
-            self._wait(2.0, nav=True)
+            # wait(2.0, nav=True)
 
-            if self.at_home():
+            # if self.at_home():
+            if wait_until(self.at_home, timeout=5.0, nav=True):
+                logger.debug(
+                    f"[green]ensure_at_home: reached Home on attempt {attempt}[/green]"
+                )
                 return NavigationResult(success=True, screen_detected="Home")
 
+        logger.debug(f"[red]ensure_at_home: failed after {max_attempts} attempts[/red]")
         return NavigationResult(success=False, error_msg="Failed to reach Home")
 
     def ensure_menu_state(
@@ -140,9 +140,12 @@ class ScreenNavigator:
 
         for _ in range(max_attempts):
             self.press_menu_tab()
-            self._wait(1.5, nav=True)
+            # wait(1.5, nav=True)
 
-            if self.is_menu_tab_open() == should_open:
+            # if self.is_menu_tab_open() == should_open:
+            if wait_until(
+                lambda: self.is_menu_tab_open() == should_open, timeout=3, nav=True
+            ):
                 logger.info(
                     f"[green]Successfully {'opened' if should_open else 'closed'} Menu Tab[/green]"
                 )
@@ -169,9 +172,12 @@ class ScreenNavigator:
 
         p = button.random_point()
         self.device.tap(int(p.x), int(p.y))
-        self._wait(2.0, nav=True)
+        wait(2.0, nav=True)
 
         detected = self.identify_screen()
+        logger.debug(
+            f"[dim]navigate_to_target: wanted={location!r}, detected={detected!r}[/dim]"
+        )
         return NavigationResult(success=bool(detected), screen_detected=detected)
 
     def press_menu_tab(self):
@@ -182,7 +188,8 @@ class ScreenNavigator:
         if button:
             point = button.random_point(2)
             self.device.tap(int(point.x), int(point.y))
-            self._wait(0.8, nav=True)
+            # wait(0.8, nav=True)
+            wait_until(self.is_menu_tab_open, timeout=3, nav=True)
 
     def is_menu_tab_open(self) -> bool:
         """
@@ -209,7 +216,9 @@ class ScreenNavigator:
             .strip()
             .lower()
         )
-        return "menu" in text
+        is_open = "menu" in text
+        logger.debug(f"[dim]is_menu_tab_open: text={text!r} -> {is_open}[/dim]")
+        return is_open
 
     def determine_button(self, name: str) -> Region | None:
         return self.BUTTON_MAP.get(name)

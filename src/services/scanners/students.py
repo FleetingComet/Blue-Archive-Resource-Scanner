@@ -1,6 +1,5 @@
 import concurrent.futures
 import logging
-import time
 
 import numpy as np
 from rich.markup import escape
@@ -14,6 +13,7 @@ from src.utils.data.io import write_json
 from src.utils.data.student_skill_helper import map_student_data_to_character
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.extract import extract_from_region
+from src.utils.wait_utils import wait
 
 logger = logging.getLogger("BA-Scanner")
 
@@ -49,15 +49,19 @@ def get_student_info(
             break
 
         captured_images.append(image)
+        logger.debug(
+            f"[dim]get_student_info: iteration={iteration}, current_name={current_name!r}[/dim]"
+        )
 
         # Tap Next
         device.tap(
             int(screens.StudentInfo.BUTTONS.NEXT.x),
             int(screens.StudentInfo.BUTTONS.NEXT.y),
         )
-        time.sleep(0.5 * Config.settings.wait_multiplier)
+        wait(0.5)
 
-        if Config.settings.debug and iteration >= 2:
+        if Config.settings.debug and iteration >= 5:
+            logger.debug("[dim]get_student_info: debug mode, stopping early[/dim]")
             break
 
     results = process_ocr_results(captured_images, ocr_workers)

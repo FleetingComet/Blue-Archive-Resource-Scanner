@@ -1,6 +1,5 @@
 import concurrent
 import logging
-import time
 
 import cv2
 import numpy as np
@@ -15,6 +14,7 @@ from src.utils.ocr.color_util import retain_colors
 from src.utils.ocr.extract import crop_image
 from src.utils.ocr.item_util import is_empty_slot
 from src.utils.ocr.text_util import normalize_value
+from src.utils.wait_utils import wait
 
 logger = logging.getLogger("BA-Scanner")
 
@@ -62,10 +62,10 @@ def item_grid(
         grid_region = Region(x=663, y=150, width=573, height=450)  # items
 
     captured_images: list[np.ndarray] = []
-    screen_number = 0
+    swipe_iteration = 0
 
     while True:
-        screen_number += 1
+        swipe_iteration += 1
         image = device.capture_screenshot()
 
         if image is None:
@@ -80,10 +80,13 @@ def item_grid(
         found_empty: bool = False
 
         valid_regions = process_grid(grid, grid_region)
+        logger.debug(
+            f"[dim]item_grid: {swipe_iteration=}, found {len(valid_regions)} slots[/dim]"
+        )
 
         for i, region in enumerate(valid_regions):
-            # if Config.DEBUG and i != 0:
-            #     continue  # skip for debug
+            if Config.settings.debug and i >= 5:
+                break  # skip for debug
 
             if is_empty_slot(image, region):
                 logger.info("Empty slot detected. End of inventory.")
@@ -94,10 +97,13 @@ def item_grid(
 
             # Tap -> minimal wait -> capture -> save
             device.tap(int(point.x), int(point.y))
-            time.sleep(0.3 * Config.settings.wait_multiplier)
+            wait(0.3)
             detail_img = device.capture_screenshot()
 
             if detail_img is None:
+                logger.debug(
+                    f"[yellow]item_grid: slot {i} capture failed, skipping[/yellow]"
+                )
                 continue
             captured_images.append(detail_img)
             # save_name = f"s_{screen_number}_item_{i}.png"
@@ -111,7 +117,7 @@ def item_grid(
         # Swipe
         if not swipe_with_verification(device=device, grid_region=grid_region):
             break
-        time.sleep(1.5 * Config.settings.wait_multiplier)
+        wait(1.5)
 
     results = process_ocr_results(captured_images, grid_type, ocr_workers)
 
@@ -129,7 +135,7 @@ def item_grid(
 
 def process_grid(image, grid_region):
     hex_colors = ["c4cfd4"]
-    crop_img, _ = retain_colors(image, hex_colors, tolerance=5)
+    crop_img, _ = retain_colors(image, hex_colors, tolerance=6)
     gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
@@ -153,6 +159,7 @@ def process_grid(image, grid_region):
         # Relaxed aspect ratio to catch slightly stretched/squashed boxes
         if 100 < area < (image_area * 0.85) and 0.2 < aspect_ratio < 4.0:
             valid_boxes.append((x, y, w, h))
+            # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     # Sort the boxes from top-left to bottom-right (useful for grid processing)
     # Sorting by Y (row) first, then X (column)
@@ -210,7 +217,7 @@ def process_ocr_results(
 
                     if parsed is None:
                         logger.info(
-                            f"[Scanner] result → name={name!r}, count={count!r}, parsed={parsed!r}"
+                            f"[Scanner] result -> name={name!r}, count={count!r}, parsed={parsed!r}"
                         )
                         # Skip malformed counts
                         continue

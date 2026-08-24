@@ -50,10 +50,12 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     Returns:
         str: The extracted text, or None if extraction fails.
     """
+    logger.debug(f"[dim]extract_from_region: {mode=}, {region=}[/dim]")
 
     crop_img = crop_image(image, region)
 
     if crop_img is None:
+        logger.debug("[yellow]extract_from_region: empty crop, aborting[/yellow]")
         return None
 
     # * Non OCR Counting (shape-based, not text-based)
@@ -94,8 +96,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     if mode == ExtractionMode.SKILL_LEVEL and find_closest(text.upper(), ["MAX"]):
         return "MAX"
 
-    if Config.settings.debug:
-        cv2.destroyAllWindows()
+    logger.debug(f"[green]extract_from_region result:[/green] {text!r}")
 
     return (
         text.replace("\r", "")
@@ -198,18 +199,20 @@ def split_text_lines(
 
 def extract_multiline_text(processed_img: np.ndarray):
 
+    logger.debug(
+        f"[dim]extract_multiline_text: image shape={processed_img.shape}[/dim]"
+    )
+
     line_bounds = split_text_lines(processed_img)
 
     if Config.settings.debug:
-        debug_img = cv2.resize(
+        _debug_img = cv2.resize(
             processed_img,
             None,
             fx=2,
             fy=4,
             interpolation=cv2.INTER_NEAREST,
         )
-        cv2.imshow("multiline_processed", debug_img)
-        cv2.waitKey(1)
 
     # No lines detected -> OCR the entire region.
     if not line_bounds:
@@ -229,15 +232,13 @@ def extract_multiline_text(processed_img: np.ndarray):
         if Config.settings.debug:
             logger.debug(f"OCR band: y={y1}:{y2}, shape={band.shape}")
 
-            debug_band = cv2.resize(
+            _debug_band = cv2.resize(
                 band,
                 None,
                 fx=2,
                 fy=4,
                 interpolation=cv2.INTER_NEAREST,
             )
-            cv2.imshow("multiline_band", debug_band)
-            cv2.waitKey(1)
 
         text = extract_text(band)
 

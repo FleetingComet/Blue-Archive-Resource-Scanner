@@ -1,5 +1,4 @@
 import logging
-import time
 
 import numpy as np
 from tenacity import Retrying, retry_if_result, stop_after_attempt, wait_fixed
@@ -7,6 +6,7 @@ from tenacity import Retrying, retry_if_result, stop_after_attempt, wait_fixed
 from src.core.area import Region
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.extract import crop_image
+from src.utils.wait_utils import wait
 
 logger = logging.getLogger("BA-Scanner")
 
@@ -37,11 +37,15 @@ def swipe_with_verification(
             end_y = grid_region.y + int(grid_region.height * 0.10)
             swipe_x = grid_region.x + (grid_region.width // 2)
 
+            logger.debug(
+                f"[dim]swipe_with_verification: ({swipe_x},{start_y}) -> ({swipe_x},{end_y})[/dim]"
+            )
+
             # Perform swipe
             device.swipe(swipe_x, start_y, swipe_x, end_y, duration_ms=2000)
 
             # Wait for animation
-            time.sleep(2.5)
+            wait(2.5)
 
             # Capture after swipe
             after = device.capture_screenshot()
