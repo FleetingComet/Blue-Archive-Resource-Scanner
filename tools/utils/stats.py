@@ -97,6 +97,11 @@ def format_student_line(name: str, stats: dict[str, Any]) -> str:
     )
 
     parts = [prefix, skills, gear]
+    
+    bond_gear = int(stats["bond_gear"])
+    if bond_gear != 0:
+        parts.append(f"Bond Gear: {bond_gear}")
+
     if talents != "0/0/0":
         parts.append(talents)
 
