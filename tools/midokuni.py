@@ -4,6 +4,7 @@ Usage: python -m tools.midokuni
 
 import argparse
 from enum import Enum
+from typing import Any, ClassVar
 from urllib.parse import urlencode
 
 from rich.console import Console
@@ -11,6 +12,7 @@ from rich.console import Console
 from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_json
 from src.utils.sync.data_sync_manager import DataSyncManager
+from tools.utils.students import index_students, resolve_base_id
 
 console = Console()
 
@@ -27,29 +29,24 @@ class MidokuniRosterExporter:
     Transforms scanned student data into Midokuni site's roster URL format.
     """
 
+    BASE_URL = "https://hina.loves.midokuni.com/Tool/Roster"
+    BASE66_ALPHABET = (
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_.~"
+    )
+
+    STATE_MAP: ClassVar[dict[Any, State]] = {
+        "blue": State.BLUE,
+        "black": State.BLACK,
+        None: State.SELECTED,
+    }
+
     def __init__(self, output_filename: str = "midokuni_roster.json"):
-        self.BASE_URL = "https://hina.loves.midokuni.com/Tool/Roster"
-        self.BASE66_ALPHABET = (
-            "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_.~"
-        )
         self.CHAR_TO_VAL: dict[str, int] = {
             char: idx for idx, char in enumerate(self.BASE66_ALPHABET)
         }
 
-        self.STATE_MAP = {
-            "blue": State.BLUE,
-            "black": State.BLACK,
-            None: State.SELECTED,
-        }
-
         self.input_file = Path_Config.final_students
         self.output_file = Path_Config.OUTPUT_DIR / output_filename
-
-        # Map internal scanner IDs to valid IDs
-        self.SITE_ID_MAP = {
-            "10099": "10098",  # Hoshino (Armed): Dealer to Tank
-            "10144": "10143",  # Shunling (Swimsuit) (T_T) to Shun (Swimsuit)
-        }
 
     def to_base66(self, n: int) -> str:
         """Encodes a non-negative integer into a Base66 string."""
@@ -187,13 +184,23 @@ class MidokuniRosterExporter:
         scanned_data = read_json(self.input_file)
         characters = scanned_data.get("characters", [])
 
+        by_id, _by_name = index_students()
+
         # Assign selected state to all scanned students
         student_states: dict[str, str] = {}
+        remapped = 0
         for char in characters:
-            char_id = str(char.get("id", ""))
-            if char_id and char_id != "N/A":
-                char_id = self.SITE_ID_MAP.get(char_id, char_id)
-                student_states[char_id] = target_state.value
+            raw_id = str(char.get("id", ""))
+            if not raw_id or raw_id == "N/A":
+                continue
+            base_id = resolve_base_id(raw_id, by_id)
+            if base_id is None:
+                char_id = raw_id  # unknown student: passthrough
+            else:
+                char_id = str(base_id)
+                if char_id != raw_id:
+                    remapped += 1
+            student_states[char_id] = target_state.value
 
         roster_params = self.build_roster_params(student_states)
         query_string = urlencode(roster_params)
@@ -206,6 +213,10 @@ class MidokuniRosterExporter:
             f"Selected State: [cyan]{'Selected (default)' if state_name is None else target_state.name}[/cyan]"
         )
         console.print(f"Scanned Students Count: [cyan]{len(student_states)}[/cyan]")
+        if remapped:
+            console.print(
+                f"[yellow]Remapped {remapped} scan(s) to their base-form ids[/yellow]"
+            )
         console.print(f"Generated Parameters: {roster_params}")
         console.print(
             f"\n[bold green]Full Roster URL:[/bold green]\n"

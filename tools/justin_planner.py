@@ -4,13 +4,15 @@ Usage: python -m tools.justin_planner
 
 import argparse
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from rich.console import Console
 
 from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_json
 from src.utils.sync.data_sync_manager import DataSyncManager
+from tools.utils.stats import normalize_stats
+from tools.utils.students import index_students, match_meta
 
 console = Console()
 
@@ -21,59 +23,52 @@ class JustinPlannerProcessor:
     into a unified export file compatible with Justin's Blue Archive Planner.
     """
 
+    CATEGORY_NAME_MAP: ClassVar[dict[str, str]] = {
+        "WeaponExpGrowthA": "Spring",
+        "WeaponExpGrowthB": "Hammer",
+        "WeaponExpGrowthC": "Barrel",
+        "WeaponExpGrowthZ": "Needle",
+    }
+
+    DEFAULT_TEMPLATE: ClassVar[dict[str, Any]] = {
+        "exportVersion": 2,
+        "characters": [],
+        "character_order": [],
+        "disabled_characters": [],
+        "owned_materials": {},
+        "groups": {
+            "Binah": [],
+            "Chesed": [],
+            "Hod": [],
+            "ShiroKuro": [],
+            "Perorodzilla": [],
+            "Goz": [],
+            "Hieronymous": [],
+            "Kaiten": [],
+        },
+        "language": "EN",
+        "level_cap": 90,
+        "server": "Global",
+        "site_version": "1.4.22",
+    }
+
+    DEFAULT_ELEPH: ClassVar[dict[str, Any]] = {
+        "owned": "0",
+        "unlocked": True,
+        "cost": "1",
+        "purchasable": "20",
+        "farm_nodes": "0",
+        "node_refresh": False,
+        "use_eligma": False,
+        "use_shop": False,
+    }
+
     def __init__(self):
         self.equipment_file = Path_Config.final_equipment
         self.items_file = Path_Config.final_items
         self.students_file = Path_Config.final_students
-        self.processed_students_file = Path_Config.students_processed
         self.input_file = Path_Config.justin_planner_data
         self.output_file = Path_Config.justin_planner_merged_output
-
-        # Map internal scanner IDs to one allowed IDs (e.g. Hoshino (Armed) Tank and Dealer)
-        self.SITE_ID_MAP = {
-            "10099": "10098",  # Hoshino (Armed): Dealer to Tank
-            "10144": "10143",  # Shunling (Swimsuit) (T_T) to Shun (Swimsuit)
-        }
-
-        self.CATEGORY_NAME_MAP = {
-            "WeaponExpGrowthA": "Spring",
-            "WeaponExpGrowthB": "Hammer",
-            "WeaponExpGrowthC": "Barrel",
-            "WeaponExpGrowthZ": "Needle",
-        }
-
-        self.DEFAULT_TEMPLATE = {
-            "exportVersion": 2,
-            "characters": [],
-            "character_order": [],
-            "disabled_characters": [],
-            "owned_materials": {},
-            "groups": {
-                "Binah": [],
-                "Chesed": [],
-                "Hod": [],
-                "ShiroKuro": [],
-                "Perorodzilla": [],
-                "Goz": [],
-                "Hieronymous": [],
-                "Kaiten": [],
-            },
-            "language": "EN",
-            "level_cap": 90,
-            "server": "Global",
-            "site_version": "1.4.22",
-        }
-
-        self.DEFAULT_ELEPH = {
-            "owned": "0",
-            "unlocked": True,
-            "cost": "1",
-            "purchasable": "20",
-            "farm_nodes": "0",
-            "node_refresh": False,
-            "use_eligma": False,
-            "use_shop": False,
-        }
 
     def _transform_equipment(
         self, grouped_data: dict[str, dict[str, Any]]
@@ -92,44 +87,6 @@ class JustinPlannerProcessor:
                 transformed[new_key] = value
         return transformed
 
-    def _format_stats(
-        self, raw_stats: dict[str, Any], star_grade: int = 1
-    ) -> dict[str, Any]:
-        """
-        Formats character stat values, locking skills based on base StarGrade:
-        - 1-Star: Passive & Sub locked ('0')
-        - 2-Star: Sub locked ('0')
-        - 3-Star+: All skills unlocked ('1')
-        """
-
-        default_passive = "1" if star_grade >= 2 else "0"
-        default_sub = "1" if star_grade >= 3 else "0"
-
-        return {
-            "level": str(raw_stats.get("level", "1")),
-            "ue_level": str(raw_stats.get("ue_level", "0")),
-            "bond": str(raw_stats.get("bond", "1")),
-            "ex": str(raw_stats.get("ex", "1")),
-            "basic": str(raw_stats.get("basic", "1")),
-            "passive": str(raw_stats.get("passive", default_passive)),
-            "sub": str(raw_stats.get("sub", default_sub)),
-            "gear1": str(raw_stats.get("gear1", "0")),
-            "gear2": str(raw_stats.get("gear2", "0")),
-            "gear3": str(raw_stats.get("gear3", "0")),
-            "bond_gear": str(
-                raw_stats.get("gear_bond", raw_stats.get("bond_gear", "0"))
-            ),
-            "book_hp": str(raw_stats.get("book_hp", raw_stats.get("talent_hp", "0"))),
-            "book_atk": str(
-                raw_stats.get("book_atk", raw_stats.get("talent_atk", "0"))
-            ),
-            "book_heal": str(
-                raw_stats.get("book_heal", raw_stats.get("talent_healing", "0"))
-            ),
-            "star": int(raw_stats.get("star", 1)),
-            "ue": int(raw_stats.get("ue", 0)),
-        }
-
     def _get_target_stats(
         self,
         current_stats: dict[str, Any],
@@ -137,13 +94,13 @@ class JustinPlannerProcessor:
         has_bond_gear: bool = False,
     ) -> dict[str, Any]:
         """Generates target stats (MAX stats or matching current stats)."""
-        target = self._format_stats(current_stats)
+        target = dict(current_stats)
         if set_max_target:
             target.update(
                 {
                     "level": "90",
-                    "ue_level": "50",
-                    "bond": "1",
+                    "ue_level": "60",
+                    "bond": "100",
                     "ex": "5",
                     "basic": "10",
                     "passive": "10",
@@ -156,7 +113,7 @@ class JustinPlannerProcessor:
                     "book_atk": "25",
                     "book_heal": "25",
                     "star": 5,
-                    "ue": 3,
+                    "ue": 4,
                 }
             )
         return target
@@ -179,14 +136,8 @@ class JustinPlannerProcessor:
         items_raw = read_json(self.items_file)
         students_raw = read_json(self.students_file)
 
-        processed_students = read_json(self.processed_students_file)
-        student_map = {
-            str(s["id"]): s
-            for s in (
-                processed_students if isinstance(processed_students, list) else []
-            )
-            if isinstance(s, dict) and "id" in s
-        }
+        # Shared lookups: dual-style scans resolve to their base form
+        by_id, by_name = index_students()
 
         # Transform materials
         transformed_equipment = self._transform_equipment(equipment_raw)
@@ -212,22 +163,27 @@ class JustinPlannerProcessor:
 
         updated_characters: list[dict[str, Any]] = []
         scanned_characters = students_raw.get("characters", [])
+        remapped = 0
 
         for char in scanned_characters:
-            original_id = str(char.get("id", ""))
-            name = char.get("name", "")
+            meta, base_id = match_meta(char, by_id, by_name)
 
-            # Translate scanner ID to allowed ID
-            char_id = self.SITE_ID_MAP.get(original_id, original_id)
+            # Canonical id: resolved base form -> name-match id -> raw passthrough
+            if base_id is not None:
+                char_id = str(base_id)
+            elif isinstance(meta.get("id"), int):
+                char_id = str(meta["id"])
+            else:
+                char_id = str(char.get("id", ""))
 
+            if str(char.get("id", "")) != char_id:
+                remapped += 1
+
+            display_name = meta.get("name") or char.get("name", "")
             # Look up StarGrade and hasBondGear metadata from students_processed.json
-            meta = student_map.get(char_id, {})
-            star_grade = int(meta.get("StarGrade", 1))
             has_bond_gear = bool(meta.get("hasBondGear", False))
 
-            current_stats = self._format_stats(
-                char.get("current", {}), star_grade=star_grade
-            )
+            current_stats = normalize_stats(char.get("current", {}))
 
             if char_id in existing_chars_map:
                 # Update existing character stats while preserving user's custom targets/settings
@@ -239,7 +195,7 @@ class JustinPlannerProcessor:
                 # Add new character
                 new_char = {
                     "id": char_id,
-                    "name": name,
+                    "name": display_name,
                     "current": current_stats,
                     "target": self._get_target_stats(
                         current_stats=current_stats,
@@ -255,6 +211,10 @@ class JustinPlannerProcessor:
         planner_data["characters"] = updated_characters
 
         write_json(self.output_file, planner_data)
+        if remapped:
+            console.print(
+                f"[yellow]Remapped {remapped} scan(s) to their base-form ids[/yellow]"
+            )
         console.print(
             f"[bold green]✔ Successfully exported Justin Planner data to:[/bold green] \n{self.output_file}"
         )

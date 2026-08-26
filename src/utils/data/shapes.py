@@ -24,6 +24,19 @@ class Student:
     # icon: str
     hasBondGear: bool = False
     StarGrade: int = 1  # lowest rarity
+    
+    # For Dual Style Characters
+    StyleId: int | None
+    LinkedCharacterId: int | None
+
+    DefaultOrder: int
+    # Striker ("Main") or Special ("Support")
+    SquadType: str
+    # Group them
+    BulletType: str
+    ArmorType: str
+    School: str
+    Club: str
 
 
 @dataclass

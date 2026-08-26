@@ -13,6 +13,8 @@ from rich.console import Console
 from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_text
 from src.utils.sync.data_sync_manager import DataSyncManager
+from tools.utils.stats import normalize_stats
+from tools.utils.students import index_students, iter_style_ids
 
 console = Console()
 
@@ -26,14 +28,6 @@ class SchaleDBExporter:
         self.input_file = Path_Config.final_students
         self.output_file = Path_Config.OUTPUT_DIR / output_filename
 
-        # SchaleDB requires both IDs to update both modes/styles (e.g. Hoshino (Armed) Tank and Dealer)
-        self.DUAL_ID_MAP = {
-            "10098": "10099",  # Hoshino (Armed) Tank
-            "10099": "10098",  # Hoshino (Armed) Dealer
-            "10143": "10144",  # Shun (Swimsuit)
-            "10144": "10143",  # Shunling (Swimsuit) (T_T)
-        }
-
     def _safe_int(self, value: Any, default: int = 0) -> int:
         """Safely parses string/int values to integer."""
         try:
@@ -46,14 +40,12 @@ class SchaleDBExporter:
     ) -> dict[str, Any]:
         """Transforms character stats into the target site format."""
         return {
-            "s": self._safe_int(current_stats.get("star"), 3),
+            "s": self._safe_int(current_stats.get("star"), 1),
             "l": self._safe_int(current_stats.get("level"), 1),
-            "e1": self._safe_int(current_stats.get("gear1"), 1),
-            "e2": self._safe_int(current_stats.get("gear2"), 1),
-            "e3": self._safe_int(current_stats.get("gear3"), 1),
-            "e4": self._safe_int(
-                current_stats.get("gear_bond", current_stats.get("bond_gear")), 0
-            ),
+            "e1": self._safe_int(current_stats.get("gear1"), 0),
+            "e2": self._safe_int(current_stats.get("gear2"), 0),
+            "e3": self._safe_int(current_stats.get("gear3"), 0),
+            "e4": self._safe_int(current_stats.get("bond_gear"), 0),
             "ws": self._safe_int(current_stats.get("ue"), 0),
             "wl": self._safe_int(current_stats.get("ue_level"), 0),
             "b": self._safe_int(current_stats.get("bond"), 1),
@@ -61,9 +53,9 @@ class SchaleDBExporter:
             "s2": self._safe_int(current_stats.get("basic"), 1),
             "s3": self._safe_int(current_stats.get("passive"), 0),
             "s4": self._safe_int(current_stats.get("sub"), 0),
-            "pm": self._safe_int(current_stats.get("talent_hp"), 0),
-            "pa": self._safe_int(current_stats.get("talent_atk"), 0),
-            "ph": self._safe_int(current_stats.get("talent_healing"), 0),
+            "pm": self._safe_int(current_stats.get("book_hp"), 0),
+            "pa": self._safe_int(current_stats.get("book_atk"), 0),
+            "ph": self._safe_int(current_stats.get("book_heal"), 0),
             "lock": lock,
         }
 
@@ -74,22 +66,26 @@ class SchaleDBExporter:
         scanned_data = read_json(self.input_file)
         characters = scanned_data.get("characters", [])
 
+        by_id, _by_name = index_students()
+
         output_data: dict[str, dict[str, Any]] = {}
+        expanded = 0
 
         for char in characters:
-            char_id = str(char.get("id", ""))
-            if not char_id or char_id == "N/A":
+            raw_id = str(char.get("id", ""))
+            if not raw_id or raw_id == "N/A":
                 continue
 
-            current_stats = char.get("current", {})
-            transformed_stats = self.transform_character(current_stats, lock=lock)
+            transformed_stats = self.transform_character(
+                normalize_stats(char.get("current", {})), lock=lock
+            )
+            # Every id belonging to this student; [raw_id] for unknown ones
+            style_ids = iter_style_ids(raw_id, by_id) or [raw_id]
+            if len(style_ids) > 1:
+                expanded += 1
 
-            output_data[char_id] = transformed_stats
-
-            # Check if we need to inject the paired ID for dual-mode/style characters
-            paired_id = self.DUAL_ID_MAP.get(char_id)
-            if paired_id and paired_id not in output_data:
-                output_data[paired_id] = transformed_stats
+            for sid in style_ids:
+                output_data[str(sid)] = transformed_stats
 
         # Serialize dict to JSON string -> encode bytes -> Base64 string
         json_str = json.dumps(output_data, ensure_ascii=False)
@@ -100,6 +96,11 @@ class SchaleDBExporter:
             f"[bold green]:heavy_check_mark: Successfully exported ({len(output_data)} characters) to SchaleDB import format:[/bold green] \n"
             f"[cyan]{self.output_file}[/cyan]"
         )
+
+        if expanded:
+            console.print(
+                f"[yellow]Expanded {expanded} dual-style student(s) into entries for both form ids[/yellow]"
+            )
 
         console.print(
             "Go to [link=https://schaledb.com][cyan]https://schaledb.com[/cyan][/link], open Settings, and scroll down to "
