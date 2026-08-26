@@ -3,1632 +3,3808 @@
         "id": 10000,
         "name": "Aru",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 0,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 10001,
         "name": "Eimi",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 1,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Super Phenomenon Task Force"
     },
     {
         "id": 10002,
         "name": "Haruna",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 2,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 10003,
         "name": "Hifumi",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 3,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 10004,
         "name": "Hina",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 4,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 10005,
         "name": "Hoshino",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 5,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10006,
         "name": "Iori",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 6,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 10007,
         "name": "Maki",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 7,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Veritas"
     },
     {
         "id": 10008,
         "name": "Neru",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 8,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 10009,
         "name": "Izumi",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 9,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 10010,
         "name": "Shiroko",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 10,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10011,
         "name": "Shun",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 11,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Shanhaijing",
+        "Club": "Plum Blossom Garden"
     },
     {
         "id": 10012,
         "name": "Sumire",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 12,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Athletics Training Club"
     },
     {
         "id": 10013,
         "name": "Tsurugi",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 13,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 13000,
         "name": "Akane",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 14,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 13001,
         "name": "Chise",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 15,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Yin-Yang Club"
     },
     {
         "id": 13002,
         "name": "Akari",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 16,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 13003,
         "name": "Hasumi",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 17,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 13004,
         "name": "Nonomi",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 18,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 13005,
         "name": "Kayoko",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 19,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 13006,
         "name": "Mutsuki",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 20,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 13007,
         "name": "Junko",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 21,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 13008,
         "name": "Serika",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 22,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 13009,
         "name": "Tsubaki",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 23,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Hyakkiyako",
+        "Club": "Inner Discipline Club"
     },
     {
         "id": 13010,
         "name": "Yuuka",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 24,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 16000,
         "name": "Haruka",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 25,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 16001,
         "name": "Asuna",
         "hasBondGear": true,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 26,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 16002,
         "name": "Kotori",
         "hasBondGear": true,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 27,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Engineering Department"
     },
     {
         "id": 16003,
         "name": "Suzumi",
         "hasBondGear": true,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 28,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Trinity's Vigilante Crew"
     },
     {
         "id": 16004,
         "name": "Pina",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 29,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Festival Operations Department"
     },
     {
         "id": 20000,
         "name": "Hibiki",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 30,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Engineering Department"
     },
     {
         "id": 20001,
         "name": "Karin",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 31,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 20002,
         "name": "Saya",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 32,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Shanhaijing",
+        "Club": "Eastern Alchemy Society"
     },
     {
         "id": 23000,
         "name": "Airi",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 33,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 23001,
         "name": "Fuuka",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 34,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "School Lunch Club"
     },
     {
         "id": 23002,
         "name": "Hanae",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 35,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Remedial Knights"
     },
     {
         "id": 23003,
         "name": "Hare",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 36,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Veritas"
     },
     {
         "id": 23004,
         "name": "Utaha",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 37,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Engineering Department"
     },
     {
         "id": 23005,
         "name": "Ayane",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 38,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 26000,
         "name": "Chinatsu",
         "hasBondGear": true,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 39,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 26001,
         "name": "Kotama",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 40,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Veritas"
     },
     {
         "id": 26002,
         "name": "Juri",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 41,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "School Lunch Club"
     },
     {
         "id": 26003,
         "name": "Serina",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 42,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Remedial Knights"
     },
     {
         "id": 26004,
         "name": "Shimiko",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 43,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Library Committee"
     },
     {
         "id": 26005,
         "name": "Yoshimi",
         "hasBondGear": true,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 44,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 20003,
         "name": "Mashiro",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 45,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 10014,
         "name": "Izuna",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 46,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Ninjutsu Research Club"
     },
     {
         "id": 23006,
         "name": "Shizuko",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 47,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Hyakkiyako",
+        "Club": "Festival Operations Department"
     },
     {
         "id": 10015,
         "name": "Aris",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 48,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 10016,
         "name": "Midori",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 49,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 13011,
         "name": "Momoi",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 50,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 10017,
         "name": "Cherino",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 51,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Red Winter",
+        "Club": "Red Winter Office"
     },
     {
         "id": 26006,
         "name": "Nodoka",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 52,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Red Winter",
+        "Club": "Spec Ops No. 227"
     },
     {
         "id": 10018,
         "name": "Yuzu",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 53,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 10019,
         "name": "Azusa",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 54,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 23007,
         "name": "Hanako",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 55,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 10020,
         "name": "Koharu",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 56,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 10021,
         "name": "Azusa (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 57,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 20004,
         "name": "Mashiro (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 58,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 16005,
         "name": "Tsurugi (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 59,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 20005,
         "name": "Hifumi (Swimsuit)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 60,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 10022,
         "name": "Hina (Swimsuit)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 61,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 10023,
         "name": "Iori (Swimsuit)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 62,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 16006,
         "name": "Izumi (Swimsuit)",
         "hasBondGear": true,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 63,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 10024,
         "name": "Shiroko (Cycling)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 64,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10025,
         "name": "Shun (Small)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 65,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Shanhaijing",
+        "Club": "Plum Blossom Garden"
     },
     {
         "id": 13012,
         "name": "Kirino",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 66,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Valkyrie",
+        "Club": "Public Safety Bureau"
     },
     {
         "id": 20006,
         "name": "Saya (Casual)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 67,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Shanhaijing",
+        "Club": "Eastern Alchemy Society"
     },
     {
         "id": 10026,
         "name": "Neru (Bunny)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 68,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 10027,
         "name": "Karin (Bunny)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 69,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 10028,
         "name": "Asuna (Bunny)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 70,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 10029,
         "name": "Natsu",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 71,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 23008,
         "name": "Mari",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 72,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "The Sisterhood"
     },
     {
         "id": 20007,
         "name": "Hatsune Miku",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 73,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Etc.",
+        "Club": "None"
     },
     {
         "id": 20008,
         "name": "Ako",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 74,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 20009,
         "name": "Cherino (Hot Spring)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 75,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Red Winter",
+        "Club": "Red Winter Office"
     },
     {
         "id": 10030,
         "name": "Chinatsu (Hot Spring)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 76,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 16007,
         "name": "Tomoe",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 77,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Red Winter",
+        "Club": "Red Winter Office"
     },
     {
         "id": 20010,
         "name": "Nodoka (Hot Spring)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 78,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Red Winter",
+        "Club": "Spec Ops No. 227"
     },
     {
         "id": 10031,
         "name": "Aru (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 79,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 10032,
         "name": "Mutsuki (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 80,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 20011,
         "name": "Serika (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 81,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10033,
         "name": "Wakamo",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 82,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "None"
     },
     {
         "id": 16008,
         "name": "Fubuki",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 83,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Valkyrie",
+        "Club": "Public Safety Bureau"
     },
     {
         "id": 20012,
         "name": "Sena",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 84,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Medical Emergency Club"
     },
     {
         "id": 20013,
         "name": "Chihiro",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 85,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Veritas"
     },
     {
         "id": 10034,
         "name": "Mimori",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 86,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Inner Discipline Club"
     },
     {
         "id": 10035,
         "name": "Ui",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 87,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Library Committee"
     },
     {
         "id": 10036,
         "name": "Hinata",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 88,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "The Sisterhood"
     },
     {
         "id": 10037,
         "name": "Marina",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 89,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Red Winter",
+        "Club": "Red Winter Office"
     },
     {
         "id": 10038,
         "name": "Miyako",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 90,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 20014,
         "name": "Saki",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 91,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 10039,
         "name": "Miyu",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 92,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 20015,
         "name": "Kaede",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 93,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Hyakkiyako",
+        "Club": "Inner Discipline Club"
     },
     {
         "id": 20016,
         "name": "Iroha",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 94,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 16009,
         "name": "Michiru",
         "hasBondGear": true,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 95,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Ninjutsu Research Club"
     },
     {
         "id": 10040,
         "name": "Tsukuyo",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 96,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Ninjutsu Research Club"
     },
     {
         "id": 10041,
         "name": "Misaki",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 97,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 20017,
         "name": "Hiyori",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 98,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 10042,
         "name": "Atsuko",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 99,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 10043,
         "name": "Wakamo (Swimsuit)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 100,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "None"
     },
     {
         "id": 10044,
         "name": "Nonomi (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 101,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 26007,
         "name": "Ayane (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 102,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10045,
         "name": "Hoshino (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 103,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 26008,
         "name": "Shizuko (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 104,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Festival Operations Department"
     },
     {
         "id": 10046,
         "name": "Izuna (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 105,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Hyakkiyako",
+        "Club": "Ninjutsu Research Club"
     },
     {
         "id": 10047,
         "name": "Chise (Swimsuit)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 106,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Yin-Yang Club"
     },
     {
         "id": 10048,
         "name": "Saori",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 107,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 20018,
         "name": "Moe",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 108,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 10049,
         "name": "Kazusa",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 109,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 10050,
         "name": "Kokona",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 110,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Shanhaijing",
+        "Club": "Plum Blossom Garden"
     },
     {
         "id": 10051,
         "name": "Utaha (Cheer Squad)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 111,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Engineering Department"
     },
     {
         "id": 10052,
         "name": "Noa",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 112,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 16010,
         "name": "Hibiki (Cheer Squad)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 113,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Engineering Department"
     },
     {
         "id": 20019,
         "name": "Akane (Bunny)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 114,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 10053,
         "name": "Yuuka (Track)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 115,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 10054,
         "name": "Mari (Track)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 116,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "The Sisterhood"
     },
     {
         "id": 16011,
         "name": "Hasumi (Track)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 117,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 20020,
         "name": "Himari",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 118,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Super Phenomenon Task Force"
     },
     {
         "id": 10055,
         "name": "Shigure",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 119,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Red Winter",
+        "Club": "Spec Ops No. 227"
     },
     {
         "id": 10056,
         "name": "Serina (Christmas)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 120,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Remedial Knights"
     },
     {
         "id": 20021,
         "name": "Hanae (Christmas)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 121,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Remedial Knights"
     },
     {
         "id": 10057,
         "name": "Haruna (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 122,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 20022,
         "name": "Fuuka (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 123,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "School Lunch Club"
     },
     {
         "id": 16012,
         "name": "Junko (New Year)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 124,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 10058,
         "name": "Mine",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 125,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Remedial Knights"
     },
     {
         "id": 10059,
         "name": "Mika",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 126,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Tea Party"
     },
     {
         "id": 10060,
         "name": "Megu",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 127,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Hot Springs Department"
     },
     {
         "id": 20023,
         "name": "Kanna",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 128,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Valkyrie",
+        "Club": "Public Peace Bureau"
     },
     {
         "id": 10061,
         "name": "Sakurako",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 129,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "The Sisterhood"
     },
     {
         "id": 10062,
         "name": "Toki",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 130,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Elastic",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 20024,
         "name": "Nagisa",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 131,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Tea Party"
     },
     {
         "id": 10063,
         "name": "Koyuki",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 132,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 10064,
         "name": "Kayoko (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 133,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 20025,
         "name": "Haruka (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 134,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 10065,
         "name": "Kaho",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 135,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Yin-Yang Club"
     },
     {
         "id": 10066,
         "name": "Aris (Maid)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 136,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 10067,
         "name": "Toki (Bunny)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 137,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 26009,
         "name": "Yuzu (Maid)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 138,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Elastic",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 10068,
         "name": "Reisa",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 139,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Trinity's Vigilante Crew"
     },
     {
         "id": 10069,
         "name": "Rumi",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 140,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Shanhaijing",
+        "Club": "Black Tortoise Promenade"
     },
     {
         "id": 10070,
         "name": "Mina",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 141,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Shanhaijing",
+        "Club": "Genryumon"
     },
     {
         "id": 20026,
         "name": "Minori",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 142,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Red Winter",
+        "Club": "Labor Party"
     },
     {
         "id": 10071,
         "name": "Miyako (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 143,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 10072,
         "name": "Saki (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 144,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 26010,
         "name": "Miyu (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 145,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 20027,
         "name": "Shiroko (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 146,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10073,
         "name": "Ui (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 147,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Elastic",
+        "School": "Trinity",
+        "Club": "Library Committee"
     },
     {
         "id": 20028,
         "name": "Hinata (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 148,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "The Sisterhood"
     },
     {
         "id": 16013,
         "name": "Koharu (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 149,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 10074,
         "name": "Hanako (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 150,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Make-Up Work Club"
     },
     {
         "id": 20029,
         "name": "Mimori (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 151,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Hyakkiyako",
+        "Club": "Inner Discipline Club"
     },
     {
         "id": 10075,
         "name": "Meru",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 152,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Red Winter",
+        "Club": "Knowledge Liberation Front"
     },
     {
         "id": 13013,
         "name": "Momiji",
         "hasBondGear": true,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 153,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Red Winter",
+        "Club": "Knowledge Liberation Front"
     },
     {
         "id": 10076,
         "name": "Kotori (Cheer Squad)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 154,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Engineering Department"
     },
     {
         "id": 20030,
         "name": "Haruna (Track)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 155,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 10077,
         "name": "Ichika",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 156,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 10078,
         "name": "Kasumi",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 157,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Hot Springs Department"
     },
     {
         "id": 20031,
         "name": "Shigure (Hot Spring)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 158,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Red Winter",
+        "Club": "Spec Ops No. 227"
     },
     {
         "id": 10079,
         "name": "Misaka Mikoto",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 159,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Tokiwadai",
+        "Club": "None"
     },
     {
         "id": 10080,
         "name": "Shokuhou Misaki",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 160,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Tokiwadai",
+        "Club": "None"
     },
     {
         "id": 26011,
         "name": "Saten Ruiko",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 161,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Sakugawa",
+        "Club": "None"
     },
     {
         "id": 10081,
         "name": "Yukari",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 162,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 10082,
         "name": "Renge",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 163,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 10083,
         "name": "Kikyou",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 164,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 20032,
         "name": "Eimi (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 165,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Super Phenomenon Task Force"
     },
     {
         "id": 10084,
         "name": "Kotama (Camp)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 166,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Veritas"
     },
     {
         "id": 10085,
         "name": "Hare (Camp)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 167,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Veritas"
     },
     {
         "id": 10087,
         "name": "Ako (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 168,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 16014,
         "name": "Ibuki",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 169,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 20033,
         "name": "Makoto",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 170,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 10086,
         "name": "Hina (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 171,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Elastic",
+        "School": "Gehenna",
+        "Club": "Prefect Team"
     },
     {
         "id": 10088,
         "name": "Kayoko (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 172,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 10089,
         "name": "Aru (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 173,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 20034,
         "name": "Akari (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 174,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 10090,
         "name": "Umika",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 175,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Hyakkiyako",
+        "Club": "Festival Operations Department"
     },
     {
         "id": 20035,
         "name": "Tsubaki (Guide)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 176,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Inner Discipline Club"
     },
     {
         "id": 10091,
         "name": "Kazusa (Band)",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 177,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 10092,
         "name": "Yoshimi (Band)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 178,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 16015,
         "name": "Airi (Band)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 179,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 10093,
         "name": "Kirara",
         "hasBondGear": true,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 180,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Twinkle Twinkle Club"
     },
     {
         "id": 10094,
         "name": "Momoi (Maid)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 181,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 10095,
         "name": "Midori (Maid)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 182,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 20036,
         "name": "Serika (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 183,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10096,
         "name": "Kanna (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 184,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Valkyrie",
+        "Club": "Public Peace Bureau"
     },
     {
         "id": 20037,
         "name": "Fubuki (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 185,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Valkyrie",
+        "Club": "Public Safety Bureau"
     },
     {
         "id": 26012,
         "name": "Kirino (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 186,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Valkyrie",
+        "Club": "Public Safety Bureau"
     },
     {
         "id": 10097,
         "name": "Moe (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 187,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "SRT",
+        "Club": "RABBIT Squad"
     },
     {
         "id": 10098,
         "name": "Hoshino (Armed)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 188,
+        "SquadType": "STRIKER",
+        "StyleId": 0,
+        "LinkedCharacterId": 10099,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10099,
         "name": "Hoshino (Armed)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 189,
+        "SquadType": "STRIKER",
+        "StyleId": 1,
+        "LinkedCharacterId": 10098,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Abydos",
+        "Club": "Foreclosure Task Force"
     },
     {
         "id": 10100,
         "name": "Shiroko*Terror",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 190,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Abydos",
+        "Club": "Abydos Student Council"
     },
     {
         "id": 26013,
         "name": "Atsuko (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 191,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 10101,
         "name": "Saori (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 192,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 10102,
         "name": "Hiyori (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 193,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 10103,
         "name": "Marina (Qipao)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 194,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Red Winter",
+        "Club": "Red Winter Office"
     },
     {
         "id": 20038,
         "name": "Tomoe (Qipao)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 195,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Red Winter",
+        "Club": "Red Winter Office"
     },
     {
         "id": 10104,
         "name": "Reijo",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 196,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Shanhaijing",
+        "Club": "Black Tortoise Promenade"
     },
     {
         "id": 20039,
         "name": "Kisaki",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 197,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Elastic",
+        "School": "Shanhaijing",
+        "Club": "Genryumon"
     },
     {
         "id": 10105,
         "name": "Mari (Pop Idol)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 198,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "The Sisterhood"
     },
     {
         "id": 10106,
         "name": "Sakurako (Pop Idol)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 199,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "The Sisterhood"
     },
     {
         "id": 16016,
         "name": "Mine (Pop Idol)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 200,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Trinity",
+        "Club": "Remedial Knights"
     },
     {
         "id": 10107,
         "name": "Chiaki",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 201,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 20040,
         "name": "Satsuki",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 202,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 10108,
         "name": "Yuuka (Pajamas)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 203,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 10109,
         "name": "Noa (Pajamas)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 204,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 10110,
         "name": "Seia",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 205,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Elastic",
+        "School": "Trinity",
+        "Club": "Tea Party"
     },
     {
         "id": 10112,
         "name": "Asuna (School)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 206,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 26014,
         "name": "Karin (School)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 207,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 10111,
         "name": "Neru (School)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 208,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Elastic",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 20041,
         "name": "Rio",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 209,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Elastic",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 20042,
         "name": "Maki (Camp)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 210,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Millennium",
+        "Club": "Veritas"
     },
     {
         "id": 10113,
         "name": "Sena (Casual)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 211,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Medical Emergency Club"
     },
     {
         "id": 10114,
         "name": "Juri (Part-Timer)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 212,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "School Lunch Club"
     },
     {
         "id": 20043,
         "name": "Izumi (New Year)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 213,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Gourmet Research Society"
     },
     {
         "id": 10115,
         "name": "Rei",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 214,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Athletics Training Club"
     },
     {
         "id": 20044,
         "name": "Sumire (Part-Timer)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 215,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Athletics Training Club"
     },
     {
         "id": 10116,
         "name": "Saori (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 216,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 10117,
         "name": "Hikari",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 217,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Highlander",
+        "Club": "CCC"
     },
     {
         "id": 10118,
         "name": "Nozomi",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 218,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Highlander",
+        "Club": "CCC"
     },
     {
         "id": 16017,
         "name": "Aoba",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 219,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Highlander",
+        "Club": "Freight Logistics Department"
     },
     {
         "id": 20045,
         "name": "Pina (Guide)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 220,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Festival Operations Department"
     },
     {
         "id": 10119,
         "name": "Nagusa",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 221,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Elastic",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 20046,
         "name": "Niya",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 222,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Yin-Yang Club"
     },
     {
         "id": 10120,
         "name": "Natsu (Band)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 223,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "After-School Sweets Club"
     },
     {
         "id": 10121,
         "name": "Yukari (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 224,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 13014,
         "name": "Renge (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 2
+        "StarGrade": 2,
+        "DefaultOrder": 225,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 20047,
         "name": "Kikyou (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 226,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 10123,
         "name": "Seia (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 227,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Tea Party"
     },
     {
         "id": 10124,
         "name": "Hasumi (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 228,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 26015,
         "name": "Ichika (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 229,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Justice Task Force"
     },
     {
         "id": 20048,
         "name": "Nagisa (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 230,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Elastic",
+        "School": "Trinity",
+        "Club": "Tea Party"
     },
     {
         "id": 10122,
         "name": "Mika (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 231,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Tea Party"
     },
     {
         "id": 10125,
         "name": "Eri",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 232,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Wildhunt",
+        "Club": "Occult Society (Dormitory 4, Unit 404)"
     },
     {
         "id": 10126,
         "name": "Kanoe",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 233,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Wildhunt",
+        "Club": "Occult Society (Dormitory 4, Unit 404)"
     },
     {
         "id": 20049,
         "name": "Misaki (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 234,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Arius",
+        "Club": "Arius Squad"
     },
     {
         "id": 10127,
         "name": "Miyo",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 235,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Elastic",
+        "School": "Wildhunt",
+        "Club": "Free Trade Cartel (Dormitory 5, Unit 402)"
     },
     {
         "id": 10128,
         "name": "Fuyu",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 236,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Wildhunt",
+        "Club": "Free Trade Cartel (Dormitory 5, Unit 402)"
     },
     {
         "id": 20050,
         "name": "Ritsu",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 237,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Wildhunt",
+        "Club": "Free Trade Cartel (Dormitory 5, Unit 402)"
     },
     {
         "id": 20051,
         "name": "Reisa (Magical)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 238,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Trinity's Vigilante Crew"
     },
     {
         "id": 10129,
         "name": "Suzumi (Magical)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 239,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "Trinity's Vigilante Crew"
     },
     {
         "id": 16018,
         "name": "Rabu",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 240,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Special",
+        "School": "Trinity",
+        "Club": "None"
     },
     {
         "id": 10130,
         "name": "Subaru",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 241,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Arius",
+        "Club": "Nicomedia's Troop"
     },
     {
         "id": 10131,
         "name": "Takane",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 242,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Red Winter",
+        "Club": "Publishing Department"
     },
     {
         "id": 20052,
         "name": "Yakumo",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 243,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Red Winter",
+        "Club": "Publishing Department"
     },
     {
         "id": 10132,
         "name": "Tsukuyo (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 244,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Ninjutsu Research Club"
     },
     {
         "id": 20053,
         "name": "Michiru (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 245,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Hyakkiyako",
+        "Club": "Ninjutsu Research Club"
     },
     {
         "id": 10133,
         "name": "Rio (Armed)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 246,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 16019,
         "name": "Toki (Armed)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 247,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 20054,
         "name": "Himari (Armed)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 248,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Elastic",
+        "School": "Millennium",
+        "Club": "Super Phenomenon Task Force"
     },
     {
         "id": 10134,
         "name": "Aris (Armed)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 249,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Composite",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 10135,
         "name": "Kei",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 250,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Composite",
+        "School": "Millennium",
+        "Club": "Super Phenomenon Task Force"
     },
     {
         "id": 10136,
         "name": "Eimi (Armed)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 251,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Super Phenomenon Task Force"
     },
     {
         "id": 20055,
         "name": "Yuzu (Armed)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 252,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Special",
+        "School": "Millennium",
+        "Club": "Game Development Department"
     },
     {
         "id": 20056,
         "name": "Koyuki (Pajamas)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 253,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Seminar"
     },
     {
         "id": 10137,
         "name": "Konoka",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 254,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Light",
+        "School": "Valkyrie",
+        "Club": "Public Peace Bureau"
     },
     {
         "id": 10138,
         "name": "Rena",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 255,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Wildhunt",
+        "Club": "Occult Society (Dormitory 4, Unit 404)"
     },
     {
         "id": 20057,
         "name": "Akane (School)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 256,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Millennium",
+        "Club": "Cleaning & Clearing"
     },
     {
         "id": 10139,
         "name": "Niko",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 257,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Elastic",
+        "School": "SRT",
+        "Club": "FOX Squad"
     },
     {
         "id": 10140,
         "name": "Kurumi",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 258,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "SRT",
+        "Club": "FOX Squad"
     },
     {
         "id": 16020,
         "name": "Otogi",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 259,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "SRT",
+        "Club": "FOX Squad"
     },
     {
         "id": 20058,
         "name": "Erika",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 260,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Twinkle Twinkle Club"
     },
     {
         "id": 10141,
         "name": "Haruka (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 261,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Light",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 20059,
         "name": "Mutsuki (Dress)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 262,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Problem Solver 68"
     },
     {
         "id": 10142,
         "name": "Nagusa (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 263,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Heavy",
+        "School": "Hyakkiyako",
+        "Club": "Hyakkaryouran Resolution Council"
     },
     {
         "id": 10143,
         "name": "Shun (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 264,
+        "SquadType": "STRIKER",
+        "StyleId": 0,
+        "LinkedCharacterId": 10144,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Shanhaijing",
+        "Club": "Plum Blossom Garden"
     },
     {
         "id": 10144,
         "name": "Shun (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 265,
+        "SquadType": "STRIKER",
+        "StyleId": 1,
+        "LinkedCharacterId": 10143,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Shanhaijing",
+        "Club": "Plum Blossom Garden"
     },
     {
         "id": 10145,
         "name": "Kisaki (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 266,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Elastic",
+        "School": "Shanhaijing",
+        "Club": "Genryumon"
     },
     {
         "id": 10146,
         "name": "Makoto (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 267,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Mystic",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 10147,
         "name": "Satsuki (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 268,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Elastic",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 26016,
         "name": "Chiaki (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 1
+        "StarGrade": 1,
+        "DefaultOrder": 269,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Heavy",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 10148,
         "name": "Iroha (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 270,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     },
     {
         "id": 20060,
         "name": "Ibuki (Swimsuit)",
         "hasBondGear": false,
-        "StarGrade": 3
+        "StarGrade": 3,
+        "DefaultOrder": 271,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Explosive",
+        "ArmorType": "Special",
+        "School": "Gehenna",
+        "Club": "Pandemonium Society"
     }
 ]

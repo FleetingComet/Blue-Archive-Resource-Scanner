@@ -1533,7 +1533,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_hat_useall_piece",
-        "name": "帽子の万能設計図"
+        "name": "General Hat Blueprint"
     },
     {
         "id": 502000,
@@ -1541,7 +1541,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_gloves_useall_piece",
-        "name": "グローブの万能設計図"
+        "name": "General Gloves Blueprint"
     },
     {
         "id": 503000,
@@ -1549,7 +1549,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_shoes_useall_piece",
-        "name": "シューズの万能設計図"
+        "name": "General Shoes Blueprint"
     },
     {
         "id": 504000,
@@ -1557,7 +1557,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_bag_useall_piece",
-        "name": "バッグの万能設計図"
+        "name": "General Bag Blueprint"
     },
     {
         "id": 505000,
@@ -1565,7 +1565,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_badge_useall_piece",
-        "name": "バッジの万能設計図"
+        "name": "General Badge Blueprint"
     },
     {
         "id": 506000,
@@ -1573,7 +1573,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_hairpin_useall_piece",
-        "name": "ヘアピンの万能設計図"
+        "name": "General Hairpin Blueprint"
     },
     {
         "id": 507000,
@@ -1581,7 +1581,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_charm_useall_piece",
-        "name": "お守りの万能設計図"
+        "name": "General Amulet Blueprint"
     },
     {
         "id": 508000,
@@ -1589,7 +1589,7 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_watch_useall_piece",
-        "name": "腕時計の万能設計図"
+        "name": "General Wristwatch Blueprint"
     },
     {
         "id": 509000,
@@ -1597,6 +1597,6 @@
         "rarity": "N",
         "tier": 0,
         "icon": "equipment_icon_necklace_useall_piece",
-        "name": "ネックレスの万能設計図"
+        "name": "General Necklace Blueprint"
     }
 ]

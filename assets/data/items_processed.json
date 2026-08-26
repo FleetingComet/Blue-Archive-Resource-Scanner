@@ -4597,67 +4597,67 @@
     },
     {
         "id": 80800,
-        "name": "イベントPt",
+        "name": "Event Points",
         "rarity": "N",
         "icon": "item_icon_event_item_0"
     },
     {
         "id": 80801,
-        "name": "クーリングパック",
+        "name": "Ice Pack",
         "rarity": "N",
         "icon": "item_icon_event_token_1_s60"
     },
     {
         "id": 80802,
-        "name": "SRT小隊用レーション",
+        "name": "SRT Combat Ration",
         "rarity": "N",
         "icon": "item_icon_event_token_2_s60"
     },
     {
         "id": 80803,
-        "name": "キュウリ味の歯磨き粉",
+        "name": "Cucumber Toothpaste",
         "rarity": "N",
         "icon": "item_icon_event_token_3_s60"
     },
     {
         "id": 80804,
-        "name": "経路図",
+        "name": "Marked Map",
         "rarity": "N",
         "icon": "item_icon_event_object_0_s60"
     },
     {
         "id": 80805,
-        "name": "乱数が書かれたメモ",
+        "name": "Random Number Cipher",
         "rarity": "N",
         "icon": "item_icon_event_object_1_s60"
     },
     {
         "id": 80806,
-        "name": "爆弾の図面",
+        "name": "Bomb Cross-Section",
         "rarity": "N",
         "icon": "item_icon_event_object_2_s60"
     },
     {
         "id": 80807,
-        "name": "未返却図書と図書カード",
+        "name": "Unreturned Book with Library Card",
         "rarity": "N",
         "icon": "item_icon_event_object_3_s60"
     },
     {
         "id": 80808,
-        "name": "SDカード",
+        "name": "SD Cards",
         "rarity": "N",
         "icon": "item_icon_event_object_4_s60"
     },
     {
         "id": 80809,
-        "name": "新聞スクラップ",
+        "name": "Newspaper Clippings",
         "rarity": "N",
         "icon": "item_icon_event_object_5_s60"
     },
     {
         "id": 80810,
-        "name": "使用済みの乗車券",
+        "name": "Punched Train Ticket",
         "rarity": "N",
         "icon": "item_icon_event_object_6_s60"
     },
@@ -5005,13 +5005,13 @@
     },
     {
         "id": 150048,
-        "name": "T10装備設計図選択ボックス",
+        "name": "T10 Equipment Blueprint Choice Box",
         "rarity": "N",
         "icon": "equipment_icon_selection_tier10_piece"
     },
     {
         "id": 150049,
-        "name": "リコレクト・メモリー-ive aLIVE!交換チケット",
+        "name": "Recollection Player -ive aLIVE! Exchange Ticket",
         "rarity": "SSR",
         "icon": "item_icon_furnitureticket_videopanel_event067"
     },
@@ -5167,7 +5167,7 @@
     },
     {
         "id": 151024,
-        "name": "ヴァルキューレ警察学校シリーズ選択ボックス",
+        "name": "Valkyrie Police School Furniture Choice Box",
         "rarity": "SSR",
         "icon": "item_icon_furniture_selection_group123"
     },
@@ -6271,7 +6271,7 @@
     },
     {
         "id": 191024,
-        "name": "ヴァルキューレ警察学校シリーズ抽選ボックス",
+        "name": "Valkyrie Police School Furniture Raffle Box",
         "rarity": "SSR",
         "icon": "item_icon_furniture_random_group123"
     },
