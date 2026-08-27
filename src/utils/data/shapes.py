@@ -26,8 +26,8 @@ class Student:
     StarGrade: int = 1  # lowest rarity
 
     # For Dual Style Characters
-    StyleId: int | None = 0
-    LinkedCharacterId: int | None = 0
+    StyleId: int | None = None
+    LinkedCharacterId: int | None = None
 
     DefaultOrder: int
     # Striker ("Main") or Special ("Support")
