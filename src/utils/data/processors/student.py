@@ -1,6 +1,7 @@
 from src.core.config import Path_Config
 from src.utils.data.processors.base import BaseProcessor
 from src.utils.data.shapes import Student
+from src.utils.data.stat_normalization import normalize_stats
 from src.utils.data.text_matcher import find_closest
 
 
@@ -33,13 +34,7 @@ class StudentProcessor(BaseProcessor):
                 {
                     "id": student_id,
                     "name": char["name"],
-                    "current": self._process_stats(char.get("current", {})),
+                    "current": normalize_stats(char.get("current", {})),
                 }
             )
         return mapped
-
-    def _process_stats(self, stats: dict) -> dict:
-        processed = {}
-        for k, v in stats.items():
-            processed[k] = int(v) if k in ("star", "ue") else str(v)
-        return processed

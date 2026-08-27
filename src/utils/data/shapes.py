@@ -22,13 +22,6 @@ class Student:
     id: int
     name: str
     # icon: str
-    hasBondGear: bool = False
-    StarGrade: int = 1  # lowest rarity
-
-    # For Dual Style Characters
-    StyleId: int | None = None
-    LinkedCharacterId: int | None = None
-
     DefaultOrder: int
     # Striker ("Main") or Special ("Support")
     SquadType: str
@@ -37,6 +30,12 @@ class Student:
     ArmorType: str
     School: str
     Club: str
+    hasBondGear: bool = False
+    StarGrade: int = 1  # lowest rarity
+
+    # For Dual Style Characters
+    StyleId: int | None = None
+    LinkedCharacterId: int | None = None
 
 
 @dataclass
