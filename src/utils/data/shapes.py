@@ -24,10 +24,10 @@ class Student:
     # icon: str
     hasBondGear: bool = False
     StarGrade: int = 1  # lowest rarity
-    
+
     # For Dual Style Characters
-    StyleId: int | None
-    LinkedCharacterId: int | None
+    StyleId: int | None = 0
+    LinkedCharacterId: int | None = 0
 
     DefaultOrder: int
     # Striker ("Main") or Special ("Support")

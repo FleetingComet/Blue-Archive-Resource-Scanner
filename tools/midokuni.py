@@ -11,8 +11,8 @@ from rich.console import Console
 
 from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_json
+from src.utils.data.student_matching import index_students, resolve_base_id
 from src.utils.sync.data_sync_manager import DataSyncManager
-from tools.utils.students import index_students, resolve_base_id
 
 console = Console()
 
