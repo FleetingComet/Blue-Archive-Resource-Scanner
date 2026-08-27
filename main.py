@@ -5,9 +5,9 @@ import sys
 from src.core.config import Config, Path_Config
 from src.core.navigator import ScreenNavigator
 from src.core.state import ScreenState
-from src.utils.data.equipment import EquipmentProcessor
-from src.utils.data.item import ItemProcessor
-from src.utils.data.student import StudentProcessor
+from src.utils.data.processors.equipment import EquipmentProcessor
+from src.utils.data.processors.item import ItemProcessor
+from src.utils.data.processors.student import StudentProcessor
 from src.utils.device.factory import create_device
 from src.utils.device.interfaces import DeviceController
 from src.utils.sync.data_sync_manager import DataSyncManager

@@ -1,6 +1,6 @@
 import json
 
-from src.utils.data.item import ItemProcessor
+from src.utils.data.processors.item import ItemProcessor
 
 
 def test_item_matching(tmp_config):

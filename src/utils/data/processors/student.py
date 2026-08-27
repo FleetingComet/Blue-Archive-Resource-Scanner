@@ -1,5 +1,5 @@
 from src.core.config import Path_Config
-from src.utils.data.base import BaseProcessor
+from src.utils.data.processors.base import BaseProcessor
 from src.utils.data.shapes import Student
 from src.utils.data.text_matcher import find_closest
 
