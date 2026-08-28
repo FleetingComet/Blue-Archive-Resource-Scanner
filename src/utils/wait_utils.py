@@ -22,6 +22,7 @@ Usage:
         logger.warning("Never reached Home screen.")
 """
 
+from collections.abc import Callable
 import logging
 import time
 
@@ -47,7 +48,7 @@ def wait(seconds: float, nav: bool = False) -> None:
 
 
 def wait_until(
-    condition,
+    condition: Callable[..., bool], 
     timeout: float = 5.0,
     interval: float = 0.2,
     nav: bool = False,

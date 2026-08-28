@@ -1,4 +1,5 @@
 from enum import Enum
+
 from src.core.area import Region
 
 

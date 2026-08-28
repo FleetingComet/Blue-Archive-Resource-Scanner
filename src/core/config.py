@@ -103,11 +103,7 @@ class ConfigManager:
         self.OCR_ENGINE = OCREngine.RAPIDOCR.value  # for future
 
     def load(self) -> AppSettings:
-        try:
-            data = read_json(self._path_config.SETTINGS_FILE)
-        except ValueError as e:
-            console.print(f"[yellow]{e} — using defaults[/yellow]")
-            return AppSettings()
+        data = read_json(self._path_config.SETTINGS_FILE)
 
         if not data:
             return AppSettings()

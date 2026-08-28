@@ -67,6 +67,7 @@ class MidokuniRosterExporter:
             val = val * 66 + self.CHAR_TO_VAL[char]
         return val
 
+    @staticmethod
     def to_base5(n: int) -> str:
         """Converts a non-negative integer into a Base5 string."""
         if n == 0:
@@ -79,6 +80,7 @@ class MidokuniRosterExporter:
 
         return "".join(reversed(digits))
 
+    @staticmethod
     def from_base5(s: str) -> int:
         value = 0
         for c in s:

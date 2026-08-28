@@ -93,7 +93,7 @@ class ScreenNavigator:
         Check if the user is currently at the home screen by image matching.
         Returns True if the menu button is detected.
         """
-        return self._check_asset_in_region(Home.MENU_REGION, "menu_button", 0.7)
+        return self._check_asset_in_region(Home.MENU_REGION, "menu_button", 0.65)
 
     def at_page(self) -> bool:
         """
@@ -116,10 +116,10 @@ class ScreenNavigator:
 
         for attempt in range(max_attempts):
             self.device.tap(int(button.random_point().x), int(button.random_point().y))
-            # wait(2.0, nav=True)
+            wait(2.0, nav=True)
 
-            # if self.at_home():
-            if wait_until(self.at_home, timeout=5.0, nav=True):
+            # if wait_until(self.at_home, timeout=5.0, nav=True):
+            if self.at_home():
                 logger.debug(
                     f"[green]ensure_at_home: reached Home on attempt {attempt}[/green]"
                 )
@@ -140,12 +140,12 @@ class ScreenNavigator:
 
         for _ in range(max_attempts):
             self.press_menu_tab()
-            # wait(1.5, nav=True)
+            wait(1.5, nav=True)
 
-            # if self.is_menu_tab_open() == should_open:
-            if wait_until(
-                lambda: self.is_menu_tab_open() == should_open, timeout=3, nav=True
-            ):
+            # if wait_until(
+            #     lambda: self.is_menu_tab_open() == should_open, timeout=3, nav=True
+            # ):
+            if self.is_menu_tab_open() == should_open:
                 logger.info(
                     f"[green]Successfully {'opened' if should_open else 'closed'} Menu Tab[/green]"
                 )

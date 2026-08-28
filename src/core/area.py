@@ -4,34 +4,35 @@
 # and https://github.com/Fate-Grand-Automata/FGA/blob/master/libautomata/src/main/java/io/github/lib_automata/Size.kt
 
 import random
+from dataclasses import dataclass
 from functools import total_ordering
 from math import isclose
 
 
+@dataclass(frozen=True, slots=True)
 @total_ordering
 class Location:
-    def __init__(self, x: int = 0, y: int = 0):
-        self.x = x
-        self.y = y
+    x: float = 0
+    y: float = 0
 
-    def __add__(self, other):
+    def __add__(self, other: "Location") -> "Location":
         return Location(self.x + other.x, self.y + other.y)
 
-    def __sub__(self, other):
+    def __sub__(self, other: "Location") -> "Location":
         return Location(self.x - other.x, self.y - other.y)
 
-    def __mul__(self, scale: float):
+    def __mul__(self, scale: float) -> "Location":
         return Location(
             round(self.x * scale),
             round(self.y * scale),
         )
 
-    def __lt__(self, other):
+    def __lt__(self, other: "Location"):
         if not isinstance(other, Location):
             return NotImplemented
         return (self.x, self.y) < (other.x, other.y)
 
-    def __eq__(self, other):
+    def __eq__(self, other: "Location"):
         if not isinstance(other, Location):
             return NotImplemented
         return (self.x, self.y) == (other.x, other.y)
@@ -57,17 +58,20 @@ class Location:
             self.y + random.randint(-offset, offset),
         )
 
-    # def x_from_center(self, screen_width):
-    #     """Calculate x position from the center of the screen."""
-    #     center_x = screen_width / 2
-    #     return self.x - center_x
-
-    # def x_from_right(self, screen_width):
-    #     """Calculate x position from the right of the screen."""
-    #     return screen_width - self.x
-
     def __repr__(self):
         return f"Location(x={self.x}, y={self.y})"
+
+    def x_from_center(self, width: float) -> "Location":
+        return Location(self.x - (width / 2), self.y)
+
+    def x_from_right(self, width: float) -> "Location":
+        return Location(width - self.x, self.y)
+
+    def y_from_center(self, height: float) -> "Location":
+        return Location(self.x, self.y - (height / 2))
+
+    def y_from_bottom(self, height: float) -> "Location":
+        return Location(self.x, height - self.y)
 
 
 class Size:
@@ -96,16 +100,12 @@ class Size:
         return f"Size(width={self.width}, height={self.height})"
 
 
+@dataclass(frozen=True, slots=True)
 class Region:
-    def __init__(self, x: int, y: int, width: int, height: int):
-        if width <= 0:
-            raise ValueError("width must be positive")
-        if height <= 0:
-            raise ValueError("height must be positive")
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+    x: float
+    y: float
+    width: float
+    height: float
 
     @classmethod
     def from_location_and_size(cls, location: Location, size: Size):
@@ -135,23 +135,6 @@ class Region:
 
     def __iter__(self):
         return iter((self.x, self.y, self.width, self.height))
-
-    # this function is for game area which is Soon™
-    # @property
-    # def xFromCenter(self) -> Location:
-    #     return Location(self.center.x, 0)
-
-    # @property
-    # def xFromRight(self) -> Location:
-    #     return Location(self.right, 0)
-
-    # @property
-    # def yFromBottom(self) -> Location:
-    #     return Location(0, self.bottom)
-
-    # @property
-    # def yFromCenter(self) -> Location:
-    #     return Location(0, self.center.y)
 
     def __add__(self, location: Location):
         return Region.from_location_and_size(self.location + location, self.size)
@@ -184,10 +167,10 @@ class Region:
             and isclose(self.height, other.height)
         )
 
-    def __lt__(self, other):
+    def __lt__(self, other: "Region"):
         return self.location < other.location
 
-    def __gt__(self, other):
+    def __gt__(self, other: "Region"):
         return self.location > other.location
 
     def __repr__(self):
@@ -210,3 +193,35 @@ class Region:
         dx = random.randint(-offset, offset)
         dy = random.randint(-offset, offset)
         return self.center + Location(dx, dy)
+
+    def x_from_center(self, screen_width: float) -> "Region":
+        return Region(
+            x=self.x - (screen_width / 2),
+            y=self.y,
+            width=self.width,
+            height=self.height,
+        )
+
+    def x_from_right(self, screen_width: float) -> "Region":
+        return Region(
+            x=screen_width - self.x,
+            y=self.y,
+            width=self.width,
+            height=self.height,
+        )
+
+    def y_from_center(self, screen_height: float) -> "Region":
+        return Region(
+            x=self.x,
+            y=self.y - (screen_height / 2),
+            width=self.width,
+            height=self.height,
+        )
+
+    def y_from_bottom(self, screen_height: float) -> "Region":
+        return Region(
+            x=self.x,
+            y=screen_height - self.y,
+            width=self.width,
+            height=self.height,
+        )

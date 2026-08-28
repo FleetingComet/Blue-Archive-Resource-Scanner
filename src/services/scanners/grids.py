@@ -213,7 +213,7 @@ def process_ocr_results(
                 name, count = result["name"], result["count"]
 
                 if name and count:
-                    parsed = normalize_value(count)
+                    parsed = normalize_value(count, default=None)
 
                     if parsed is None:
                         logger.info(

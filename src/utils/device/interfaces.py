@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 
 import numpy as np
 
@@ -8,18 +7,17 @@ class DeviceController(ABC):
     """Unified interface for Device Interaction (Capture + Input)"""
 
     @abstractmethod
-    def connect(self) -> bool:
+    def connect(self, retries: int = 3) -> bool:
         pass
 
     @abstractmethod
-    def capture_screenshot(self) -> Optional[np.ndarray]:
+    def capture_screenshot(self) -> np.ndarray | None:
         """
         Captures the current screen on demand.
 
         Returns:
             np.ndarray: Screenshot image or None if failed
         """
-        pass
 
     @abstractmethod
     def tap(self, x: int, y: int, duration_ms: int = 100) -> bool:
@@ -34,7 +32,6 @@ class DeviceController(ABC):
         Returns:
             bool: True if successful
         """
-        pass
 
     @abstractmethod
     def swipe(self, x1: int, y1: int, x2: int, y2: int, duration_ms: int = 500) -> bool:
@@ -51,4 +48,3 @@ class DeviceController(ABC):
         Returns:
             bool: True if successful
         """
-        pass
