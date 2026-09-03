@@ -1,8 +1,8 @@
 import logging
 
-from locations.search import SearchPattern
 from src.core.config import Path_Config
 from src.enums.ExtractionMode import ExtractionMode
+from src.locations.search import SearchPattern
 from src.utils.data.io import update_count
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.extract import extract_from_region

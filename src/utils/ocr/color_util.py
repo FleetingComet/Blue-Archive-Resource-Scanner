@@ -1,8 +1,11 @@
+from functools import lru_cache
+
 import cv2
 import numpy as np
 
 
-def hex_to_bgr(hex_color):
+@lru_cache(maxsize=32)
+def hex_to_bgr(hex_color: str):
     """
     Convert a hex color string (e.g., "d8dadc") to a BGR tuple.
 
@@ -61,10 +64,11 @@ def remove_colors(image, hex_colors, tolerance=5, black_bg=False):
     # Remove the color by setting those pixels to white
     result = image.copy()
     result[combined_mask != 0] = (255, 255, 255)
-    
+
     if black_bg:
         result[combined_mask != 0] = (0, 0, 0)
     return result, combined_mask
+
 
 def retain_colors(image, hex_colors, tolerance=5):
     """
@@ -81,9 +85,8 @@ def retain_colors(image, hex_colors, tolerance=5):
       combined_mask: The mask of pixels matching the specified colors.
     """
     if image.ndim == 3 and image.shape[2] == 4:
-            image = image[:, :, :3]
+        image = image[:, :, :3]
 
-    
     combined_mask = None
 
     for hex_color in hex_colors:
@@ -109,17 +112,18 @@ def retain_colors(image, hex_colors, tolerance=5):
 
     return result, combined_mask
 
+
 def remove_non_white(image, tolerance=0):
     """
     Replace all non-white pixels in an image with black.
-    
+
     Parameters:
         image (np.array): Input image (BGR, 3-channel).
         tolerance (int): How close to 255 a channel must be to be considered white.
                          Default is 0 (only pure white [255,255,255] is considered white).
                          For example, tolerance=10 considers pixels with each channel
                          >= 245 as white.
-    
+
     Returns:
         np.array: The resulting image with non-white pixels set to white.
     """
@@ -130,18 +134,21 @@ def remove_non_white(image, tolerance=0):
         image = image[:, :, :3]
 
     # Define the lower and upper bounds for white.
-    lower = np.array([255 - tolerance, 255 - tolerance, 255 - tolerance], dtype=np.uint8)
+    lower = np.array(
+        [255 - tolerance, 255 - tolerance, 255 - tolerance], dtype=np.uint8
+    )
     upper = np.array([255, 255, 255], dtype=np.uint8)
-    
+
     # Create a mask of pixels that are considered white.
     white_mask = cv2.inRange(image, lower, upper)
-    
+
     # Create a copy of the image. Replace pixels that are NOT white (mask==0) with black.
     result = image.copy()
     # result[white_mask == 0] = [255, 255, 255]
     result[white_mask == 0] = [0, 0, 0]
-    
+
     return result
+
 
 def retain_specific_color(image, hex_color, tolerance=5, black_bg=False):
     """
@@ -162,7 +169,7 @@ def retain_specific_color(image, hex_color, tolerance=5, black_bg=False):
         image = image[:, :, :3]
     elif image.ndim == 2:
         image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
-    
+
     # Convert hex to BGR using your existing function (assumed to be defined elsewhere)
     target_bgr = hex_to_bgr(hex_color)
 

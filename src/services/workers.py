@@ -2,8 +2,8 @@ from typing import TypedDict
 
 import numpy as np
 
-from locations.search import StudentSearchPattern
 from src.enums.ExtractionMode import ExtractionMode
+from src.locations.search import StudentSearchPattern
 from src.utils.ocr.extract import (
     extract_from_region,
     extract_item_name,

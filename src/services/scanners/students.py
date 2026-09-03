@@ -4,10 +4,10 @@ import logging
 import numpy as np
 from rich.markup import escape
 
-from locations import screens
-from locations.search import StudentSearchPattern
 from src.core.config import Config, Path_Config
 from src.enums.ExtractionMode import ExtractionMode
+from src.locations import screens
+from src.locations.search import StudentSearchPattern
 from src.services.workers import student_ocr_worker
 from src.utils.data.io import write_json
 from src.utils.data.student_skill_helper import map_student_data_to_character

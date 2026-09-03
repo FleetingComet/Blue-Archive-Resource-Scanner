@@ -2,10 +2,10 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 
-from locations.entrypoint import EntryPointButtons, EntryPointTitles
-from locations.screens import Home, Page, StudentList
 from src.core.area import Region
 from src.enums.ExtractionMode import ExtractionMode
+from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
+from src.locations.screens import Home, Page, StudentList
 from src.utils.data.text_matcher import find_closest
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.matchers import find_template_location

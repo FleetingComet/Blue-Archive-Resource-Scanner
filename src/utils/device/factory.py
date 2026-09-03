@@ -7,6 +7,7 @@ from src.utils.device.interfaces import DeviceController
 
 logger = logging.getLogger("BA-Scanner")
 
+
 def create_device(settings: AppSettings) -> DeviceController:
     platform_ = settings.target_platform
     if isinstance(platform_, TargetPlatform):

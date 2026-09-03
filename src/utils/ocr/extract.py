@@ -4,10 +4,10 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from locations.search import SearchPattern
 from src.core.area import Region
 from src.core.config import Config
 from src.enums.ExtractionMode import ExtractionMode
+from src.locations.search import SearchPattern
 from src.utils.data.text_matcher import find_closest
 from src.utils.ocr.color_util import (
     retain_colors,
