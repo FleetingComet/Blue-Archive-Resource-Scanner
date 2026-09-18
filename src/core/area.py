@@ -22,19 +22,36 @@ class Location:
         return Location(self.x - other.x, self.y - other.y)
 
     def __mul__(self, scale: float) -> "Location":
+        """Handle loc * n"""
         return Location(
             round(self.x * scale),
             round(self.y * scale),
         )
 
-    def __lt__(self, other: "Location"):
-        if not isinstance(other, Location):
-            return NotImplemented
-        return (self.x, self.y) < (other.x, other.y)
+    """Handle n * loc"""
+    __rmul__ = __mul__
 
-    def __eq__(self, other: "Location"):
+    def __truediv__(self, scale: float) -> "Location":
+        return Location(
+            round(self.x / scale),
+            round(self.y / scale),
+        )
+
+    def __floordiv__(self, scale: float) -> "Location":
+        return Location(
+            round(self.x // scale),
+            round(self.y // scale),
+        )
+
+    def __lt__(self, other: "Location | Region"):
         if not isinstance(other, Location):
-            return NotImplemented
+            return (self.y, self.x) < (other.location.y, other.location.x)
+        return (self.y, self.x) < (other.y, other.x)
+
+    def __eq__(self, other: "Location | Region"):
+        if not isinstance(other, Location):
+            return (self.x, self.y) == (other.location.x, other.location.y)
+
         return (self.x, self.y) == (other.x, other.y)
 
     @property
@@ -61,21 +78,10 @@ class Location:
     def __repr__(self):
         return f"Location(x={self.x}, y={self.y})"
 
-    def x_from_center(self, width: float) -> "Location":
-        return Location(self.x - (width / 2), self.y)
 
-    def x_from_right(self, width: float) -> "Location":
-        return Location(width - self.x, self.y)
-
-    def y_from_center(self, height: float) -> "Location":
-        return Location(self.x, self.y - (height / 2))
-
-    def y_from_bottom(self, height: float) -> "Location":
-        return Location(self.x, height - self.y)
-
-
+@dataclass()
 class Size:
-    def __init__(self, width: int, height: int):
+    def __init__(self, width: float, height: float):
         if not isinstance(width, (int, float)):
             raise TypeError(
                 f"Width must be a number, got {type(width).__name__} instead."
@@ -88,19 +94,23 @@ class Size:
         self.width = width
         self.height = height
 
-    def __mul__(self, scale):
+    def __mul__(self, scale) -> "Size":
         return Size(round(self.width * scale), round(self.height * scale))
 
     # game area screen stuffs
-    # def wider_than(self, x, y):
-    #     """Checks if the size is wider than the given aspect ratio x:y."""
-    #     return self.width / self.height > x / y
+    def wider_than(self, x: int, y: int) -> bool:
+        """
+            Checks if the size is wider than the given aspect ratio x:y.
+            (uses +0.01 epsilon so 16:9 is NEVER accidentally wide)
+        """
+        return (self.width / self.height) > (x / y + 0.01)
 
     def __repr__(self):
         return f"Size(width={self.width}, height={self.height})"
 
 
 @dataclass(frozen=True, slots=True)
+@total_ordering
 class Region:
     x: float
     y: float
@@ -112,7 +122,7 @@ class Region:
         return cls(location.x, location.y, size.width, size.height)
 
     @property
-    def location(self):
+    def location(self) -> "Location":
         return Location(self.x, self.y)
 
     @property
@@ -136,13 +146,19 @@ class Region:
     def __iter__(self):
         return iter((self.x, self.y, self.width, self.height))
 
-    def __add__(self, location: Location):
+    def __add__(self, location: Location) -> "Region":
         return Region.from_location_and_size(self.location + location, self.size)
 
-    def __sub__(self, location: Location):
-        return Region.from_location_and_size(self.location - location, self.size)
+    def __mul__(self, scale: float | Size):
+        if isinstance(scale, Size):
+            print("scale is instance of Size")
+            return Region(
+                round(self.x * scale.width),
+                round(self.y * scale.height),
+                round(self.width * scale.width),
+                round(self.height * scale.height),
+            )
 
-    def __mul__(self, scale: float):
         return Region(
             round(self.x * scale),
             round(self.y * scale),
@@ -193,35 +209,3 @@ class Region:
         dx = random.randint(-offset, offset)
         dy = random.randint(-offset, offset)
         return self.center + Location(dx, dy)
-
-    def x_from_center(self, screen_width: float) -> "Region":
-        return Region(
-            x=self.x - (screen_width / 2),
-            y=self.y,
-            width=self.width,
-            height=self.height,
-        )
-
-    def x_from_right(self, screen_width: float) -> "Region":
-        return Region(
-            x=screen_width - self.x,
-            y=self.y,
-            width=self.width,
-            height=self.height,
-        )
-
-    def y_from_center(self, screen_height: float) -> "Region":
-        return Region(
-            x=self.x,
-            y=self.y - (screen_height / 2),
-            width=self.width,
-            height=self.height,
-        )
-
-    def y_from_bottom(self, screen_height: float) -> "Region":
-        return Region(
-            x=self.x,
-            y=screen_height - self.y,
-            width=self.width,
-            height=self.height,
-        )

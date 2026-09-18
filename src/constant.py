@@ -2,6 +2,8 @@
 # Screens the user explicitly toggles in the wizard.
 # "Student" is excluded - it is a sub-screen of "Students" and is
 # enabled/disabled automatically alongside it.
+from src.core.area import Size
+
 SCREEN_DEFAULTS = {
     "Currencies": {
         "menu_location": "currencies",
@@ -32,3 +34,4 @@ SCREEN_DEFAULTS = {
 }
 
 USER_FACING_SCREENS = ["Equipment", "Items", "Students", "Currencies"]
+SCRIPT_SIZE: Size = Size(1280, 720)
