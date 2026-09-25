@@ -2,7 +2,9 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 
-from src.core.area import Region
+from src.constant import MENU_TAB_KEYWORDS, TEMPLATE_BUTTONS
+from src.core.area import Location, Region
+from src.core.config import Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
 from src.locations.screens import Home, Page, StudentList
@@ -29,14 +31,14 @@ class ScreenNavigator:
         """
         Initialize the ScreenNavigator with an DeviceController.
         """
-        self.device = device
+        self.device: DeviceController = device
         self.BUTTON_MAP = {
             "home": EntryPointButtons.HOME.value,
-            "menu_students": EntryPointButtons.STUDENTS.value,
+            # "menu_students": EntryPointButtons.STUDENTS.value,
             "first_student": StudentList.FIRST_STUDENT,
             "menu": EntryPointButtons.MENU_TAB.value,
-            "menu_equipment": EntryPointButtons.MENU_TAB_EQUIPMENT.value,
-            "menu_items": EntryPointButtons.MENU_TAB_ITEMS.value,
+            # "menu_equipment": EntryPointButtons.MENU_TAB_EQUIPMENT.value,
+            # "menu_items": EntryPointButtons.MENU_TAB_ITEMS.value,
             "currencies": None,
         }
 
@@ -56,20 +58,9 @@ class ScreenNavigator:
         if image is None:
             return ""
 
-        title_region = EntryPointTitles.PAGE.value
-
-        crop = image[
-            title_region.y : title_region.bottom,
-            title_region.x : title_region.right,
-        ]
-
-        preprocessed = preprocess_image_for_ocr(crop, mode=ExtractionMode.TEXT)
-        if preprocessed is None:
-            return ""
-
-        text = extract_text(preprocessed).replace("\r", "").replace("\n", " ")
-        text = text.split()[0] if text.split() else ""
-        detected = find_closest(text, self.KNOWN_SCREENS)
+        text = self._ocr_region(image, EntryPointTitles.PAGE.value)
+        first_word = text.split()[0] if text.split() else ""
+        detected = find_closest(first_word, self.KNOWN_SCREENS) or ""
         logger.debug(
             f"[dim]identify_screen: raw={text!r} -> matched={detected!r}[/dim]"
         )
@@ -159,19 +150,19 @@ class ScreenNavigator:
 
     def navigate_to_target(self, location: str, in_menu_tab: bool) -> NavigationResult:
         """Navigate to a target button location with state verification."""
-        button = self.determine_button(location)
-        if not button:
-            return NavigationResult(
-                success=False, error_msg=f"Unknown button: {location}"
-            )
 
         if in_menu_tab:
             res = self.ensure_menu_state(True)
             if not res.success:
                 return res
 
-        p = button.random_point()
-        self.device.tap(int(p.x), int(p.y))
+        point = self._resolve_tap_point(location)
+        if point is None:
+            return NavigationResult(
+                success=False, error_msg=f"Could not find {location}"
+            )
+
+        self.device.tap(int(point.x), int(point.y))
         wait(2.0, nav=True)
 
         detected = self.identify_screen()
@@ -179,6 +170,33 @@ class ScreenNavigator:
             f"[dim]navigate_to_target: wanted={location!r}, detected={detected!r}[/dim]"
         )
         return NavigationResult(success=bool(detected), screen_detected=detected)
+
+    def _resolve_tap_point(self, location: str) -> Location | None:
+        """Script-space tap point for a named button or template."""
+        if location in TEMPLATE_BUTTONS:
+            image = self._get_screenshot()
+            if image is None:
+                return None
+
+            manager = getattr(self.device, "_manager", None)
+            matched = find_template_location(
+                image,
+                TEMPLATE_BUTTONS[location],
+                threshold=0.8,
+                scale=manager.scale if manager else 1.0,
+            )
+            if not matched:
+                return None
+
+            p = matched.random_point()
+            # if manager is not None:
+            #     x, y = manager.device_to_script(p.x, p.y)
+            #     # x, y = manager.script_to_device(p.x, p.y)
+            #     return Location(x, y)
+            return p
+
+        button = self.determine_button(location)
+        return button.random_point() if button else None
 
     def press_menu_tab(self):
         """
@@ -200,25 +218,21 @@ class ScreenNavigator:
         if image is None:
             return False
 
-        menu_region = EntryPointTitles.MENU_TAB.value
-        crop = image[
-            menu_region.y : menu_region.bottom,
-            menu_region.x : menu_region.right,
-        ]
-        preprocessed = preprocess_image_for_ocr(crop, mode=ExtractionMode.TEXT)
-        if preprocessed is None:
-            return False
-
-        text = (
-            extract_text(preprocessed)
-            .replace("\r", "")
-            .replace("\n", " ")
-            .strip()
-            .lower()
-        )
-        is_open = "menu" in text
+        text = self._ocr_region(image, EntryPointTitles.MENU_TAB.value).lower()
+        keywords = MENU_TAB_KEYWORDS[Config.settings.language]
+        is_open = any(kw in text for kw in keywords)
         logger.debug(f"[dim]is_menu_tab_open: text={text!r} -> {is_open}[/dim]")
         return is_open
 
     def determine_button(self, name: str) -> Region | None:
         return self.BUTTON_MAP.get(name)
+
+    def _ocr_region(
+        self, image, region: Region, mode: ExtractionMode = ExtractionMode.TEXT
+    ) -> str:
+        """Crop → preprocess → OCR → normalise to a single line."""
+        crop = image[region.y : region.bottom, region.x : region.right]
+        pre = preprocess_image_for_ocr(crop, mode=mode)
+        if pre is None:
+            return ""
+        return extract_text(pre).replace("\r", "").replace("\n", " ").strip()
