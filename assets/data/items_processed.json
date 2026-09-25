@@ -930,6 +930,30 @@
         "icon": "item_icon_material_exskill_wildhunt_3"
     },
     {
+        "id": 3120,
+        "name": "Beginner Tactical Training Blu-ray (Odyssey)",
+        "rarity": "N",
+        "icon": "item_icon_material_exskill_odyssey_0"
+    },
+    {
+        "id": 3121,
+        "name": "Normal Tactical Training Blu-ray (Odyssey)",
+        "rarity": "R",
+        "icon": "item_icon_material_exskill_odyssey_1"
+    },
+    {
+        "id": 3122,
+        "name": "Advanced Tactical Training Blu-ray (Odyssey)",
+        "rarity": "SR",
+        "icon": "item_icon_material_exskill_odyssey_2"
+    },
+    {
+        "id": 3123,
+        "name": "Superior Tactical Training Blu-ray (Odyssey)",
+        "rarity": "SSR",
+        "icon": "item_icon_material_exskill_odyssey_3"
+    },
+    {
         "id": 4000,
         "name": "Beginner Tech Notes (Hyakkiyako)",
         "rarity": "N",
@@ -1192,6 +1216,30 @@
         "name": "Superior Tech Notes (Wildhunt)",
         "rarity": "SSR",
         "icon": "item_icon_skillbook_wildhunt_3"
+    },
+    {
+        "id": 4120,
+        "name": "Beginner Tech Notes (Odyssey)",
+        "rarity": "N",
+        "icon": "item_icon_skillbook_odyssey_0"
+    },
+    {
+        "id": 4121,
+        "name": "Normal Tech Notes (Odyssey)",
+        "rarity": "R",
+        "icon": "item_icon_skillbook_odyssey_1"
+    },
+    {
+        "id": 4122,
+        "name": "Advanced Tech Notes (Odyssey)",
+        "rarity": "SR",
+        "icon": "item_icon_skillbook_odyssey_2"
+    },
+    {
+        "id": 4123,
+        "name": "Superior Tech Notes (Odyssey)",
+        "rarity": "SSR",
+        "icon": "item_icon_skillbook_odyssey_3"
     },
     {
         "id": 5000,
@@ -2418,6 +2466,18 @@
         "icon": "item_icon_secretstone_ch0346"
     },
     {
+        "id": 10149,
+        "name": "Kokoro's Eleph",
+        "rarity": "N",
+        "icon": "item_icon_secretstone_ch0368"
+    },
+    {
+        "id": 10150,
+        "name": "Kotone's Eleph",
+        "rarity": "N",
+        "icon": "item_icon_secretstone_ch0369"
+    },
+    {
         "id": 13000,
         "name": "Akane's Eleph",
         "rarity": "N",
@@ -2998,6 +3058,12 @@
         "name": "Ibuki (Swimsuit)'s Eleph",
         "rarity": "N",
         "icon": "item_icon_secretstone_ch0347"
+    },
+    {
+        "id": 20061,
+        "name": "Kasumi (Swimsuit)'s Eleph",
+        "rarity": "N",
+        "icon": "item_icon_secretstone_ch0328"
     },
     {
         "id": 23000,
@@ -4740,6 +4806,30 @@
         "icon": "item_icon_event_token_4_s63"
     },
     {
+        "id": 80870,
+        "name": "酸素ボンベ",
+        "rarity": "N",
+        "icon": "item_icon_event_token_0_s64"
+    },
+    {
+        "id": 80871,
+        "name": "マウスピース",
+        "rarity": "N",
+        "icon": "item_icon_event_token_1_s64"
+    },
+    {
+        "id": 80872,
+        "name": "ダイビングウェイト",
+        "rarity": "N",
+        "icon": "item_icon_event_token_2_s64"
+    },
+    {
+        "id": 80873,
+        "name": "マーカーブイ",
+        "rarity": "N",
+        "icon": "item_icon_event_token_3_s64"
+    },
+    {
         "id": 100000,
         "name": "Gift Box",
         "rarity": "SR",
@@ -5020,6 +5110,12 @@
         "name": "山海経の秘境シリーズ家具ボックス",
         "rarity": "SSR",
         "icon": "item_icon_furniture_preset_group124"
+    },
+    {
+        "id": 150051,
+        "name": "ティーパーティーアルバム収納棚交換チケット",
+        "rarity": "SSR",
+        "icon": "item_icon_furnitureticket_r82"
     },
     {
         "id": 151000,
