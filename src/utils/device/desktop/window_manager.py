@@ -6,14 +6,10 @@ import win32con
 import win32gui
 from windows_capture import Frame, InternalCaptureControl, WindowsCapture
 
-from src.core.area import Region, Size
+from src.core.area import Region
 
 
 class WindowManager:
-    # Windows-only constants for stripping the border/titlebar from the
-    # window rect so captured pixels line up with in-game coordinates.
-    BORDER_PX = 8
-    TITLEBAR_PX = 30
     PROCESS_PER_MONITOR_DPI_AWARE = 2
 
     def __init__(self, window_name: str):
@@ -28,8 +24,7 @@ class WindowManager:
                 pass
 
         self.hwnd = self._find_window()
-        # what we work on
-        self.base_res = Size(1280, 720)
+        self._last_known_region: Region | None = None
         self._bring_to_front()
 
     def _find_window(self):
@@ -48,23 +43,24 @@ class WindowManager:
         # left, top, right, bottom = win32gui.GetWindowRect(self.hwnd)
         _, _, w, h = win32gui.GetClientRect(self.hwnd)
 
+        if w <= 0 or h <= 0:
+            if self._last_known_region is not None:
+                return self._last_known_region
+
+            self._bring_to_front()
+            _, _, w, h = win32gui.GetClientRect(self.hwnd)
+            if w <= 0 or h <= 0:
+                raise RuntimeError(
+                    f"'{self.window_name}' has no visible client area "
+                    "(minimized?) and no prior region to fall back on."
+                )
+
         # Find where the (0,0) of the game area is on the monitor
         point = win32gui.ClientToScreen(self.hwnd, (0, 0))
+        region = Region(x=point[0], y=point[1], width=w, height=h)
+        self._last_known_region = region
 
-        if w <= 0 or h <= 0:
-            # Fallback for minimized windows
-            return Region(0, 0, 1280, 720)
-
-        return Region(x=point[0], y=point[1], width=w, height=h)
-
-        # full = Region(x=left, y=top, width=right - left, height=bottom - top)
-        # Windows standard border/titlebar offsets
-        # return Region(
-        #     x=full.x + self.BORDER_PX,
-        #     y=full.y + self.TITLEBAR_PX,
-        #     width=full.width - (2 * self.BORDER_PX),
-        #     height=full.height - self.TITLEBAR_PX - self.BORDER_PX,
-        # )
+        return region
 
     def get_screenshot(self) -> np.ndarray:
         """Try the first capture method, fallback to MSS."""
@@ -75,7 +71,11 @@ class WindowManager:
 
     def _capture(self):
         client = self.get_client_region()
-        capture = WindowsCapture(window_name=self.window_name, cursor_capture=False)
+        # capture = WindowsCapture(window_name=self.window_name, cursor_capture=False)
+        capture = WindowsCapture(
+            window_hwnd=self.hwnd, cursor_capture=False, draw_border=False
+        )
+
         image = None
 
         @capture.event
@@ -93,12 +93,13 @@ class WindowManager:
         if image is None:
             return np.zeros((client.height, client.width, 3), dtype=np.uint8)
 
-        left, top, _right, _bottom = win32gui.GetWindowRect(self.hwnd)
+        img_h, img_w = image.shape[:2]
 
-        # Crop offsets
-        offset_x = client.x - left
-        # Usually, borders are equal on left/right, and the remainder is on top
-        offset_y = client.y - top
+        diff_w = max(img_w - client.width, 0)
+        diff_h = max(img_h - client.height, 0)
+
+        offset_x = max(diff_w // 2, 0)
+        offset_y = max(diff_h - 1, 0)
 
         return image[
             offset_y : offset_y + client.height, offset_x : offset_x + client.width
@@ -114,19 +115,3 @@ class WindowManager:
                 "height": reg.height,
             }
             return np.array(sct.grab(monitor))[:, :, :3]
-
-    def scale_coords(self, x: int, y: int):
-        """Translates 1280x720 relative coords to absolute screen coords."""
-        client_region = self.get_client_region()
-        scale_x = client_region.width / self.base_res.width
-        scale_y = client_region.height / self.base_res.height
-        # return Region(
-        #     x=int(client_region.x + (x * scale_x)),
-        #     y=int(client_region.y + (y * scale_y)),
-        #     width=int(client_region.width * scale_x),
-        #     height=int(client_region.height * scale_y),
-        # )
-
-        return int(client_region.x + (x * scale_x)), int(
-            client_region.y + (y * scale_y)
-        )

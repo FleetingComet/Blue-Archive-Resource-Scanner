@@ -33,6 +33,7 @@ class AppSettings(BaseModel):
     enable_sync: bool = False
     target_platform: TargetPlatform = TargetPlatform.EMULATOR
 
+    language: str = "en"
     debug: bool = False
 
 

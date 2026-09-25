@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from src.constant import SCRIPT_SIZE
-from src.core.area import Region, Size
+from src.core.area import Location, Region, Size
 
 # * Empirically measured cap on the game viewport's aspect ratio (width / height).
 # * Derived from screenshots: at 2400x1080 the game area measured 2348x1080
@@ -24,8 +24,12 @@ class GameAreaManager:
     """
 
     screen_size: Size  # full device/window size in pixels
+    window_pos: Location = None  # Top-left of window on desktop
 
     def __post_init__(self):
+        if not self.window_pos:
+            self.window_pos = Location(0, 0)
+
         self.screen_aspect = self.screen_size.width / self.screen_size.height
         self._scale_method, self.scale = self._decide_scale_method()
         self._game_area = self._compute_game_area()
@@ -68,10 +72,19 @@ class GameAreaManager:
             game_width = round(self.screen_size.height * MAX_GAME_ASPECT)
             game_height = self.screen_size.height
             bar_w = round((self.screen_size.width - game_width) / 2)
-            return Region(bar_w, 0, game_width, game_height)
+            # return Region(bar_w, 0, game_width, game_height)
+            return Region(
+                self.window_pos.x + bar_w, self.window_pos.y, game_width, game_height
+            )
         else:
             # Native full screen (16:9 to ~2.174:1)
-            return Region(0, 0, self.screen_size.width, self.screen_size.height)
+            # return Region(0, 0, self.screen_size.width, self.screen_size.height)
+            return Region(
+                self.window_pos.x,
+                self.window_pos.y,
+                self.screen_size.width,
+                self.screen_size.height,
+            )
 
     # def _compute_game_area(self) -> Region:
     #     """Computes active game canvas minus pillarbox/letterbox bars."""

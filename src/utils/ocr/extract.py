@@ -6,6 +6,7 @@ import numpy as np
 
 from src.core.area import Region
 from src.core.config import Config
+from src.core.script_transform import SCRIPT
 from src.enums.ExtractionMode import ExtractionMode
 from src.locations.search import SearchPattern
 from src.utils.data.text_matcher import find_closest
@@ -21,7 +22,29 @@ from src.utils.ocr.text_util import get_tier_level
 logger = logging.getLogger("BA-Scanner")
 
 
-def crop_image(image, region: Region):
+def crop_image(image, region: Region) -> np.ndarray:
+    """Crop the image to the specified region."""
+    manager = SCRIPT._manager
+    if manager is not None:
+        # Convert region -> actual screen pixels (including scale + bars)
+        x1, y1 = manager.script_to_device(region.x, region.y)
+        x2, y2 = manager.script_to_device(region.right, region.bottom)
+    else:
+        x1, y1, x2, y2 = (
+            round(region.x),
+            round(region.y),
+            round(region.right),
+            round(region.bottom),
+        )
+
+    h, w = image.shape[:2]
+    x1, x2 = max(0, min(w, x1)), max(0, min(w, x2))
+    y1, y2 = max(0, min(h, y1)), max(0, min(h, y2))
+
+    return image[y1:y2, x1:x2]
+
+
+def crop_image_legacy(image, region: Region):
     """Crop the image to the specified region."""
     return image[region.y : region.bottom, region.x : region.right]
 
