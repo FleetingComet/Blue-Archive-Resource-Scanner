@@ -5,7 +5,6 @@ import cv2
 import numpy as np
 
 from src.core.area import Region
-from src.core.config import Config
 
 logger = logging.getLogger("BA-Scanner")
 
@@ -148,22 +147,22 @@ def find_template_location(
         result = cv2.matchTemplate(input_image, reference_image, cv2.TM_CCOEFF_NORMED)
         _min_val, max_val, _min_loc, max_loc = cv2.minMaxLoc(result)
 
-    logger.debug(f"Max Value for {reference_image_path}: {max_val}")
-    print(
+    logger.debug(
         f"Match score for {reference_image_path.name}: {max_val:.4f} (threshold={threshold})"
     )
 
-    # if max_val >= threshold:
-    # if max_val >= mask_threshold:
-    if max_val >= threshold and _verify_match(
+    if max_val < threshold:
+        return None
+
+    if mask is not None and not _verify_match(
         input_image, reference_image, mask, max_loc
     ):
-        # Get the dimensions of the template
-        h, w = reference_image.shape[:2]
-        x, y = max_loc
-        return Region(x=x, y=y, width=w, height=h)
+        return None
 
-    return None
+    h, w = reference_image.shape[:2]
+    x, y = max_loc
+
+    return Region(x=x, y=y, width=w, height=h)
 
 
 def _verify_match(input_image, reference_image, mask, loc, max_mean_diff=25.0) -> bool:
@@ -173,7 +172,6 @@ def _verify_match(input_image, reference_image, mask, loc, max_mean_diff=25.0) -
     if crop.shape[:2] != (h, w):
         return False
     diff = cv2.absdiff(crop, reference_image)
-    print(f"{diff=}")
     if mask is not None:
         m = mask.astype(bool)
         if not m.any():
@@ -182,5 +180,5 @@ def _verify_match(input_image, reference_image, mask, loc, max_mean_diff=25.0) -
     else:
         mean_diff = diff.mean()
 
-    print(f"{mean_diff=}")
+    logger.debug(f"find_template_location - verify_match: {mean_diff=}")
     return mean_diff <= max_mean_diff

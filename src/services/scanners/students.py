@@ -13,7 +13,6 @@ from src.utils.data.io import write_json
 from src.utils.data.student_skill_helper import map_student_data_to_character
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.extract import extract_from_region
-from src.utils.wait_utils import wait
 
 logger = logging.getLogger("BA-Scanner")
 
@@ -55,10 +54,10 @@ def get_student_info(
 
         # Tap Next
         device.tap(
-            int(screens.StudentInfo.BUTTONS.NEXT.x),
-            int(screens.StudentInfo.BUTTONS.NEXT.y),
+            int(screens.StudentInfo.BUTTONS.NEXT.value.x),
+            int(screens.StudentInfo.BUTTONS.NEXT.value.y),
         )
-        wait(0.5)
+        # wait(0.5) # ?? Do I need this?
 
         if Config.settings.debug and iteration >= 5:
             logger.debug("[dim]get_student_info: debug mode, stopping early[/dim]")

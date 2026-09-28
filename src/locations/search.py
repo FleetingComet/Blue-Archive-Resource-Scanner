@@ -138,6 +138,12 @@ class StudentSearchPattern(Enum):
             max_wide=lambda: cy(cx(Region(265, 296, 56, 17))),
         )
 
+        GEAR_BOND = AspectRegion(
+            standard=lambda: cy(cx(Region(321, 255, 49, 18))),
+            wide_18_9=lambda: cy(cx(Region(360, 288, 49, 18))),
+            max_wide=lambda: cy(cx(Region(371, 296, 50, 19))),
+        )
+
     class TALENT(Enum):
         """
         HP, ATK = Top Row

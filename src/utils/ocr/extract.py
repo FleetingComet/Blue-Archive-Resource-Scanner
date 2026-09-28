@@ -73,7 +73,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     Returns:
         str: The extracted text, or None if extraction fails.
     """
-    logger.debug(f"[dim]extract_from_region: {mode=}, {region=}[/dim]")
+    # logger.debug(f"[dim]extract_from_region: {mode=}, {region=}[/dim]")
 
     crop_img = crop_image(image, region)
 
@@ -96,6 +96,11 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
         if find_template_location(crop_img, TEMPLATE_PATH):
             return "MAX"
 
+    if mode == ExtractionMode.TALENT:
+        hex_colors = ["fffc00", "ffffff"]
+        image, _ = retain_colors(image=crop_img, hex_colors=hex_colors, tolerance=6)
+        return extract_text_talent(image)
+
     processed_img = preprocess_image_for_ocr(crop_img, mode)
 
     if processed_img is None:
@@ -105,10 +110,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     if mode == ExtractionMode.MULTI_LINE_NAME:
         return extract_multiline_text(processed_img)
 
-    if mode == ExtractionMode.TALENT:
-        text = extract_text_talent(processed_img)
-    else:
-        text = extract_text(processed_img)
+    text = extract_text(processed_img)
 
     if text is None:
         return None

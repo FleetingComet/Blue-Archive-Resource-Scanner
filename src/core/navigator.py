@@ -34,12 +34,8 @@ class ScreenNavigator:
         self.device: DeviceController = device
         self.BUTTON_MAP = {
             "home": EntryPointButtons.HOME.value,
-            # "menu_students": EntryPointButtons.STUDENTS.value,
-            "first_student": StudentList.FIRST_STUDENT,
+            "first_student": StudentList.FIRST_STUDENT.value,
             "menu": EntryPointButtons.MENU_TAB.value,
-            # "menu_equipment": EntryPointButtons.MENU_TAB_EQUIPMENT.value,
-            # "menu_items": EntryPointButtons.MENU_TAB_ITEMS.value,
-            "currencies": None,
         }
 
         self.KNOWN_SCREENS = ["Items", "Equipment", "Students", "Student"]
@@ -151,10 +147,9 @@ class ScreenNavigator:
     def navigate_to_target(self, location: str, in_menu_tab: bool) -> NavigationResult:
         """Navigate to a target button location with state verification."""
 
-        if in_menu_tab:
-            res = self.ensure_menu_state(True)
-            if not res.success:
-                return res
+        res = self.ensure_menu_state(in_menu_tab)
+        if not res.success:
+            return res
 
         point = self._resolve_tap_point(location)
         if point is None:
@@ -185,7 +180,7 @@ class ScreenNavigator:
                 threshold=0.8,
                 scale=manager.scale if manager else 1.0,
             )
-            if not matched:
+            if matched is None:
                 return None
 
             p = matched.random_point()
