@@ -436,7 +436,7 @@
     {
         "id": 20001,
         "name": "Karin",
-        "hasBondGear": false,
+        "hasBondGear": true,
         "StarGrade": 3,
         "DefaultOrder": 31,
         "SquadType": "SPECIAL",
@@ -604,7 +604,7 @@
     {
         "id": 26004,
         "name": "Shimiko",
-        "hasBondGear": false,
+        "hasBondGear": true,
         "StarGrade": 1,
         "DefaultOrder": 43,
         "SquadType": "SPECIAL",
@@ -3250,7 +3250,7 @@
     {
         "id": 10125,
         "name": "Eri",
-        "hasBondGear": false,
+        "hasBondGear": true,
         "StarGrade": 3,
         "DefaultOrder": 232,
         "SquadType": "STRIKER",
@@ -3848,5 +3848,33 @@
         "ArmorType": "Special",
         "School": "Gehenna",
         "Club": "Hot Springs Department"
+    },
+    {
+        "id": 10151,
+        "name": "Anna",
+        "hasBondGear": false,
+        "StarGrade": 3,
+        "DefaultOrder": 275,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Light",
+        "School": "Red Winter",
+        "Club": "Class183"
+    },
+    {
+        "id": 20062,
+        "name": "Erina",
+        "hasBondGear": false,
+        "StarGrade": 3,
+        "DefaultOrder": 276,
+        "SquadType": "SPECIAL",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Sonic",
+        "ArmorType": "Light",
+        "School": "Red Winter",
+        "Club": "Class183"
     }
 ]

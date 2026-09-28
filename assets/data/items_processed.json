@@ -2478,6 +2478,12 @@
         "icon": "item_icon_secretstone_ch0369"
     },
     {
+        "id": 10151,
+        "name": "Anna's Eleph",
+        "rarity": "N",
+        "icon": "item_icon_secretstone_ch0320"
+    },
+    {
         "id": 13000,
         "name": "Akane's Eleph",
         "rarity": "N",
@@ -3064,6 +3070,12 @@
         "name": "Kasumi (Swimsuit)'s Eleph",
         "rarity": "N",
         "icon": "item_icon_secretstone_ch0328"
+    },
+    {
+        "id": 20062,
+        "name": "Erina's Eleph",
+        "rarity": "N",
+        "icon": "item_icon_secretstone_ch0321"
     },
     {
         "id": 23000,
@@ -4729,25 +4741,25 @@
     },
     {
         "id": 80830,
-        "name": "イベントPt",
+        "name": "Event Points",
         "rarity": "N",
         "icon": "item_icon_event_item_0"
     },
     {
         "id": 80831,
-        "name": "クーリングパック",
+        "name": "Ice Pack",
         "rarity": "N",
         "icon": "item_icon_event_token_1_s60"
     },
     {
         "id": 80832,
-        "name": "SRT小隊用レーション",
+        "name": "SRT Combat Ration",
         "rarity": "N",
         "icon": "item_icon_event_token_2_s60"
     },
     {
         "id": 80833,
-        "name": "キュウリ味の歯磨き粉",
+        "name": "Cucumber Toothpaste",
         "rarity": "N",
         "icon": "item_icon_event_token_3_s60"
     },
@@ -4828,6 +4840,30 @@
         "name": "マーカーブイ",
         "rarity": "N",
         "icon": "item_icon_event_token_3_s64"
+    },
+    {
+        "id": 80880,
+        "name": "イベントPt",
+        "rarity": "N",
+        "icon": "item_icon_event_item_0"
+    },
+    {
+        "id": 80881,
+        "name": "銅の欠片",
+        "rarity": "N",
+        "icon": "item_icon_event_token_1_s65"
+    },
+    {
+        "id": 80882,
+        "name": "チタンの欠片",
+        "rarity": "N",
+        "icon": "item_icon_event_token_2_s65"
+    },
+    {
+        "id": 80883,
+        "name": "ガラスの欠片",
+        "rarity": "N",
+        "icon": "item_icon_event_token_3_s65"
     },
     {
         "id": 100000,
