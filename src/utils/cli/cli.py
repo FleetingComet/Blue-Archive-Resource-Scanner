@@ -5,10 +5,13 @@ from rich.table import Table
 from rich.text import Text
 
 from src.constant import USER_FACING_SCREENS
-from src.core.config import Config
+from src.core.config import Config, TargetPlatform
 from src.utils.cli.config_utils import load_screens_from_config
+from src.utils.device.adb.adb_controller import list_adb_devices
 
 console = Console()
+
+_MANUAL_SENTINEL = "__manual__"
 
 
 def header(title: str):
@@ -59,6 +62,55 @@ def choose(prompt: str, options: list, default: str = "") -> str:
         console.print(f"[red]Choose between 1 and {len(options)}[/red]")
 
 
+def ask_for_device(mode: str, previous: str | None = None) -> str:
+    """
+    Returns a target string (USB serial or host:port).
+    """
+    devices = list_adb_devices()
+    prev = (previous or "").strip()
+    manual_default = prev or (
+        "localhost:16384" if mode == TargetPlatform.EMULATOR.value else ""
+    )
+
+    console.print("\n[bold]Detected ADB targets[/bold]")
+    if devices:
+        for serial, state in devices:
+            color = "green" if state == "device" else "yellow"
+            console.print(f"  [dim]•[/dim] [{color}]{serial}[/{color}]  ({state})")
+    else:
+        console.print(
+            "  [yellow]None found.[/yellow] [dim]"
+            "Start the emulator or run `adb connect <host:port>` first.[/dim]"
+        )
+
+    options: list[tuple[str, str]] = []
+    for serial, state in devices:
+        color = "green" if state == "device" else "yellow"
+        options.append((serial, f"[{color}]{serial}[/{color}]  ({state})"))
+    options.append(
+        (
+            _MANUAL_SENTINEL,
+            f"Enter manually  [dim](e.g. {manual_default or 'host:port'})[/dim]",
+        )
+    )
+
+    default_key = _MANUAL_SENTINEL
+    for serial, _ in devices:
+        if serial == prev:
+            default_key = serial
+            break
+
+    chosen = choose("Select a target", options, default=default_key)
+
+    if chosen == _MANUAL_SENTINEL:
+        return ask(
+            "Serial (e.g. 123456789A123456) or host:port (e.g. localhost:16384)",
+            default=manual_default,
+        ).strip()
+
+    return chosen
+
+
 def print_settings() -> None:
     """Pretty-print the active configuration before launch."""
     s = Config.settings
@@ -86,7 +138,8 @@ def print_settings() -> None:
     table.add_row("[bold cyan]PLATFORM & CONNECTION[/bold cyan]", "", "")
     table.add_row("Target Platform", ">", s.target_platform.name)
     if s.target_platform.name.lower() != "desktop":
-        table.add_row("ADB Endpoint", ">", f"{s.adb_host}:{s.adb_port}")
+        kind = "TCP" if ":" in s.adb_serial else "USB"
+        table.add_row("ADB Endpoint", ">", f"{s.adb_serial} [dim]({kind})[/dim]")
         table.add_row("ADB Retries", ">", str(s.adb_retries))
 
     # Performance

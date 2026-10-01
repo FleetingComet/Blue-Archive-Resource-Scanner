@@ -2,6 +2,7 @@ import pyautogui
 
 from src.core.area import Location, Size
 from src.core.game_area import GameAreaManager
+from src.core.script_transform import SCRIPT
 from src.utils.device.desktop.window_manager import WindowManager
 from src.utils.device.interfaces import DeviceController
 
@@ -20,6 +21,7 @@ class DesktopDevice(DeviceController):
             screen_size=Size(client.width, client.height),
             window_pos=Location(client.x, client.y),
         )
+        SCRIPT.set_manager(self._manager)
         return True
 
     def capture_screenshot(self):

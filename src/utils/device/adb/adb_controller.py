@@ -1,11 +1,40 @@
 import logging
 import platform
+import re
 import subprocess
 import threading
 import time
 
 import cv2
 import numpy as np
+
+
+def list_adb_devices() -> list[tuple[str, str]]:
+    """
+    Return [(serial, state), ...] as reported by `adb devices`.
+    state is usually 'device', 'offline', 'unauthorized'.
+    """
+    try:
+        result = subprocess.run(
+            "adb devices",
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=False,
+        )
+    except (subprocess.TimeoutExpired, subprocess.SubprocessError):
+        return []
+
+    devices: list[tuple[str, str]] = []
+    for line in result.stdout.splitlines()[1:]:  # skip "List of devices attached"
+        line = line.strip()
+        if not line:
+            continue
+        parts = re.split(r"\s+", line)
+        if len(parts) >= 2:
+            devices.append((parts[0], parts[1]))
+    return devices
 
 
 class ADBController:
@@ -20,53 +49,89 @@ class ADBController:
                 cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self, host: str = "localhost", port: int = 16384):
-        """Mumu port : 16384"""
-        self.host = host
-        self.port = port
+    # Mumu port : 16384
+    def __init__(self, serial: str):
+        """
+        Two modes:
+          - Physical/USB device: pass `serial` (e.g. '123456789A123456').
+          - Emulator or TCP:   pass `host` + `port` (or leave defaults).
+        If `serial` is set, `host:port` are ignored for `-s` targeting,
+        but `adb connect` is still attempted if the serial looks like host:port.
+        """
+        if not serial or not serial.strip():
+            raise ValueError("ADBController requires a non-empty serial/target.")
+        self.serial = serial.strip()
         self.logger = logging.getLogger(__name__)
+
+    @property
+    def device_id(self) -> str:
+        """The value passed to `adb -s <device_id>`."""
+        return self.serial
+
+    def _is_tcp_serial(self) -> bool:
+        """True if the serial looks like 'host:port' (an emulator)."""
+        return bool(self.serial and re.match(r"^[\w\.\-]+:\d+$", self.serial))
 
     def connect(self, retries: int = 3, delay: float = 2.0) -> bool:
         """
-        Connect to ADB device, retrying if necessary.
-        Returns True if connected, False otherwise.
+        Ensure the target is reachable.
+          - If `serial` is a USB serial -> verify it appears in `adb devices`.
+          - If `serial` is 'host:port' or `serial` is None -> `adb connect host:port`.
         """
+        is_tcp = self._is_tcp_target()
+
         for attempt in range(1, retries + 1):
-            try:
-                result = subprocess.run(
-                    f"adb connect {self.host}:{self.port}",
-                    shell=True,
-                    capture_output=True,
-                    text=True,
-                    timeout=10,
-                    check=False,
+            state = dict(list_adb_devices()).get(self.serial)
+            if state == "device":
+                self.logger.info(f"Device {self.serial} ready.")
+                return True
+            if state == "unauthorized":
+                self.logger.error(
+                    f"Device {self.serial} is unauthorized. "
+                    "Accept the USB debugging prompt on the phone."
                 )
-                output = result.stdout.lower()
-                if (
-                    "connected" in output
-                    or "already connected" in output
-                    or "unable to connect" not in output
-                ):
-                    self.logger.info(f"ADB connect attempt {attempt}: {output.strip()}")
-                    return True
-                else:
-                    self.logger.warning(
-                        f"ADB connect attempt {attempt} failed: {output.strip()}"
+                return False
+            self.logger.warning(
+                f"Attempt {attempt}: device {self.serial} not found "
+                f"(state={state!r})."
+            )
+            # For TCP targets, try `adb connect` first.
+            if is_tcp:
+                try:
+                    result = subprocess.run(
+                        f"adb connect {self.serial}",
+                        shell=True,
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
+                        check=False,
                     )
-            except subprocess.TimeoutExpired:
-                self.logger.error(f"ADB connect attempt {attempt} timed out.")
-            except subprocess.SubprocessError as e:
-                self.logger.error(f"Failed to connect to ADB (attempt {attempt}): {e}")
+                    output = result.stdout.lower()
+                    self.logger.info(
+                        f"adb connect {self.serial} (attempt {attempt}): {output.strip()}"
+                    )
+                    if "connected" in output or "already connected" in output:
+                        return True
+
+                except subprocess.TimeoutExpired:
+                    self.logger.error(
+                        f"ADB connect {self.serial} attempt {attempt} timed out."
+                    )
+                except subprocess.SubprocessError as e:
+                    self.logger.error(
+                        f"Failed to connect to ADB (attempt {attempt}): {e}"
+                    )
+
             if attempt < retries:
                 time.sleep(delay)
+
+        self.logger.error(f"Could not reach ADB target: {self.serial}")
         return False
 
     def execute_command(self, command: str) -> bool:
         """Execute an ADB shell command."""
         try:
-            subprocess.run(
-                f"adb -s {self.host}:{self.port} {command}", shell=True, check=True
-            )
+            subprocess.run(f"adb -s {self.device_id} {command}", shell=True, check=True)
             return True
         except subprocess.SubprocessError as e:
             self.logger.error(f"Failed to execute ADB command: {e}")
@@ -88,10 +153,10 @@ class ADBController:
                 platform.system() == "Windows"
             ):  # Windows (NT-family) idk if os.name="nt" works
                 logger.debug("Windows (NT-family) detected")
-                command = f"adb -s {self.host}:{self.port} exec-out screencap -p"
+                command = f"adb -s {self.device_id} exec-out screencap -p"
             else:
                 logger.debug("Unix-like system detected")
-                command = f"adb -s {self.host}:{self.port} exec-out 'screencap -p 2>/dev/null'"
+                command = f"adb -s {self.device_id} exec-out 'screencap -p 2>/dev/null'"
             logger.debug(f"ADBController: Running command: {command}")
             result = subprocess.run(
                 command,
@@ -108,9 +173,9 @@ class ADBController:
                 ADBController.latest_screenshot = img
                 logger.debug("ADBController: Screenshot captured successfully.")
                 return img
-            else:
-                logger.error(f"Failed to capture screenshot: {result.stderr}")
-                return None
+
+            logger.error(f"Failed to capture screenshot: {result.stderr}")
+            return None
         except subprocess.TimeoutExpired:
             logger.error("ADBController: capture_screenshot timed out.")
             return None

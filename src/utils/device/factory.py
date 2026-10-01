@@ -17,8 +17,10 @@ def create_device(settings: AppSettings) -> DeviceController:
         logger.info("Desktop mode selected.")
         return DesktopDevice()
     if platform_ in (TargetPlatform.EMULATOR.value, TargetPlatform.DEVICE.value):
-        return ADBDevice(
-            host=settings.adb_host,
-            port=settings.adb_port,
-        )
+        if not settings.adb_serial:
+            raise ValueError(
+                "adb_serial is empty - re-run the wizard with -e / --edit."
+            )
+        logger.info(f"ADB target: {settings.adb_serial}")
+        return ADBDevice(serial=settings.adb_serial)
     raise ValueError(f"Unknown target_platform: {settings.target_platform!r}")

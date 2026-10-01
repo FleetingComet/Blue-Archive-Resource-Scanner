@@ -1,12 +1,13 @@
-from src.core.area import Location, Size
+from src.core.area import Size
 from src.core.game_area import GameAreaManager
+from src.core.script_transform import SCRIPT
 from src.utils.device.adb.adb_controller import ADBController
 from src.utils.device.interfaces import DeviceController
 
 
 class ADBDevice(DeviceController):
-    def __init__(self, host, port):
-        self.adb = ADBController(host, port)
+    def __init__(self, serial: str):
+        self.adb = ADBController(serial=serial)
         self._manager = None
 
     def connect(self, retries=3):
@@ -19,8 +20,8 @@ class ADBDevice(DeviceController):
             return False
 
         h, w = img.shape[:2]
-
         self._manager = GameAreaManager(screen_size=Size(w, h))
+        SCRIPT.set_manager(self._manager)
         return True
 
     def capture_screenshot(self):

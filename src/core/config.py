@@ -1,7 +1,7 @@
 from enum import Enum
 from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 from rich.console import Console
 
 from src.utils.data.io import read_json, write_json
@@ -23,8 +23,9 @@ class AppSettings(BaseModel):
     """User-adjustable settings saved in config/settings.json"""
 
     # ADB Settings
-    adb_host: str = "127.0.0.1"  # or "localhost"
-    adb_port: int = 16384  # Default MuMu Player 12 port
+    adb_serial: str = (
+        None  # e.g. "123456789A123456" or "localhost:16384" or "127.0.0.1:16384", 16384 is default MuMu Player 12 port
+    )
     adb_retries: int = 3  # Retries the connection up to retries times (default 3).
 
     wait_multiplier: float = 1.0
@@ -35,6 +36,17 @@ class AppSettings(BaseModel):
 
     language: str = "en"
     debug: bool = False
+
+    @model_validator(mode="before")
+    @classmethod
+    def _strip_legacy_adb(cls, data):
+        if isinstance(data, dict):
+            # Old configs stored adb_host/adb_port — synthesise adb_serial once.
+            if not data.get("adb_serial") and data.get("adb_host"):
+                data["adb_serial"] = f"{data['adb_host']}:{data['adb_port']}"
+            data.pop("adb_host", None)
+            data.pop("adb_port", None)
+        return data
 
 
 class PathConfig:

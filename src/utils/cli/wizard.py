@@ -5,7 +5,7 @@ from rich.prompt import Confirm, FloatPrompt, IntPrompt
 
 from src.constant import USER_FACING_SCREENS
 from src.core.config import AppSettings, TargetPlatform
-from src.utils.cli.cli import ask, choose, console, header
+from src.utils.cli.cli import ask_for_device, choose, console, header
 from src.utils.cli.config_utils import load_screens_from_config
 
 
@@ -48,22 +48,20 @@ def run_wizard(previous: AppSettings) -> tuple[AppSettings, list[str]]:
         default=previous.target_platform,
     )
 
-    adb_host, adb_port, adb_retries = (
-        previous.adb_host,
-        previous.adb_port,
-        previous.adb_retries,
-    )
+    adb_serial = previous.adb_serial
+    adb_retries = previous.adb_retries
 
-    if mode == TargetPlatform.EMULATOR.value:
-        console.print("[dim]MuMu → 16384 | LD/BlueStacks → 5555[/dim]")
-        adb_port = IntPrompt.ask("ADB port", default=previous.adb_port)
+    if mode in (TargetPlatform.EMULATOR.value, TargetPlatform.DEVICE.value):
+        # console.print("[dim]MuMu -> 16384 | LD/BlueStacks -> 5555[/dim]")
+        if mode == TargetPlatform.DEVICE.value:
+            console.print(
+                "[dim]Tip: enable USB debugging, or use wireless ADB "
+                "(`adb connect <ip>:5555`) before continuing.[/dim]"
+            )
+        else:
+            console.print("[dim]MuMu -> 16384 | LDPlayer / BlueStacks -> 5555[/dim]")
+        adb_serial = ask_for_device(mode=mode, previous=previous.adb_serial or None)
         adb_retries = IntPrompt.ask("ADB Retries", default=previous.adb_retries)
-    elif mode == TargetPlatform.DEVICE.value:
-        console.print("[yellow]Tip: Enable wireless ADB[/yellow]")
-        adb_host = ask(
-            "Device IP address", default=previous.adb_host or "192.168.1.100"
-        )
-        adb_port = IntPrompt.ask("ADB port", default=previous.adb_port or 5555)
 
     header("Step 2 - Scan Targets")
     previously_enabled = load_screens_from_config() or USER_FACING_SCREENS
@@ -99,8 +97,7 @@ def run_wizard(previous: AppSettings) -> tuple[AppSettings, list[str]]:
 
     settings = AppSettings(
         target_platform=mode,
-        adb_host=adb_host,
-        adb_port=adb_port,
+        adb_serial=adb_serial,
         adb_retries=adb_retries,
         wait_multiplier=wait_mult,
         wait_screen_nav_multiplier=wait_screen_nav_multiplier,
