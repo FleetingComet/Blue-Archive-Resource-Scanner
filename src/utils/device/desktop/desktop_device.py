@@ -1,6 +1,6 @@
 import pyautogui
 
-from src.core.area import Location, Size
+from src.core.area import Size
 from src.core.game_area import GameAreaManager
 from src.core.script_transform import SCRIPT
 from src.utils.device.desktop.window_manager import WindowManager
@@ -19,7 +19,6 @@ class DesktopDevice(DeviceController):
         client = self.wm.get_client_region()
         self._manager = GameAreaManager(
             screen_size=Size(client.width, client.height),
-            window_pos=Location(client.x, client.y),
         )
         SCRIPT.set_manager(self._manager)
         return True
@@ -32,19 +31,27 @@ class DesktopDevice(DeviceController):
             return False
 
         dx, dy = self._manager.script_to_device(x, y)
-        pyautogui.click(dx, dy)
+
+        # Add window position on monitor
+        client = self.wm.get_client_region()
+        monitor_x = client.x + dx
+        monitor_y = client.y + dy
+
+        pyautogui.click(monitor_x, monitor_y)
         return True
 
     def swipe(self, x1, y1, x2, y2, duration_ms=500):
         if self._manager is None:
             return False
-        # sx1, sy1 = self.wm.scale_coords(x1, y1)
-        # sx2, sy2 = self.wm.scale_coords(x2, y2)
-        # pyautogui.moveTo(sx1, sy1)
-        # pyautogui.dragTo(sx2, sy2, duration=duration_ms / 1000, button="left")
+
         dx1, dy1 = self._manager.script_to_device(x1, y1)
         dx2, dy2 = self._manager.script_to_device(x2, y2)
 
-        pyautogui.moveTo(dx1, dy1)
-        pyautogui.dragTo(dx2, dy2, duration=duration_ms / 1000, button="left")
+        # Add window position on monitor
+        client = self.wm.get_client_region()
+        mon_x1, mon_y1 = client.x + dx1, client.y + dy1
+        mon_x2, mon_y2 = client.x + dx2, client.y + dy2
+
+        pyautogui.moveTo(mon_x1, mon_y1)
+        pyautogui.dragTo(mon_x2, mon_y2, duration=duration_ms / 1000, button="left")
         return True
