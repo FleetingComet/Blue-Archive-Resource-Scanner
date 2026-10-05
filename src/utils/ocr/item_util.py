@@ -1,11 +1,16 @@
 import cv2
 import numpy as np
 
+from src.core.area import Region
 from src.utils.ocr.color_util import hex_to_bgr
 
 
 def is_empty_slot(
-    image, region, empty_slot_hex="c4cfd4", tolerance=10, coverage_threshold=0.90
+    image,
+    region: Region,
+    empty_slot_hex="c4cfd4",
+    tolerance=10,
+    coverage_threshold=0.90,
 ):
     """
     Check if the given region is an empty slot by verifying
@@ -21,8 +26,14 @@ def is_empty_slot(
     Returns:
         bool: True if the slot appears empty.
     """
-    roi = image[region.y : region.y + region.height, region.x : region.x + region.width]
-    if roi.size == 0:
+    rx = int(region.x)
+    ry = int(region.y)
+    rw = int(region.right)
+    rh = int(region.bottom)
+
+    roi = image[ry:rh, rx:rw]
+    
+    if roi is None or roi.size == 0:
         return True
 
     if roi.ndim == 3 and roi.shape[2] == 4:

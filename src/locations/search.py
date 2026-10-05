@@ -1,57 +1,68 @@
 from enum import Enum
 
 from src.core.area import Region
-from src.locations.common import AspectRegion, by, cx, cy
+from src.locations.common import AspectRegion, by, cx, cxy, cy
 
 
-# 1280x720p
 class SearchPattern(Enum):
     class EQUIPMENT(Enum):
         # NAME = Region(50, 560, 420, 70)
         NAME = AspectRegion(
-            standard=lambda: cy(cx(Region(-582, 197, 422, 83))),
-            wide_18_9=lambda: cy(cx(Region(-656, 177, 476, 92))),
-            max_wide=lambda: cy(cx(Region(-713, 173, 488, 92))),
+            standard=lambda: cxy(Region(-582, 197, 422, 83)),
+            wide_18_9=lambda: cxy(Region(-656, 177, 476, 92)),
+            max_wide=lambda: cxy(Region(-713, 173, 488, 92)),
         )
 
         # OWNED = Region(530, 590, 75, 40)
         OWNED = AspectRegion(
-            standard=lambda: cy(cx(Region(-107, 234, 90, 36))),
-            wide_18_9=lambda: cy(cx(Region(-121, 219, 102, 40))),
-            max_wide=lambda: cy(cx(Region(-163, 215, 104, 40))),
+            standard=lambda: cxy(Region(-107, 234, 90, 36)),
+            wide_18_9=lambda: cxy(Region(-121, 219, 102, 40)),
+            max_wide=lambda: cxy(Region(-163, 215, 104, 40)),
         )
+
+        GRID = AspectRegion(
+            standard=lambda: cxy(Region(35, -210, 580, 540)),
+            wide_18_9=lambda: cxy(Region(39, -191, 653, 517)),
+            max_wide=lambda: cxy(Region(81, -187, 671, 512)),
+        )  # Region(x=660, y=150, width=572, height=530)
 
     class ITEM(Enum):
         # NAME = Region(55 - 5, 480 - 5, 430, 70)
         NAME = AspectRegion(
-            standard=lambda: cy(cx(Region(-588, 117, 431, 80))),
-            wide_18_9=lambda: cy(cx(Region(-661, 87, 485, 89))),
-            max_wide=lambda: cy(cx(Region(-719, 80, 498, 91))),
+            standard=lambda: cxy(Region(-588, 117, 431, 80)),
+            wide_18_9=lambda: cxy(Region(-661, 87, 485, 89)),
+            max_wide=lambda: cxy(Region(-719, 80, 498, 91)),
         )
         # OWNED = Region(480, 510, 100, 40)
         OWNED = AspectRegion(
-            standard=lambda: cy(cx(Region(-154, 152, 90, 34))),
-            wide_18_9=lambda: cy(cx(Region(-173, 126, 101, 39))),
-            max_wide=lambda: cy(cx(Region(-218, 119, 105, 40))),
+            standard=lambda: cxy(Region(-154, 152, 90, 34)),
+            wide_18_9=lambda: cxy(Region(-173, 126, 101, 39)),
+            max_wide=lambda: cxy(Region(-218, 119, 105, 40)),
         )
+
+        GRID = AspectRegion(
+            standard=lambda: cxy(Region(35, -210, 579, 460)),
+            wide_18_9=lambda: cxy(Region(39, -191, 652, 428)),
+            max_wide=lambda: cxy(Region(82, -187, 669, 420)),
+        )  # Region(x=663, y=150, width=573, height=450)
 
     # AP = Region(475, 20, 102, 35)  # -10 from true value idk why
     AP = AspectRegion(
-        standard=lambda: cy(cx(Region(-106, -342, 87, 35))),
-        wide_18_9=lambda: cy(cx(Region(-119, -337, 98, 36))),
-        max_wide=lambda: cy(cx(Region(-83, -338, 102, 39))),
+        standard=lambda: cxy(Region(-106, -342, 87, 35)),
+        wide_18_9=lambda: cxy(Region(-119, -337, 98, 36)),
+        max_wide=lambda: cxy(Region(-83, -338, 102, 39)),
     )
     # CREDIT = Region(660, 20, 150, 35)  # -10
     CREDIT = AspectRegion(
-        standard=lambda: cy(cx(Region(58, -342, 150, 36))),
-        wide_18_9=lambda: cy(cx(Region(67, -339, 169, 38))),
-        max_wide=lambda: cy(cx(Region(108, -337, 174, 37))),
+        standard=lambda: cxy(Region(58, -342, 150, 36)),
+        wide_18_9=lambda: cxy(Region(67, -339, 169, 38)),
+        max_wide=lambda: cxy(Region(108, -337, 174, 37)),
     )
     # PYROXENE = Region(860, 20, 100, 35)
     PYROXENE = AspectRegion(
-        standard=lambda: cy(cx(Region(255, -340, 113, 33))),
-        wide_18_9=lambda: cy(cx(Region(288, -338, 125, 39))),
-        max_wide=lambda: cy(cx(Region(336, -337, 129, 38))),
+        standard=lambda: cxy(Region(255, -340, 113, 33)),
+        wide_18_9=lambda: cxy(Region(288, -338, 125, 39)),
+        max_wide=lambda: cxy(Region(336, -337, 129, 38)),
     )
 
 
@@ -81,14 +92,14 @@ class StudentSearchPattern(Enum):
     )
 
     UNIQUE_EQUIPMENT_STAR_QUANTITY = AspectRegion(
-        standard=lambda: cy(cx(Region(361, 149, 88, 21))),
-        wide_18_9=lambda: cy(cx(Region(409, 168, 96, 24))),
-        max_wide=lambda: cy(cx(Region(421, 174, 99, 22))),
+        standard=lambda: cxy(Region(361, 149, 88, 21)),
+        wide_18_9=lambda: cxy(Region(409, 168, 96, 24)),
+        max_wide=lambda: cxy(Region(421, 174, 99, 22)),
     )  # Exclusive Weapon
     UNIQUE_EQUIPMENT_LEVEL = AspectRegion(
-        standard=lambda: cy(cx(Region(139, 95, 65, 20))),
-        wide_18_9=lambda: cy(cx(Region(156, 108, 72, 21))),
-        max_wide=lambda: cy(cx(Region(162, 111, 71, 21))),
+        standard=lambda: cxy(Region(139, 95, 65, 20)),
+        wide_18_9=lambda: cxy(Region(156, 108, 72, 21)),
+        max_wide=lambda: cxy(Region(162, 111, 71, 21)),
     )  # Exclusive Weapon Level
 
     class SKILL(Enum):
@@ -122,26 +133,26 @@ class StudentSearchPattern(Enum):
         """
 
         GEAR_1 = AspectRegion(
-            standard=lambda: cy(cx(Region(43, 256, 48, 15))),
-            wide_18_9=lambda: cy(cx(Region(48, 288, 51, 17))),
-            max_wide=lambda: cy(cx(Region(50, 296, 62, 19))),
+            standard=lambda: cxy(Region(43, 256, 48, 15)),
+            wide_18_9=lambda: cxy(Region(48, 288, 51, 17)),
+            max_wide=lambda: cxy(Region(50, 296, 62, 19)),
         )
         GEAR_2 = AspectRegion(
-            standard=lambda: cy(cx(Region(136, 256, 49, 15))),
-            wide_18_9=lambda: cy(cx(Region(153, 288, 56, 17))),
-            max_wide=lambda: cy(cx(Region(158, 296, 54, 18))),
+            standard=lambda: cxy(Region(136, 256, 49, 15)),
+            wide_18_9=lambda: cxy(Region(153, 288, 56, 17)),
+            max_wide=lambda: cxy(Region(158, 296, 54, 18)),
         )
 
         GEAR_3 = AspectRegion(
-            standard=lambda: cy(cx(Region(229, 256, 45, 15))),
-            wide_18_9=lambda: cy(cx(Region(257, 288, 52, 17))),
-            max_wide=lambda: cy(cx(Region(265, 296, 56, 17))),
+            standard=lambda: cxy(Region(229, 256, 45, 15)),
+            wide_18_9=lambda: cxy(Region(257, 288, 52, 17)),
+            max_wide=lambda: cxy(Region(265, 296, 56, 17)),
         )
 
         GEAR_BOND = AspectRegion(
-            standard=lambda: cy(cx(Region(321, 255, 49, 18))),
-            wide_18_9=lambda: cy(cx(Region(360, 288, 49, 18))),
-            max_wide=lambda: cy(cx(Region(371, 296, 50, 19))),
+            standard=lambda: cxy(Region(321, 255, 49, 18)),
+            wide_18_9=lambda: cxy(Region(360, 288, 49, 18)),
+            max_wide=lambda: cxy(Region(371, 296, 50, 19)),
         )
 
     class TALENT(Enum):
@@ -154,18 +165,18 @@ class StudentSearchPattern(Enum):
         """
 
         HP = AspectRegion(
-            standard=lambda: cy(cx(Region(44, -135, 206, 34))),
-            wide_18_9=lambda: cy(cx(Region(49, -152, 233, 39))),
-            max_wide=lambda: cy(cx(Region(51, -156, 237, 39))),
+            standard=lambda: cxy(Region(44, -135, 206, 34)),
+            wide_18_9=lambda: cxy(Region(49, -152, 233, 39)),
+            max_wide=lambda: cxy(Region(51, -156, 237, 39)),
         )
 
         ATK = AspectRegion(
-            standard=lambda: cy(cx(Region(250, -135, 203, 33))),
-            wide_18_9=lambda: cy(cx(Region(282, -152, 228, 39))),
-            max_wide=lambda: cy(cx(Region(290, -156, 235, 39))),
+            standard=lambda: cxy(Region(250, -135, 203, 33)),
+            wide_18_9=lambda: cxy(Region(282, -152, 228, 39)),
+            max_wide=lambda: cxy(Region(290, -156, 235, 39)),
         )
         HEALING = AspectRegion(
-            standard=lambda: cy(cx(Region(250, -99, 203, 33))),
-            wide_18_9=lambda: cy(cx(Region(282, -111, 228, 38))),
-            max_wide=lambda: cy(cx(Region(290, -113, 235, 37))),
+            standard=lambda: cxy(Region(250, -99, 203, 33)),
+            wide_18_9=lambda: cxy(Region(282, -111, 228, 38)),
+            max_wide=lambda: cxy(Region(290, -113, 235, 37)),
         )

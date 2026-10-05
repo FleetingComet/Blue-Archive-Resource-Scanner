@@ -6,13 +6,14 @@ import numpy as np
 
 from src.core.area import Region
 from src.core.config import Config, Path_Config
+from src.core.script_transform import SCRIPT
+from src.locations.search import SearchPattern
 from src.services.workers import item_ocr_worker
 from src.utils.data.io import read_json, write_json
 from src.utils.device.interfaces import DeviceController
 from src.utils.device.swipe_utils import swipe_with_verification
 from src.utils.ocr.color_util import retain_colors
 from src.utils.ocr.extract import crop_image
-from src.utils.ocr.item_util import is_empty_slot
 from src.utils.ocr.text_util import normalize_value
 from src.utils.wait_utils import wait
 
@@ -29,7 +30,7 @@ def item_grid(
     Scan the item/equipment grid by clicking item by item, then process them using ocr.
 
     Flow per loop:
-      1. Capture fresh grid screenshot (once per scroll, reused for all empty checks and item slot detection)
+      1. Capture fresh grid screenshot (once per scroll, reused for item slot detection)
       2. Click item slot -> detail panel updates (the left side)
       3. If item slot is empty -> end of inventory (items are always packed left-to-right)
       4. Capture detail screenshot
@@ -42,7 +43,6 @@ def item_grid(
     After all rows in a page -> swipe.
 
     Termination:
-      - First empty slot hit (items are contiguous, so empty = tail end)
       - swipe_with_verification returns False (no scroll = truly at end)
 
     Args:
@@ -54,69 +54,50 @@ def item_grid(
         bool: returns True if the process is completed, False otherwise.
     """
 
-    grid_region = None
-
-    if grid_type == "Equipment":
-        grid_region = Region(x=660, y=150, width=572, height=530)  # equip
-    else:
-        grid_region = Region(x=663, y=150, width=573, height=450)  # items
+    grid_region = (
+        SearchPattern.EQUIPMENT.GRID.value
+        if grid_type == "Equipment"
+        else SearchPattern.ITEM.GRID.value
+    )
 
     captured_images: list[np.ndarray] = []
-    swipe_iteration = 0
 
     while True:
-        swipe_iteration += 1
-        image = device.capture_screenshot()
+        screenshot = device.capture_screenshot()
 
-        if image is None:
+        if screenshot is None:
             logger.error("Failed to capture grid screenshot.")
             return False
 
         grid = crop_image(
-            image,
+            screenshot,
             grid_region,
         )
 
-        found_empty: bool = False
+        slots = process_grid(grid, grid_region)
 
-        valid_regions = process_grid(grid, grid_region)
-        logger.debug(
-            f"[dim]item_grid: {swipe_iteration=}, found {len(valid_regions)} slots[/dim]"
-        )
+        logger.debug(f"[dim]item_grid: found {len(slots)} slots[/dim]")
 
-        for i, region in enumerate(valid_regions):
+        # If no items are found at all, we're done
+        if not slots:
+            break
+
+        for i, (_local_reg, global_reg) in enumerate(slots):
             if Config.settings.debug and i >= 5:
                 break  # skip for debug
 
-            if is_empty_slot(image, region):
-                logger.info("Empty slot detected. End of inventory.")
-                found_empty = True
-                break
+            point = global_reg.random_point(5)
 
-            point = region.random_point(5)
-
-            # Tap -> minimal wait -> capture -> save
             device.tap(int(point.x), int(point.y))
-            wait(0.3)
+            wait(0.2)
             detail_img = device.capture_screenshot()
 
-            if detail_img is None:
-                logger.debug(
-                    f"[yellow]item_grid: slot {i} capture failed, skipping[/yellow]"
-                )
-                continue
-            captured_images.append(detail_img)
-            # save_name = f"s_{screen_number}_item_{i}.png"
-            # save_path = tmp_path / save_name
-            # cv2.imwrite(str(save_path), detail_img)
-            # captured_paths.append(save_path)
-
-        # Stop entirely if an empty slot was hit - no point swiping
-        if found_empty:
-            break
+            if detail_img is not None:
+                captured_images.append(detail_img)
         # Swipe
         if not swipe_with_verification(device=device, grid_region=grid_region):
             break
+
         wait(1.5)
 
     results = process_ocr_results(captured_images, grid_type, ocr_workers)
@@ -133,58 +114,102 @@ def item_grid(
     return True
 
 
-def process_grid(image, grid_region):
+def process_grid(image: np.ndarray, grid_region) -> list[tuple[Region, Region]]:
+    """
+    Detects slot boxes in image.
+    Returns list of (local_region, global_region) tuples.
+
+    Args:
+        image (np.ndarray): cropped grid image
+        grid_region (blablaba): grid's region from either equipment or item
+
+    Returns:
+        local_region: (x, y, w, h) relative to grid.
+        global_region: (full_x, full_y, w, h) relative to image (used for drawing text & tapping).
+    """
+    manager = SCRIPT._manager
+    scale = manager.scale if manager else 1.0
+
     hex_colors = ["c4cfd4"]
-    crop_img, _ = retain_colors(image, hex_colors, tolerance=6)
+    crop_img, _ = retain_colors(image, hex_colors, tolerance=15)
     gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
     _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
+    # Clear the top and bottom 2 border pixels to prevent border bridging
+    thresh[:2, :] = 0
+    thresh[-2:, :] = 0
+
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+    min_w = int(80 * scale)
+    min_h = int(70 * scale)
+
     valid_boxes = []
-    image_area = crop_img.shape[0] * crop_img.shape[1]
 
-    for i, contour in enumerate(contours):
+    for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        area = w * h
+        aspect = float(w) / max(1, h)
 
-        # Basic shape validation
-        if w < 70 or h < 80:
-            continue
-
-        aspect_ratio = float(w) / h
-
-        # Filter out the massive outer border (must be less than 85% of image)
-        # Filter out tiny noise (must be greater than 100 pixels)
-        # Relaxed aspect ratio to catch slightly stretched/squashed boxes
-        if 100 < area < (image_area * 0.85) and 0.2 < aspect_ratio < 4.0:
+        # Ignore tiny noise, oversized outer borders, and cut-off bottom rows
+        if (w >= min_w) and (h >= min_h) and (0.8 <= aspect <= 1.4):
             valid_boxes.append((x, y, w, h))
-            # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            # cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 1)
 
-    # Sort the boxes from top-left to bottom-right (useful for grid processing)
-    # Sorting by Y (row) first, then X (column)
-    # Divide by 80 (min box height) to group rows correctly
-    valid_boxes = sorted(valid_boxes, key=lambda b: (b[1] // 80, b[0]))
-    logger.info(f"Found {len(valid_boxes)} item boxes.")
-    valid_regions = []
+    # Group boxes whose Y centers are within half a box height of each other
+    valid_boxes.sort(key=lambda b: b[1])  # sort by Y first
+    rows: list[list[tuple[int, int, int, int]]] = []
+    row_threshold = int(25 * scale)
 
-    for i, (x, y, w, h) in enumerate(valid_boxes):
-        # Add a small padding
-        padding = 5
+    for box in valid_boxes:
+        placed = False
+        box_y_center = box[1] + box[3] // 2
+        for row in rows:
+            row_y_center = row[0][1] + row[0][3] // 2
+            if abs(box_y_center - row_y_center) < row_threshold:
+                row.append(box)
+                placed = True
+                break
+        if not placed:
+            rows.append([box])
 
-        full_x = x + grid_region.x
-        full_y = y + grid_region.y
+    # Sort each row horizontally (Left -> Right) and flatten
+    sorted_boxes = []
+    for row in rows:
+        row.sort(key=lambda b: b[0])
+        sorted_boxes.extend(row)
 
-        valid_regions.append(
-            Region(
-                x=full_x + padding,
-                y=full_y + padding,
-                width=w - padding * 2,
-                height=h - padding * 2,
-            )
+    logger.debug(
+        f"{__name__}: Found {len(sorted_boxes)} item boxes across {len(rows)} rows."
+    )
+    if manager is not None:
+        grid_screen_x, grid_screen_y = manager.script_to_device(
+            grid_region.x, grid_region.y
+        )
+    else:
+        grid_screen_x, grid_screen_y = int(grid_region.x), int(grid_region.y)
+
+    slots = []
+    padding = int(5 * scale)
+
+    for x, y, w, h in sorted_boxes:
+
+        local_reg = Region(
+            x=x + padding,
+            y=y + padding,
+            width=w - (padding * 2),
+            height=h - (padding * 2),
         )
 
-    return valid_regions
+        global_reg = Region(
+            x=grid_screen_x + x + padding,
+            y=grid_screen_y + y + padding,
+            width=w - (padding * 2),
+            height=h - (padding * 2),
+        )
+
+        slots.append((local_reg, global_reg))
+
+    return slots
 
 
 def process_ocr_results(
