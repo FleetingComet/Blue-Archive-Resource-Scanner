@@ -1,7 +1,7 @@
 from enum import Enum
 
 from src.core.area import Location, Region
-from src.locations.common import AspectLocation, AspectRegion, cx, cy, rx
+from src.locations.common import AspectLocation, AspectRegion, cxy, cy, rx
 
 
 class StudentInfo:
@@ -20,9 +20,9 @@ class StudentInfo:
 
 class StudentList(Enum):
     FIRST_STUDENT: AspectRegion = AspectRegion(
-        standard=lambda: cy(cx(Region(-588, -160, 176, 198))),
-        wide_18_9=lambda: cy(cx(Region(-660, -136, 196, 223))),
-        max_wide=lambda: cy(cx(Region(-678, -129, 202, 228))),
+        standard=lambda: cxy(Region(-588, -160, 176, 198)),
+        wide_18_9=lambda: cxy(Region(-660, -136, 196, 223)),
+        max_wide=lambda: cxy(Region(-678, -129, 202, 228)),
     )
 
 

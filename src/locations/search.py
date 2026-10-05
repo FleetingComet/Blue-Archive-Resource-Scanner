@@ -1,7 +1,7 @@
 from enum import Enum
 
 from src.core.area import Region
-from src.locations.common import AspectRegion, by, cx, cxy, cy
+from src.locations.common import AspectRegion, by, cxy, cy
 
 
 class SearchPattern(Enum):
