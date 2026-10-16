@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Any
 
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.io import read_json
 
 UNKNOWN_ORDER = 10**9  # sorts below every known DefaultOrder

@@ -3,7 +3,8 @@ from dataclasses import dataclass
 
 from src.constant import MENU_TAB_KEYWORDS, TEMPLATE_BUTTONS, Screen
 from src.core.area import Location, Region
-from src.core.config import Config, Path_Config
+from src.core.config import Config
+from src.core.paths import Path_Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
 from src.locations.screens import Home, Page, StudentList

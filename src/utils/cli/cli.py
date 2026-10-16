@@ -52,7 +52,8 @@ def choose(prompt: str, options: list, default: str = "") -> str:
     console.print(table)
 
     if default:
-        console.print(f"[dim]Default: {default}[/dim]")
+        display = getattr(default, "value", default)
+        console.print(f"[dim]Default: {display.title()}[/dim]")
 
     while True:
         # raw = Prompt.ask("Enter number", default=str(default_index)).strip()

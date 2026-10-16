@@ -5,7 +5,8 @@ import requests
 from rich.console import Console
 from tenacity import Retrying, stop_after_attempt, wait_fixed
 
-from src.core.config import Config, Path_Config
+from src.core.config import Config
+from src.core.paths import Path_Config
 from src.utils.data.io import read_json, write_json
 
 console = Console()

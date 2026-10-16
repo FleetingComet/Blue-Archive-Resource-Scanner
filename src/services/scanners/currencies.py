@@ -1,6 +1,6 @@
 import logging
 
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.locations.search import SearchPattern
 from src.utils.data.io import update_count

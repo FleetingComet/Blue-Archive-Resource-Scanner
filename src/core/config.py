@@ -1,9 +1,9 @@
 from enum import Enum
-from pathlib import Path
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, field_validator, model_validator
 from rich.console import Console
 
+from src.core.paths import Path_Config, PathConfig
 from src.utils.data.io import read_json, write_json
 
 console = Console()
@@ -48,57 +48,12 @@ class AppSettings(BaseModel):
             data.pop("adb_port", None)
         return data
 
-
-class PathConfig:
-    """The project's source of truth for paths."""
-
-    def __init__(self):
-        self.PROJECT_ROOT = self._locate_root()
-
-        # Directory Structure
-        self.ASSETS_DIR = self.PROJECT_ROOT / "assets"
-        self.INPUT_DIR = self.PROJECT_ROOT / "input"
-        self.OUTPUT_DIR = self.PROJECT_ROOT / "output"
-        self.CONFIG_DIR = self.PROJECT_ROOT / "config"
-        self.LOGS_DIR = self.PROJECT_ROOT / "logs"
-        self.OWNED_DIR = self.OUTPUT_DIR / "owned"
-        self.DATA_DIR = self.ASSETS_DIR / "data"
-        self.IMAGES_DIR = self.ASSETS_DIR / "images"
-        self.TEMPLATES_DIR = self.IMAGES_DIR / "templates"
-
-        self.equipment_processed = self.DATA_DIR / "equipment_processed.json"
-        self.items_processed = self.DATA_DIR / "items_processed.json"
-        self.students_processed = self.DATA_DIR / "students_processed.json"
-
-        self.scanned_counts = self.OWNED_DIR / "scanned_counts.json"
-        self.scanned_currencies = self.OWNED_DIR / "scanned_currencies.json"
-        self.scanned_students = self.OWNED_DIR / "scanned_students.json"
-
-        self.final_equipment = self.OUTPUT_DIR / "equipment_final_values.json"
-        self.final_items = self.OUTPUT_DIR / "items_final_values.json"
-        self.final_students = self.OUTPUT_DIR / "students_final_values.json"
-
-        # Justin Planner
-        self.justin_planner_data = self.INPUT_DIR / "justin_data.json"
-        self.justin_planner_merged_output = self.OUTPUT_DIR / "justin_data_final.json"
-
-        self.SETTINGS_FILE = self.CONFIG_DIR / "settings.json"
-
-    def _locate_root(self) -> Path:
-        path = Path(__file__).resolve()
-        while not (path / "main.py").exists():
-            if path.parent == path:
-                raise RuntimeError("Could not locate project root.")
-            path = path.parent
-        return path
-
-    def ensure_directories(self):
-        """Create required folders (logic folders that might stay empty for a while)."""
-        for folder in [self.OUTPUT_DIR, self.CONFIG_DIR, self.LOGS_DIR, self.OWNED_DIR]:
-            folder.mkdir(parents=True, exist_ok=True)
-
-
-Path_Config = PathConfig()
+    @field_validator("adb_serial")
+    @classmethod
+    def _clean_serial(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        return value.strip() or None
 
 
 class ConfigManager:

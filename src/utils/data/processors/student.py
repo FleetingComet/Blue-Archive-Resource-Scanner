@@ -1,4 +1,4 @@
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.processors.base import BaseProcessor
 from src.utils.data.shapes import Student
 from src.utils.data.stat_normalization import normalize_stats

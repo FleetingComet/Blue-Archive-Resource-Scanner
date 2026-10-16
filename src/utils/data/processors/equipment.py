@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.processors.base import BaseProcessor
 from src.utils.data.shapes import Equipment
 

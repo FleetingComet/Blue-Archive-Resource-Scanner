@@ -8,7 +8,7 @@ from typing import Any, ClassVar
 
 from rich.console import Console
 
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.io import read_json
 from src.utils.data.stat_normalization import format_student_line, normalize_stats
 from src.utils.data.student_matching import effective_order, index_students, match_meta

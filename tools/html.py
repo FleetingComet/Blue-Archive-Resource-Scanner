@@ -9,7 +9,7 @@ from typing import Any
 
 from rich.console import Console
 
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.io import read_json
 from src.utils.data.stat_normalization import (
     GEAR_LEVEL_CAP,

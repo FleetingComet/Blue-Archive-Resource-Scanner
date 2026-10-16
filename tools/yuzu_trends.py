@@ -11,7 +11,7 @@ from typing import Any, ClassVar
 from rich.console import Console
 from rich.panel import Panel
 
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.io import read_json, write_json
 from src.utils.data.stat_normalization import normalize_stats
 from src.utils.data.student_matching import index_students, match_meta

@@ -17,8 +17,9 @@ from rich.progress import (
 from tenacity import retry, stop_after_attempt, wait_fixed
 
 from src.constant import Screen
-from src.core.config import Config, Path_Config
+from src.core.config import Config
 from src.core.navigator import ScreenNavigator
+from src.core.paths import Path_Config
 from src.services.scanners.currencies import get_currencies
 from src.services.scanners.grids import item_grid
 from src.services.scanners.students import get_student_info
@@ -74,8 +75,7 @@ class ScreenState:
         rich_handler.setFormatter(logging.Formatter("%(message)s"))
 
         log_path = (
-            Path_Config.LOGS_DIR
-            / f"{datetime.date.today()}_scanner.log"  # noqa: DTZ011
+            Path_Config.LOGS_DIR / f"{datetime.date.today()}_scanner.log"
         )  # I don't need timezone aware date because it lives in your local filesystem
         file_handler = logging.FileHandler(log_path, encoding="utf-8")
 

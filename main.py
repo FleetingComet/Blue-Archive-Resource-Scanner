@@ -3,8 +3,9 @@ import logging
 import sys
 
 from src.constant import Screen
-from src.core.config import Config, Path_Config
+from src.core.config import Config
 from src.core.navigator import ScreenNavigator
+from src.core.paths import Path_Config
 from src.core.state import ScreenState
 from src.utils.data.processors.equipment import EquipmentProcessor
 from src.utils.data.processors.item import ItemProcessor

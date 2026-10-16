@@ -4,7 +4,8 @@ import logging
 import numpy as np
 from rich.markup import escape
 
-from src.core.config import Config, Path_Config
+from src.core.config import Config
+from src.core.paths import Path_Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.locations import screens
 from src.locations.search import StudentSearchPattern

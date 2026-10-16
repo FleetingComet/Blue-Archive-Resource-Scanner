@@ -1,7 +1,7 @@
 from rich.console import Console
 
 from src.constant import SCREEN_DEFAULTS, USER_FACING_SCREENS, Screen
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.io import read_json, write_json
 
 SCREEN_CONFIG = Path_Config.CONFIG_DIR / "screen_config.json"

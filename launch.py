@@ -6,13 +6,15 @@ from threading import Event
 from rich.console import Console
 from rich.panel import Panel
 
+from src.core.paths import Path_Config
+
 try:
     from pynput import keyboard
 except Exception:  # noqa: BLE001 - no X11/Wayland session, or pynput not installed
     keyboard = None
 
 from src.constant import USER_FACING_SCREENS
-from src.core.config import Config, Path_Config
+from src.core.config import Config
 from src.utils.cli.cli import print_settings
 from src.utils.cli.config_utils import load_screens_from_config, write_screen_config
 from src.utils.cli.wizard import check_dependencies, run_wizard

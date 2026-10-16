@@ -6,7 +6,8 @@ import numpy as np
 
 from src.constant import Screen
 from src.core.area import Region
-from src.core.config import Config, Path_Config
+from src.core.config import Config
+from src.core.paths import Path_Config
 from src.core.script_transform import SCRIPT
 from src.locations.search import SearchPattern
 from src.services.workers import item_ocr_worker

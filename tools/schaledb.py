@@ -10,7 +10,7 @@ from typing import Any
 
 from rich.console import Console
 
-from src.core.config import Path_Config
+from src.core.paths import Path_Config
 from src.utils.data.io import read_json, write_text
 from src.utils.data.stat_normalization import normalize_stats
 from src.utils.data.student_matching import index_students, iter_style_ids
