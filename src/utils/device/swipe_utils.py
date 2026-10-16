@@ -4,6 +4,7 @@ import numpy as np
 from tenacity import Retrying, retry_if_result, stop_after_attempt, wait_fixed
 
 from src.core.area import Region
+from src.core.script_transform import SCRIPT
 from src.utils.device.interfaces import DeviceController
 from src.utils.ocr.extract import crop_image
 from src.utils.wait_utils import wait
@@ -89,3 +90,68 @@ def _screens_are_different(
     )
 
     return diff_ratio > threshold
+
+
+def swipe_from_slots(
+    device: DeviceController,
+    grid_region: Region,
+    slots: list[tuple[Region, Region]],
+    max_attempts: int = 3,
+) -> bool:
+    """
+    Swipes from the bottom of the last detected slot to the top of the first detected slot.
+    """
+    if not slots:
+        return False
+
+    # manager = getattr(device, "_manager", None)
+    manager = SCRIPT._manager
+    scale = manager.scale if manager else 1.0
+
+    # slots[i] = (local_reg, global_reg)
+    first_slot_local = slots[0][0]  # Top-left slot (Row 0)
+    last_slot_local = slots[-1][0]  # Bottom-right slot (Last Row)
+
+    # Calculate start Y and end Y in 720p virtual script coordinates
+    # Drag from last slot's bottom up to first slot's top
+    start_y = round(grid_region.y + (last_slot_local.bottom / scale))
+    end_y = round(grid_region.y + (first_slot_local.y / scale))
+
+    # Swipe down the horizontal center of the grid
+    swipe_x = round(grid_region.center.x)
+
+    # Ensure coordinates stay within grid boundaries
+    start_y = min(round(grid_region.bottom - 10), start_y)
+    end_y = max(round(grid_region.y + 10), end_y)
+
+    for attempt in Retrying(
+        stop=stop_after_attempt(max_attempts),
+        wait=wait_fixed(1.0),
+        retry=retry_if_result(lambda x: x is False),
+    ):
+        with attempt:
+            before = device.capture_screenshot()
+            if before is None:
+                return False
+
+            before_crop = crop_image(before, grid_region)
+
+            # Smooth drag (1000ms kills touch momentum so it doesn't fling)
+            device.swipe(swipe_x, start_y, swipe_x, end_y, duration_ms=1000)
+            wait(1.5)
+
+            after = device.capture_screenshot()
+            if after is None:
+                return False
+
+            after_crop = crop_image(after, grid_region)
+
+            if _screens_are_different(before_crop, after_crop):
+                return True
+
+            logger.warning(
+                f"[yellow]Swipe: [/yellow] Attempt {attempt.retry_state.attempt_number} did not move (reached bottom of inventory?)"
+            )
+            return False
+
+    return False

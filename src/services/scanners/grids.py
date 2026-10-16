@@ -11,7 +11,7 @@ from src.locations.search import SearchPattern
 from src.services.workers import item_ocr_worker
 from src.utils.data.io import read_json, write_json
 from src.utils.device.interfaces import DeviceController
-from src.utils.device.swipe_utils import swipe_with_verification
+from src.utils.device.swipe_utils import swipe_from_slots
 from src.utils.ocr.color_util import retain_colors
 from src.utils.ocr.extract import crop_image
 from src.utils.ocr.text_util import normalize_value
@@ -86,7 +86,7 @@ def item_grid(
             if Config.settings.debug and i >= 5:
                 break  # skip for debug
 
-            point = global_reg.random_point(5)
+            point = global_reg.random_point(3)
 
             device.tap(int(point.x), int(point.y))
             wait(0.2)
@@ -95,7 +95,8 @@ def item_grid(
             if detail_img is not None:
                 captured_images.append(detail_img)
         # Swipe
-        if not swipe_with_verification(device=device, grid_region=grid_region):
+        if not swipe_from_slots(device, grid_region, slots):
+            logger.info("Reached the bottom of the inventory. Done!")
             break
 
         wait(1.5)
