@@ -78,7 +78,7 @@ class ADBController:
           - If `serial` is a USB serial -> verify it appears in `adb devices`.
           - If `serial` is 'host:port' or `serial` is None -> `adb connect host:port`.
         """
-        is_tcp = self._is_tcp_target()
+        is_tcp = self._is_tcp_serial()
 
         for attempt in range(1, retries + 1):
             state = dict(list_adb_devices()).get(self.serial)

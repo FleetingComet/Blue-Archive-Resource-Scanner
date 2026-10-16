@@ -3,9 +3,13 @@ import subprocess
 import sys
 from threading import Event
 
-from pynput import keyboard
 from rich.console import Console
 from rich.panel import Panel
+
+try:
+    from pynput import keyboard
+except Exception:  # noqa: BLE001 - no X11/Wayland session, or pynput not installed
+    keyboard = None
 
 from src.constant import USER_FACING_SCREENS
 from src.core.config import Config, Path_Config
@@ -34,14 +38,22 @@ def launch(screens: list[str]):
         cmd.append("--offline")
 
     stop_event = Event()
+    listener = None
 
-    def on_press(key):
-        if key == keyboard.Key.f2:  # to be configurable later
-            stop_event.set()
-            return False  # stop pynput listener
+    if keyboard is not None:
 
-    listener = keyboard.Listener(on_press=on_press)
-    listener.start()
+        def on_press(key):
+            if key == keyboard.Key.f2:  # to be configurable later
+                stop_event.set()
+                return False  # stop pynput listener
+
+        listener = keyboard.Listener(on_press=on_press)
+        listener.start()
+    else:
+        console.print(
+            "[yellow]pynput unavailable[/yellow] [dim]- F2 to stop is disabled, "
+            "use Ctrl+C instead.[/dim]"
+        )
 
     try:
         process = subprocess.Popen(cmd)
@@ -66,8 +78,9 @@ def launch(screens: list[str]):
         sys.exit(e.returncode)
 
     finally:
-        listener.stop()
-        listener.join()
+        if listener is not None:
+            listener.stop()
+            listener.join()
 
 
 # Entry

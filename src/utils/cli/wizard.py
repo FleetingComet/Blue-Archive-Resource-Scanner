@@ -29,23 +29,42 @@ def check_dependencies():
 def run_wizard(previous: AppSettings) -> tuple[AppSettings, list[str]]:
     header("Step 1 - Setup")
 
-    mode = choose(
-        "How are you running Blue Archive?",
-        [
+    # Desktop mode drives the PC client window via Windows-only APIs, so it is
+    # only offered on Windows. Linux/macOS users scan an emulator/device over ADB.
+    platform_options = []
+    if sys.platform == "win32":
+        platform_options.append(
             (
                 TargetPlatform.DESKTOP.value,
                 "PC client / desktop window (Blue Archive PC app)",
-            ),
-            (
-                TargetPlatform.EMULATOR.value,
-                "Emulator on this PC  (MuMu Player 12, LDPlayer, BlueStacks …)",
-            ),
-            (
-                TargetPlatform.DEVICE.value,
-                "Real Android phone / tablet over USB or Wi-Fi",
-            ),
-        ],
-        default=previous.target_platform,
+            )
+        )
+    platform_options.append(
+        (
+            TargetPlatform.EMULATOR.value,
+            "Emulator on this PC  (MuMu Player 12, LDPlayer, BlueStacks …)",
+        )
+    )
+    platform_options.append(
+        (
+            TargetPlatform.DEVICE.value,
+            "Real Android phone / tablet over USB or Wi-Fi",
+        )
+    )
+
+    default_platform = previous.target_platform
+    if default_platform == TargetPlatform.DESKTOP and sys.platform != "win32":
+        default_platform = TargetPlatform.EMULATOR
+
+    if sys.platform != "win32":
+        console.print(
+            "[dim]Desktop (PC client) mode is Windows-only; using ADB here.[/dim]"
+        )
+
+    mode = choose(
+        "How are you running Blue Archive?",
+        platform_options,
+        default=default_platform,
     )
 
     adb_serial = previous.adb_serial

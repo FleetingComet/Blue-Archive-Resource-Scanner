@@ -4,13 +4,13 @@ numpy==2.5.2
 opencv-python==5.0.0.93
 PyAutoGUI==0.9.54
 pytest==9.1.1
-pywin32==312
+pywin32==312; sys_platform == "win32"
 rapidfuzz==3.14.5
 rapidocr==3.9.2
 onnxruntime==1.29.0
 requests==2.34.2
 rich==15.0.0
-windows-capture==2.0.1
+windows-capture==2.0.1; sys_platform == "win32"
 pydantic==2.13.4
 pydantic-core==2.46.4
 tenacity==9.1.4

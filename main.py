@@ -53,7 +53,11 @@ def main():
             pass
 
     # Create device controller based on platform
-    device = create_device(Config.settings)
+    try:
+        device = create_device(Config.settings)
+    except ValueError as e:
+        logger.error(f"❌ {e}")
+        sys.exit(1)
 
     if not device.connect(Config.settings.adb_retries):
         logger.error("❌ Failed to connect to ADB.")

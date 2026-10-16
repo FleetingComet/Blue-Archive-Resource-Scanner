@@ -1,8 +1,8 @@
 import logging
+import sys
 
 from src.core.config import AppSettings, TargetPlatform
 from src.utils.device.adb.adb_device import ADBDevice
-from src.utils.device.desktop.desktop_device import DesktopDevice
 from src.utils.device.interfaces import DeviceController
 
 logger = logging.getLogger("BA-Scanner")
@@ -14,6 +14,17 @@ def create_device(settings: AppSettings) -> DeviceController:
         platform_ = platform_.value
 
     if platform_ == TargetPlatform.DESKTOP.value:
+        # Imported lazily on purpose: the desktop backend depends on Windows-only
+        # modules (pywin32 / windows-capture), so a module-level import here would
+        # make even ADB mode fail to start on Linux/macOS.
+        if sys.platform != "win32":
+            raise ValueError(
+                "Desktop mode captures the Blue Archive PC client window and is "
+                "only supported on Windows. On this OS, use an emulator or "
+                "device over ADB instead."
+            )
+        from src.utils.device.desktop.desktop_device import DesktopDevice
+
         logger.info("Desktop mode selected.")
         return DesktopDevice()
     if platform_ in (TargetPlatform.EMULATOR.value, TargetPlatform.DEVICE.value):
