@@ -1195,7 +1195,7 @@
     },
     {
         "id": 4100,
-        "name": "Beginner Tech Note (Wildhunt)",
+        "name": "Beginner Tech Notes (Wildhunt)",
         "rarity": "N",
         "icon": "item_icon_skillbook_wildhunt_0"
     },
@@ -2482,6 +2482,12 @@
         "name": "Anna's Eleph",
         "rarity": "N",
         "icon": "item_icon_secretstone_ch0320"
+    },
+    {
+        "id": 10152,
+        "name": "Tsumugi's Eleph",
+        "rarity": "N",
+        "icon": "item_icon_secretstone_ch0252"
     },
     {
         "id": 13000,
@@ -4765,25 +4771,25 @@
     },
     {
         "id": 80840,
-        "name": "フォトカードコレクション",
+        "name": "Souvenir Photo Cards",
         "rarity": "N",
         "icon": "item_icon_event_token_0_s62"
     },
     {
         "id": 80841,
-        "name": "査察計画書",
+        "name": "Audit Plan",
         "rarity": "N",
         "icon": "item_icon_event_token_1_s62"
     },
     {
         "id": 80842,
-        "name": "施設入場券",
+        "name": "Facility Admission Ticket",
         "rarity": "N",
         "icon": "item_icon_event_token_2_s62"
     },
     {
         "id": 80843,
-        "name": "特産品のお菓子",
+        "name": "Specialty Osmanthus Cakes",
         "rarity": "N",
         "icon": "item_icon_event_token_3_s62"
     },

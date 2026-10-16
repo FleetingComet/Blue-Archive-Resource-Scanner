@@ -3711,7 +3711,7 @@
     },
     {
         "id": 10144,
-        "name": "Shun (Swimsuit)",
+        "name": "Shunling (Swimsuit)",
         "hasBondGear": false,
         "StarGrade": 3,
         "DefaultOrder": 265,
@@ -3876,5 +3876,19 @@
         "ArmorType": "Light",
         "School": "Red Winter",
         "Club": "Class183"
+    },
+    {
+        "id": 10152,
+        "name": "Tsumugi",
+        "hasBondGear": false,
+        "StarGrade": 3,
+        "DefaultOrder": 277,
+        "SquadType": "STRIKER",
+        "StyleId": null,
+        "LinkedCharacterId": null,
+        "BulletType": "Piercing",
+        "ArmorType": "Special",
+        "School": "Wildhunt",
+        "Club": "Occult Society (Dormitory 4, Unit 404)"
     }
 ]
