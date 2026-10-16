@@ -1,41 +1,64 @@
-# Screen Config
-# Screens the user explicitly toggles in the wizard.
-# "Student" is excluded - it is a sub-screen of "Students" and is
-# enabled/disabled automatically alongside it.
+from enum import StrEnum
 from pathlib import Path
 
 from src.core.area import Size
 
+
+class Screen(StrEnum):
+    """
+    Navigable UI screens.
+
+    Values are the exact keys used in ``config/screen_config.json`` and in
+    scan output, so they stay JSON/str-compatible while making typos fail
+    loudly instead of silently disabling a screen.
+    """
+
+    CURRENCIES = "Currencies"
+    EQUIPMENT = "Equipment"
+    ITEMS = "Items"
+    STUDENTS = "Students"
+    STUDENT = "Student"  # sub-screen of STUDENTS
+
+
+# Screen Config
+# Screens the user explicitly toggles in the wizard.
+# Screen.STUDENT is excluded - it is a sub-screen of Screen.STUDENTS and is
+# enabled/disabled automatically alongside it.
 SCREEN_DEFAULTS = {
-    "Currencies": {
+    Screen.CURRENCIES: {
         "menu_location": "currencies",
         "grid_type": "currencies",
         "uses_menu_tab": False,
     },
-    "Equipment": {
+    Screen.EQUIPMENT: {
         "menu_location": "menu_equipment",
-        "grid_type": "Equipment",
+        "grid_type": Screen.EQUIPMENT,
         "uses_menu_tab": True,
     },
-    "Items": {
+    Screen.ITEMS: {
         "menu_location": "menu_items",
-        "grid_type": "Items",
+        "grid_type": Screen.ITEMS,
         "uses_menu_tab": True,
     },
-    "Students": {
+    Screen.STUDENTS: {
         "menu_location": "menu_students",
-        "grid_type": "Students",
+        "grid_type": Screen.STUDENTS,
         "uses_menu_tab": False,
-        "skip_if_visited": ["Student"],
+        "skip_if_visited": [Screen.STUDENT],
     },
-    "Student": {
+    Screen.STUDENT: {
         "menu_location": "first_student",
-        "grid_type": "Student",
+        "grid_type": Screen.STUDENT,
         "uses_menu_tab": False,
     },
 }
 
-USER_FACING_SCREENS = ["Equipment", "Items", "Students", "Currencies"]
+USER_FACING_SCREENS = [
+    Screen.EQUIPMENT,
+    Screen.ITEMS,
+    Screen.STUDENTS,
+    Screen.CURRENCIES,
+]
 SCRIPT_SIZE: Size = Size(1280, 720)
 
 TEMPLATE_BUTTONS = {

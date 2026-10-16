@@ -1,6 +1,6 @@
 from rich.console import Console
 
-from src.constant import SCREEN_DEFAULTS, USER_FACING_SCREENS
+from src.constant import SCREEN_DEFAULTS, USER_FACING_SCREENS, Screen
 from src.core.config import Path_Config
 from src.utils.data.io import read_json, write_json
 
@@ -40,8 +40,8 @@ def write_screen_config(enabled_screens: list[str]) -> None:
     """
     enabled_screens = [*enabled_screens]
 
-    if "Students" in enabled_screens and "Student" not in enabled_screens:
-        enabled_screens.append("Student")
+    if Screen.STUDENTS in enabled_screens and Screen.STUDENT not in enabled_screens:
+        enabled_screens.append(Screen.STUDENT)
 
     # Start from code-level defaults
     screens: dict = {

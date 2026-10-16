@@ -8,6 +8,18 @@ import time
 import cv2
 import numpy as np
 
+# ADB stuffs blablba
+# Default address for emulators reachable on the local machine (MuMu uses 16384).
+DEFAULT_EMULATOR_ADDRESS = "localhost:16384"
+# `adb devices` / `adb connect` are allowed to be slower than a screencap.
+_DEVICES_TIMEOUT_S = 10
+_CONNECT_TIMEOUT_S = 10
+_SCREENCAP_TIMEOUT_S = 8
+# Seconds between connection attempts.
+_CONNECT_RETRY_DELAY_S = 2.0
+# Matches a "host:port" serial (emulator / wireless ADB) as opposed to a USB serial.
+_TCP_SERIAL_RE = re.compile(r"^[\w\.\-]+:\d+$")
+
 
 def list_adb_devices() -> list[tuple[str, str]]:
     """
@@ -20,7 +32,7 @@ def list_adb_devices() -> list[tuple[str, str]]:
             shell=True,
             capture_output=True,
             text=True,
-            timeout=10,
+            timeout=_DEVICES_TIMEOUT_S,
             check=False,
         )
     except (subprocess.TimeoutExpired, subprocess.SubprocessError):
@@ -70,9 +82,9 @@ class ADBController:
 
     def _is_tcp_serial(self) -> bool:
         """True if the serial looks like 'host:port' (an emulator)."""
-        return bool(self.serial and re.match(r"^[\w\.\-]+:\d+$", self.serial))
+        return bool(self.serial and _TCP_SERIAL_RE.match(self.serial))
 
-    def connect(self, retries: int = 3, delay: float = 2.0) -> bool:
+    def connect(self, retries: int = 3, delay: float = _CONNECT_RETRY_DELAY_S) -> bool:
         """
         Ensure the target is reachable.
           - If `serial` is a USB serial -> verify it appears in `adb devices`.
@@ -103,7 +115,7 @@ class ADBController:
                         shell=True,
                         capture_output=True,
                         text=True,
-                        timeout=10,
+                        timeout=_CONNECT_TIMEOUT_S,
                         check=False,
                     )
                     output = result.stdout.lower()
@@ -163,7 +175,7 @@ class ADBController:
                 shell=True,
                 capture_output=True,
                 text=False,
-                timeout=8,
+                timeout=_SCREENCAP_TIMEOUT_S,
                 check=False,
             )
             if result.returncode == 0:

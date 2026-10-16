@@ -3,7 +3,7 @@ import sys
 
 from rich.prompt import Confirm, FloatPrompt, IntPrompt
 
-from src.constant import USER_FACING_SCREENS
+from src.constant import USER_FACING_SCREENS, Screen
 from src.core.config import AppSettings, TargetPlatform
 from src.utils.cli.cli import ask_for_device, choose, console, header
 from src.utils.cli.config_utils import load_screens_from_config
@@ -90,7 +90,7 @@ def run_wizard(previous: AppSettings) -> tuple[AppSettings, list[str]]:
         if Confirm.ask(f"Scan [cyan]{s}[/cyan]?", default=s in previously_enabled)
     ]
     if not chosen:
-        chosen = ["Equipment", "Items"]
+        chosen = [Screen.EQUIPMENT, Screen.ITEMS]
         console.print(
             "[yellow]Nothing selected, defaulting to Equipment + Items[/yellow]"
         )

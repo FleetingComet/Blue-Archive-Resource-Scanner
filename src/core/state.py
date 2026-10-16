@@ -16,6 +16,7 @@ from rich.progress import (
 )
 from tenacity import retry, stop_after_attempt, wait_fixed
 
+from src.constant import Screen
 from src.core.config import Config, Path_Config
 from src.core.navigator import ScreenNavigator
 from src.services.scanners.currencies import get_currencies
@@ -103,8 +104,11 @@ class ScreenState:
 
         # AUTO-INJECT Student config if Students is enabled
         # This ensures chaining works even if "Student" is disabled in JSON
-        if "Students" in enabled_screens and "Student" in screens:
-            enabled_screens["Student"] = {**screens["Student"], "enabled": True}
+        if Screen.STUDENTS in enabled_screens and Screen.STUDENT in screens:
+            enabled_screens[Screen.STUDENT] = {
+                **screens[Screen.STUDENT],
+                "enabled": True,
+            }
 
         return enabled_screens
 
@@ -142,21 +146,21 @@ class ScreenState:
         )
         self.logger.info(f"[bold yellow]Scanning[/bold yellow] {screen_name}...")
 
-        if screen_name in ["Currencies"]:
+        if screen_name == Screen.CURRENCIES:
             get_currencies(self.navigator.device)
 
-        if screen_name in ("Equipment", "Items"):
+        if screen_name in (Screen.EQUIPMENT, Screen.ITEMS):
             item_grid(
                 self.navigator.device,
                 grid_type=cfg["grid_type"],
             )
 
-        elif screen_name == "Students":
+        elif screen_name == Screen.STUDENTS:
             # Tap first student to enter detail view
             self.logger.info("Reached Students list, entering individual stat page...")
             self.visited.add(screen_name)
 
-        elif screen_name == "Student":
+        elif screen_name == Screen.STUDENT:
             get_student_info(self.navigator.device)
 
     def _transition(self, progress: Progress, task_id: TaskID) -> NavState:
@@ -174,7 +178,7 @@ class ScreenState:
             # Identify what screen we are currently sitting on
             detected = self.navigator.identify_screen()
             if not detected and self.navigator.at_home():
-                detected = "Currencies"
+                detected = Screen.CURRENCIES
 
             # If current screen is enabled in config, set as target immediately
             if detected and detected in self.config:
@@ -215,7 +219,7 @@ class ScreenState:
 
                 # Check if ALREADY on target screen to bypass unnecessary navigation
                 already_at_target = False
-                if self.target_screen == "Currencies":
+                if self.target_screen == Screen.CURRENCIES:
                     if self.navigator.at_home():
                         already_at_target = True
 
@@ -228,12 +232,12 @@ class ScreenState:
                     self.logger.info(
                         f"[bold green]Already on[/bold green] {self.target_screen}. Skipping navigation."
                     )
-                    if self.target_screen == "Currencies":
+                    if self.target_screen == Screen.CURRENCIES:
                         self.navigator.ensure_menu_state(should_open=False)
                     return NavState.PROCESSING
 
                 # Ensure clean Home state for screens that require it
-                if self.target_screen in ["Currencies", "Students"]:
+                if self.target_screen in (Screen.CURRENCIES, Screen.STUDENTS):
                     progress.update(
                         task_id,
                         description=f"[bold blue]Going Home[/bold blue] for {self.target_screen}...",
@@ -242,7 +246,7 @@ class ScreenState:
                     self.navigator.ensure_menu_state(should_open=False)
                     wait(2, nav=True)
 
-                if self.target_screen != "Currencies":
+                if self.target_screen != Screen.CURRENCIES:
                     progress.update(
                         task_id,
                         description=f"[bold blue]Navigating to[/bold blue] {self.target_screen}",
@@ -268,7 +272,7 @@ class ScreenState:
                 description=f"[bold yellow]Processing[/bold yellow] {self.target_screen}",
             )
 
-            if self.target_screen == "Students":
+            if self.target_screen == Screen.STUDENTS:
                 # Tap first student to enter the stat view
                 self.logger.info(
                     "[bold blue]Reached Students List.[/bold blue] Entering detail view..."
@@ -281,9 +285,9 @@ class ScreenState:
 
             self.visited.add(self.target_screen)
             progress.advance(task_id)
-            if self.target_screen == "Students":
+            if self.target_screen == Screen.STUDENTS:
                 # We are forcing the target screen to Student to avoid getting derailed
-                self.target_screen = "Student"
+                self.target_screen = Screen.STUDENT
                 return NavState.NAVIGATING
             return NavState.CHECKING_CONTEXT
 

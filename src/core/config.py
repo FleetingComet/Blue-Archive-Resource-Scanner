@@ -63,6 +63,8 @@ class PathConfig:
         self.LOGS_DIR = self.PROJECT_ROOT / "logs"
         self.OWNED_DIR = self.OUTPUT_DIR / "owned"
         self.DATA_DIR = self.ASSETS_DIR / "data"
+        self.IMAGES_DIR = self.ASSETS_DIR / "images"
+        self.TEMPLATES_DIR = self.IMAGES_DIR / "templates"
 
         self.equipment_processed = self.DATA_DIR / "equipment_processed.json"
         self.items_processed = self.DATA_DIR / "items_processed.json"

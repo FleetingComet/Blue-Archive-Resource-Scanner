@@ -1,11 +1,11 @@
 import logging
-from pathlib import Path
 
 import cv2
 import numpy as np
 
+from src.constant import Screen
 from src.core.area import Region
-from src.core.config import Config
+from src.core.config import Config, Path_Config
 from src.core.script_transform import SCRIPT
 from src.enums.ExtractionMode import ExtractionMode
 from src.locations.search import SearchPattern
@@ -92,7 +92,7 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
 
     # * Match Template (image-based)
     if mode == ExtractionMode.SKILL_LEVEL:
-        TEMPLATE_PATH = Path("assets/images/templates/max.png")
+        TEMPLATE_PATH = Path_Config.TEMPLATES_DIR / "max.png"
         if find_template_location(crop_img, TEMPLATE_PATH):
             return "MAX"
 
@@ -132,13 +132,13 @@ def extract_from_region(image, region: Region, mode: ExtractionMode = None):
     )
 
 
-def extract_item_name(image, grid_type: str = "Equipment") -> str:
+def extract_item_name(image, grid_type: str = Screen.EQUIPMENT) -> str:
     """
     Extract the item name from a predetermined region in the screenshot.
     """
     pattern = (
         SearchPattern.EQUIPMENT.NAME.value
-        if grid_type == "Equipment"
+        if grid_type == Screen.EQUIPMENT
         else SearchPattern.ITEM.NAME.value
     )
     return extract_from_region(
@@ -148,13 +148,13 @@ def extract_item_name(image, grid_type: str = "Equipment") -> str:
     )
 
 
-def extract_owned_count(image_path: str, grid_type: str = "Equipment") -> str:
+def extract_owned_count(image_path: str, grid_type: str = Screen.EQUIPMENT) -> str:
     """
     Extract the owned count from a predetermined region in the screenshot.
     """
     pattern = (
         SearchPattern.EQUIPMENT.OWNED.value
-        if grid_type == "Equipment"
+        if grid_type == Screen.EQUIPMENT
         else SearchPattern.ITEM.OWNED.value
     )
 

@@ -1,10 +1,9 @@
 import logging
 from dataclasses import dataclass
-from pathlib import Path
 
-from src.constant import MENU_TAB_KEYWORDS, TEMPLATE_BUTTONS
+from src.constant import MENU_TAB_KEYWORDS, TEMPLATE_BUTTONS, Screen
 from src.core.area import Location, Region
-from src.core.config import Config
+from src.core.config import Config, Path_Config
 from src.enums.ExtractionMode import ExtractionMode
 from src.locations.entrypoint import EntryPointButtons, EntryPointTitles
 from src.locations.screens import Home, Page, StudentList
@@ -38,7 +37,12 @@ class ScreenNavigator:
             "menu": EntryPointButtons.MENU_TAB.value,
         }
 
-        self.KNOWN_SCREENS = ["Items", "Equipment", "Students", "Student"]
+        self.KNOWN_SCREENS = [
+            Screen.ITEMS,
+            Screen.EQUIPMENT,
+            Screen.STUDENTS,
+            Screen.STUDENT,
+        ]
 
     def _get_screenshot(self):
         """Get screenshot from DeviceController"""
@@ -71,7 +75,7 @@ class ScreenNavigator:
             return False
 
         crop = img[region.y : region.bottom, region.x : region.right]
-        asset_path = Path(f"assets/images/{asset_name}.png")
+        asset_path = Path_Config.IMAGES_DIR / f"{asset_name}.png"
 
         return find_template_location(crop, asset_path, threshold)
 
@@ -176,7 +180,7 @@ class ScreenNavigator:
             manager = getattr(self.device, "_manager", None)
             matched = find_template_location(
                 image,
-                TEMPLATE_BUTTONS[location],
+                Path_Config.PROJECT_ROOT / TEMPLATE_BUTTONS[location],
                 threshold=0.8,
                 scale=manager.scale if manager else 1.0,
             )

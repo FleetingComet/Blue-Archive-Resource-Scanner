@@ -7,7 +7,10 @@ from rich.text import Text
 from src.constant import USER_FACING_SCREENS
 from src.core.config import Config, TargetPlatform
 from src.utils.cli.config_utils import load_screens_from_config
-from src.utils.device.adb.adb_controller import list_adb_devices
+from src.utils.device.adb.adb_controller import (
+    DEFAULT_EMULATOR_ADDRESS,
+    list_adb_devices,
+)
 
 console = Console()
 
@@ -69,7 +72,7 @@ def ask_for_device(mode: str, previous: str | None = None) -> str:
     devices = list_adb_devices()
     prev = (previous or "").strip()
     manual_default = prev or (
-        "localhost:16384" if mode == TargetPlatform.EMULATOR.value else ""
+        DEFAULT_EMULATOR_ADDRESS if mode == TargetPlatform.EMULATOR.value else ""
     )
 
     console.print("\n[bold]Detected ADB targets[/bold]")

@@ -4,6 +4,7 @@ import logging
 import cv2
 import numpy as np
 
+from src.constant import Screen
 from src.core.area import Region
 from src.core.config import Config, Path_Config
 from src.core.script_transform import SCRIPT
@@ -22,7 +23,7 @@ logger = logging.getLogger("BA-Scanner")
 
 def item_grid(
     device: DeviceController,
-    grid_type: str = "Equipment",
+    grid_type: str = Screen.EQUIPMENT,
     ocr_workers: int = 2,
 ) -> bool:
     """
@@ -56,7 +57,7 @@ def item_grid(
 
     grid_region = (
         SearchPattern.EQUIPMENT.GRID.value
-        if grid_type == "Equipment"
+        if grid_type == Screen.EQUIPMENT
         else SearchPattern.ITEM.GRID.value
     )
 

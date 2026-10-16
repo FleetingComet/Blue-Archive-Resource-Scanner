@@ -2,6 +2,7 @@ import argparse
 import logging
 import sys
 
+from src.constant import Screen
 from src.core.config import Config, Path_Config
 from src.core.navigator import ScreenNavigator
 from src.core.state import ScreenState
@@ -21,9 +22,9 @@ def run_post_processing(visited_screens: set[str]):
     was actually successfully scanned.
     """
     processor_map = {
-        "Equipment": EquipmentProcessor,
-        "Items": ItemProcessor,
-        "Students": StudentProcessor,
+        Screen.EQUIPMENT: EquipmentProcessor,
+        Screen.ITEMS: ItemProcessor,
+        Screen.STUDENTS: StudentProcessor,
     }
 
     for screen_name, ProcessorClass in processor_map.items():
