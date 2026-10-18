@@ -12,6 +12,7 @@ Global:
 
     return_word_box: false
     return_single_char_box: false
+    use_preprocess_img: false
 
     font_path: null
     log_level: "warning" # debug / info / warning / error / critical
