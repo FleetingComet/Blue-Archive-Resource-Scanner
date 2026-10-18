@@ -1,0 +1,32 @@
+{
+    "student_info.png": {
+        "name": "Wakamo",
+        "level": "90",
+        "bond": [
+            25,
+            26
+        ],
+        "star": 5,
+        "gear1": 9,
+        "gear2": 9,
+        "gear3": 9,
+        "gear_bond": 2,
+        "ue": 3,
+        "ue_level": 50,
+        "ex": 5,
+        "basic": 10,
+        "passive": 10,
+        "sub": 10,
+        "talent_atk": 0,
+        "talent_hp": 0,
+        "talent_healing": 0
+    },
+    "equipment.png": {
+        "name": "green leaf necklace blueprint",
+        "count": "211"
+    },
+    "items.png": {
+        "name": "beginner tech notes choice box",
+        "count": "3"
+    }
+}

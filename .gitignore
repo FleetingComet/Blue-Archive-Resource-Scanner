@@ -168,6 +168,11 @@ screenshots/
 logs/
 config/
 
+# ...but keep the OCR test fixtures (tests/screenshots is matched by the
+# `screenshots/` rule above, which has no leading slash).
+!tests/screenshots/
+!tests/screenshots/**
+
 test.png
 test.py
 test/
