@@ -9,6 +9,7 @@ from typing import Any
 
 from rich.console import Console
 
+from src.constant import ARMOR_COLORS, ATTACK_COLORS
 from src.core.paths import Path_Config
 from src.utils.data.io import read_json
 from src.utils.data.stat_normalization import (
@@ -24,23 +25,6 @@ from src.utils.sync.data_sync_manager import DataSyncManager
 from tools.utils.grouping import GROUP_FIELDS, parse_group_arg, sort_key, walk_hierarchy
 
 console = Console()
-
-ATTACK_COLORS = {
-    "Explosive": "#920008",
-    "Piercing": "#bd8901",
-    "Corrosive": "#137973",
-    "Mystic": "#226f9b",
-    "Sonic": "#9945a8",
-    "Normal": "#485582",
-}
-ARMOR_COLORS = {
-    "Light": "#920008",
-    "Heavy": "#bd8901",
-    "Composite": "#137973",
-    "Special": "#226f9b",
-    "Elastic": "#9945a8",
-    "Normal": "#485582",
-}
 
 _CSS = """
 body{font-family:system-ui,sans-serif;background:#15181e;color:#dde1e8;

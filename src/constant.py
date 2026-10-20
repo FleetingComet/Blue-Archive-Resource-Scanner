@@ -73,3 +73,21 @@ MENU_TAB_KEYWORDS: dict[str, tuple[str, ...]] = {
     "kr": ("메뉴",),
     "zh": ("菜单", "選單"),
 }
+
+# Element/armour colour coding, shared by the HTML report and the GUI cards.
+ATTACK_COLORS = {
+    "Explosive": "#920008",
+    "Piercing": "#bd8901",
+    "Corrosive": "#137973",
+    "Mystic": "#226f9b",
+    "Sonic": "#9945a8",
+    "Normal": "#485582",
+}
+ARMOR_COLORS = {
+    "Light": "#920008",
+    "Heavy": "#bd8901",
+    "Composite": "#137973",
+    "Special": "#226f9b",
+    "Elastic": "#9945a8",
+    "Normal": "#485582",
+}
