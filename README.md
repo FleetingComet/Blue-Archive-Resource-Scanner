@@ -129,7 +129,7 @@ python launch.py
 
 The wizard will guide you through:
 
-1. **Platform Selection**: Emulator (MuMu, LDPlayer, etc.), Desktop Client, or Real Device.
+1. **Platform Selection**: Emulator (MuMu, LDPlayer, etc.), Desktop Client (Steam), or Real Device.
 2. **ADB Connection**: Lets you enter a custom IP/port. (Auto-fill ports coming soon)
 3. **Scan Targets**: Choose which inventories to scan (`Equipment`, `Items`, `Students`, `Currencies`).
 4. **Performance Tuning**: Adjust wait-time multipliers for slower devices or emulators.
@@ -153,6 +153,31 @@ Your choices are saved to `config/settings.json` and `config/screen_config.json`
   ```
 
 Once started, the scanner automatically navigates the game, captures screenshots, extracts data using the selected OCR engine, and saves the results to the `output/` directory.
+
+#### PC Client (Steam)
+
+Choose **PC client / desktop window** in the wizard. The scanner finds the window titled `Blue Archive`, captures its game area, and scales it to 1280x720, so any 16:9 window size works.
+
+In the game options:
+
+- **Screen Mode**: Window (or fullscreen on a 16:9 monitor).
+- **Screen Ratio**: 16:9.
+- **Display Shortcut Icons**: Off. The key badges cover text the scanner reads.
+- Disconnect controllers. The game ignores the mouse while one is connected.
+
+While scanning, the scanner moves your real mouse, so don't touch it. Keep the game window visible. Press F2 to stop a scan started with `launch.py`. If clicks do nothing, make sure the game and the scanner run at the same permission level (both as a normal user, or both as administrator).
+
+> **Warning:** The Steam client ships Nexon Game Security, a kernel-level anti-cheat, and the Blue Archive Terms of Service prohibit macros and automated data collection. Using the scanner on PC may put your account at risk. Use it at your own discretion.
+
+#### Checking the Layout
+
+To check that the scan regions line up with your game screen, run:
+
+```bash
+python -m tools.capture_layout
+```
+
+Navigate the game by hand, then type the screen you are on (`home`, `menu`, `equipment`, `items`, `students`, `student`). The tool only takes screenshots and never clicks. It saves the screenshot and a copy with every scan region drawn on it to `output/layout/`.
 
 #### Output Files
 

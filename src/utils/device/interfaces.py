@@ -4,6 +4,10 @@ from typing import Optional
 import numpy as np
 
 
+class DeviceUnavailableError(RuntimeError):
+    """The device (or game window) can't be used anymore, so the scan has to stop."""
+
+
 class DeviceController(ABC):
     """Unified interface for Device Interaction (Capture + Input)"""
 

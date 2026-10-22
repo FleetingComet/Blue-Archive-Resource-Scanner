@@ -40,7 +40,7 @@ class SettingsApp(tk.Tk):
         self.adb_retries_var = tk.StringVar(value="5")
         self.wait_mult_var = tk.StringVar(value="1.0")
         self.wait_nav_mult_var = tk.StringVar(value="1.0")
-        self.capture_interval_var = tk.StringVar(value="0.5")
+        self.window_title_var = tk.StringVar(value="Blue Archive")
         self.enable_sync_var = tk.BooleanVar(value=False)
         self.debug_var = tk.BooleanVar(value=False)
 
@@ -116,14 +116,12 @@ class SettingsApp(tk.Tk):
         # Desktop specific frame
         self.desktop_frame = ttk.Frame(step1)
         self.desktop_frame.pack(fill="x", pady=(10, 0))
-        self.lbl_capture = ttk.Label(
-            self.desktop_frame, text="Seconds between captures:"
+        self.lbl_window = ttk.Label(self.desktop_frame, text="Game window title:")
+        self.ent_window = ttk.Entry(
+            self.desktop_frame, textvariable=self.window_title_var, width=20
         )
-        self.ent_capture = ttk.Entry(
-            self.desktop_frame, textvariable=self.capture_interval_var, width=8
-        )
-        self.lbl_capture.grid(row=0, column=0, sticky="w", pady=2)
-        self.ent_capture.grid(row=0, column=1, sticky="w", padx=(5, 0), pady=2)
+        self.lbl_window.grid(row=0, column=0, sticky="w", pady=2)
+        self.ent_window.grid(row=0, column=1, sticky="w", padx=(5, 0), pady=2)
 
         # Step 2: Scan Targets
         step2 = ttk.LabelFrame(container, text="Step 2 - Scan Targets", padding="10")
@@ -208,8 +206,8 @@ class SettingsApp(tk.Tk):
         self.ent_port.grid_remove()
         self.lbl_retries.grid_remove()
         self.ent_retries.grid_remove()
-        self.lbl_capture.grid_remove()
-        self.ent_capture.grid_remove()
+        self.lbl_window.grid_remove()
+        self.ent_window.grid_remove()
 
         if mode == TargetPlatform.EMULATOR.value:
             self.lbl_port.grid(row=2, column=0, sticky="w", pady=2)
@@ -222,8 +220,8 @@ class SettingsApp(tk.Tk):
             self.lbl_port.grid(row=2, column=0, sticky="w", pady=2)
             self.ent_port.grid(row=2, column=1, sticky="w", padx=(5, 0), pady=2)
         elif mode == TargetPlatform.DESKTOP.value:
-            self.lbl_capture.grid(row=0, column=0, sticky="w", pady=2)
-            self.ent_capture.grid(row=0, column=1, sticky="w", padx=(5, 0), pady=2)
+            self.lbl_window.grid(row=0, column=0, sticky="w", pady=2)
+            self.ent_window.grid(row=0, column=1, sticky="w", padx=(5, 0), pady=2)
 
     def _set_all_screens(self, state: bool):
         for var in self.screen_vars.values():
@@ -243,7 +241,7 @@ class SettingsApp(tk.Tk):
             self.wait_nav_mult_var.set(
                 str(settings.get("wait_screen_nav_multiplier", 1.0))
             )
-            self.capture_interval_var.set(str(settings.get("capture_interval", 0.5)))
+            self.window_title_var.set(settings.get("window_title", "Blue Archive"))
             self.enable_sync_var.set(settings.get("enable_sync", False))
             self.debug_var.set(settings.get("debug_mode", False))
 
@@ -284,7 +282,7 @@ class SettingsApp(tk.Tk):
                 "adb_retries": int(self.adb_retries_var.get()),
                 "wait_multiplier": float(self.wait_mult_var.get()),
                 "wait_screen_nav_multiplier": float(self.wait_nav_mult_var.get()),
-                "capture_interval": float(self.capture_interval_var.get()),
+                "window_title": self.window_title_var.get().strip() or "Blue Archive",
                 "enable_sync": self.enable_sync_var.get(),
                 "debug_mode": self.debug_var.get(),
             }

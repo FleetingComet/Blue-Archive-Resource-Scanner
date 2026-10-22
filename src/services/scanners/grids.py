@@ -18,6 +18,9 @@ from src.utils.ocr.text_util import normalize_value
 
 logger = logging.getLogger("BA-Scanner")
 
+EQUIPMENT_GRID = Region(x=660, y=150, width=572, height=530)
+ITEMS_GRID = Region(x=663, y=150, width=573, height=450)
+
 
 def item_grid(
     device: DeviceController,
@@ -54,12 +57,7 @@ def item_grid(
         bool: returns True if the process is completed, False otherwise.
     """
 
-    grid_region = None
-
-    if grid_type == "Equipment":
-        grid_region = Region(x=660, y=150, width=572, height=530)  # equip
-    else:
-        grid_region = Region(x=663, y=150, width=573, height=450)  # items
+    grid_region = EQUIPMENT_GRID if grid_type == "Equipment" else ITEMS_GRID
 
     captured_images: list[np.ndarray] = []
     screen_number = 0

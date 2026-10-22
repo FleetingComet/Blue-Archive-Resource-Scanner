@@ -14,7 +14,12 @@ from rich.progress import (
     TextColumn,
     TimeElapsedColumn,
 )
-from tenacity import retry, stop_after_attempt, wait_fixed
+from tenacity import (
+    retry,
+    retry_if_not_exception_type,
+    stop_after_attempt,
+    wait_fixed,
+)
 
 from src.core.config import Config
 from src.core.navigator import ScreenNavigator
@@ -22,6 +27,7 @@ from src.services.scanners.currencies import get_currencies
 from src.services.scanners.grids import item_grid
 from src.services.scanners.students import get_student_info
 from src.utils.data.io import read_json
+from src.utils.device.interfaces import DeviceUnavailableError
 from src.utils.log.plain_text_formatter import PlainTextFormatter
 
 
@@ -107,6 +113,7 @@ class ScreenState:
         return enabled_screens
 
     @retry(
+        retry=retry_if_not_exception_type(DeviceUnavailableError),
         stop=stop_after_attempt(3),
         wait=wait_fixed(2),
         before_sleep=lambda rs: logging.getLogger("BA-Scanner").warning(
@@ -251,6 +258,8 @@ class ScreenState:
                     self._safe_navigate(cfg)
 
                 return NavState.PROCESSING
+            except DeviceUnavailableError:
+                raise
             except Exception as e:  # noqa: BLE001
                 self.logger.error(
                     f"[bold red]Error:[/bold red] Abandoning {self.target_screen} - {e!s}"

@@ -203,8 +203,16 @@ def run_wizard(previous: dict, debug_mode: bool = False) -> dict:
     )
 
     adb_host, adb_port, adb_retries = "127.0.0.1", 16384, 5
+    window_title = previous.get("window_title", "Blue Archive")
 
-    if mode == TargetPlatform.EMULATOR.value:
+    if mode == TargetPlatform.DESKTOP.value:
+        console.print(
+            "[yellow]Tip: Windowed, Screen Ratio 16:9, Display Shortcut Icons OFF, "
+            "no controller connected. Don't touch the mouse while scanning.[/yellow]"
+        )
+        window_title = ask("Game window title", default=window_title)
+
+    elif mode == TargetPlatform.EMULATOR.value:
         console.print("[dim]MuMu → 16384 | LD/BlueStacks → 5555[/dim]")
         adb_port = IntPrompt.ask("ADB port", default=previous.get("adb_port", 16384))
         adb_retries = IntPrompt.ask(
@@ -250,13 +258,6 @@ def run_wizard(previous: dict, debug_mode: bool = False) -> dict:
         default=previous.get("wait_screen_nav_multiplier", 1.0),
     )
 
-    # Bugfix: Always initialize capture_interval so it doesn't throw UnboundLocalError
-    capture_interval = previous.get("capture_interval", 0.5)
-    if mode == TargetPlatform.DESKTOP.value:
-        capture_interval = FloatPrompt.ask(
-            "Seconds between captures", default=capture_interval
-        )
-
     header("Step 4 - Network")
     enable_sync = Confirm.ask(
         "Enable online data sync? (Download the latest community-maintained data.)",
@@ -271,7 +272,7 @@ def run_wizard(previous: dict, debug_mode: bool = False) -> dict:
         "screens": chosen,
         "wait_multiplier": wait_mult,
         "wait_screen_nav_multiplier": wait_screen_nav_multiplier,
-        "capture_interval": capture_interval,
+        "window_title": window_title,
         "enable_sync": enable_sync,
         "debug_mode": debug_mode,
     }

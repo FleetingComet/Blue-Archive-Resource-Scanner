@@ -26,7 +26,7 @@ class AppSettings(BaseModel):
 
     wait_multiplier: float = 1.0
     wait_screen_nav_multiplier: float = 2.0
-    capture_interval: float = 0.5  # seconds between captures
+    window_title: str = "Blue Archive"  # PC client window to scan
 
     enable_sync: bool = False
     target_platform: TargetPlatform = TargetPlatform.EMULATOR

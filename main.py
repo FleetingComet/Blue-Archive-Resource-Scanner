@@ -9,7 +9,7 @@ from src.utils.data.equipment import EquipmentProcessor
 from src.utils.data.item import ItemProcessor
 from src.utils.data.student import StudentProcessor
 from src.utils.device.factory import create_device
-from src.utils.device.interfaces import DeviceController
+from src.utils.device.interfaces import DeviceController, DeviceUnavailableError
 from src.utils.sync.data_sync_manager import DataSyncManager
 
 logger = logging.getLogger("BA-Scanner")
@@ -56,7 +56,7 @@ def main():
     device = create_device(Config.settings)
 
     if not device.connect(Config.ADB_RETRIES):
-        logger.error("❌ Failed to connect to ADB.")
+        logger.error("❌ Failed to connect to the device.")
         sys.exit(1)
 
     mainpage(device)
@@ -77,7 +77,14 @@ def mainpage(device: DeviceController):
     navigator = ScreenNavigator(device)
     state = ScreenState(navigator)
 
-    if state.run():
+    try:
+        finished = state.run()
+    except DeviceUnavailableError as e:
+        logger.error(f"❌ Scan stopped: {e}")
+        run_post_processing(state.visited)  # Screens finished before the stop
+        return
+
+    if finished:
         run_post_processing(state.visited)
     else:
         logger.warning("⚠️ Matching process failed or was interrupted.")

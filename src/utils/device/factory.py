@@ -2,7 +2,6 @@ import logging
 
 from src.core.config import AppSettings, TargetPlatform
 from src.utils.device.adb.adb_device import ADBDevice
-from src.utils.device.desktop.desktop_device import DesktopDevice
 from src.utils.device.interfaces import DeviceController
 
 logger = logging.getLogger("BA-Scanner")
@@ -13,8 +12,11 @@ def create_device(settings: AppSettings) -> DeviceController:
         platform_ = platform_.value
 
     if platform_ == TargetPlatform.DESKTOP.value:
+        # Imported here: Windows-only dependencies, and it changes the process DPI awareness
+        from src.utils.device.desktop.desktop_device import DesktopDevice
+
         logger.info("Desktop mode selected.")
-        return DesktopDevice()
+        return DesktopDevice(settings.window_title)
     if platform_ in (TargetPlatform.EMULATOR.value, TargetPlatform.DEVICE.value):
         return ADBDevice(
             host=settings.adb_host,
