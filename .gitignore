@@ -171,3 +171,6 @@ config/
 test.png
 test.py
 test/
+
+# graphify output (generated graph, cache, local absolute paths)
+graphify-out/
