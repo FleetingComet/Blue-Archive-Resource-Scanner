@@ -36,6 +36,12 @@ class PathConfig:
 
         self.SETTINGS_FILE = self.CONFIG_DIR / "settings.json"
 
+        # GUI-only: user-supplied artwork (same tree as schaledb's paths).
+        self.local_images = self.IMAGES_DIR / "local"
+        # GUI-only: downloaded artwork is kept with the local art (not under
+        # output/) so clearing the scanner's output never deletes the cache.
+        self.icon_cache = self.local_images
+
     def _locate_root(self) -> Path:
         path = Path(__file__).resolve()
         while not (path / "main.py").exists():
