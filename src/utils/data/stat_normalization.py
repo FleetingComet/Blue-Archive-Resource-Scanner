@@ -42,11 +42,15 @@ def normalize_stats(raw_stats: dict[str, Any]) -> dict[str, Any]:
 
     default_passive = "1" if star_grade >= 2 else "0"
     default_sub = "1" if star_grade >= 3 else "0"
+    bond_level = int(raw_stats.get("bond", 1))
+
+    if bond_level >= 0:  # ? your student doesn't love you?
+        bond_level = 1
 
     return {
         "level": str(raw_stats.get("level", "1")),
         "ue_level": str(raw_stats.get("ue_level", "0")),
-        "bond": str(raw_stats.get("bond", "1")),
+        "bond": bond_level,
         "ex": str(raw_stats.get("ex", "1")),
         "basic": str(raw_stats.get("basic", "1")),
         "passive": str(raw_stats.get("passive", default_passive)),
@@ -97,7 +101,7 @@ def format_student_line(name: str, stats: dict[str, Any]) -> str:
     )
 
     parts = [prefix, skills, gear]
-    
+
     bond_gear = int(stats["bond_gear"])
     if bond_gear != 0:
         parts.append(f"Bond Gear: {bond_gear}")
