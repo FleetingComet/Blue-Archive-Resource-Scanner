@@ -9,15 +9,45 @@ widget, so the layout and image handling stay in one place.
 from __future__ import annotations
 
 from gui import icons
-from gui.components.card import BADGE_BG, CARD_GLYPHS, AssetCard, CardSpec, Chip
-from gui.services.student_sort import bond_gear_tier
+from gui.components.card import (
+    BADGE_BG,
+    CARD_GLYPHS,
+    AssetCard,
+    CardSpec,
+    CardTag,
+    Chip,
+)
+from gui.services.student_sort import bond_gear_tier, bond_level
 from src.constant import ARMOR_COLORS, ATTACK_COLORS
 from src.utils.data.stat_normalization import format_skill
 
-# Rarity tag colours the HTML report uses for bond gear; the heart is a darker
-# rose so it still reads inside the pale pink tag.
-BOND_TAG_BG, BOND_TAG_FG = "#ffbed8", "#3d4f66"
+# The heart is a darker rose so the white bond level reads inside it; the tag
+# itself has no pill behind it, so it sits straight on the card.
 BOND_HEART_COLOUR = "#c2255c"
+BOND_VALUE_COLOUR = "#ffffff"
+
+
+def bond_tags(record: dict) -> tuple[CardTag, ...]:
+    """The student's single bond tag: the level in the heart, its gear tier after.
+
+    One tag keeps the two bond facts together ("♥22 T2") and, with no pill
+    behind it, reads as part of the school line instead of a third chip. They
+    are still independent values: a student with a bond level but no gear shows
+    only the heart, and a gear tier without a usable level only the ``T<n>``.
+    """
+    level = bond_level(record)
+    tier = bond_gear_tier(record)
+    if level is None and tier <= 0:
+        return ()
+    return (
+        CardTag(
+            text=f"T{tier}" if tier > 0 else "",
+            icon="heart-fill" if level is not None else "",
+            icon_colour=BOND_HEART_COLOUR,
+            value=str(level) if level is not None else "",
+            value_colour=BOND_VALUE_COLOUR,
+        ),
+    )
 
 
 class StudentCard(AssetCard):
@@ -67,19 +97,13 @@ class StudentCard(AssetCard):
             chips.append(Chip(attack, ATTACK_COLORS[attack], "#ffffff", "attack"))
         if armor in ARMOR_COLORS:
             chips.append(Chip(armor, ARMOR_COLORS[armor], "#ffffff", "defense"))
-        bond_tier = bond_gear_tier(record)
-        bond_note = f"T{bond_tier}" if bond_tier > 0 else ""
 
         return CardSpec(
             key=key,
             name=student_name,
             kind="student",
             detail=school or f"ID {student_id}",
-            note=bond_note,
-            note_icon="heart-fill" if bond_note else "",
-            note_icon_colour=BOND_HEART_COLOUR,
-            note_background=BOND_TAG_BG,
-            note_foreground=BOND_TAG_FG,
+            tags=bond_tags(record),
             glyph=CARD_GLYPHS["student"],
             asset=icons.student_asset(student_id),
             fit=icons.FIT_COVER,

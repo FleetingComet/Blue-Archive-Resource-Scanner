@@ -400,9 +400,7 @@ class DataPage(ttk.Frame):
         )
         self._search_entry.pack(side="left")
         self._search_entry.bind("<KeyRelease>", self._on_search_key)
-        self._search_entry.bind(
-            "<Return>", lambda _e: self._on_cards_filter_changed()
-        )
+        self._search_entry.bind("<Return>", lambda _e: self._on_cards_filter_changed())
         self._search_entry.bind("<Escape>", lambda _e: self._clear_search())
         self._search_clear = button(
             search,
@@ -494,7 +492,9 @@ class DataPage(ttk.Frame):
     def _update_view_controls(self) -> None:
         """Show only the controls that make sense for the loaded shape."""
         kind = self._card_kind()
-        self._sort_combo.configure(values=[label for _key, label in self._sort_fields()])
+        self._sort_combo.configure(
+            values=[label for _key, label in self._sort_fields()]
+        )
         if self._cards_sort.get() not in self._sort_combo.cget("values"):
             self._cards_sort.set(self._sort_combo.cget("values")[0])
 
@@ -537,7 +537,9 @@ class DataPage(ttk.Frame):
         return key
 
     def _current_sort_key_for(self, label: str) -> str:
-        return {label_: key_ for key_, label_ in self._sort_fields()}.get(label, "default")
+        return {label_: key_ for key_, label_ in self._sort_fields()}.get(
+            label, "default"
+        )
 
     def _clear_filters(self) -> None:
         """Clear the search and every filter; Hide empty and the sort are kept."""
@@ -1257,9 +1259,9 @@ class DataPage(ttk.Frame):
         if not (0 <= index < len(characters)):
             return
         record = characters[index]
-        current = (
-            record.get("current") if isinstance(record.get("current"), dict) else {}
-        )
+        # current = (
+        #     record.get("current") if isinstance(record.get("current"), dict) else {}
+        # )
 
         # -------------------------------------------------------------
         # Helper to create a labeled entry with tooltip & bounds hint

@@ -23,7 +23,6 @@ class ToolList(ttk.Frame):
         self._tools = list(tools)
         self._on_select = on_select
         self._current: str | None = None
-        self._icons: dict[str, str] = {}
 
         self._tree = ttk.Treeview(self, show="tree", selectmode="browse", padding=4)
         self._tree.column("#0", width=190, stretch=True)
@@ -37,8 +36,9 @@ class ToolList(ttk.Frame):
         """Row height and icon colours are per-theme: run again after a switch."""
         ttk.Style().configure("Treeview", rowheight=34)
         for tool in self._tools:
-            self._icons[tool.key] = ttk.Icon(tool.icon, 18)
-            self._tree.item(tool.key, image=self._icons[tool.key])
+            # ``ttk.Icon`` caches by (name, size, colour) and keeps the image
+            # alive, so the tree can hold the name directly.
+            self._tree.item(tool.key, image=ttk.Icon(tool.icon, 18))
 
     def select(self, key: str) -> None:
         """Highlight ``key`` (the callback only fires for user clicks)."""

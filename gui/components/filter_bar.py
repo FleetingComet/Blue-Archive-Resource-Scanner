@@ -139,9 +139,7 @@ def _initials(text: str) -> str:
 
 
 def _rounded(draw: ImageDraw.ImageDraw, colour: str) -> None:
-    draw.rounded_rectangle(
-        (0, 0, ICON_SIZE - 1, ICON_SIZE - 1), radius=4, fill=colour
-    )
+    draw.rounded_rectangle((0, 0, ICON_SIZE - 1, ICON_SIZE - 1), radius=4, fill=colour)
 
 
 # ---------------------------------------------------------------------------
@@ -239,7 +237,11 @@ class MultiSelectDropdown(ttk.Frame):
             text, style = f"{self._group.label}: —", "secondary-outline"
             state = "disabled"
         elif count == 0 or count == total:
-            text, style, state = f"{self._group.label}: All", "secondary-outline", "normal"
+            text, style, state = (
+                f"{self._group.label}: All",
+                "secondary-outline",
+                "normal",
+            )
         elif count == 1:
             value = next(iter(self._selected))
             label = next(
@@ -280,9 +282,7 @@ class MultiSelectDropdown(ttk.Frame):
 
         header = ttk.Frame(body)
         header.pack(fill="x", pady=(0, 4))
-        ttk.Label(header, text=self._group.label, font=heading(9)).pack(
-            side="left"
-        )
+        ttk.Label(header, text=self._group.label, font=heading(9)).pack(side="left")
         self._header_count = ttk.Label(header, style=MUTED)
         self._header_count.pack(side="right")
 
@@ -383,9 +383,7 @@ class MultiSelectDropdown(ttk.Frame):
         # Long option captions may ask for more than POPUP_WIDTH; never let the
         # popup itself run off either edge of the screen.
         width = min(screen_w - 16, max(POPUP_WIDTH, body.winfo_reqwidth()))
-        height = min(
-            POPUP_MAX_HEIGHT + 120, max(120, body.winfo_reqheight() + 4)
-        )
+        height = min(POPUP_MAX_HEIGHT + 120, max(120, body.winfo_reqheight() + 4))
         anchor_x = self._button.winfo_rootx()
         anchor_y = self._button.winfo_rooty() + self._button.winfo_height() + 2
         x = min(max(0, anchor_x), max(0, screen_w - width - 8))
@@ -442,9 +440,7 @@ class MultiSelectDropdown(ttk.Frame):
         self._changed()
 
     def _read_vars(self) -> None:
-        self._selected = {
-            value for value, var in self._vars.items() if var.get()
-        }
+        self._selected = {value for value, var in self._vars.items() if var.get()}
 
     def _select_all(self) -> None:
         visible = {option.value for option, _row in self._visible_rows()}
@@ -463,11 +459,7 @@ class MultiSelectDropdown(ttk.Frame):
         self._changed()
 
     def _visible_rows(self) -> list[tuple[FilterOption, ttk.Frame]]:
-        return [
-            (option, row)
-            for option, row in self._rows
-            if bool(row.grid_info())
-        ]
+        return [(option, row) for option, row in self._rows if bool(row.grid_info())]
 
     def _filter_rows(self) -> None:
         """Narrow the visible options; checked values are never changed."""
@@ -495,9 +487,7 @@ class MultiSelectDropdown(ttk.Frame):
         if self._header_count is None:
             return
         total = len(self._group.options)
-        self._header_count.configure(
-            text=f"{len(self._selected)} of {total} selected"
-        )
+        self._header_count.configure(text=f"{len(self._selected)} of {total} selected")
 
     def _check_outside(self, event: tk.Event) -> None:
         if self._popup is None or not self._popup.winfo_exists():

@@ -57,10 +57,16 @@ CHIP_HEIGHT = 17
 CHIP_PAD = 6  # left/right padding inside a chip
 CHIP_ICON = 11  # the attack/defence glyph inside its chip
 CHIP_ICON_GAP = 3  # glyph -> chip text
-NOTE_GAP = 5  # detail text -> the small note tag
-NOTE_PAD = 5  # left/right padding inside the note tag
-NOTE_ICON = 10  # a small glyph inside the note tag (the bond gear heart)
-NOTE_ICON_GAP = 3  # note glyph -> its text
+TAG_GAP = 5  # detail text -> the first pill, and pill -> pill
+TAG_PAD = 5  # left/right padding inside a pill
+TAG_ICON = 10  # a small glyph inside a pill (before its text)
+TAG_ICON_GAP = 3  # glyph -> its text
+# A glyph that carries a short value (the student's bond level inside the
+# heart). Wide enough for three digits, high enough for the digits to read.
+TAG_BADGE_WIDTH = 24
+TAG_BADGE_HEIGHT = 21
+TAG_VALUE_RISE = 2  # the digits sit in the heart's wide upper half
+TAG_VALUE_FG = "#ffffff"
 BOTTOM_PAD = 9  # empty space under the last line
 
 # Stand-in glyph, shown until (or instead of) the real artwork arrives.
@@ -86,6 +92,27 @@ class Chip:
 
 
 @dataclass(frozen=True)
+class CardTag:
+    """A small pill drawn after ``detail`` on the card's muted line.
+
+    ``text`` is drawn after an optional ``icon``; when ``value`` is set it goes
+    *inside* that icon instead (the student's bond level inside the heart), so
+    the tag reads as one badge rather than text floating beside a glyph.
+    ``background`` is optional: left empty the tag is drawn straight on the card
+    (no pill), which is what the bond heart uses. Keeping tags out of ``chips``
+    stops them from wrapping the attack/armour chips onto a second row.
+    """
+
+    text: str = ""
+    icon: str = ""  # bundled glyph drawn before the text
+    icon_colour: str = ""
+    value: str = ""  # short value drawn *inside* ``icon``
+    value_colour: str = ""  # defaults to white
+    background: str = ""  # pill colour; empty draws no pill
+    foreground: str = ""  # defaults to the theme foreground
+
+
+@dataclass(frozen=True)
 class CardSpec:
     """Everything one card needs to draw itself - no widgets, no I/O."""
 
@@ -95,15 +122,9 @@ class CardSpec:
     # The muted line under the name: a student's school, an equipment
     # category/tier, an item id (blank hides it).
     detail: str = ""
-    # Optional small tag drawn after ``detail`` on the same line.  Students use
-    # it for the Bond Gear tier (a heart plus ``T<n>``); keeping it out of
-    # ``chips`` stops that extra pill from wrapping the attack/armour chips onto
-    # a second row.
-    note: str = ""
-    note_icon: str = ""  # bundled glyph drawn before the note text
-    note_icon_colour: str = ""
-    note_background: str = ""
-    note_foreground: str = ""
+    # Optional pills drawn after ``detail`` on the same line (a student's bond
+    # level and bond-gear tier). ``None`` keeps the line as plain text.
+    tags: tuple[CardTag, ...] = ()
     glyph: str = DEFAULT_GLYPH
     asset: str | None = None
     fit: str = icons.FIT_CONTAIN
@@ -224,6 +245,10 @@ class AssetCard(ttk.Frame):
         # them whenever the GC happens to run, possibly on an image worker.
         self._image_photo = None
         self._emblem_photo = None
+        # A late load must not touch a dead canvas.
+        self._image_token += 1
+        self._emblem_token += 1
+        self._keys = []
         super().destroy()
 
     def set_selected(self, selected: bool, palette: dict[str, str]) -> None:
@@ -257,13 +282,6 @@ class AssetCard(ttk.Frame):
     def reload_images(self) -> None:
         """Re-resolve the artwork (after an image-mode or visibility change)."""
         self._render()
-
-    def destroy(self) -> None:
-        # A late load must not touch a dead canvas.
-        self._image_token += 1
-        self._emblem_token += 1
-        self._keys = []
-        super().destroy()
 
     # -- drawing -----------------------------------------------------------
     def _render(self) -> None:
@@ -319,60 +337,96 @@ class AssetCard(ttk.Frame):
         cursor = name_top + (name.count("\n") + 1) * name_font.metrics("linespace")
 
         detail = str(spec.detail or "")
-        note = str(spec.note or "")
-        if detail or spec.emblem or note:
+        if detail or spec.emblem or spec.tags:
             small = self._small_font()
             line_height = small.metrics("linespace")
             detail_width = small.measure(detail) if detail else 0
             emblem_width = EMBLEM_SIZE + 5 if spec.emblem else 0
-            note_photo = None
-            note_icon_width = 0
-            if note and spec.note_icon:
-                note_photo = _note_icon(
-                    spec.note_icon,
-                    NOTE_ICON,
-                    spec.note_icon_colour or colours["fg"],
-                )
-                if note_photo is not None:
-                    note_icon_width = NOTE_ICON + NOTE_ICON_GAP
-            note_width = (
-                small.measure(note) + 2 * NOTE_PAD + note_icon_width if note else 0
-            )
-            note_gap = NOTE_GAP if note and (detail or spec.emblem) else 0
+
+            # Size every tag first, so the emblem, the text and the pills are
+            # centred as one line whatever combination of tags is present.
+            tag_widths: list[int] = []
+            badge = False
+            for tag in spec.tags:
+                label = _tag_label(tag)
+                pad = TAG_PAD if tag.background else 0
+                icon_width = 0
+                if tag.icon:
+                    icon_width = TAG_BADGE_WIDTH if tag.value else TAG_ICON
+                    icon_width += TAG_ICON_GAP if label else 0
+                    badge = badge or bool(tag.value)
+                text_width = small.measure(label) if label else 0
+                tag_widths.append(icon_width + text_width + 2 * pad)
+
+            tags_width = sum(tag_widths) + TAG_GAP * max(len(tag_widths) - 1, 0)
+            tags_gap = TAG_GAP if tags_width and (detail or spec.emblem) else 0
             left = (
-                CARD_WIDTH - emblem_width - detail_width - note_gap - note_width
+                CARD_WIDTH - emblem_width - detail_width - tags_gap - tags_width
             ) / 2
+            row_height = max(line_height, TAG_BADGE_HEIGHT if badge else 0)
             detail_top = cursor + DETAIL_GAP
+            # A taller badge must not push the school line off its centre.
+            text_top = detail_top + (row_height - line_height) / 2
             if spec.emblem:
-                self._load_school_emblem(spec.emblem, left, detail_top, colours["fg"])
+                self._load_school_emblem(spec.emblem, left, text_top, colours["fg"])
             if detail:
                 canvas.create_text(
-                    left + emblem_width, detail_top, text=detail, font=small,
+                    left + emblem_width, text_top, text=detail, font=small,
                     fill=colours["muted"], anchor="nw", tags=("muted",),
                 )  # fmt: skip
-            if note:
-                note_left = left + emblem_width + detail_width + note_gap
-                note_height = line_height + 2  # 1 px of padding above/below the text
-                note_top = detail_top - 1
-                _round_rect(
-                    canvas, note_left, note_top, note_left + note_width,
-                    note_top + note_height, 3,
-                    fill=spec.note_background or colours["surface"], outline="",
-                )  # fmt: skip
-                text_x = note_left + NOTE_PAD
-                if note_photo is not None:
+
+            tag_left = left + emblem_width + detail_width + tags_gap
+            pill_top = detail_top - 2
+            pill_height = row_height + 4  # 2 px above/below the tallest tag
+            centre_y = pill_top + pill_height / 2
+            for tag, width in zip(spec.tags, tag_widths):
+                label = _tag_label(tag)
+                if tag.background:
+                    _round_rect(
+                        canvas, tag_left, pill_top, tag_left + width,
+                        pill_top + pill_height, 3,
+                        fill=tag.background, outline="",
+                    )  # fmt: skip
+                text_x = tag_left + (TAG_PAD if tag.background else 0)
+                if tag.value and tag.icon:
+                    # The value lives *inside* the glyph (the heart *is* the
+                    # badge). ttk.Icon is cached and theme-scaled by
+                    # ttkbootstrap, so no Python-side reference is needed.
+                    icon = ttk.Icon(
+                        tag.icon,
+                        (TAG_BADGE_WIDTH, TAG_BADGE_HEIGHT),
+                        color=tag.icon_colour or colours["fg"],
+                    )
                     canvas.create_image(
-                        text_x + NOTE_ICON / 2,
-                        note_top + note_height / 2,
-                        image=note_photo,
+                        text_x + TAG_BADGE_WIDTH / 2,
+                        centre_y,
+                        image=icon,
                         anchor="center",
                     )
-                    text_x += note_icon_width
-                canvas.create_text(
-                    text_x, note_top + note_height / 2, text=note,
-                    font=small, fill=spec.note_foreground or colours["fg"], anchor="w",
-                )  # fmt: skip
-            cursor = detail_top + line_height
+                    canvas.create_text(
+                        text_x + TAG_BADGE_WIDTH / 2,
+                        centre_y - TAG_VALUE_RISE,
+                        text=tag.value,
+                        font=self._tag_value_font(len(tag.value)),
+                        fill=tag.value_colour or TAG_VALUE_FG,
+                        tags=("tag-value",),
+                    )
+                    text_x += TAG_BADGE_WIDTH + (TAG_ICON_GAP if label else 0)
+                elif tag.icon:
+                    icon = _tag_icon(
+                        tag.icon, TAG_ICON, tag.icon_colour or colours["fg"]
+                    )
+                    canvas.create_image(
+                        text_x + TAG_ICON / 2, centre_y, image=icon, anchor="center"
+                    )
+                    text_x += TAG_ICON + (TAG_ICON_GAP if label else 0)
+                if label:
+                    canvas.create_text(
+                        text_x, centre_y, text=label,
+                        font=small, fill=tag.foreground or colours["fg"], anchor="w",
+                    )  # fmt: skip
+                tag_left += width + TAG_GAP
+            cursor = detail_top + row_height
 
         if spec.chips:
             small = self._small_font()
@@ -558,6 +612,10 @@ class AssetCard(ttk.Frame):
     def _badge_font(self):
         return _card_font(8, "bold")
 
+    def _tag_value_font(self, digits: int):
+        """The digits inside a note badge: 7 pt, dropped to 6 pt for 3 digits."""
+        return _card_font(6 if digits >= 3 else 7, "bold")
+
     def _resize(self, height: int) -> None:
         """Fit the card (and its border) to the text it actually drew."""
         if height == self._height:
@@ -597,21 +655,14 @@ def _card_font(size: int, weight: str = "normal") -> tkfont.Font:
 
 
 # Cached Bootstrap Icon glyphs for gold and blue (UE) stars
-_star_icons: dict[tuple[int, str], object] = {}
-
 STAR_GOLD_COLOR = "#ffee3f"
 STAR_BLUE_COLOR = "#45c4ff"
 
 
 def _get_star_glyph(size: int = 11, is_blue: bool = False) -> object:
-    """Return a cached ttk.Icon for 'star-fill' in gold or UE cyan-blue."""
+    """The 'star-fill' glyph in gold, or cyan-blue for an unlocked UE star."""
     color = STAR_BLUE_COLOR if is_blue else STAR_GOLD_COLOR
-    key = (size, color)
-    icon = _star_icons.get(key)
-    if icon is None:
-        icon = ttk.Icon("star-fill", size, color=color)
-        _star_icons[key] = icon
-    return icon
+    return ttk.Icon("star-fill", size, color=color)
 
 
 # Chip glyphs are shared too (the same two pictures on every student card).
@@ -630,31 +681,19 @@ def _chip_photo(icon: str) -> ImageTk.PhotoImage | None:
     return photo
 
 
-# Stand-in glyphs are shared between cards (and across redraws): creating a
-# Tk image per card is measurable on a page of 120 of them.
-_glyph_icons: dict[tuple[str, int, str], object] = {}
-
-
+# Stand-in glyphs and note glyphs go through ``ttk.Icon``, whose engine cache is
+# content-addressed on ``(name, size, colour)`` and holds the images alive.
 def _glyph_icon(name: str, size: int, colour: str):
-    key = (name, size, colour)
-    icon = _glyph_icons.get(key)
-    if icon is None:
-        icon = ttk.Icon(name, size, color=colour)
-        _glyph_icons[key] = icon
-    return icon
+    return ttk.Icon(name, size, color=colour)
 
 
-# The small heart on the bond-gear tag, shared by every student card.
-_note_icons: dict[tuple[str, int, str], object] = {}
+def _tag_icon(name: str, size: int, colour: str):
+    return ttk.Icon(name, size, color=colour)
 
 
-def _note_icon(name: str, size: int, colour: str):
-    key = (name, size, colour)
-    icon = _note_icons.get(key)
-    if icon is None:
-        icon = ttk.Icon(name, size, color=colour)
-        _note_icons[key] = icon
-    return icon
+def _tag_label(tag: CardTag) -> str:
+    """The text after a tag's icon; without an icon the value is drawn as text."""
+    return tag.text or ("" if tag.icon else tag.value)
 
 
 def _chip_rows(widths: list[int], width: int, gap: int) -> list[list[int]]:

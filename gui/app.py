@@ -416,9 +416,7 @@ class ControlPanel(ttk.Window):
         self.data_page.apply_image_settings(settings)
         if base_changed:
             self.data_page.reload_artwork()
-            self._append_log(
-                f"Remote artwork base set to {icons.base_url()}", "dim"
-            )
+            self._append_log(f"Remote artwork base set to {icons.base_url()}", "dim")
         self._append_log(_image_mode_note(settings), "dim")
         self._refresh_context()
         self.overview_page.refresh()
@@ -773,9 +771,7 @@ class ControlPanel(ttk.Window):
             "log_state": self._log_state,
             "theme": "dark" if self._dark else "light",
             "asset_base_url": (
-                ""
-                if icons.base_url() == icons.DEFAULT_BASE
-                else icons.base_url()
+                "" if icons.base_url() == icons.DEFAULT_BASE else icons.base_url()
             ),
         }
         # Only a split keeping both panes usable is worth saving.

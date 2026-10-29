@@ -101,7 +101,7 @@ class _WorkerPool:
             function, args = item
             try:
                 function(*args)
-            except Exception:  # noqa: BLE001 - a worker must never die
+            except Exception:
                 logger.exception("image worker failed")
 
 
@@ -136,9 +136,8 @@ def delete_orphaned_photos() -> None:
         photo = _orphaned_photos.pop()
         try:
             ImageTk.PhotoImage.__del__(photo)
-        except Exception:  # noqa: BLE001 - Tk already tore the picture down
+        except Exception:  # noqa: BLE001, S110 - Tk already tore the picture down
             pass
-
 
 
 @dataclass(frozen=True)
@@ -284,9 +283,7 @@ class ImageService:
         # not under the disposable output/ tree - it is a cache the user can
         # point at, and deleting output/ would otherwise lose every download.
         self._cache_follows_local = cache_dir is None
-        self._cache_dir = (
-            Path(cache_dir) if cache_dir is not None else self._local_dir
-        )
+        self._cache_dir = Path(cache_dir) if cache_dir is not None else self._local_dir
         self._pool = _WorkerPool(workers, "gui-image")
         self._lock = threading.Lock()
         self._mode = ImageMode(mode)

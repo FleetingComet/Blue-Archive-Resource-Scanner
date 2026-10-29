@@ -299,8 +299,14 @@ class ToolPage(Page):
 
     def set_grouping_notice(self, text: str, *, error: bool = False) -> None:
         notice = getattr(self, "_grouping_notice", None)
-        if notice is not None:
-            notice.configure(text=text, bootstyle="danger" if error else MUTED)
+        if notice is None:
+            return
+        # ``bootstyle`` takes a colour name, not a style name: the muted style
+        # has to go through ``style=`` (MUTED is a full ttk style).
+        if error:
+            notice.configure(text=text, bootstyle="danger")
+        else:
+            notice.configure(text=text, style=MUTED)
 
     def _copy_grouping(self) -> None:
         if self._on_copy_grouping is not None:
@@ -371,7 +377,9 @@ class ToolPage(Page):
                     if active is not None and path.resolve() == active.resolve()
                     else ""
                 )
-                label.configure(text=f"present{marker}", bootstyle=MUTED)
+                # ``style=`` (not ``bootstyle=``): MUTED is a style, and passing
+                # it as a bootstyle silently falls back to the plain label.
+                label.configure(text=f"present{marker}", style=MUTED)
             if open_button is not None:
                 open_button.configure(state="normal" if present else "disabled")
 

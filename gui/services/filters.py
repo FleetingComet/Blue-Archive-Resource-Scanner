@@ -98,7 +98,9 @@ def prune_selection(
     selected: Mapping[str, set[str]], groups: Iterable[FilterGroup]
 ) -> dict[str, set[str]]:
     """Drop values that no longer exist when the dataset changed."""
-    allowed = {group.key: {option.value for option in group.options} for group in groups}
+    allowed = {
+        group.key: {option.value for option in group.options} for group in groups
+    }
     return {
         key: {value for value in values if value in allowed.get(key, set())}
         for key, values in selected.items()

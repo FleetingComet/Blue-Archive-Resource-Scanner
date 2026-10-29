@@ -75,12 +75,28 @@ class StudentFilterState:
         self.search = ""
 
 
+BOND_MAX = 100
+
+
+def bond_level(record: dict[str, Any]) -> int | None:
+    """The student's bond level, or ``None`` when the record has no usable one.
+
+    The scanner writes it as ``current["bond"]``; a missing, non-numeric or
+    out-of-range value is treated as unknown so the card can hide the badge
+    instead of showing a misleading number.
+    """
+    level = _safe_int(_stat(record, "bond"))
+    if level is None or not 0 < level <= BOND_MAX:
+        return None
+    return level
+
+
 def bond_gear_tier(record: dict[str, Any]) -> int:
     """The student's bond-gear tier (0 when absent).
 
     The scanner's final file calls it ``bond_gear`` while the editor exposes
-    the raw students file as ``gear_bond``; accept either so the card tag and
-    the "Has Bond Gear" filter agree with what the editor shows.
+    the raw students file as ``gear_bond``; accept either so the "Has Bond
+    Gear" filter agrees with what the editor shows.
     """
     for key in ("bond_gear", "gear_bond"):
         tier = _safe_int(_stat(record, key))

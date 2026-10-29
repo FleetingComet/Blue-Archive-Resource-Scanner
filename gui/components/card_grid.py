@@ -81,9 +81,7 @@ class CardGrid(ttk.Frame):
         self._grid.pack(anchor="n")
 
         self._canvas = getattr(self._scroll, "_canvas", None)
-        self._router = WheelRouter(
-            self._scroll, units=3, on_scroll=self._on_scrolled
-        )
+        self._router = WheelRouter(self._scroll, units=3, on_scroll=self._on_scrolled)
         self._router.attach_tree(self._grid)
 
         if self._canvas is not None:

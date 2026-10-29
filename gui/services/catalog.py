@@ -191,7 +191,9 @@ def equipment_groups(entries: list[EquipmentEntry]) -> tuple[FilterGroup, ...]:
             label=label,
             asset=first_icon.get(category),
         )
-        for category, label in sorted(categories.items(), key=lambda pair: pair[1].casefold())
+        for category, label in sorted(
+            categories.items(), key=lambda pair: pair[1].casefold()
+        )
     )
     tier_options = tuple(
         FilterOption(str(value), f"Tier {value}") for value in sorted(tiers)
@@ -313,9 +315,7 @@ def filter_items(
     ]
 
 
-def filter_currencies(
-    entries: list[CurrencyEntry], query: str
-) -> list[CurrencyEntry]:
+def filter_currencies(entries: list[CurrencyEntry], query: str) -> list[CurrencyEntry]:
     return [entry for entry in entries if search_matches(entry.search_text, query)]
 
 

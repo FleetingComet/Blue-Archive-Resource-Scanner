@@ -10,7 +10,7 @@ from src.core.paths import Path_Config
 
 logger = logging.getLogger("BA-Scanner")
 
-BASE = "" # intentionally blank
+BASE = ""  # intentionally blank
 ITEM_DIR = "item/icon/"
 EQUIPMENT_DIR = "equipment/icon/"
 STUDENT_DIR = "student/collection/"
