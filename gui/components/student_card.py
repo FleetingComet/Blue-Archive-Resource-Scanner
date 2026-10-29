@@ -26,12 +26,30 @@ from src.utils.data.stat_normalization import format_skill
 BOND_HEART_COLOUR = "#c2255c"
 BOND_VALUE_COLOUR = "#ffffff"
 
+# Exact student role colors for STRIKER and SPECIAL
+STRIKER_COLOR = "#ff2d51"
+SPECIAL_COLOR = "#4c6cb3"
+ROLE_COLORS = {
+    "STRIKER": STRIKER_COLOR,
+    "SPECIAL": SPECIAL_COLOR,
+}
+
+
+def student_role(info: dict) -> str:
+    """Normalize student squad type to STRIKER or SPECIAL."""
+    raw = str(info.get("SquadType") or "").upper()
+    if raw in ("STRIKER", "MAIN"):
+        return "STRIKER"
+    if raw in ("SPECIAL", "SUPPORT"):
+        return "SPECIAL"
+    return ""
+
 
 def bond_tags(record: dict) -> tuple[CardTag, ...]:
     """The student's single bond tag: the level in the heart, its gear tier after.
 
-    One tag keeps the two bond facts together ("♥22 T2") and, with no pill
-    behind it, reads as part of the school line instead of a third chip. They
+    One tag keeps the two bond facts together ("♥22 T2") and,
+    reads as part of the school line instead of a third chip. They
     are still independent values: a student with a bond level but no gear shows
     only the heart, and a gear tier without a usable level only the ``T<n>``.
     """

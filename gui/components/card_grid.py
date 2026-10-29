@@ -99,7 +99,7 @@ class CardGrid(ttk.Frame):
             self._empty,
             "Clear filters",
             "arrow-counterclockwise",
-            style="secondary-outline",
+            style="secondary outline",
             command=self._run_empty_action,
             tip="Show the whole dataset again",
         )
@@ -113,7 +113,7 @@ class CardGrid(ttk.Frame):
             footer,
             "Show more",
             "plus-circle",
-            style="secondary-outline",
+            style="secondary outline",
             command=self.show_more,
             tip="Draw the next batch of cards",
         )

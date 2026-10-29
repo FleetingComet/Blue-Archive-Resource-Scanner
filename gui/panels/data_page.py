@@ -251,38 +251,66 @@ class DataPage(ttk.Frame):
         actions.grid(row=0, column=2, sticky="e")
 
         self._save_button = button(
-            actions, "Save", "floppy-fill", style="success", command=self.save,
+            actions,
+            "Save",
+            "floppy-fill",
+            style="success",
+            command=self.save,
             tip="Write the corrected data back to this file (Ctrl+S)",
-        )  # fmt: skip
+        )
         self._save_button.pack(side="right")
         self._save_as_button = button(
-            actions, "Save As…", "floppy", command=self.save_as, tip="Write the data to another JSON file"
-        )  # fmt: skip
+            actions,
+            "Save As…",
+            "floppy",
+            style="secondary outline",
+            command=self.save_as,
+            tip="Write the data to another JSON file",
+        )
         self._save_as_button.pack(side="right", padx=(0, 6))
         self._reload_button = button(
-            actions, "Reload", "arrow-clockwise", command=self.reload, tip="Re-read the file, discarding unsaved edits"
-        )  # fmt: skip
+            actions,
+            "Reload",
+            "arrow-clockwise",
+            style="secondary outline",
+            command=self.reload,
+            tip="Re-read the file, discarding unsaved edits",
+        )
         self._reload_button.pack(side="left")
         button(
             actions,
             "Browse…",
             "folder2-open",
+            style="secondary outline",
             command=self.browse,
             tip="Open any JSON file",
         ).pack(side="left", padx=(6, 0))
         self._add_button = button(
-            actions, "Add", "plus-lg", command=self.add_entry,
+            actions,
+            "Add",
+            "plus-lg",
+            style="primary outline",
+            command=self.add_entry,
             tip="Add a new entry to the loaded data",
-        )  # fmt: skip
+        )
         self._add_button.pack(side="left", padx=(6, 0))
         self._reprocess_button = button(
-            actions, "Re-run processor", "arrow-repeat", command=self.reprocess,
+            actions,
+            "Re-run processor",
+            "arrow-repeat",
+            style="info outline",
+            command=self.reprocess,
             tip="Rebuild the final values from this raw scan file",
-        )  # fmt: skip
+        )
         self._reprocess_button.pack(side="left", padx=(6, 0))
-        button(actions, "Open location", "folder2-open", command=self.reveal_active, tip="Show this file in the file manager").pack(
-            side="left", padx=(6, 0)
-        )  # fmt: skip
+        button(
+            actions,
+            "Open location",
+            "folder2-open",
+            style="secondary ghost",
+            command=self.reveal_active,
+            tip="Show this file in the file manager",
+        ).pack(side="left", padx=(6, 0))
 
         info = ttk.Frame(self, padding=(18, 6, 18, 4))
         info.grid(row=2, column=0, sticky="ew")

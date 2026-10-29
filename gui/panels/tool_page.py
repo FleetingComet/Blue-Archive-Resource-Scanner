@@ -55,7 +55,7 @@ class ChipList(ttk.Frame):
 
         self._empty = ttk.Label(self._chip_row, text="default order", style=MUTED)
         self._clear = button(
-            self._chip_row, "Clear", "x-lg", style="danger-link", command=self.clear,
+            self._chip_row, "Clear", "x-lg", style="danger link", command=self.clear,
             tip="Remove all group fields",
         )  # fmt: skip
         self._pills = {
@@ -210,7 +210,7 @@ class ToolPage(Page):
         if option.kind == BOOL:
             var = tk.BooleanVar(value=bool(option.default))
             ttk.Checkbutton(
-                controls, text=option.label, variable=var, bootstyle="round-toggle"
+                controls, text=option.label, variable=var, bootstyle="round toggle"
             ).pack(side="left")
             var.trace_add("write", self._sync_command)
             self._inputs[option.key] = var
@@ -237,7 +237,7 @@ class ToolPage(Page):
             self._inputs[option.key] = chips
             if self._on_copy_grouping is not None:
                 button(
-                    controls, copy_grouping_label, "arrow-left-right", style="info-outline",
+                    controls, copy_grouping_label, "arrow-left-right", style="info outline",
                     command=self._copy_grouping, tip="Transfer the grouping set from the other report tool",
                 ).pack(side="left", padx=(10, 0))  # fmt: skip
             # The transfer message gets its own line so a long source tool name
@@ -352,7 +352,7 @@ class ToolPage(Page):
             open_button = button(
                 row,
                 "Open",
-                style="info-link",
+                style="info link",
                 command=partial(self._on_open_in_data, path),
                 tip=f"Open {relative(path)} in the Data tab",
             )

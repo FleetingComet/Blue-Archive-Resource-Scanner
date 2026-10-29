@@ -91,13 +91,13 @@ class LogPanel(ttk.Frame):
             header,
             text="Timestamps",
             variable=self.timestamps,
-            bootstyle="round-toggle",
+            bootstyle="round toggle",
         ).pack(side="left", padx=(12, 0))
         ttk.Checkbutton(
             header,
             text="Autoscroll",
             variable=self.autoscroll,
-            bootstyle="round-toggle",
+            bootstyle="round toggle",
         ).pack(side="left", padx=(12, 0))
 
         # Packed right-to-left, so they read: Clear Copy Save Logs | Max Hide

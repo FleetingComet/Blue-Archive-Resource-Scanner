@@ -40,7 +40,7 @@ POPUP_MAX_HEIGHT = 340
 # Short lists are easy to scan; a search box would only add chrome.
 POPUP_SEARCH_MIN = 9
 
-ROLE_OPTIONS = (("all", "All"), ("striker", "Striker"), ("special", "Special"))
+ROLE_OPTIONS = (("all", "All"), ("striker", "STRIKER"), ("special", "SPECIAL"))
 
 PALETTE = ("#4d6fa8", "#6a5acd", "#8a5a44", "#4a7d6b", "#8a6d3b", "#7a4d6d")
 
@@ -177,7 +177,7 @@ class MultiSelectDropdown(ttk.Frame):
         self._button = ttk.Button(
             self,
             text=group.label,
-            bootstyle="secondary-outline",
+            bootstyle="secondary outline",
             command=self._toggle,
         )
         self._button.pack(fill="x")
@@ -234,12 +234,12 @@ class MultiSelectDropdown(ttk.Frame):
         total = len(self._group.options)
         count = len(self._selected)
         if total == 0:
-            text, style = f"{self._group.label}: —", "secondary-outline"
+            text, style = f"{self._group.label}: —", "secondary outline"
             state = "disabled"
         elif count == 0 or count == total:
             text, style, state = (
                 f"{self._group.label}: All",
-                "secondary-outline",
+                "secondary outline",
                 "normal",
             )
         elif count == 1:
@@ -248,10 +248,10 @@ class MultiSelectDropdown(ttk.Frame):
                 (o.label for o in self._group.options if o.value == value), value
             )
             text = f"{self._group.label}: {_shorten(label)}"
-            style, state = "info-outline", "normal"
+            style, state = "info outline", "normal"
         else:
             text = f"{self._group.label}: {count} selected"
-            style, state = "info-outline", "normal"
+            style, state = "info outline", "normal"
         self._button.configure(text=text, bootstyle=style, state=state)
         # The button's requested width follows its caption; the wrapping flow
         # has to re-measure when "School: All" becomes "School: Trinity".
@@ -415,7 +415,7 @@ class MultiSelectDropdown(ttk.Frame):
             check = ttk.Checkbutton(
                 row,
                 variable=var,
-                bootstyle="success-round-toggle",
+                bootstyle="success round toggle",
                 command=self._changed,
             )
             check.grid(row=0, column=2, sticky="e", padx=(6, 0))
@@ -553,13 +553,24 @@ class FilterBar(ttk.Frame):
         )
         self._role_var = tk.StringVar(value="all")
         for index, (value, label) in enumerate(ROLE_OPTIONS):
+            rb_style = None
+            if value == "striker":
+                rb_style = "Striker.secondary.Toolbutton"
+            elif value == "special":
+                rb_style = "Special.secondary.Toolbutton"
+
+            rb_kw = (
+                {"style": rb_style}
+                if rb_style
+                else {"bootstyle": "secondary toolbutton"}
+            )
             ttk.Radiobutton(
                 self._role_frame,
                 text=label,
                 value=value,
                 variable=self._role_var,
-                bootstyle="secondary-toolbutton",
                 command=self._role_changed,
+                **rb_kw,
             ).pack(side="left", padx=(0 if index == 0 else 1, 0))
 
         self._bond_var = tk.BooleanVar(value=False)
@@ -567,7 +578,7 @@ class FilterBar(ttk.Frame):
             self._flow,
             text="Has Bond Gear",
             variable=self._bond_var,
-            bootstyle="secondary-round-toggle",
+            bootstyle="secondary round toggle",
             command=self._bond_changed,
         )
 

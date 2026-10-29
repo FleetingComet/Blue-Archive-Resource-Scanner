@@ -460,9 +460,11 @@ class AssetCard(ttk.Frame):
 
     def _draw_chip(self, chip, photo, x: float, top: float, width: int, font) -> None:
         """One pill: an optional type glyph, then the text."""
+        bg = chip.background or self._palette["surface"]
+        outline = "" if chip.background else self._palette["border"]
         _round_rect(
             self._canvas, x, top, x + width, top + CHIP_HEIGHT, 4,
-            fill=chip.background, outline="",
+            fill=bg, outline=outline,
         )  # fmt: skip
         text_x = x + CHIP_PAD
         if photo is not None:

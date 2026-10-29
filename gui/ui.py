@@ -15,15 +15,20 @@ from ttkbootstrap.widgets.scrolled import ScrolledFrame, ScrolledText
 
 __all__ = [
     "MONO_FONT", "MUTED", "OUTCOME_STYLE", "ActionBar", "CommandPreview", "Page",
-    "ScrolledText", "apply_muted", "ask_save_discard_cancel", "button", "center_on_parent",
-    "confirm", "heading", "local_hotkey", "show_error",
+    "ScrolledText", "apply_muted", "apply_role_styles", "ask_save_discard_cancel",
+    "button", "center_on_parent", "confirm", "heading", "local_hotkey", "show_error",
 ]  # fmt: skip
 
-MONO_FONT = ("Consolas" if sys.platform == "win32" else "DejaVu Sans Mono", 10)
+MONO_FONT = ("Noto Sans Display" if sys.platform == "win32" else "DejaVu Sans Mono", 10)
 MUTED = "Muted.TLabel"  # dim helper text; contrast follows the active theme
 
 # Process outcome tag -> ttkbootstrap colour name (shared by every status text).
-OUTCOME_STYLE = {"ok": "success", "warn": "warning", "error": "danger"}
+OUTCOME_STYLE = {
+    "ok": "success",
+    "warn": "warning",
+    "error": "danger",
+    "info": "info",
+}
 
 
 def heading(size: int = 14) -> tuple:
@@ -31,8 +36,22 @@ def heading(size: int = 14) -> tuple:
     return (tkfont.nametofont("TkDefaultFont").actual("family"), size, "bold")
 
 
+def apply_role_styles(style: ttk.Style | None = None) -> None:
+    """Configure toolbutton styles for student roles to ensure consistent text colors."""
+    if style is None:
+        style = ttk.Style()
+    for name, color in (("Striker", "#ff2d51"), ("Special", "#4c6cb3")):
+        for base in ("Toolbutton", "secondary.Toolbutton"):
+            style_name = f"{name}.{base}"
+            style.configure(style_name, foreground=color)
+            style.map(
+                style_name,
+                foreground=[("disabled", style.colors.border), ("!disabled", color)],
+            )
+
+
 def apply_muted() -> None:
-    """(Re)define the muted label colour; run at start and after a theme switch."""
+    """(Re)define muted and custom styles; runs at start and on theme switches."""
     style = ttk.Style()
     fg, bg = style.colors.fg, style.colors.bg
     mixed = "#" + "".join(
@@ -41,13 +60,29 @@ def apply_muted() -> None:
     )
     style.configure(MUTED, foreground=mixed)
 
+    # Custom high-contrast light button style: guarantees dark text on light bg
+    style.configure(
+        "ContrastLight.TButton",
+        background=style.colors.bg,
+        foreground=style.colors.fg,
+        bordercolor=style.colors.border,
+    )
+    style.map(
+        "ContrastLight.TButton",
+        foreground=[("disabled", style.colors.border), ("!disabled", style.colors.fg)],
+        background=[("active", style.colors.border)],
+    )
+
+    apply_role_styles(style)
+
 
 def button(
     master,
     text: str = "",
     icon: str | None = None,
     *,
-    style: str = "secondary-outline",
+    style: str = "secondary outline",
+    bootstyle: str | None = None,
     tip: str | None = None,
     command: Callable[[], None] | None = None,
     **options,
@@ -56,11 +91,19 @@ def button(
 
     No ``text`` makes it an icon-only button (give it a ``tip``). The icon
     colour follows the bootstyle, so it adapts to light/dark by itself.
+
+    Normalizes hyphenated styles (e.g., 'primary-outline' -> 'primary outline').
     """
     if icon and not text:
         options["icon_only"] = True
+    effective_style = (bootstyle or style).replace("-", " ")
     widget = ttk.Button(
-        master, text=text, icon=icon, bootstyle=style, command=command, **options
+        master,
+        text=text,
+        icon=icon,
+        bootstyle=effective_style,
+        command=command,
+        **options,
     )
     if tip:
         ttk.ToolTip(widget, text=tip)
@@ -84,14 +127,7 @@ def local_hotkey(action: Callable[[], object]):
 
 
 def center_on_parent(window, parent, *, y_fraction: int = 3) -> None:
-    """Centre a toplevel over ``parent`` (or the screen) and keep it on-screen.
-
-    Call it after the dialog has set its size: the size is re-applied so the
-    window never jumps, and the position is clamped to the visible screen area
-    (a dialog larger than the screen, or a parent near an edge, stays reachable).
-    ``y_fraction`` places the dialog slightly above centre, which reads better
-    than dead centre.
-    """
+    """Centre a toplevel over ``parent`` (or the screen) and keep it on-screen."""
     window.update_idletasks()
     width, height = _window_size(window)
     if parent is not None and parent.winfo_ismapped() and parent.winfo_width() > 1:
@@ -176,7 +212,7 @@ class ActionBar(ttk.Frame):
     def __init__(self, master, *, on_run_scanner, on_run_tool, on_stop):
         super().__init__(master, padding=(10, 6))
         self.scanner_run = button(
-            self, "Run Scanner", "radar", style="success", command=on_run_scanner,
+            self, "Run Scanner", "radar", style="primary", command=on_run_scanner,
             tip="Run main.py with the saved settings (F5) - works from any tab",
         )  # fmt: skip
         self.stop = button(
@@ -188,9 +224,14 @@ class ActionBar(ttk.Frame):
         # A fixed width keeps the scanner controls still while the selected
         # tool (and therefore this button's caption) changes.
         self.tool_run = button(
-            self, "Run tool", "play-fill", style="success", command=on_run_tool, width=20,
+            self,
+            "Run tool",
+            "play-fill",
+            style="success",
+            command=on_run_tool,
+            width=20,
             tip="Run the tool selected in the Tools tab (F6)",
-        )  # fmt: skip
+        )
         self.hint = ttk.Label(
             self, text="F5 scanner  ·  F6 tool  ·  F2 / Esc stop", style=MUTED
         )

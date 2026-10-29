@@ -320,13 +320,13 @@ class SettingsPage(Page):
         card = self.card("Data, language & debug")
         ttk.Checkbutton(
             card, text="Enable online data sync (download community data on start)",
-            variable=self.sync, bootstyle="round-toggle",
+            variable=self.sync, bootstyle="round toggle",
         ).grid(row=0, column=0, columnspan=2, sticky="w", pady=2)  # fmt: skip
         ttk.Checkbutton(
             card,
             text="Debug mode (verbose logging)",
             variable=self.debug,
-            bootstyle="round-toggle",
+            bootstyle="round toggle",
         ).grid(row=1, column=0, columnspan=2, sticky="w", pady=2)
         ttk.Label(card, text="Game language").grid(
             row=2, column=0, sticky="w", pady=(8, 0)

@@ -1,38 +1,38 @@
-"""The Control Panel's ttkbootstrap 2.x theme family.
+"""The Control Panel's theme configuration.
 
-ttkbootstrap 2.0 replaced the separate pre-2.0 themes (``flatly``, ``darkly``,
-...) with *theme families*: one set of accent colours generates a contrast-checked
-``<name>-light`` and ``<name>-dark`` variant.  Declaring the family once keeps
-the light and dark modes in sync (the same blue accent and the same semantic
-success/warning/danger colours) and avoids the deprecation warnings the old
-theme names produce.
-
-The module is imported by :mod:`gui.app` before the root window exists;
-``Theme.register()`` supports that and queues the variants until Tk starts.
+Uses ttkbootstrap's built-in 'bootstrap' theme family (bootstrap-light and
+bootstrap-dark) without registering a custom theme, ensuring full compatibility
+with the library's native palettes, backgrounds, and element styles.
 """
 
 from __future__ import annotations
 
 import sys
 
-from ttkbootstrap.style import Theme
+from ttkbootstrap import Theme
 
-FAMILY = "bluearchive"
+FAMILY = "rio"
 LIGHT_THEME = f"{FAMILY}-light"
 DARK_THEME = f"{FAMILY}-dark"
 
+
 Theme(
     name=FAMILY,
-    primary="#4c8dff",
-    success="#2fb56f",
-    info="#4cc2ff",
-    warning="#f2b134",
-    danger="#e05a5a",
-    neutral="#8a97a8",
-    # A soft blue-tinted paper in light mode and a navy charcoal in dark mode.
-    # The generated ramps pick the remaining surfaces, borders and hover states.
-    light={"background": "#f4f7fb", "foreground": "#1b2733"},
-    dark={"background": "#161c25", "foreground": "#e7edf5"},
+    primary="#c81d25",
+    secondary="#3b4252",
+    success="#10b981",
+    info="#0284c7",
+    warning="#d97706",
+    danger="#dc2626",
+    neutral="#8490a0",
+    light={
+        "background": "#f8fafc",
+        "foreground": "#0f172a",
+    },
+    dark={
+        "background": "#1d1d1d",
+        "foreground": "#ffffff",
+    },
 ).register()
 
 
@@ -50,9 +50,9 @@ def apply_title_bar(window, dark: bool) -> None:
     """Ask the Windows compositor to paint the title bar to match the theme.
 
     Tk leaves the non-client area (the title bar) in the system light style even
-    when the client area is dark.  ``DWMWA_USE_IMMERSIVE_DARK_MODE`` is the
+    when the client area is dark. ``DWMWA_USE_IMMERSIVE_DARK_MODE`` is the
     documented Windows 10/11 switch; the attribute number changed once, so try
-    both and ignore platforms/builds that do not support it.  The call is purely
+    both and ignore platforms/builds that do not support it. The call is purely
     cosmetic, so every failure is swallowed.
     """
     if sys.platform != "win32":
