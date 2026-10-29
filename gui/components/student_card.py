@@ -80,6 +80,7 @@ class StudentCard(AssetCard):
         palette,
         on_select=None,
         on_scroll=None,
+        **kwargs,
     ):
         super().__init__(
             master,
@@ -88,6 +89,7 @@ class StudentCard(AssetCard):
             palette=palette,
             on_select=on_select,
             on_scroll=on_scroll,
+            **kwargs,
         )
 
     def update_student(self, record: dict, info: dict | None = None) -> None:

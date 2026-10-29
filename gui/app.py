@@ -172,8 +172,7 @@ class ControlPanel(ttk.Window):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
 
-        # Top bar: brand + context on the left, quick actions on the right.
-        bar = ttk.Frame(self, padding=(14, 10))
+        bar = ttk.Frame(self, padding=(16, 10))
         bar.grid(row=0, column=0, sticky="ew")
         brand = ttk.Frame(bar)
         brand.pack(side="left")
@@ -185,7 +184,7 @@ class ControlPanel(ttk.Window):
             bar,
             "",
             self._theme_icon(),
-            style="secondary ghost",
+            style="ghost",
             command=self._toggle_theme,
             tip="Switch light / dark theme",
         )
@@ -194,7 +193,7 @@ class ControlPanel(ttk.Window):
             bar,
             "Settings",
             "gear-fill",
-            style="secondary ghost",
+            style="ghost",
             command=self._open_settings,
             tip="Open settings (Ctrl+,)",
         ).pack(side="right", padx=6)
@@ -202,14 +201,18 @@ class ControlPanel(ttk.Window):
             bar,
             "About",
             "info-circle-fill",
-            style="secondary ghost",
+            style="ghost",
             command=self._open_about,
             tip="About this application",
         ).pack(side="right", padx=(0, 6))
         button(
-            bar, "Output", "folder2-open", style="secondary ghost", command=lambda: self._open_folder(folders.OUTPUT),
+            bar,
+            "Output",
+            "folder2-open",
+            style="ghost",
+            command=lambda: self._open_folder(folders.OUTPUT),
             tip="Open the output folder (Ctrl+O)",
-        ).pack(side="right")  # fmt: skip
+        ).pack(side="right")
 
         panes = ttk.Panedwindow(self, orient="vertical")
         panes.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 4))
@@ -605,9 +608,12 @@ class ControlPanel(ttk.Window):
             try:
                 result = subprocess.run(
                     [sys.executable, "-c", "import cv2, rapidocr"],
-                    check=False, cwd=str(Path_Config.PROJECT_ROOT),
-                    capture_output=True, text=True, creationflags=flags,
-                )  # fmt: skip
+                    check=False,
+                    cwd=str(Path_Config.PROJECT_ROOT),
+                    capture_output=True,
+                    text=True,
+                    creationflags=flags,
+                )
             except OSError as exc:
                 self._queue_log(f"Dependency check failed: {exc}", "warn")
                 return

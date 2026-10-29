@@ -198,8 +198,6 @@ class DataPage(ttk.Frame):
         self._cards_filter_job: str | None = None
         self._images = ImageService(on_post)
 
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(3, weight=1)
         self._build_header()
         self._build_toolbar()
         self._build_body()
@@ -217,13 +215,14 @@ class DataPage(ttk.Frame):
         self._images.close()
         super().destroy()
 
-    # ------------------------------------------------------------------
-    # Chrome
-    # ------------------------------------------------------------------
     def _build_header(self) -> None:
-        header = ttk.Frame(self, padding=(18, 14, 18, 4))
-        header.grid(row=0, column=0, sticky="ew")
-        ttk.Label(header, text="Data", font=heading()).pack(anchor="w")
+        header = ttk.Frame(self, padding=(16, 12, 16, 4))
+        header.pack(side="top", fill="x")
+
+        title_row = ttk.Frame(header)
+        title_row.pack(fill="x")
+        ttk.Label(title_row, text="Data", font=heading(14)).pack(side="left")
+
         ttk.Label(
             header,
             text="Review and correct the JSON the scanner wrote. Saving here updates the files "
@@ -234,102 +233,114 @@ class DataPage(ttk.Frame):
         ).pack(anchor="w", pady=(2, 0))
 
     def _build_toolbar(self) -> None:
-        bar = ttk.Frame(self, padding=(18, 8, 18, 0))
-        bar.grid(row=1, column=0, sticky="ew")
-        # A spacer column keeps the action buttons at the right edge without
-        # letting a long file name (or a disabled button) move them.
-        bar.columnconfigure(1, weight=1)
-        ttk.Label(bar, text="File").grid(row=0, column=0, sticky="w", padx=(0, 8))
-        self._file_choice = tk.StringVar()
-        self._file_combo = ttk.Combobox(
-            bar, textvariable=self._file_choice, state="readonly", width=34
-        )
-        self._file_combo.grid(row=0, column=1, sticky="w")
-        self._file_combo.bind("<<ComboboxSelected>>", self._on_file_picked)
+        """Sleek horizontal command bar using pack."""
+        bar = ttk.Frame(self, padding=(16, 6, 16, 6))
+        bar.pack(side="top", fill="x")
 
-        actions = ttk.Frame(bar)
-        actions.grid(row=0, column=2, sticky="e")
-
+        # RIGHT SIDE: Action Buttons
+        # Primary Action: Save (Solid)
         self._save_button = button(
-            actions,
+            bar,
             "Save",
             "floppy-fill",
             style="success",
             command=self.save,
             tip="Write the corrected data back to this file (Ctrl+S)",
         )
-        self._save_button.pack(side="right")
+        self._save_button.pack(side="right", padx=(4, 0))
+
+        # Secondary: Save As (Outline)
         self._save_as_button = button(
-            actions,
+            bar,
             "Save As…",
             "floppy",
-            style="secondary outline",
+            style="outline",
             command=self.save_as,
             tip="Write the data to another JSON file",
         )
-        self._save_as_button.pack(side="right", padx=(0, 6))
-        self._reload_button = button(
-            actions,
-            "Reload",
-            "arrow-clockwise",
-            style="secondary outline",
-            command=self.reload,
-            tip="Re-read the file, discarding unsaved edits",
-        )
-        self._reload_button.pack(side="left")
-        button(
-            actions,
-            "Browse…",
-            "folder2-open",
-            style="secondary outline",
-            command=self.browse,
-            tip="Open any JSON file",
-        ).pack(side="left", padx=(6, 0))
-        self._add_button = button(
-            actions,
-            "Add",
-            "plus-lg",
-            style="primary outline",
-            command=self.add_entry,
-            tip="Add a new entry to the loaded data",
-        )
-        self._add_button.pack(side="left", padx=(6, 0))
+        self._save_as_button.pack(side="right", padx=(6, 0))
+
+        # Divider between Save and Edit actions
+        ttk.Separator(bar, orient="vertical").pack(side="right", fill="y", padx=8)
+
+        # Processing action
         self._reprocess_button = button(
-            actions,
+            bar,
             "Re-run processor",
             "arrow-repeat",
             style="info outline",
             command=self.reprocess,
             tip="Rebuild the final values from this raw scan file",
         )
-        self._reprocess_button.pack(side="left", padx=(6, 0))
+        self._reprocess_button.pack(side="right", padx=(4, 0))
+
+        # Add Entry action (Rio Crimson Outline)
+        self._add_button = button(
+            bar,
+            "Add",
+            "plus-lg",
+            style="primary outline",
+            command=self.add_entry,
+            tip="Add a new entry to the loaded data",
+        )
+        self._add_button.pack(side="right", padx=(0, 4))
+
+        # LEFT SIDE: File Selection & Metadata
+        ttk.Label(bar, text="File", font=heading(10)).pack(side="left", padx=(0, 8))
+
+        self._file_choice = tk.StringVar()
+        self._file_combo = ttk.Combobox(
+            bar, textvariable=self._file_choice, state="readonly", width=28
+        )
+        self._file_combo.pack(side="left", padx=(0, 4))
+        self._file_combo.bind("<<ComboboxSelected>>", self._on_file_picked)
+
+        # Quick file utilities
+        self._reload_button = button(
+            bar,
+            "",
+            "arrow-clockwise",
+            style="outline",
+            command=self.reload,
+            tip="Re-read the file, discarding unsaved edits",
+        )
+        self._reload_button.pack(side="left", padx=2)
+
         button(
-            actions,
-            "Open location",
+            bar,
+            "",
             "folder2-open",
-            style="secondary ghost",
+            style="outline",
+            command=self.browse,
+            tip="Open any JSON file",
+        ).pack(side="left", padx=2)
+
+        button(
+            bar,
+            "",
+            "box-arrow-up-right",
+            style="ghost",
             command=self.reveal_active,
             tip="Show this file in the file manager",
-        ).pack(side="left", padx=(6, 0))
+        ).pack(side="left", padx=2)
 
-        info = ttk.Frame(self, padding=(18, 6, 18, 4))
-        info.grid(row=2, column=0, sticky="ew")
-        info.columnconfigure(0, weight=1)
-        # One elided line: an unusually long path can never wrap the row and
-        # push the editor down.
-        self._info = ttk.Label(info, style=MUTED, anchor="w")
-        self._info.grid(row=0, column=0, sticky="ew")
-        self._dirty_label = ttk.Label(info, bootstyle="warning")
-        self._dirty_label.grid(row=0, column=1, sticky="e", padx=(12, 0))
+        # Subtle vertical separator before status info
+        ttk.Separator(bar, orient="vertical").pack(side="left", fill="y", padx=10)
+
+        # File status & unsaved changes badge
+        self._info = ttk.Label(bar, style=MUTED, anchor="w")
+        self._info.pack(side="left")
+
+        self._dirty_label = ttk.Label(bar, bootstyle="warning")
+        self._dirty_label.pack(side="left", padx=(6, 0))
 
     def _build_body(self) -> None:
+        """Paned area packed with fill='both' and expand=True to claim all remaining space."""
         panes = ttk.Panedwindow(self, orient="horizontal")
-        panes.grid(row=3, column=0, sticky="nsew", padx=18, pady=(0, 10))
+        panes.pack(side="top", fill="both", expand=True, padx=16, pady=(4, 8))
         self._panes = panes
 
-        # Left pane: the preview and the editor for the selected row. A fixed
-        # request width keeps the split where it is when another record (with a
-        # wider form) is selected.
+        # Left pane: Preview + Editor
         edit_host = ttk.Frame(panes, width=EDITOR_WIDTH)
         edit_host.columnconfigure(0, weight=1)
         edit_host.rowconfigure(1, weight=1)
@@ -340,11 +351,10 @@ class DataPage(ttk.Frame):
         preview.grid(row=0, column=0, sticky="ew")
         self._preview = ImageView(preview, images=self._images, size=PREVIEW_SIZE)
         self._preview.pack(side="left")
+
         preview_text = ttk.Frame(
             preview, height=PREVIEW_SIZE, width=EDITOR_WIDTH - PREVIEW_SIZE - 30
         )
-        # The caption box is fixed too: a long generic path can be clipped but
-        # can never wrap the row taller and push the editor down.
         preview_text.pack_propagate(False)
         preview_text.pack(side="left", fill="x", expand=True, padx=(12, 0))
         self._preview_title = ttk.Label(
@@ -363,7 +373,7 @@ class DataPage(ttk.Frame):
         self._editor.grid(row=1, column=0, sticky="nsew")
         panes.add(edit_host, weight=2)
 
-        # Right pane: the card grid and the raw JSON, as tabs.
+        # Right pane: Cards & Raw JSON tabs
         right = ttk.Frame(panes)
         right.columnconfigure(0, weight=1)
         right.rowconfigure(0, weight=1)
@@ -398,6 +408,7 @@ class DataPage(ttk.Frame):
             text="Edits apply to the in-memory data until you Save.",
             style=MUTED,
         ).pack(side="left", padx=10)
+
         self._raw = ScrolledText(
             raw_host, auto_hide=True, hbar=True, padding=0, height=10
         )
@@ -410,37 +421,47 @@ class DataPage(ttk.Frame):
         self._show_editor_placeholder()
 
     def _build_cards_tab(self, master) -> ttk.Frame:
+        """Declarative layout: Fluid search bar + auto-wrapping filters + expanding cards."""
         host = ttk.Frame(master)
+        # Declarative grid: Column 0 and Row 2 absorb all spare space (like flex: 1)
         host.columnconfigure(0, weight=1)
         host.rowconfigure(2, weight=1)
 
-        # Row 0: search on the left, ordering/display controls on the right.
-        toolbar = ttk.Frame(host, padding=(6, 8, 6, 2))
+        # -------------------------------------------------------------
+        # Row 0: Toolbar (Fluid Search on left, Controls on right)
+        # -------------------------------------------------------------
+        toolbar = ttk.Frame(host, padding=(8, 8, 8, 4))
         toolbar.grid(row=0, column=0, sticky="ew")
-        toolbar.columnconfigure(0, weight=1)
+        toolbar.columnconfigure(
+            0, weight=1
+        )  # Search area flexes to fill available width
 
+        # Search area: fluid without hardcoded width
         search = ttk.Frame(toolbar)
-        search.grid(row=0, column=0, sticky="w")
+        search.grid(row=0, column=0, sticky="ew")
+
         ttk.Label(search, text="Search", style=MUTED).pack(side="left", padx=(0, 6))
+
         self._cards_search = tk.StringVar()
-        self._search_entry = ttk.Entry(
-            search, textvariable=self._cards_search, width=22
-        )
-        self._search_entry.pack(side="left")
+        self._search_entry = ttk.Entry(search, textvariable=self._cards_search)
+        # fill='x' + expand=True makes the input auto-resize to the available width
+        self._search_entry.pack(side="left", fill="x", expand=True, padx=(0, 4))
         self._search_entry.bind("<KeyRelease>", self._on_search_key)
         self._search_entry.bind("<Return>", lambda _e: self._on_cards_filter_changed())
         self._search_entry.bind("<Escape>", lambda _e: self._clear_search())
+
         self._search_clear = button(
             search,
             icon="x-circle",
-            style="secondary-outline",
+            style="ghost",
             command=self._clear_search,
             tip="Clear the search",
             padding=(3, 0),
         )
 
+        # Controls cluster (pinned right)
         controls = ttk.Frame(toolbar)
-        controls.grid(row=0, column=1, sticky="e")
+        controls.grid(row=0, column=1, sticky="e", padx=(12, 0))
 
         self._cards_hide_empty = tk.BooleanVar(value=True)
         self._hide_empty_check = ttk.Checkbutton(
@@ -465,22 +486,25 @@ class DataPage(ttk.Frame):
         self._sort_dir_btn = button(
             controls,
             icon="sort-up",
-            style="secondary-outline",
+            style="outline",
             command=self._toggle_sort_direction,
             padding=(3, 0),
         )
         self._sort_tip = ttk.ToolTip(
             self._sort_dir_btn, text="Ascending (click to sort Descending)"
         )
+
         for widget in (
             self._hide_empty_check,
             self._sort_label,
             self._sort_combo,
             self._sort_dir_btn,
         ):
-            widget.grid_remove()  # _update_view_controls decides what fits
+            widget.grid_remove()
 
-        # Row 1: the filters that match this document (hidden for generic files).
+        # -------------------------------------------------------------
+        # Row 1: Flow Filter Bar (auto-wraps options based on width)
+        # -------------------------------------------------------------
         self._filters = FilterBar(
             host,
             images=self._images,
@@ -489,7 +513,9 @@ class DataPage(ttk.Frame):
         )
         self._filters.grid(row=1, column=0, sticky="ew", padx=6, pady=(2, 4))
 
-        # Row 2: the scrolling cards.
+        # -------------------------------------------------------------
+        # Row 2: Card Grid (claims 100% of remaining vertical/horizontal space)
+        # -------------------------------------------------------------
         self._cards = CardGrid(
             host,
             images=self._images,
@@ -497,6 +523,7 @@ class DataPage(ttk.Frame):
             on_view_changed=self._retain_images,
         )
         self._cards.grid(row=2, column=0, sticky="nsew")
+
         self._cards_filter_job: str | None = None
         self._sync_search_clear()
         return host
@@ -518,7 +545,7 @@ class DataPage(ttk.Frame):
         return catalog.sort_fields(self._card_kind())
 
     def _update_view_controls(self) -> None:
-        """Show only the controls that make sense for the loaded shape."""
+        """Show only the controls that match the loaded dataset shape."""
         kind = self._card_kind()
         self._sort_combo.configure(
             values=[label for _key, label in self._sort_fields()]
@@ -546,7 +573,7 @@ class DataPage(ttk.Frame):
         if kind == "generic":
             self._filters.grid_remove()
         else:
-            self._filters.grid()
+            self._filters.grid(row=1, column=0, sticky="ew", padx=6, pady=(2, 4))
 
     def _toggle_sort_direction(self) -> None:
         self._sort_descending = not self._sort_descending
@@ -808,10 +835,13 @@ class DataPage(ttk.Frame):
         if self.spec is not None:
             self.kind = self.spec.kind
         elif self.kind not in (
-            scanner_files.STUDENTS_FINAL, scanner_files.STUDENTS_RAW,
-            scanner_files.EQUIPMENT_FINAL, scanner_files.ITEMS_FINAL,
-            scanner_files.COUNTS_RAW, scanner_files.CURRENCIES_RAW,
-        ):  # fmt: skip
+            scanner_files.STUDENTS_FINAL,
+            scanner_files.STUDENTS_RAW,
+            scanner_files.EQUIPMENT_FINAL,
+            scanner_files.ITEMS_FINAL,
+            scanner_files.COUNTS_RAW,
+            scanner_files.CURRENCIES_RAW,
+        ):
             self.kind = scanner_files.GENERIC
         self._loaded_mtime = result.get("mtime")
         self._set_dirty(False)
@@ -1160,10 +1190,12 @@ class DataPage(ttk.Frame):
             state="normal" if self.path is not None else "disabled"
         )
         addable = loaded and self.kind in (
-            scanner_files.STUDENTS_FINAL, scanner_files.STUDENTS_RAW,
-            scanner_files.ITEMS_FINAL, scanner_files.COUNTS_RAW,
+            scanner_files.STUDENTS_FINAL,
+            scanner_files.STUDENTS_RAW,
+            scanner_files.ITEMS_FINAL,
+            scanner_files.COUNTS_RAW,
             scanner_files.EQUIPMENT_FINAL,
-        )  # fmt: skip
+        )
         self._add_button.configure(state="normal" if addable else "disabled")
         raw = (
             self.spec is not None

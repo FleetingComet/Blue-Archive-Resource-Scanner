@@ -30,9 +30,15 @@ _LICENSE_PREFIXES = ("LICENSE", "LICENCE", "COPYING", "NOTICE")
 
 # Preferred base names when a package ships several.
 _CANONICAL = {
-    "LICENSE", "LICENSE.TXT", "LICENSE.MD", "LICENSE.RST",
-    "LICENCE", "LICENCE.TXT", "COPYING", "COPYING.TXT",
-}  # fmt: skip
+    "LICENSE",
+    "LICENSE.TXT",
+    "LICENSE.MD",
+    "LICENSE.RST",
+    "LICENCE",
+    "LICENCE.TXT",
+    "COPYING",
+    "COPYING.TXT",
+}
 
 _MAX_FILE_BYTES = 400_000  # skip anything implausibly large
 _MAX_FILES = 25

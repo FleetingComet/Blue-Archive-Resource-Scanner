@@ -30,10 +30,17 @@ LEVEL_FILTERS = {"All": 0, "Debug+": 10, "Info+": 20, "Warning+": 30, "Error": 4
 
 # The log is dark in both themes (it is monospaced child output).
 TAG_COLOURS = {
-    "info": LOG_FG, "plain": LOG_FG, "debug": "#7c8798", "dim": "#7c8798",
-    "cmd": "#7fd1ff", "ok": "#79d17f", "warn": "#e8c07d", "error": "#ff7b72",
-    "report": "#8fb8d8", "header": "#7fd1ff",
-}  # fmt: skip
+    "info": LOG_FG,
+    "plain": LOG_FG,
+    "debug": "#7c8798",
+    "dim": "#7c8798",
+    "cmd": "#7fd1ff",
+    "ok": "#79d17f",
+    "warn": "#e8c07d",
+    "error": "#ff7b72",
+    "report": "#8fb8d8",
+    "header": "#7fd1ff",
+}
 
 
 class LogPanel(ttk.Frame):
@@ -64,9 +71,16 @@ class LogPanel(ttk.Frame):
         self._view.grid(row=1, column=0, sticky="nsew")
         self._text: tk.Text = self._view.text
         self._text.configure(
-            wrap="none", state="disabled", font=MONO_FONT, background=LOG_BG,
-            foreground=LOG_FG, insertbackground=LOG_FG, relief="flat", padx=6, pady=4,
-        )  # fmt: skip
+            wrap="none",
+            state="disabled",
+            font=MONO_FONT,
+            background=LOG_BG,
+            foreground=LOG_FG,
+            insertbackground=LOG_FG,
+            relief="flat",
+            padx=6,
+            pady=4,
+        )
         for tag, colour in TAG_COLOURS.items():
             self._text.tag_configure(tag, foreground=colour)
         self._text.tag_configure("header", font=(MONO_FONT[0], MONO_FONT[1], "bold"))

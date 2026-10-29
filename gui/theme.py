@@ -19,7 +19,7 @@ DARK_THEME = f"{FAMILY}-dark"
 Theme(
     name=FAMILY,
     primary="#c81d25",
-    secondary="#3b4252",
+    secondary="#94a3b8",
     success="#10b981",
     info="#0284c7",
     warning="#d97706",

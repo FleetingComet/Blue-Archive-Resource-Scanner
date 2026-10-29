@@ -55,9 +55,13 @@ class ChipList(ttk.Frame):
 
         self._empty = ttk.Label(self._chip_row, text="default order", style=MUTED)
         self._clear = button(
-            self._chip_row, "Clear", "x-lg", style="danger link", command=self.clear,
+            self._chip_row,
+            "Clear",
+            "x-lg",
+            style="danger link",
+            command=self.clear,
             tip="Remove all group fields",
-        )  # fmt: skip
+        )
         self._pills = {
             f: button(
                 self._pill_row,
@@ -237,9 +241,13 @@ class ToolPage(Page):
             self._inputs[option.key] = chips
             if self._on_copy_grouping is not None:
                 button(
-                    controls, copy_grouping_label, "arrow-left-right", style="info outline",
-                    command=self._copy_grouping, tip="Transfer the grouping set from the other report tool",
-                ).pack(side="left", padx=(10, 0))  # fmt: skip
+                    controls,
+                    copy_grouping_label,
+                    "arrow-left-right",
+                    style="info outline",
+                    command=self._copy_grouping,
+                    tip="Transfer the grouping set from the other report tool",
+                ).pack(side="left", padx=(10, 0))
             # The transfer message gets its own line so a long source tool name
             # cannot reflow the chip row.
             self._grouping_notice = ttk.Label(block, style=MUTED)

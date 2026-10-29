@@ -234,12 +234,12 @@ class MultiSelectDropdown(ttk.Frame):
         total = len(self._group.options)
         count = len(self._selected)
         if total == 0:
-            text, style = f"{self._group.label}: —", "secondary outline"
+            text, style = f"{self._group.label}: —", "outline"
             state = "disabled"
         elif count == 0 or count == total:
             text, style, state = (
                 f"{self._group.label}: All",
-                "secondary outline",
+                "outline",
                 "normal",
             )
         elif count == 1:
@@ -304,7 +304,7 @@ class MultiSelectDropdown(ttk.Frame):
             actions,
             "Select all",
             "check2-all",
-            style="secondary-outline",
+            style="outline",
             command=self._select_all,
             padding=(6, 1),
         ).pack(side="left")
@@ -312,7 +312,7 @@ class MultiSelectDropdown(ttk.Frame):
             actions,
             "Clear",
             "x-circle",
-            style="secondary-outline",
+            style="outline",
             command=self._select_none,
             padding=(6, 1),
         ).pack(side="left", padx=(4, 0))
@@ -559,11 +559,7 @@ class FilterBar(ttk.Frame):
             elif value == "special":
                 rb_style = "Special.secondary.Toolbutton"
 
-            rb_kw = (
-                {"style": rb_style}
-                if rb_style
-                else {"bootstyle": "secondary toolbutton"}
-            )
+            rb_kw = {"style": rb_style} if rb_style else {"bootstyle": "toolbutton"}
             ttk.Radiobutton(
                 self._role_frame,
                 text=label,
@@ -578,8 +574,9 @@ class FilterBar(ttk.Frame):
             self._flow,
             text="Has Bond Gear",
             variable=self._bond_var,
-            bootstyle="secondary round toggle",
+            bootstyle="round toggle",
             command=self._bond_changed,
+            padding=(1, 5),
         )
 
         self._count = ttk.Label(self._flow, style=MUTED)

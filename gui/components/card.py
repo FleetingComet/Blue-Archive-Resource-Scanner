@@ -295,9 +295,16 @@ class AssetCard(ttk.Frame):
         canvas.configure(background=colours["page"])
 
         self._card_item = _round_rect(
-            canvas, 0, 0, CARD_WIDTH - 1, self._height - 1, CARD_RADIUS,
-            fill=colours["surface"], outline=colours["border"], tags=("surface",),
-        )  # fmt: skip
+            canvas,
+            0,
+            0,
+            CARD_WIDTH - 1,
+            self._height - 1,
+            CARD_RADIUS,
+            fill=colours["surface"],
+            outline=colours["border"],
+            tags=("surface",),
+        )
 
         self._thumb_item: int | None = None
         if spec.thumb_bg:
@@ -306,9 +313,15 @@ class AssetCard(ttk.Frame):
             # is raised just above it (see ``_load_art``) and the badges stay
             # on top.
             self._thumb_item = _round_rect(
-                canvas, THUMB_LEFT, THUMB_TOP, THUMB_RIGHT, THUMB_BOTTOM,
-                THUMB_RADIUS, fill=spec.thumb_bg, outline="",
-            )  # fmt: skip
+                canvas,
+                THUMB_LEFT,
+                THUMB_TOP,
+                THUMB_RIGHT,
+                THUMB_BOTTOM,
+                THUMB_RADIUS,
+                fill=spec.thumb_bg,
+                outline="",
+            )
 
         self._glyph = _glyph_icon(spec.glyph, CARD_THUMB // 3, colours["muted"])
 
@@ -328,9 +341,15 @@ class AssetCard(ttk.Frame):
         name = _fit_lines(str(spec.name), name_font, CARD_INNER, 2)
         name_top = THUMB_BOTTOM + NAME_GAP
         canvas.create_text(
-            CARD_WIDTH / 2, name_top, text=name, font=name_font, fill=colours["fg"],
-            justify="center", anchor="n", tags=("fg",),
-        )  # fmt: skip
+            CARD_WIDTH / 2,
+            name_top,
+            text=name,
+            font=name_font,
+            fill=colours["fg"],
+            justify="center",
+            anchor="n",
+            tags=("fg",),
+        )
         # The blocks below the thumbnail are a stack: each one starts where the
         # previous one really ended, so a one-line name does not reserve a
         # second line (which used to leave a blank band above the detail).
@@ -371,9 +390,14 @@ class AssetCard(ttk.Frame):
                 self._load_school_emblem(spec.emblem, left, text_top, colours["fg"])
             if detail:
                 canvas.create_text(
-                    left + emblem_width, text_top, text=detail, font=small,
-                    fill=colours["muted"], anchor="nw", tags=("muted",),
-                )  # fmt: skip
+                    left + emblem_width,
+                    text_top,
+                    text=detail,
+                    font=small,
+                    fill=colours["muted"],
+                    anchor="nw",
+                    tags=("muted",),
+                )
 
             tag_left = left + emblem_width + detail_width + tags_gap
             pill_top = detail_top - 2
@@ -383,10 +407,15 @@ class AssetCard(ttk.Frame):
                 label = _tag_label(tag)
                 if tag.background:
                     _round_rect(
-                        canvas, tag_left, pill_top, tag_left + width,
-                        pill_top + pill_height, 3,
-                        fill=tag.background, outline="",
-                    )  # fmt: skip
+                        canvas,
+                        tag_left,
+                        pill_top,
+                        tag_left + width,
+                        pill_top + pill_height,
+                        3,
+                        fill=tag.background,
+                        outline="",
+                    )
                 text_x = tag_left + (TAG_PAD if tag.background else 0)
                 if tag.value and tag.icon:
                     # The value lives *inside* the glyph (the heart *is* the
@@ -422,9 +451,13 @@ class AssetCard(ttk.Frame):
                     text_x += TAG_ICON + (TAG_ICON_GAP if label else 0)
                 if label:
                     canvas.create_text(
-                        text_x, centre_y, text=label,
-                        font=small, fill=tag.foreground or colours["fg"], anchor="w",
-                    )  # fmt: skip
+                        text_x,
+                        centre_y,
+                        text=label,
+                        font=small,
+                        fill=tag.foreground or colours["fg"],
+                        anchor="w",
+                    )
                 tag_left += width + TAG_GAP
             cursor = detail_top + row_height
 
@@ -463,9 +496,15 @@ class AssetCard(ttk.Frame):
         bg = chip.background or self._palette["surface"]
         outline = "" if chip.background else self._palette["border"]
         _round_rect(
-            self._canvas, x, top, x + width, top + CHIP_HEIGHT, 4,
-            fill=bg, outline=outline,
-        )  # fmt: skip
+            self._canvas,
+            x,
+            top,
+            x + width,
+            top + CHIP_HEIGHT,
+            4,
+            fill=bg,
+            outline=outline,
+        )
         text_x = x + CHIP_PAD
         if photo is not None:
             self._canvas.create_image(
@@ -476,9 +515,13 @@ class AssetCard(ttk.Frame):
             )
             text_x += CHIP_ICON + CHIP_ICON_GAP
         self._canvas.create_text(
-            text_x, top + CHIP_HEIGHT / 2, text=chip.text, font=font,
-            fill=chip.foreground, anchor="w",
-        )  # fmt: skip
+            text_x,
+            top + CHIP_HEIGHT / 2,
+            text=chip.text,
+            font=font,
+            fill=chip.foreground,
+            anchor="w",
+        )
 
     def _badge_box(
         self, place: str, width: int, height: int
@@ -506,9 +549,12 @@ class AssetCard(ttk.Frame):
         # The rim keeps a rarity badge readable when it shares the tile colour.
         _round_rect(self._canvas, *box, 5, fill=background, outline=BADGE_BG, width=1)
         self._canvas.create_text(
-            (box[0] + box[2]) / 2, (box[1] + box[3]) / 2,
-            text=text, font=font, fill="#ffffff",
-        )  # fmt: skip
+            (box[0] + box[2]) / 2,
+            (box[1] + box[3]) / 2,
+            text=text,
+            font=font,
+            fill="#ffffff",
+        )
 
     def _draw_stars(self, stars: tuple[object, object]) -> None:
         try:
@@ -739,10 +785,31 @@ def _blend(first: str, second: str, amount: float) -> str:
 def _rect_points(x1, y1, x2, y2, radius: int) -> tuple[float, ...]:
     """The smoothed polygon a rounded rectangle is drawn from."""
     return (
-        x1 + radius, y1, x2 - radius, y1, x2, y1, x2, y1 + radius,
-        x2, y2 - radius, x2, y2, x2 - radius, y2, x1 + radius, y2,
-        x1, y2, x1, y2 - radius, x1, y1 + radius, x1, y1,
-    )  # fmt: skip
+        x1 + radius,
+        y1,
+        x2 - radius,
+        y1,
+        x2,
+        y1,
+        x2,
+        y1 + radius,
+        x2,
+        y2 - radius,
+        x2,
+        y2,
+        x2 - radius,
+        y2,
+        x1 + radius,
+        y2,
+        x1,
+        y2,
+        x1,
+        y2 - radius,
+        x1,
+        y1 + radius,
+        x1,
+        y1,
+    )
 
 
 def _round_rect(canvas: tk.Canvas, x1, y1, x2, y2, radius: int, **options) -> int:

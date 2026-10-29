@@ -90,21 +90,37 @@ class SettingsPage(Page):
             tip="Save (Ctrl+S)",
         )
         self._revert = button(
-            footer, "Revert", "arrow-counterclockwise", style="warning", command=self.reload,
+            footer,
+            "Revert",
+            "arrow-counterclockwise",
+            style="warning",
+            command=self.reload,
             tip="Discard unsaved edits",
-        )  # fmt: skip
+        )
         self._save.pack(side="left")
         self._revert.pack(side="left", padx=6)
         button(
-            footer, "Config folder", "folder2-open", command=lambda: on_open_folder(folders.CONFIG),
+            footer,
+            "Config folder",
+            "folder2-open",
+            command=lambda: on_open_folder(folders.CONFIG),
             tip="Open the config folder",
-        ).pack(side="left", padx=(12, 0))  # fmt: skip
+        ).pack(side="left", padx=(12, 0))
 
         for var in (
-            self.platform, self.serial, self.retries, self.wait, self.nav,
-            self.language, self.sync, self.debug, self.image_mode, self.local_dir,
-            self.asset_base, *self.screens.values(),
-        ):  # fmt: skip
+            self.platform,
+            self.serial,
+            self.retries,
+            self.wait,
+            self.nav,
+            self.language,
+            self.sync,
+            self.debug,
+            self.image_mode,
+            self.local_dir,
+            self.asset_base,
+            *self.screens.values(),
+        ):
             var.trace_add("write", self._mark_dirty)
         self.platform.trace_add("write", lambda *_: self._toggle_platform())
         self.image_mode.trace_add("write", self._images_changed)
@@ -199,9 +215,12 @@ class SettingsPage(Page):
             row=row + 2, column=0, columnspan=3, sticky="w", pady=(4, 0)
         )
         button(
-            card, "Use default folder", "arrow-counterclockwise", command=self._default_images_dir,
+            card,
+            "Use default folder",
+            "arrow-counterclockwise",
+            command=self._default_images_dir,
             tip="assets/images/local next to the scanner",
-        ).grid(row=row + 3, column=0, columnspan=3, sticky="w", pady=(6, 0))  # fmt: skip
+        ).grid(row=row + 3, column=0, columnspan=3, sticky="w", pady=(6, 0))
 
         base_row = row + 4
         ttk.Label(card, text="Remote asset base URL").grid(
@@ -319,9 +338,11 @@ class SettingsPage(Page):
     def _build_extras(self) -> None:
         card = self.card("Data, language & debug")
         ttk.Checkbutton(
-            card, text="Enable online data sync (download community data on start)",
-            variable=self.sync, bootstyle="round toggle",
-        ).grid(row=0, column=0, columnspan=2, sticky="w", pady=2)  # fmt: skip
+            card,
+            text="Enable online data sync (download community data on start)",
+            variable=self.sync,
+            bootstyle="round toggle",
+        ).grid(row=0, column=0, columnspan=2, sticky="w", pady=2)
         ttk.Checkbutton(
             card,
             text="Debug mode (verbose logging)",

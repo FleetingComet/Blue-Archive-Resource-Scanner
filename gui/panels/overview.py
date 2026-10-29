@@ -25,10 +25,14 @@ PLATFORMS = {
 }
 
 CONFIG_FIELDS = (
-    ("platform", "Target platform"), ("serial", "ADB serial"),
-    ("wait", "Wait multiplier"), ("nav", "Screen navigation multiplier"),
-    ("sync", "Data sync"), ("language", "Game language"), ("debug", "Debug logging"),
-)  # fmt: skip
+    ("platform", "Target platform"),
+    ("serial", "ADB serial"),
+    ("wait", "Wait multiplier"),
+    ("nav", "Screen navigation multiplier"),
+    ("sync", "Data sync"),
+    ("language", "Game language"),
+    ("debug", "Debug logging"),
+)
 
 
 def scanner_flags(sync_enabled: bool) -> list[str]:
@@ -66,6 +70,7 @@ class OverviewPage(Page):
             card,
             "Settings…",
             "gear-fill",
+            style="outline",
             command=on_edit_settings,
             tip="Edit these values (Ctrl+,)",
         ).grid(row=len(CONFIG_FIELDS), column=0, columnspan=2, sticky="w", pady=(8, 0))

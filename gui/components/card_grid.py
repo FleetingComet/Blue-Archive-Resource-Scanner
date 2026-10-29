@@ -1,18 +1,4 @@
-"""A responsive, lazily drawn grid of :class:`AssetCard` widgets.
-
-The grid only presents cards: filtering, sorting and searching happen in
-:mod:`gui.panels.data_page`, so a refresh can never show stale or duplicated
-rows. ``CardGrid`` adds the parts that are purely about presentation:
-
-* the cards live inside the scrolling canvas (not beside it), so the wheel and
-  the scrollbar reach the whole inventory,
-* columns follow the viewport width and the block stays centred instead of
-  stretching a handful of cards across a wide pane,
-* cards are built in batches (an inventory can hold >1000 rows) and the next
-  batch is appended when the user scrolls to the bottom or presses *Show more*,
-* existing cards are updated in place - selecting or re-sorting never rebuilds
-  the page or loses the scroll position.
-"""
+"""A responsive, lazily drawn grid of AssetCard widgets."""
 
 from __future__ import annotations
 
@@ -40,7 +26,7 @@ _COLUMN_PITCH = CARD_WIDTH + 2 * CARD_PAD
 
 
 class CardGrid(ttk.Frame):
-    """Shows ``CardSpec`` objects as cards, in viewport-sized columns."""
+    """Shows CardSpec objects as cards in viewport-responsive columns."""
 
     def __init__(
         self,
@@ -50,11 +36,12 @@ class CardGrid(ttk.Frame):
         on_select: Callable[[str], None] | None = None,
         on_view_changed: Callable[[], None] | None = None,
         page_size: int = CARD_PAGE,
-        padding: tuple[int, int] = (10, 10),
+        padding: tuple[int, int] = (8, 8),
     ):
         super().__init__(master)
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
+
         self._images = images
         self._on_select = on_select
         self._on_view_changed = on_view_changed
@@ -75,8 +62,7 @@ class CardGrid(ttk.Frame):
         self._scroll = ScrolledFrame(self, auto_hide=False, padding=padding)
         self._scroll.grid(row=0, column=0, sticky="nsew")
 
-        # Geometry methods of a ScrolledFrame are delegated to its outer
-        # container, so the cards are parented to the content frame itself.
+        # Inner container for card layout
         self._grid = ttk.Frame(self._scroll)
         self._grid.pack(anchor="n")
 
@@ -86,7 +72,7 @@ class CardGrid(ttk.Frame):
 
         if self._canvas is not None:
             self._canvas.bind("<Configure>", self._on_viewport, add="+")
-        else:  # pragma: no cover - every ttkbootstrap 2.x has a canvas
+        else:
             self._scroll.bind("<Configure>", self._on_viewport, add="+")
 
         self._empty = ttk.Frame(self._grid)
@@ -99,13 +85,13 @@ class CardGrid(ttk.Frame):
             self._empty,
             "Clear filters",
             "arrow-counterclockwise",
-            style="secondary outline",
+            style="outline",
             command=self._run_empty_action,
             tip="Show the whole dataset again",
         )
         self._empty.grid(row=0, column=0, sticky="w", padx=8, pady=8)
 
-        footer = ttk.Frame(self, padding=(12, 2, 12, 8))
+        footer = ttk.Frame(self, padding=(12, 4, 12, 6))
         footer.grid(row=1, column=0, sticky="ew")
         self._notice = ttk.Label(footer, style=MUTED)
         self._notice.pack(side="left")
@@ -113,16 +99,27 @@ class CardGrid(ttk.Frame):
             footer,
             "Show more",
             "plus-circle",
-            style="secondary outline",
+            style="outline",
             command=self.show_more,
             tip="Draw the next batch of cards",
         )
         self._more.pack(side="right")
         self._more.configure(state="disabled")
 
-    # ------------------------------------------------------------------
-    # Data in
-    # ------------------------------------------------------------------
+    def _column_count(self) -> int:
+        width = 0
+        if self._canvas is not None:
+            try:
+                width = self._canvas.winfo_width()
+            except tk.TclError:
+                width = 0
+        if width <= 1:
+            width = self.winfo_width()
+        if width <= 1:
+            width = 640
+        available = max(CARD_WIDTH, width - 2 * CARD_PAD)
+        return max(1, min(8, available // _COLUMN_PITCH))
+
     def set_specs(
         self,
         specs: Iterable[CardSpec],
@@ -130,7 +127,6 @@ class CardGrid(ttk.Frame):
         reset: bool = True,
         selected: str | None = None,
     ) -> None:
-        """Replace the rows; ``reset`` starts again at the first batch."""
         self._specs = list(specs)
         if reset:
             self._limit = self._page_size
@@ -141,19 +137,13 @@ class CardGrid(ttk.Frame):
     def set_empty_message(
         self, text: str, *, reset: Callable[[], None] | None = None
     ) -> None:
-        """Set the text (and optional reset button) for an empty grid.
-
-        ``reset=None`` removes a button left over from the previous dataset;
-        the empty state must not offer to clear filters when there is nothing
-        to filter.
-        """
         self._empty_message = text
         self._empty_action = reset
         if not self._cards:
             self._sync_empty()
 
     def refresh(self) -> None:
-        """Update the drawn cards in place (no full rebuild)."""
+        """Update cards in place without tearing down unneeded widgets."""
         if not self.winfo_exists():
             return
         columns = self._column_count()
@@ -198,9 +188,33 @@ class CardGrid(ttk.Frame):
         self._sync_footer()
         self._notify()
 
-    # ------------------------------------------------------------------
-    # Data out
-    # ------------------------------------------------------------------
+    def _place(self, key: str, card: AssetCard, position: int, columns: int) -> None:
+        target = (position // columns, position % columns)
+        if self._positions.get(key) == target:
+            return
+        card.grid(
+            row=target[0],
+            column=target[1],
+            padx=CARD_PAD,
+            pady=CARD_PAD,
+            sticky="n",
+        )
+        self._positions[key] = target
+
+    def _on_viewport(self, _event=None) -> None:
+        columns = self._column_count()
+        if columns == self._columns:
+            return
+        self._columns = columns
+        self._positions.clear()
+        if not self._cards:
+            self._sync_empty()
+            return
+        for position, key in enumerate(self._order):
+            card = self._cards.get(key)
+            if card is not None:
+                self._place(key, card, position, columns)
+
     @property
     def selected(self) -> str | None:
         return self._selected
@@ -218,9 +232,6 @@ class CardGrid(ttk.Frame):
     def selected_spec(self) -> CardSpec | None:
         return next((s for s in self._specs if s.key == self._selected), None)
 
-    # ------------------------------------------------------------------
-    # Interaction
-    # ------------------------------------------------------------------
     def select(self, key: str | None) -> None:
         if key == self._selected:
             return
@@ -238,7 +249,6 @@ class CardGrid(ttk.Frame):
         self.refresh()
 
     def reveal(self, key: str) -> None:
-        """Load the batch containing ``key`` (the row may be far down)."""
         keys = [spec.key for spec in self._specs]
         if key not in keys:
             return
@@ -256,9 +266,6 @@ class CardGrid(ttk.Frame):
     def scroll_to_top(self) -> None:
         self._router.scroll_to_top()
 
-    # ------------------------------------------------------------------
-    # Theme / images
-    # ------------------------------------------------------------------
     def reload_images(self) -> None:
         for card in self._cards.values():
             card.reload_images()
@@ -270,22 +277,6 @@ class CardGrid(ttk.Frame):
         for key, card in self._cards.items():
             card.set_palette(palette[key == self._selected])
 
-    # ------------------------------------------------------------------
-    # Internals
-    # ------------------------------------------------------------------
-    def _place(self, key: str, card: AssetCard, position: int, columns: int) -> None:
-        target = (position // columns, position % columns)
-        if self._positions.get(key) == target:
-            return
-        card.grid(
-            row=target[0],
-            column=target[1],
-            padx=CARD_PAD,
-            pady=CARD_PAD,
-            sticky="n",
-        )
-        self._positions[key] = target
-
     def _sync_empty(self) -> None:
         if self._cards:
             self._empty.grid_remove()
@@ -296,9 +287,13 @@ class CardGrid(ttk.Frame):
         else:
             self._empty_button.pack_forget()
         self._empty.grid(
-            row=0, column=0, columnspan=max(1, self._columns), sticky="w",
-            padx=8, pady=8,
-        )  # fmt: skip
+            row=0,
+            column=0,
+            columnspan=max(1, self._columns),
+            sticky="w",
+            padx=8,
+            pady=8,
+        )
 
     def _run_empty_action(self) -> None:
         if self._empty_action is not None:
@@ -314,36 +309,7 @@ class CardGrid(ttk.Frame):
             self._notice.configure(text=f"{total} shown" if total else "")
             self._more.configure(state="disabled")
 
-    def _column_count(self) -> int:
-        width = 0
-        if self._canvas is not None:
-            try:
-                width = self._canvas.winfo_width()
-            except tk.TclError:
-                width = 0
-        if width <= 1:
-            width = self.winfo_width()
-        if width <= 1:
-            width = 640
-        available = max(CARD_WIDTH, width - 2 * CARD_PAD)
-        return max(1, min(8, available // _COLUMN_PITCH))
-
-    def _on_viewport(self, _event=None) -> None:
-        columns = self._column_count()
-        if columns == self._columns:
-            return
-        self._columns = columns
-        self._positions.clear()
-        if not self._cards:
-            self._sync_empty()
-            return
-        for position, key in enumerate(self._order):
-            card = self._cards.get(key)
-            if card is not None:
-                self._place(key, card, position, columns)
-
     def _on_scrolled(self) -> None:
-        """Append the next batch when the user reaches the bottom."""
         if len(self._cards) >= len(self._specs) or self._extend_job is not None:
             return
         _first, last = self._router.view_fraction()

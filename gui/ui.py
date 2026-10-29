@@ -14,12 +14,25 @@ from ttkbootstrap.dialogs import Messagebox
 from ttkbootstrap.widgets.scrolled import ScrolledFrame, ScrolledText
 
 __all__ = [
-    "MONO_FONT", "MUTED", "OUTCOME_STYLE", "ActionBar", "CommandPreview", "Page",
-    "ScrolledText", "apply_muted", "apply_role_styles", "ask_save_discard_cancel",
-    "button", "center_on_parent", "confirm", "heading", "local_hotkey", "show_error",
-]  # fmt: skip
+    "MONO_FONT",
+    "MUTED",
+    "OUTCOME_STYLE",
+    "ActionBar",
+    "CommandPreview",
+    "Page",
+    "ScrolledText",
+    "apply_muted",
+    "apply_role_styles",
+    "ask_save_discard_cancel",
+    "button",
+    "center_on_parent",
+    "confirm",
+    "heading",
+    "local_hotkey",
+    "show_error",
+]
 
-MONO_FONT = ("Noto Sans Display" if sys.platform == "win32" else "DejaVu Sans Mono", 10)
+MONO_FONT = ("Consolas" if sys.platform == "win32" else "DejaVu Sans Mono", 10)
 MUTED = "Muted.TLabel"  # dim helper text; contrast follows the active theme
 
 # Process outcome tag -> ttkbootstrap colour name (shared by every status text).
@@ -53,26 +66,20 @@ def apply_role_styles(style: ttk.Style | None = None) -> None:
 def apply_muted() -> None:
     """(Re)define muted and custom styles; runs at start and on theme switches."""
     style = ttk.Style()
-    fg, bg = style.colors.fg, style.colors.bg
-    mixed = "#" + "".join(
-        f"{round(int(fg[i:i + 2], 16) * 0.55 + int(bg[i:i + 2], 16) * 0.45):02x}"
-        for i in (1, 3, 5)
-    )
-    style.configure(MUTED, foreground=mixed)
+    bg = style.colors.bg
+    try:
+        bg_lum = (int(bg[1:3], 16) + int(bg[3:5], 16) + int(bg[5:7], 16)) / 3
+    except Exception:  # noqa: BLE001
+        bg_lum = 0
 
-    # Custom high-contrast light button style: guarantees dark text on light bg
-    style.configure(
-        "ContrastLight.TButton",
-        background=style.colors.bg,
-        foreground=style.colors.fg,
-        bordercolor=style.colors.border,
-    )
-    style.map(
-        "ContrastLight.TButton",
-        foreground=[("disabled", style.colors.border), ("!disabled", style.colors.fg)],
-        background=[("active", style.colors.border)],
-    )
+    if bg_lum < 100:
+        # Dark mode floor: clean slate silver (#9da8b6) so text is always legible
+        muted_color = "#9da8b6"
+    else:
+        # Light mode floor: graphite (#5c6675)
+        muted_color = "#5c6675"
 
+    style.configure(MUTED, foreground=muted_color)
     apply_role_styles(style)
 
 
@@ -81,7 +88,7 @@ def button(
     text: str = "",
     icon: str | None = None,
     *,
-    style: str = "secondary outline",
+    style: str = "outline",
     bootstyle: str | None = None,
     tip: str | None = None,
     command: Callable[[], None] | None = None,
@@ -212,13 +219,21 @@ class ActionBar(ttk.Frame):
     def __init__(self, master, *, on_run_scanner, on_run_tool, on_stop):
         super().__init__(master, padding=(10, 6))
         self.scanner_run = button(
-            self, "Run Scanner", "radar", style="primary", command=on_run_scanner,
+            self,
+            "Run Scanner",
+            "radar",
+            style="primary",
+            command=on_run_scanner,
             tip="Run main.py with the saved settings (F5) - works from any tab",
-        )  # fmt: skip
+        )
         self.stop = button(
-            self, "Stop", "stop-fill", style="danger", command=on_stop,
+            self,
+            "Stop",
+            "stop-fill",
+            style="danger",
+            command=on_stop,
             tip="Stop the running command (F2 / Esc)",
-        )  # fmt: skip
+        )
         self.stop.configure(state="disabled")
         self.tool_label = ttk.Label(self, text="Tool:", style=MUTED)
         # A fixed width keeps the scanner controls still while the selected

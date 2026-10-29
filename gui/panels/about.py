@@ -78,13 +78,19 @@ class AboutDialog(ttk.Toplevel):
             side="right"
         )
         button(
-            actions, "Config folder", "folder2-open", command=lambda: self._open_folder("config"),
+            actions,
+            "Config folder",
+            "folder2-open",
+            command=lambda: self._open_folder("config"),
             tip="Open the configuration folder",
-        ).pack(side="right", padx=(0, 6))  # fmt: skip
+        ).pack(side="right", padx=(0, 6))
         button(
-            actions, "Project folder", "folder2-open", command=lambda: self._open_folder("project"),
+            actions,
+            "Project folder",
+            "folder2-open",
+            command=lambda: self._open_folder("project"),
             tip="Open the project root",
-        ).pack(side="right", padx=(0, 6))  # fmt: skip
+        ).pack(side="right", padx=(0, 6))
 
         self.protocol("WM_DELETE_WINDOW", self.close)
         self.bind("<Escape>", local_hotkey(self.close))
@@ -161,14 +167,20 @@ class AboutDialog(ttk.Toplevel):
         ttk.Label(links, text="Links", style=MUTED).pack(side="left", padx=(0, 10))
         if repository:
             button(
-                links, "Repository", "github", command=lambda: self._open_url(repository),
+                links,
+                "Repository",
+                "github",
+                command=lambda: self._open_url(repository),
                 tip=repository,
-            ).pack(side="left")  # fmt: skip
+            ).pack(side="left")
         if documentation:
             button(
-                links, "Documentation", "book", command=lambda: self._open_url(documentation),
+                links,
+                "Documentation",
+                "book",
+                command=lambda: self._open_url(documentation),
                 tip=documentation,
-            ).pack(side="left", padx=(6, 0))  # fmt: skip
+            ).pack(side="left", padx=(6, 0))
 
     def _build_dependencies(self, body) -> None:
         card = ttk.Labelframe(
@@ -192,8 +204,10 @@ class AboutDialog(ttk.Toplevel):
             style="Dependencies.Treeview",
         )
         for name, title, width in (
-            ("name", "Package", 190), ("version", "Version", 90), ("license", "License", 190),
-        ):  # fmt: skip
+            ("name", "Package", 190),
+            ("version", "Version", 90),
+            ("license", "License", 190),
+        ):
             self._dep_tree.heading(name, text=title)
             self._dep_tree.column(name, width=width, stretch=name == "license")
         scroll = ttk.Scrollbar(
@@ -214,9 +228,12 @@ class AboutDialog(ttk.Toplevel):
         actions = ttk.Frame(card)
         actions.grid(row=1, column=0, columnspan=2, sticky="w", pady=(8, 0))
         button(
-            actions, "Show license", "journal-text", command=self._show_license,
+            actions,
+            "Show license",
+            "journal-text",
+            command=self._show_license,
             tip="Show the license of the selected dependency",
-        ).pack(side="left")  # fmt: skip
+        ).pack(side="left")
         ttk.Label(
             actions,
             text="Select a dependency (or double-click it) to read its license.",
