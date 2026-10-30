@@ -1,0 +1,198 @@
+[
+    {
+        "id": 1,
+        "rarity": "N",
+        "icon": "currency_icon_gold",
+        "name": "Credit Points",
+        "desc": "Credit Points are kept on Sensei's card and can be used like cash."
+    },
+    {
+        "id": 2,
+        "rarity": "N",
+        "icon": "currency_icon_gem",
+        "name": "Pyroxenes",
+        "desc": "These mystical gems can be purchased with Sensei's credit card. Trade them for various products."
+    },
+    {
+        "id": 3,
+        "rarity": "N",
+        "icon": "currency_icon_gem",
+        "name": "Pyroxenes",
+        "desc": "These mystical gems can be purchased with Sensei's credit card. Trade them for various products."
+    },
+    {
+        "id": 4,
+        "rarity": "N",
+        "icon": "currency_icon_gem",
+        "name": "Pyroxenes",
+        "desc": "These mystical gems can be purchased with Sensei's credit card. Use them to purchase various products."
+    },
+    {
+        "id": 5,
+        "rarity": "N",
+        "icon": "currency_icon_ap",
+        "name": "AP",
+        "desc": "Sensei's vigor level. It is depleted when you perform certain actions."
+    },
+    {
+        "id": 6,
+        "rarity": "N",
+        "icon": "currency_icon_academyticket",
+        "name": "Lesson Ticket",
+        "desc": "A ticket used to visit various areas while carrying out your schedule."
+    },
+    {
+        "id": 7,
+        "rarity": "N",
+        "icon": "currency_icon_arenaticket",
+        "name": "Tactical Challenge Ticket",
+        "desc": "A ticket to engage in a Tactical Challenge."
+    },
+    {
+        "id": 8,
+        "rarity": "N",
+        "icon": "currency_icon_raidticket",
+        "name": "Total Assault Ticket",
+        "desc": "A ticket to engage in a Total Assault."
+    },
+    {
+        "id": 9,
+        "rarity": "N",
+        "icon": "currency_icon_chaseraticket",
+        "name": "Bounty (Road) Ticket",
+        "desc": "A ticket to participate in a Bounty."
+    },
+    {
+        "id": 10,
+        "rarity": "N",
+        "icon": "",
+        "name": "Item Retrieval Ticket",
+        "desc": "An entry ticket for Commissions."
+    },
+    {
+        "id": 11,
+        "rarity": "N",
+        "icon": "",
+        "name": "Base Defense Ticket",
+        "desc": "An entry ticket for Commissions."
+    },
+    {
+        "id": 12,
+        "rarity": "N",
+        "icon": "currency_icon_chaserbticket",
+        "name": "Bounty (Desert) Ticket",
+        "desc": "A ticket to participate in a Bounty."
+    },
+    {
+        "id": 13,
+        "rarity": "N",
+        "icon": "currency_icon_chasercticket",
+        "name": "Bounty (Classroom) Ticket",
+        "desc": "A ticket to participate in a Bounty."
+    },
+    {
+        "id": 14,
+        "rarity": "N",
+        "icon": "currency_icon_schoolaticket",
+        "name": "Scrimmage (Trinity) Ticket",
+        "desc": "A ticket to participate in a Scrimmage."
+    },
+    {
+        "id": 15,
+        "rarity": "N",
+        "icon": "currency_icon_schoolbticket",
+        "name": "Scrimmage (Gehenna) Ticket",
+        "desc": "A ticket to participate in a Scrimmage."
+    },
+    {
+        "id": 16,
+        "rarity": "N",
+        "icon": "currency_icon_schoolcticket",
+        "name": "Scrimmage (Millennium) Ticket",
+        "desc": "A ticket to participate in a Scrimmage."
+    },
+    {
+        "id": 17,
+        "rarity": "N",
+        "icon": "currency_icon_timeattackticket",
+        "name": "Drill Ticket",
+        "desc": "A ticket to participate in the Joint Firing Drill."
+    },
+    {
+        "id": 18,
+        "rarity": "N",
+        "icon": "currency_icon_mastercoin",
+        "name": "Expert Permit",
+        "desc": "A certificate that can only be obtained after gaining enough experience. Can be exchanged for various items."
+    },
+    {
+        "id": 19,
+        "rarity": "N",
+        "icon": "currency_icon_worldraidcommonticket",
+        "name": "Allied Operation Ticket",
+        "desc": "A ticket to participate in an Allied Operation."
+    },
+    {
+        "id": 20,
+        "rarity": "N",
+        "icon": "currency_icon_worldraidcommonticket",
+        "name": "Allied Operation Ticket ω",
+        "desc": "A ticket to participate in a specific Allied Operation."
+    },
+    {
+        "id": 21,
+        "rarity": "N",
+        "icon": "currency_icon_worldraidcommonticket",
+        "name": "Allied Operation Ticket ψ ",
+        "desc": "A ticket to participate in a specific Allied Operation."
+    },
+    {
+        "id": 22,
+        "rarity": "N",
+        "icon": "currency_icon_chasertotalticket",
+        "name": "Bounty Ticket",
+        "desc": "A ticket to participate in a Bounty."
+    },
+    {
+        "id": 23,
+        "rarity": "N",
+        "icon": "currency_icon_schooltotalticket",
+        "name": "Scrimmage Ticket",
+        "desc": "A ticket to participate in a Scrimmage."
+    },
+    {
+        "id": 24,
+        "rarity": "N",
+        "icon": "currency_icon_eliminateraidticketa",
+        "name": "Grand Assault (Light Armor) Ticket",
+        "desc": "A ticket to participate in a Grand Assault (Light Armor)."
+    },
+    {
+        "id": 25,
+        "rarity": "N",
+        "icon": "currency_icon_eliminateraidticketb",
+        "name": "Grand Assault (Heavy Armor) Ticket",
+        "desc": "A ticket to participate in a Grand Assault (Heavy Armor)."
+    },
+    {
+        "id": 26,
+        "rarity": "N",
+        "icon": "currency_icon_eliminateraidticketc",
+        "name": "Grand Assault (Special Armor) Ticket",
+        "desc": "A ticket to participate in a Grand Assault (Special Armor)."
+    },
+    {
+        "id": 28,
+        "rarity": "N",
+        "icon": "currency_icon_cafestudentinvite_1",
+        "name": "Cafe No.1 Invitation",
+        "desc": "A ticket you can use to invite a student to Cafe No.1."
+    },
+    {
+        "id": 29,
+        "rarity": "N",
+        "icon": "currency_icon_cafestudentinvite_2",
+        "name": "Cafe No.2 Invitation",
+        "desc": "A ticket you can use to invite a student to Cafe No.2."
+    }
+]

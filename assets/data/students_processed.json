@@ -3819,7 +3819,7 @@
         "BulletType": "Mystic",
         "ArmorType": "Special",
         "School": "Odyssey",
-        "Club": "DivingClub"
+        "Club": "Diving Club"
     },
     {
         "id": 10150,
@@ -3833,7 +3833,7 @@
         "BulletType": "Explosive",
         "ArmorType": "Special",
         "School": "Odyssey",
-        "Club": "DivingClub"
+        "Club": "Diving Club"
     },
     {
         "id": 20061,
@@ -3861,7 +3861,7 @@
         "BulletType": "Piercing",
         "ArmorType": "Light",
         "School": "Red Winter",
-        "Club": "Class183"
+        "Club": "Spec Ops No. 183"
     },
     {
         "id": 20062,
@@ -3875,7 +3875,7 @@
         "BulletType": "Sonic",
         "ArmorType": "Light",
         "School": "Red Winter",
-        "Club": "Class183"
+        "Club": "Spec Ops No. 183"
     },
     {
         "id": 10152,
