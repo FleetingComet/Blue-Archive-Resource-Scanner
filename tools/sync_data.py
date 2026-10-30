@@ -1,6 +1,9 @@
 """Small CLI to run the DataSyncManager without forcing the main app to include network calls.
 
-Usage: python -m tools.sync_data
+Usage:
+    python -m tools.sync_data
+    python -m tools.sync_data --type items
+    python -m tools.sync_data --no-retries
 """
 
 import argparse
@@ -9,22 +12,30 @@ from src.utils.sync.data_sync_manager import DataSyncManager
 
 
 def main():
+    mgr = DataSyncManager()
+
     parser = argparse.ArgumentParser(
         description="Run data sync for local processed data files."
     )
     parser.add_argument(
+        "-t",
+        "--type",
+        choices=list(mgr.local_paths),
+        help="Dataset to synchronize (default: all).",
+    )
+    parser.add_argument(
         "--no-retries",
-        dest="retries",
-        action="store_const",
-        const=1,
-        default=3,
-        help="Disable retries (set retries to 1)",
+        action="store_true",
+        help="Attempt each download only once.",
     )
     args = parser.parse_args()
 
-    mgr = DataSyncManager()
-    mgr.retries = args.retries
-    mgr.retry_backoff = 1.0
+    if args.no_retries:
+        mgr.retries = 1
+
+    if args.type:
+        mgr.remote_sources = {args.type: mgr.DEFAULT_ONLINE_URLS[args.type]}
+
     mgr.update_from_online()
 
 

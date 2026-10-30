@@ -49,6 +49,7 @@ class AppSettings(BaseModel):
     # local_image_dir means Path_Config.local_images.
     image_mode: ImageMode = ImageMode.LOCAL
     local_image_dir: str = ""
+    data_sync_retries: int = 3
 
     @model_validator(mode="before")
     @classmethod

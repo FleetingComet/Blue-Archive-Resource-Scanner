@@ -1,9 +1,8 @@
-import time
 from pathlib import Path
 
 import requests
 from rich.console import Console
-from tenacity import Retrying, stop_after_attempt, wait_fixed
+from tenacity import Retrying, retry_if_exception_type, stop_after_attempt, wait_fixed
 
 from src.core.config import Config
 from src.core.paths import Path_Config
@@ -14,87 +13,105 @@ console = Console()
 
 class DataSyncManager:
     """
-    Manages syncing local data files with online sources.
-    Falls back to local files if online is unavailable.
+    Synchronizes local JSON datasets with BA-Scanner-Data.
+    Keeps existing local files when remote sources are unavailable.
     """
 
+    BASE_URL = (
+        "https://raw.githubusercontent.com/"
+        "FleetingComet/BA-Scanner-Data/main/data"
+    )  # fmt: skip
+
     def __init__(self):
-        self.BASE_URL = (
-            "https://raw.githubusercontent.com/FleetingComet/BA-Scanner-Data/main/data"
-        )
-
-        self.DEFAULT_ONLINE_URLS = {
-            "equipment": f"{self.BASE_URL}/equipment.json",
-            "items": f"{self.BASE_URL}/items.json",
-            "students": f"{self.BASE_URL}/students.json",
-        }
-
         self.local_paths: dict[str, Path] = {
             "equipment": Path_Config.equipment_processed,
             "items": Path_Config.items_processed,
             "students": Path_Config.students_processed,
+            "currency": Path_Config.currency_processed,
         }
-        self.retries: int = Config.settings.adb_retries
+
+        self.DEFAULT_ONLINE_URLS = {
+            key: f"{self.BASE_URL}/{key}.json" for key in self.local_paths
+        }
+
+        self.retries: int = Config.settings.data_sync_retries
         self.retry_backoff: float = 1.0
 
-    def update_from_online(self):
-        """
-        Try to update local processed data files from online sources if available and different.
-        If online is not available, fallback to local file.
-        """
+    def update_from_online(self) -> bool:
+        """Sync datasets and return True if all updates succeed."""
 
         # Allow caller to provide their own mapping via attribute or use defaults
         remote_sources = getattr(self, "remote_sources", self.DEFAULT_ONLINE_URLS)
 
-        for key, url in remote_sources.items():
-            local_path = self.local_paths.get(key)
-            if not local_path:
-                print(f"[DataSync] Unknown data key '{key}', skipping.")
-                continue
+        all_successful = True
 
-            local_path = Path(local_path)
-            tmp_path = local_path.with_suffix(local_path.suffix + ".tmp")
+        with requests.Session() as session:
+            for key, url in remote_sources.items():
+                local_path = self.local_paths.get(key)
 
-            # Try downloading with retries
-            retries = getattr(self, "retries", 3)
-            retry_backoff = getattr(self, "retry_backoff", 1.0)
-            last_exc: Exception | None = None
+                if local_path is None:
+                    console.print(f"[yellow][DataSync] Unknown dataset: {key}[/yellow]")
+                    all_successful = False
+                    continue
 
-            for attempt in Retrying(
-                stop=stop_after_attempt(retries), wait=wait_fixed(retry_backoff)
-            ):
+                local_path = Path(local_path)
+                tmp_path = local_path.with_suffix(local_path.suffix + ".tmp")
+
                 try:
-                    response = requests.get(url, timeout=6)
-                    response.raise_for_status()
-                    remote_data = response.json()
+                    for attempt in Retrying(
+                        stop=stop_after_attempt(max(1, self.retries)),
+                        wait=wait_fixed(max(0, self.retry_backoff)),
+                        retry=retry_if_exception_type(requests.RequestException),
+                        reraise=True,
+                    ):
+                        with attempt:
+                            response = session.get(url, timeout=15)
+                            response.raise_for_status()
+                            remote_data = response.json()
 
-                    local_data = read_json(local_path)
+                    if not isinstance(remote_data, (dict, list)):
+                        raise TypeError(f"Unexpected JSON type for {key}")
 
-                    # Compare and write atomically if different
+                    if not remote_data:
+                        raise ValueError(f"Remote dataset {key} is empty")
+
+                    local_data = None
+
+                    if local_path.is_file():
+                        try:
+                            local_data = read_json(local_path)
+                        except (OSError, ValueError) as exc:
+                            console.print(
+                                f"[yellow][DataSync] Could not read "
+                                f"local {key}: {exc}[/yellow]"
+                            )
+
                     if local_data == remote_data:
-                        console.print(
-                            f"[bold blue][DataSync][/bold blue] Local {key} is up to date."
-                        )
-                    else:
+                        console.print(f"[blue][DataSync] {key} is up to date.[/blue]")
+                        continue
+
+                    local_path.parent.mkdir(parents=True, exist_ok=True)
+
+                    try:
                         write_json(tmp_path, remote_data)
                         tmp_path.replace(local_path)
-                        console.print(f"[DataSync] Updated local {key} from {url}")
+                    finally:
+                        tmp_path.unlink(missing_ok=True)
 
-                    last_exc = None
-                    break
-                except requests.RequestException as exc:
-                    last_exc = exc
-                    wait = retry_backoff * attempt
+                    console.print(f"[green][DataSync] Updated {key}.[/green]")
+
+                except (
+                    requests.RequestException,
+                    ValueError,
+                    OSError,
+                ) as exc:
+                    all_successful = False
                     console.print(
-                        f"[DataSync] Attempt {attempt} failed for {key} ({exc}), retrying in {wait}s"
+                        f"[red][DataSync] Failed to update {key}: " f"{exc}[/red]"
                     )
-                    time.sleep(wait)
-                except Exception as exc:  # noqa: BLE001
-                    last_exc = exc
-                    console.print(f"[DataSync] Unexpected error updating {key}: {exc}")
-                    break
+                    console.print(
+                        f"[yellow][DataSync] Using local file: "
+                        f"{local_path}[/yellow]"
+                    )
 
-            if last_exc is not None:
-                console.print(
-                    f"[DataSync] Failed to update {key} after {retries} attempts. Using local {local_path}"
-                )
+        return all_successful
