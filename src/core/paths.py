@@ -21,6 +21,7 @@ class PathConfig:
         self.equipment_processed = self.DATA_DIR / "equipment_processed.json"
         self.items_processed = self.DATA_DIR / "items_processed.json"
         self.students_processed = self.DATA_DIR / "students_processed.json"
+        self.currency_processed = self.DATA_DIR / "currency_processed.json"
 
         self.scanned_counts = self.OWNED_DIR / "scanned_counts.json"
         self.scanned_currencies = self.OWNED_DIR / "scanned_currencies.json"
@@ -29,6 +30,7 @@ class PathConfig:
         self.final_equipment = self.OUTPUT_DIR / "equipment_final_values.json"
         self.final_items = self.OUTPUT_DIR / "items_final_values.json"
         self.final_students = self.OUTPUT_DIR / "students_final_values.json"
+        self.final_currencies = self.OUTPUT_DIR / "currencies_final_values.json"
 
         # Justin Planner
         self.justin_planner_data = self.INPUT_DIR / "justin_data.json"

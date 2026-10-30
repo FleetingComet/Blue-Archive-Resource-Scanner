@@ -7,6 +7,7 @@ from src.core.config import Config
 from src.core.navigator import ScreenNavigator
 from src.core.paths import Path_Config
 from src.core.state import ScreenState
+from src.utils.data.processors.currency import CurrencyProcessor
 from src.utils.data.processors.equipment import EquipmentProcessor
 from src.utils.data.processors.item import ItemProcessor
 from src.utils.data.processors.student import StudentProcessor
@@ -26,6 +27,7 @@ def run_post_processing(visited_screens: set[str]):
         Screen.EQUIPMENT: EquipmentProcessor,
         Screen.ITEMS: ItemProcessor,
         Screen.STUDENTS: StudentProcessor,
+        Screen.CURRENCIES: CurrencyProcessor,
     }
 
     for screen_name, ProcessorClass in processor_map.items():

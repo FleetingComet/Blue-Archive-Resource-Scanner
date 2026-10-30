@@ -9,12 +9,31 @@ class Rarity(str, Enum):
     SSR = "SSR"
 
 
+class Category(Enum):
+    CHARACTER_EXP_GROWTH = "CharacterExpGrowth"  # Activity Report
+    COIN = "Coin"
+    COLLECTIBLE = "Collectible"
+    CONSUMABLE = "Consumable"
+    FAVOR = "Favor"  # Gift
+    MATERIAL = "Material"
+    SECRET_STONE = "SecretStone"  # Eleph
+
+
+class SubCategory(Enum):
+    ARTIFACT = "Artifact"
+    BOOK_ITEM = "BookItem"  # Tech Notes
+    CD_ITEM = "CDItem"  # Tactical Training Blu-ray
+
+
 @dataclass
 class Item:
     id: int
-    name: str
+    category: Category
     rarity: Rarity
     icon: str
+    name: str
+    sub_category: SubCategory | None
+    tags: list[str]
 
 
 @dataclass
@@ -46,3 +65,12 @@ class Equipment:
     tier: int
     icon: str
     name: str
+
+
+@dataclass
+class Currency:
+    id: int
+    rarity: Rarity
+    icon: str
+    name: str
+    desc: str
