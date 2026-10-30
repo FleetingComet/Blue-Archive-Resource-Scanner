@@ -108,18 +108,31 @@ class CurrencyEntry:
     iid: str
     key: str
     value: object
+    info: dict
 
     @property
     def name(self) -> str:
-        return self.key
+        return str(self.info.get("name") or self.key)
+
+    @property
+    def quantity(self) -> int | None:
+        """Numeric balance for sorting and hide-empty; keep source JSON untouched."""
+        if isinstance(self.value, dict):
+            raw = self.value.get("Remaining", self.value.get("remaining"))
+        else:
+            raw = self.value
+        try:
+            return int(str(raw).replace(",", "").strip())
+        except (ValueError, TypeError):
+            return None
 
     @property
     def search_text(self) -> str:
         if isinstance(self.value, dict):
-            detail = " ".join(str(part) for part in self.value.values())
+            detail = " ".join(f"{key} {value}" for key, value in self.value.items())
         else:
             detail = "" if self.value is None else str(self.value)
-        return f"{self.key} {detail}"
+        return f"{self.key} {self.name} {self.info.get('desc', '')} {detail}"
 
 
 # ---------------------------------------------------------------------------
@@ -158,10 +171,16 @@ def item_entries(doc: object, *, known: bool) -> list[ItemEntry]:
     ]
 
 
-def currency_entries(doc: object) -> list[CurrencyEntry]:
+def currency_entries(doc: object, *, known: bool) -> list[CurrencyEntry]:
     entries = doc if isinstance(doc, dict) else {}
+
     return [
-        CurrencyEntry(iid=f"cur{key}", key=str(key), value=value)
+        CurrencyEntry(
+            iid=f"cur{key}",
+            key=str(key),
+            value=value,
+            info=(gamedata.currency(key) or {}) if known else {},
+        )
         for key, value in entries.items()
     ]
 
@@ -315,8 +334,15 @@ def filter_items(
     ]
 
 
-def filter_currencies(entries: list[CurrencyEntry], query: str) -> list[CurrencyEntry]:
-    return [entry for entry in entries if search_matches(entry.search_text, query)]
+def filter_currencies(
+    entries: list[CurrencyEntry], query: str, *, hide_empty: bool = False
+) -> list[CurrencyEntry]:
+    return [
+        entry
+        for entry in entries
+        if not (hide_empty and entry.quantity == 0)
+        and search_matches(entry.search_text, query)
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -338,7 +364,11 @@ SORT_FIELDS_BY_KIND: dict[str, tuple[tuple[str, str], ...]] = {
         ("rarity", "Rarity"),
         ("quantity", "Quantity"),
     ),
-    "currencies": (("default", "Default Order"), ("name", "Name")),
+    "currencies": (
+        ("default", "Default Order"),
+        ("name", "Name"),
+        ("quantity", "Balance"),
+    ),
 }
 
 

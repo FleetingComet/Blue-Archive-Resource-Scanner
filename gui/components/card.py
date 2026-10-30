@@ -27,16 +27,16 @@ from gui.services.image_service import ImageKey, ImageService, cache_key
 
 # A card is one canvas, but drawing a whole inventory is still expensive; the
 # rest are revealed with "Show more".
-CARD_PAGE = 120
+CARD_PAGE = 48
 CARD_WIDTH = 172
 # Only a fallback: a card is as tall as its own content (see ``_render``), so a
 # one-line item does not keep a student-sized empty band under its name.
 CARD_HEIGHT = 250
 CARD_PAD = 8
-CARD_RADIUS = 10
+CARD_RADIUS = 12
 CARD_THUMB = CARD_WIDTH - 2 * CARD_PAD
 CARD_INNER = CARD_WIDTH - 2 * CARD_PAD
-THUMB_RADIUS = 8
+THUMB_RADIUS = 10
 EMBLEM_SIZE = 16
 
 # Geometry inside a card, matching the HTML report's card (thumbnail on top,
@@ -147,14 +147,14 @@ def card_palette() -> dict[bool, dict[str, str]]:
     those pictures and make them blink out while the new colour is produced).
     """
     colours = ttk.Style().colors
-    surface = _blend(colours.bg, colours.fg, 0.08)
-    chosen = _blend(surface, colours.info, 0.35)
-    muted = _blend(surface, colours.fg, 0.62)
+    surface = _blend(colours.bg, colours.fg, 0.055)
+    chosen = _blend(surface, colours.primary, 0.17)
+    muted = _blend(surface, colours.fg, 0.64)
     return {
         False: {
             "page": colours.bg,
             "surface": surface,
-            "border": colours.border,
+            "border": _blend(colours.bg, colours.fg, 0.16),
             "fg": colours.fg,
             "muted": muted,
         },
@@ -547,13 +547,22 @@ class AssetCard(ttk.Frame):
         height = font.metrics("linespace") + 3
         box = self._badge_box(place, width, height)
         # The rim keeps a rarity badge readable when it shares the tile colour.
-        _round_rect(self._canvas, *box, 5, fill=background, outline=BADGE_BG, width=1)
+        _round_rect(
+            self._canvas,
+            *box,
+            5,
+            fill=background,
+            outline=BADGE_BG,
+            width=1,
+            tags=("badge",),
+        )
         self._canvas.create_text(
             (box[0] + box[2]) / 2,
             (box[1] + box[3]) / 2,
             text=text,
             font=font,
             fill="#ffffff",
+            tags=("badge",),
         )
 
     def _draw_stars(self, stars: tuple[object, object]) -> None:
@@ -584,7 +593,14 @@ class AssetCard(ttk.Frame):
         box = self._badge_box("tr", badge_w, badge_h)
 
         # Draw rounded badge background
-        _round_rect(self._canvas, *box, 5, fill=BADGE_BG, outline="")
+        _round_rect(
+            self._canvas,
+            *box,
+            5,
+            fill=BADGE_BG,
+            outline="",
+            tags=("badge",),
+        )
 
         cy = (box[1] + box[3]) / 2
         x = box[0] + pad_x + star_size / 2
@@ -593,7 +609,9 @@ class AssetCard(ttk.Frame):
         for i in range(total_stars):
             is_blue = i < blue_stars
             icon = _get_star_glyph(size=star_size, is_blue=is_blue)
-            self._canvas.create_image(x, cy, image=icon, anchor="center")
+            self._canvas.create_image(
+                x, cy, image=icon, anchor="center", tags=("badge",)
+            )
             x += star_size + gap
 
     def _load_art(self) -> None:
@@ -615,10 +633,13 @@ class AssetCard(ttk.Frame):
             self._image_item = self._canvas.create_image(
                 THUMB_CENTRE[0], THUMB_CENTRE[1], image=photo
             )
-            # Above the rarity backdrop, below the badges drawn later.
+            # Icon art belongs between the thumbnail surface and its overlay
+            # badges. Raising the badges explicitly prevents opaque currency
+            # artwork from covering a quantity or AP balance.
             self._canvas.tag_raise(
                 self._image_item, self._thumb_item or self._card_item
             )
+            self._canvas.tag_raise("badge")
             if self._placeholder is not None:
                 self._canvas.itemconfigure(self._placeholder, state="hidden")
                 self._placeholder = None

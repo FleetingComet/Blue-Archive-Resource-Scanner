@@ -190,6 +190,9 @@ class DataPage(ttk.Frame):
         self._id_var: tk.StringVar | None = None
         self._import_summary = ""
         self._card_specs: list[CardSpec] = []
+        # Cached per document version; filtering/sorting should never redraw
+        # hundreds of stat chips and portraits just to change their order.
+        self._spec_cache: dict[str, CardSpec] = {}
         self._entries: list = []
         self._groups: tuple = ()
         self._noun = "entries"
@@ -221,16 +224,25 @@ class DataPage(ttk.Frame):
 
         title_row = ttk.Frame(header)
         title_row.pack(fill="x")
-        ttk.Label(title_row, text="Data", font=heading(14)).pack(side="left")
+        ttk.Label(title_row, text="Resource library", font=heading(17)).pack(
+            side="left"
+        )
+        ttk.Label(
+            title_row,
+            text="  /  REVIEW & EDIT",
+            bootstyle="info",
+            font=heading(9),
+        ).pack(side="left", padx=(8, 0))
 
         ttk.Label(
             header,
-            text="Review and correct the JSON the scanner wrote. Saving here updates the files "
-            "the HTML, Text, Justin Planner and other tools read.",
+            text="Browse scanned students, equipment, items and currencies. "
+            "Correct values here before exporting to your planners.",
             style=MUTED,
             wraplength=900,
             justify="left",
-        ).pack(anchor="w", pady=(2, 0))
+        ).pack(anchor="w", pady=(4, 6))
+        ttk.Separator(header, orient="horizontal").pack(fill="x", pady=(7, 0))
 
     def _build_toolbar(self) -> None:
         """Sleek horizontal command bar using pack."""
@@ -286,7 +298,9 @@ class DataPage(ttk.Frame):
         self._add_button.pack(side="right", padx=(0, 4))
 
         # LEFT SIDE: File Selection & Metadata
-        ttk.Label(bar, text="File", font=heading(10)).pack(side="left", padx=(0, 8))
+        ttk.Label(bar, text="SOURCE", style=MUTED, font=heading(9)).pack(
+            side="left", padx=(0, 8)
+        )
 
         self._file_choice = tk.StringVar()
         self._file_combo = ttk.Combobox(
@@ -324,15 +338,14 @@ class DataPage(ttk.Frame):
             tip="Show this file in the file manager",
         ).pack(side="left", padx=2)
 
-        # Subtle vertical separator before status info
-        ttk.Separator(bar, orient="vertical").pack(side="left", fill="y", padx=10)
-
-        # File status & unsaved changes badge
-        self._info = ttk.Label(bar, style=MUTED, anchor="w")
-        self._info.pack(side="left")
-
-        self._dirty_label = ttk.Label(bar, bootstyle="warning")
-        self._dirty_label.pack(side="left", padx=(6, 0))
+        # File metadata belongs on a separate line so a long path never
+        # pushes Save / Re-run outside the window at smaller sizes.
+        meta = ttk.Frame(self, padding=(18, 0, 18, 6))
+        meta.pack(side="top", fill="x")
+        self._info = ttk.Label(meta, style=MUTED, anchor="w")
+        self._info.pack(side="left", fill="x", expand=True)
+        self._dirty_label = ttk.Label(meta, bootstyle="warning")
+        self._dirty_label.pack(side="right", padx=(8, 0))
 
     def _build_body(self) -> None:
         """Paned area packed with fill='both' and expand=True to claim all remaining space."""
@@ -347,7 +360,7 @@ class DataPage(ttk.Frame):
         edit_host.grid_propagate(False)
         self._editor_host = edit_host
 
-        preview = ttk.Frame(edit_host, padding=(12, 10, 12, 4))
+        preview = ttk.Frame(edit_host, padding=(14, 13, 14, 10))
         preview.grid(row=0, column=0, sticky="ew")
         self._preview = ImageView(preview, images=self._images, size=PREVIEW_SIZE)
         self._preview.pack(side="left")
@@ -369,7 +382,7 @@ class DataPage(ttk.Frame):
         )
         self._preview_subtitle.pack(anchor="w", pady=(2, 0))
 
-        self._editor = ScrolledFrame(edit_host, auto_hide=False, padding=(12, 10))
+        self._editor = ScrolledFrame(edit_host, auto_hide=True, padding=(14, 12))
         self._editor.grid(row=1, column=0, sticky="nsew")
         panes.add(edit_host, weight=2)
 
@@ -440,10 +453,13 @@ class DataPage(ttk.Frame):
         search = ttk.Frame(toolbar)
         search.grid(row=0, column=0, sticky="ew")
 
-        ttk.Label(search, text="Search", style=MUTED).pack(side="left", padx=(0, 6))
+        ttk.Label(search, text="Find resources", style=MUTED).pack(
+            side="left", padx=(0, 8)
+        )
 
         self._cards_search = tk.StringVar()
         self._search_entry = ttk.Entry(search, textvariable=self._cards_search)
+        ttk.ToolTip(self._search_entry, text="Search names, IDs, types and balances")
         # fill='x' + expand=True makes the input auto-resize to the available width
         self._search_entry.pack(side="left", fill="x", expand=True, padx=(0, 4))
         self._search_entry.bind("<KeyRelease>", self._on_search_key)
@@ -537,6 +553,7 @@ class DataPage(ttk.Frame):
             scanner_files.ITEMS_FINAL: "items",
             scanner_files.COUNTS_RAW: "items",
             scanner_files.CURRENCIES_RAW: "currencies",
+            scanner_files.CURRENCIES_FINAL: "currencies",
         }.get(self.kind, "generic")
 
     def _sort_fields(self) -> tuple[tuple[str, str], ...]:
@@ -562,7 +579,7 @@ class DataPage(ttk.Frame):
             self._sort_combo.grid_remove()
             self._sort_dir_btn.grid_remove()
 
-        if kind in ("equipment", "items"):
+        if kind in ("equipment", "items", "currencies"):
             self._hide_empty_check.grid(row=0, column=0, padx=(0, 14))
         else:
             self._hide_empty_check.grid_remove()
@@ -638,14 +655,15 @@ class DataPage(ttk.Frame):
         self._cards_filter_job = None
 
     def _schedule_cards_filter(self) -> None:
-        """Debounce typing in the search box (150 ms)."""
+        """Debounce typing to avoid rebuilding the grid on each keystroke."""
         self._cancel_filter_job()
-        self._cards_filter_job = self.after(150, self._on_cards_filter_changed)
+        self._cards_filter_job = self.after(180, self._on_cards_filter_changed)
 
     def _load_entries(self) -> None:
         """Build the rows for the current document and its filter groups."""
-        self._entries: list = []
-        self._groups: tuple = ()
+        self._entries = []
+        self._spec_cache.clear()
+        self._groups = ()
         self._noun = "entries"
         kind = self._card_kind()
         if self.doc is None or kind == "generic":
@@ -682,19 +700,30 @@ class DataPage(ttk.Frame):
             self._noun = "items"
             self._filters.set_groups(self._groups)
         else:  # currencies
-            self._entries = catalog.currency_entries(self.doc)
+            self._entries = catalog.currency_entries(
+                self.doc,
+                known=self.kind == scanner_files.CURRENCIES_FINAL,
+            )
             self._noun = "currencies"
             self._filters.set_groups((), role=False)
+
+    def _cached_spec(self, key: str, build: Callable[[], CardSpec]) -> CardSpec:
+        spec = self._spec_cache.get(key)
+        if spec is None:
+            spec = build()
+            self._spec_cache[key] = spec
+        return spec
 
     def _apply_view(self, *, reset: bool = True) -> None:
         """Filter, sort and hand the resulting cards to the grid."""
         kind = self._card_kind()
         query = self._cards_search.get()
         selected = self._filters.selection()
-        # Hide empty only exists for equipment/items; a stale value left over
-        # from another file must not enable Clear filters (or hide students).
+        # The count toggle applies to inventory balances, not student records.
         hide_empty = (
-            self._cards_hide_empty.get() if kind in ("equipment", "items") else False
+            self._cards_hide_empty.get()
+            if kind in ("equipment", "items", "currencies")
+            else False
         )
         visible: list = []
         specs: list[CardSpec] = []
@@ -716,7 +745,10 @@ class DataPage(ttk.Frame):
                 descending=self._sort_descending,
             )
             specs = [
-                StudentCard.spec_for(record, iid, info)
+                self._cached_spec(
+                    iid,
+                    lambda r=record, k=iid, m=info: StudentCard.spec_for(r, k, m),
+                )
                 for iid, record, info, _index in visible
             ]
         elif kind == "equipment":
@@ -726,7 +758,10 @@ class DataPage(ttk.Frame):
             visible = catalog.sort_entries(
                 visible, self._current_sort_key(), self._sort_descending
             )
-            specs = [equipment_spec(entry) for entry in visible]
+            specs = [
+                self._cached_spec(entry.iid, lambda row=entry: equipment_spec(row))
+                for entry in visible
+            ]
         elif kind == "items":
             visible = catalog.filter_items(
                 self._entries, selected, query, hide_empty=hide_empty
@@ -735,13 +770,23 @@ class DataPage(ttk.Frame):
                 visible, self._current_sort_key(), self._sort_descending
             )
             known = self.kind == scanner_files.ITEMS_FINAL
-            specs = [item_spec(entry, known=known) for entry in visible]
+            specs = [
+                self._cached_spec(
+                    entry.iid, lambda row=entry: item_spec(row, known=known)
+                )
+                for entry in visible
+            ]
         elif kind == "currencies":
-            visible = catalog.filter_currencies(self._entries, query)
+            visible = catalog.filter_currencies(
+                self._entries, query, hide_empty=hide_empty
+            )
             visible = catalog.sort_entries(
                 visible, self._current_sort_key(), self._sort_descending
             )
-            specs = [currency_spec(entry) for entry in visible]
+            specs = [
+                self._cached_spec(entry.iid, lambda row=entry: currency_spec(row))
+                for entry in visible
+            ]
 
         self._card_specs = specs
         keys = {spec.key for spec in specs}
@@ -841,6 +886,7 @@ class DataPage(ttk.Frame):
             scanner_files.ITEMS_FINAL,
             scanner_files.COUNTS_RAW,
             scanner_files.CURRENCIES_RAW,
+            scanner_files.CURRENCIES_FINAL,
         ):
             self.kind = scanner_files.GENERIC
         self._loaded_mtime = result.get("mtime")
@@ -951,6 +997,7 @@ class DataPage(ttk.Frame):
             scanner_files.ITEMS_FINAL: self._render_items,
             scanner_files.COUNTS_RAW: self._render_items,
             scanner_files.CURRENCIES_RAW: self._render_currencies,
+            scanner_files.CURRENCIES_FINAL: self._render_currencies,
             scanner_files.GENERIC: self._render_generic,
         }
         renderers.get(self.kind, self._render_generic)()
@@ -1011,7 +1058,7 @@ class DataPage(ttk.Frame):
         entries = self.doc if isinstance(self.doc, dict) else {}
         for key in entries:
             self._payloads[f"cur{key}"] = ("currency", str(key))
-        self._import_summary = f"{len(entries)} currencies"
+        self._import_summary = f"{len(entries)} currency balances"
 
     def _render_generic(self) -> None:
         """Count the nodes of an unknown document (the Raw JSON tab edits it)."""
@@ -1104,23 +1151,12 @@ class DataPage(ttk.Frame):
     def apply_image_settings(
         self, settings: AppSettings, *, initial: bool = False
     ) -> None:
-        """Adopt a new image mode / local folder (after Settings is saved).
+        """Apply the configured local artwork folder."""
+        changed = self._images.configure(settings.local_image_dir or None)
 
-        The service drops every pending load, so a request made under the old
-        mode can never replace a card afterwards.
-        """
-        changed = self._images.configure(
-            settings.image_mode, settings.local_image_dir or None
-        )
         if initial or not changed:
             return
-        self._cards.reload_images()
-        self._preview.reload()
-        self._retain_images()
 
-    def reload_artwork(self) -> None:
-        """Re-resolve pictures after the remote asset base URL changed."""
-        self._images.invalidate()
         self._cards.reload_images()
         self._preview.reload()
         self._retain_images()
@@ -1137,7 +1173,7 @@ class DataPage(ttk.Frame):
     def _spec_for(self, iid: str | None) -> CardSpec | None:
         if iid is None:
             return None
-        return next((spec for spec in self._card_specs if spec.key == iid), None)
+        return self._spec_cache.get(iid)
 
     def _update_preview(self, iid: str | None) -> None:
         """Show the selected row beside the editor (fixed-size, so no shifting)."""
@@ -1195,6 +1231,8 @@ class DataPage(ttk.Frame):
             scanner_files.ITEMS_FINAL,
             scanner_files.COUNTS_RAW,
             scanner_files.EQUIPMENT_FINAL,
+            scanner_files.CURRENCIES_RAW,
+            scanner_files.CURRENCIES_FINAL,
         )
         self._add_button.configure(state="normal" if addable else "disabled")
         raw = (
@@ -1622,12 +1660,28 @@ class DataPage(ttk.Frame):
     def _build_currency_editor(self, key: str) -> None:
         entries = self.doc if isinstance(self.doc, dict) else {}
         value = entries.get(key)
-        card = self._editor_card("Currency")
+        info = (
+            gamedata.currency(key)
+            if self.kind == scanner_files.CURRENCIES_FINAL
+            else None
+        ) or {}
+        card = self._editor_card(str(info.get("name") or "Currency balance"))
+        if info.get("desc"):
+            ttk.Label(
+                card,
+                text=str(info["desc"]),
+                style=MUTED,
+                wraplength=EDITOR_WIDTH - 72,
+                justify="left",
+            ).grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 8))
+            row_offset = 1
+        else:
+            row_offset = 0
         ttk.Label(card, text="Key").grid(
-            row=0, column=0, sticky="w", pady=3, padx=(0, 10)
+            row=row_offset, column=0, sticky="w", pady=3, padx=(0, 10)
         )
-        ttk.Label(card, text=key).grid(row=0, column=1, sticky="w", pady=3)
-        row = 1
+        ttk.Label(card, text=key).grid(row=row_offset, column=1, sticky="w", pady=3)
+        row = row_offset + 1
         if isinstance(value, dict):
             for sub_key, sub_value in value.items():
                 ttk.Label(card, text=sub_key).grid(
@@ -1652,13 +1706,22 @@ class DataPage(ttk.Frame):
         ttk.Label(
             card, text="Stored exactly as scanned (commas kept).", style=MUTED
         ).grid(row=row, column=0, columnspan=3, sticky="w", pady=(6, 0))
+        actions = ttk.Frame(card)
+        actions.grid(row=row + 1, column=0, columnspan=3, sticky="w", pady=(10, 0))
         button(
-            card,
+            actions,
             "Apply",
             "check-lg",
             style="success",
             command=lambda: self._apply_currency(key),
-        ).grid(row=row + 1, column=0, columnspan=3, sticky="w", pady=(10, 0))
+        ).pack(side="left")
+        button(
+            actions,
+            "Remove",
+            "trash3-fill",
+            style="danger outline",
+            command=lambda: self._remove_entry(key),
+        ).pack(side="left", padx=(8, 0))
 
     # ------------------------------------------------------------------
     # Applying edits
@@ -1780,6 +1843,44 @@ class DataPage(ttk.Frame):
             self.doc[values["key"].strip()] = max(0, quantity)
             self._mark_dirty()
             self._render(select=("entry", values["key"].strip()))
+        elif self.kind in (
+            scanner_files.CURRENCIES_FINAL,
+            scanner_files.CURRENCIES_RAW,
+        ):
+            # Final files use numeric IDs; raw files use the scanner's OCR
+            # labels. Keep quantities as strings, like CurrencyProcessor.
+            final = self.kind == scanner_files.CURRENCIES_FINAL
+            values = self._prompt_fields(
+                "Add currency balance",
+                (
+                    ("key", "Currency ID" if final else "Currency name", "", ()),
+                    ("value", "Balance (or current/max for AP)", "0", ()),
+                ),
+            )
+            if not values or not values["key"].strip():
+                return
+            key = values["key"].strip()
+            if final and not key.isdecimal():
+                self._report_error("Currency ID must be a number.")
+                return
+            if key in self.doc:
+                self._report_error(f"Currency {key} already exists.")
+                return
+            amount = values["value"].strip()
+            if not amount:
+                self._report_error("Balance cannot be blank.")
+                return
+            is_ap = key == "5" if final else key.casefold() == "ap"
+            if is_ap and "/" in amount:
+                remaining, maximum = (part.strip() for part in amount.split("/", 1))
+                if not remaining or not maximum:
+                    self._report_error("AP requires both current and maximum balances.")
+                    return
+                self.doc[key] = {"Remaining": remaining, "Max": maximum}
+            else:
+                self.doc[key] = amount
+            self._mark_dirty()
+            self._render(select=("currency", key))
         elif self.kind == scanner_files.EQUIPMENT_FINAL:
             categories = tuple(sorted(self.doc.keys()))
             values = self._prompt_fields(
@@ -1960,7 +2061,7 @@ class DataPage(ttk.Frame):
             if not (isinstance(doc, dict) and isinstance(doc.get("characters"), list)):
                 self.kind = scanner_files.GENERIC
         elif (
-            self.kind == scanner_files.CURRENCIES_RAW
+            self.kind in (scanner_files.CURRENCIES_RAW, scanner_files.CURRENCIES_FINAL)
             or self.kind
             in (
                 scanner_files.ITEMS_FINAL,

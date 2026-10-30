@@ -27,6 +27,12 @@ def item(item_id: object) -> dict | None:
     return _items().get(key) if key is not None else None
 
 
+def currency(currency_id: object) -> dict | None:
+    """Resolve currency metadata using its numeric ID."""
+    key = _as_int(currency_id)
+    return _currencies().get(key) if key is not None else None
+
+
 def equipment(category: object, key: object) -> dict | None:
     """The processed entry for one equipment cell of the final values.
 
@@ -95,7 +101,13 @@ def student(student_id: object) -> dict | None:
 
 def reset_cache() -> None:
     """Drop the cached tables (used by tests and after a data re-sync)."""
-    for loader in (_items, _students, _students_by_name, _equipment):
+    for loader in (
+        _items,
+        _students,
+        _students_by_name,
+        _equipment,
+        _currencies,
+    ):
         loader.cache_clear()
 
 
@@ -112,6 +124,11 @@ def _as_int(value: object) -> int | None:
 @lru_cache(maxsize=1)
 def _items() -> dict[int, dict]:
     return _by_id(_load(Path_Config.items_processed))
+
+
+@lru_cache(maxsize=1)
+def _currencies() -> dict[int, dict]:
+    return _by_id(_load(Path_Config.currency_processed))
 
 
 @lru_cache(maxsize=1)

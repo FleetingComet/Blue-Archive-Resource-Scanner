@@ -13,12 +13,12 @@ from pathlib import Path
 
 import ttkbootstrap as ttk
 
-from gui import folders, icons, window_state
+from gui import folders
 from gui.components.file_selector import DIRECTORY, FileSelector
 from gui.registry import LANGUAGES, SELECTABLE_SCREENS
 from gui.ui import MUTED, Page, button, confirm, local_hotkey, show_error
 from src.constant import Screen
-from src.core.config import AppSettings, Config, ImageMode, TargetPlatform
+from src.core.config import AppSettings, Config, TargetPlatform
 from src.core.paths import Path_Config
 from src.utils.cli.config_utils import load_screens_from_config
 
@@ -44,7 +44,7 @@ class SettingsPage(Page):
         self,
         master,
         *,
-        on_save: Callable[[AppSettings, list[Screen], dict], None],
+        on_save: Callable[[AppSettings, list[Screen]], None],
         on_detect: Callable[[], None],
         on_open_folder: Callable[[str], None],
     ):
@@ -65,9 +65,7 @@ class SettingsPage(Page):
         self.sync = tk.BooleanVar()
         self.debug = tk.BooleanVar()
         self.language = tk.StringVar(value=LANGUAGES[0])
-        self.image_mode = tk.StringVar(value=ImageMode.HYBRID.value)
         self.local_dir = tk.StringVar()
-        self.asset_base = tk.StringVar()
         self.screens = {s: tk.BooleanVar() for s in SELECTABLE_SCREENS}
 
         self._dirty_label = ttk.Label(self.title_row, bootstyle="warning")
@@ -116,15 +114,12 @@ class SettingsPage(Page):
             self.language,
             self.sync,
             self.debug,
-            self.image_mode,
             self.local_dir,
-            self.asset_base,
             *self.screens.values(),
         ):
             var.trace_add("write", self._mark_dirty)
         self.platform.trace_add("write", lambda *_: self._toggle_platform())
-        self.image_mode.trace_add("write", self._images_changed)
-        self.asset_base.trace_add("write", self._images_changed)
+        self.local_dir.trace_add("write", self._images_changed)
         self.reload()
 
     # ------------------------------------------------------------------
@@ -172,34 +167,25 @@ class SettingsPage(Page):
         self._spin(card, 2, "Connect retries", self.retries, 1, 50)
 
     def _build_images(self) -> None:
-        card = self.card("Images")
+        card = self.card("Local artwork")
+
         ttk.Label(
             card,
-            text="Artwork shown on the Data tab (student portraits, item and equipment icons, school crests).",
+            text=(
+                "Student portraits, equipment, item and currency icons, "
+                "and school crests are loaded only from this folder. "
+                "Missing files show placeholders."
+            ),
             style=MUTED,
             wraplength=560,
             justify="left",
-        ).grid(row=0, column=0, columnspan=3, sticky="w")
-        modes = (
-            (
-                ImageMode.DISABLED,
-                "Disabled - placeholders only; no disk or network access",
-            ),
-            (ImageMode.LOCAL, "Local only - read the folder below; never download"),
-            (
-                ImageMode.HYBRID,
-                "Hybrid - local folder first, schaledb.com when a file is missing",
-            ),
+        ).grid(
+            row=0,
+            column=0,
+            columnspan=3,
+            sticky="w",
         )
-        for row, (mode, text) in enumerate(modes, start=1):
-            ttk.Radiobutton(
-                card, text=text, value=mode.value, variable=self.image_mode
-            ).grid(row=row, column=0, columnspan=3, sticky="w", pady=2)
 
-        row = len(modes) + 1
-        ttk.Label(card, text="Local artwork folder").grid(
-            row=row, column=0, columnspan=3, sticky="w", pady=(8, 2)
-        )
         self._local_selector = FileSelector(
             card,
             mode=DIRECTORY,
@@ -207,44 +193,41 @@ class SettingsPage(Page):
             title="Select the local artwork folder",
             on_change=self._images_changed,
         )
-        self._local_selector.grid(row=row + 1, column=0, columnspan=3, sticky="ew")
+        self._local_selector.grid(
+            row=1,
+            column=0,
+            columnspan=3,
+            sticky="ew",
+            pady=(10, 0),
+        )
+
         self._images_status = ttk.Label(
-            card, style=MUTED, wraplength=560, justify="left"
+            card,
+            style=MUTED,
+            wraplength=560,
+            justify="left",
         )
         self._images_status.grid(
-            row=row + 2, column=0, columnspan=3, sticky="w", pady=(4, 0)
+            row=2,
+            column=0,
+            columnspan=3,
+            sticky="w",
+            pady=(6, 0),
         )
+
         button(
             card,
             "Use default folder",
             "arrow-counterclockwise",
             command=self._default_images_dir,
             tip="assets/images/local next to the scanner",
-        ).grid(row=row + 3, column=0, columnspan=3, sticky="w", pady=(6, 0))
-
-        base_row = row + 4
-        ttk.Label(card, text="Remote asset base URL").grid(
-            row=base_row, column=0, columnspan=3, sticky="w", pady=(12, 2)
+        ).grid(
+            row=3,
+            column=0,
+            columnspan=3,
+            sticky="w",
+            pady=(8, 0),
         )
-        ttk.Entry(card, textvariable=self.asset_base).grid(
-            row=base_row + 1, column=0, columnspan=2, sticky="ew"
-        )
-        button(
-            card,
-            "Reset",
-            "arrow-counterclockwise",
-            command=lambda: self.asset_base.set(""),
-            tip="Back to https://schaledb.com/images/",
-        ).grid(row=base_row + 1, column=2, sticky="w", padx=(8, 0))
-        ttk.Label(
-            card,
-            text="Where downloaded artwork is read from (hybrid mode). "
-            "Leave blank for schaledb; it is saved in config/gui_state.json, "
-            "not in the scanner's settings.",
-            style=MUTED,
-            wraplength=560,
-            justify="left",
-        ).grid(row=base_row + 2, column=0, columnspan=3, sticky="w", pady=(4, 0))
 
     def _default_images_dir(self) -> None:
         self.local_dir.set(str(Path_Config.local_images))
@@ -257,37 +240,19 @@ class SettingsPage(Page):
         return path if path.is_absolute() else Path_Config.PROJECT_ROOT / path
 
     def _images_changed(self, *_args) -> None:
-        """Update the mode-dependent hint and disable the folder while off."""
-        try:
-            mode = ImageMode(self.image_mode.get())
-        except ValueError:
-            mode = ImageMode.HYBRID
-        enabled = mode is not ImageMode.DISABLED
-        self._local_selector.set_enabled(enabled)
         folder = self._resolved_images_dir()
-        remote = icons.normalize_base_url(self.asset_base.get())
+
         try:
             exists = folder.is_dir()
         except OSError:
             exists = False
-        if mode is ImageMode.DISABLED:
-            text = "No artwork is loaded; cards keep their placeholders."
-        elif mode is ImageMode.LOCAL:
-            text = (
-                f"Using {folder}. Missing or unreadable files show a placeholder."
-                if exists
-                else f"{folder} does not exist yet - cards will show placeholders."
-            )
-        elif exists:
-            text = (
-                f"Using {folder}, then {remote} for anything missing. "
-                "Downloads are cached in that folder."
-            )
-        else:
-            text = (
-                f"{folder} does not exist - everything is downloaded from {remote} "
-                "and cached in that folder."
-            )
+
+        text = (
+            f"Loading artwork from {folder}. " "Missing files show placeholders."
+            if exists
+            else f"{folder} does not exist. " "Cards will show placeholders."
+        )
+
         self._images_status.configure(text=text)
 
     def _build_performance(self) -> None:
@@ -395,9 +360,7 @@ class SettingsPage(Page):
             self.language.set(
                 settings.language if settings.language in LANGUAGES else LANGUAGES[0]
             )
-            self.image_mode.set(settings.image_mode.value)
             self.local_dir.set(settings.local_image_dir or "")
-            self.asset_base.set(window_state.asset_base_url())
             for screen, var in self.screens.items():
                 var.set(screen in enabled)
         finally:
@@ -432,10 +395,8 @@ class SettingsPage(Page):
         if selected:
             self.serial.set(selected)
 
-    # ------------------------------------------------------------------
     # Save
-    # ------------------------------------------------------------------
-    def collect(self) -> tuple[AppSettings, list[Screen], dict]:
+    def collect(self) -> tuple[AppSettings, list[Screen]]:
         """Validate the form into ``(settings, screens, gui_state)``; raises
         ValueError with one line per problem. Screens may be empty (the app
         picks the default)."""
@@ -464,12 +425,7 @@ class SettingsPage(Page):
             problems.append(
                 "An ADB serial (host:port) is required for emulator / device mode."
             )
-        base = self.asset_base.get().strip()
-        if not icons.valid_base_url(base):
-            problems.append(
-                "The remote asset base URL must start with http:// or https:// "
-                "(leave it blank for the default)."
-            )
+
         retries = number(self.retries, "Connect retries", int, 1)
         wait = number(self.wait, "Wait multiplier", float, 1e-9)
         nav = number(self.nav, "Screen navigation multiplier", float, 1e-9)
@@ -485,20 +441,20 @@ class SettingsPage(Page):
             enable_sync=self.sync.get(),
             language=self.language.get(),
             debug=self.debug.get(),
-            image_mode=ImageMode(self.image_mode.get()),
             local_image_dir=self.local_dir.get().strip(),
         )
-        gui_state = {"asset_base_url": icons.normalize_base_url(base) if base else ""}
-        return settings, [s for s, var in self.screens.items() if var.get()], gui_state
+        return settings, [
+            screen for screen, selected in self.screens.items() if selected.get()
+        ]
 
     def save(self) -> bool:
         """Validate and hand the values to the app; True when saved."""
         try:
-            settings, screens, gui_state = self.collect()
+            settings, screens = self.collect()
         except ValueError as exc:
             show_error(self, "Invalid settings", str(exc))
             return False
-        self._on_save(settings, screens, gui_state)
+        self._on_save(settings, screens)
         self._set_dirty(False)
         return True
 
@@ -510,7 +466,7 @@ class SettingsDialog(ttk.Toplevel):
         self,
         parent,
         *,
-        on_save: Callable[[AppSettings, list[Screen], dict], None],
+        on_save: Callable[[AppSettings, list[Screen]], None],
         on_detect: Callable[[], None],
         on_open_folder: Callable[[str], None],
         on_closed: Callable[[], None],

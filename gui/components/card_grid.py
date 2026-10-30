@@ -48,6 +48,7 @@ class CardGrid(ttk.Frame):
         self._page_size = max(1, int(page_size))
         self._limit = self._page_size
         self._specs: list[CardSpec] = []
+        self._index: dict[str, int] = {}
         self._cards: dict[str, AssetCard] = {}
         self._order: list[str] = []
         self._positions: dict[str, tuple[int, int]] = {}
@@ -128,6 +129,7 @@ class CardGrid(ttk.Frame):
         selected: str | None = None,
     ) -> None:
         self._specs = list(specs)
+        self._index = {spec.key: index for index, spec in enumerate(self._specs)}
         if reset:
             self._limit = self._page_size
         if selected is not None:
@@ -230,7 +232,8 @@ class CardGrid(ttk.Frame):
         return keys
 
     def selected_spec(self) -> CardSpec | None:
-        return next((s for s in self._specs if s.key == self._selected), None)
+        index = self._index.get(self._selected)
+        return self._specs[index] if index is not None else None
 
     def select(self, key: str | None) -> None:
         if key == self._selected:
@@ -249,13 +252,12 @@ class CardGrid(ttk.Frame):
         self.refresh()
 
     def reveal(self, key: str) -> None:
-        keys = [spec.key for spec in self._specs]
-        if key not in keys:
+        index = self._index.get(key)
+        if index is None:
             return
-        index = keys.index(key)
         if index >= self._limit:
             self._limit = min(
-                len(keys),
+                len(self._specs),
                 (index // self._page_size + 1) * self._page_size,
             )
             self.refresh()

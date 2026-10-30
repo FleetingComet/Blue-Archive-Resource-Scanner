@@ -30,21 +30,7 @@ def save(data: dict) -> None:
         STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
         STATE_FILE.write_text(json.dumps(data), encoding="utf-8")
     except OSError:
-        pass  # best-effort
-
-
-def asset_base_url(data: dict | None = None) -> str:
-    """The saved remote artwork base (blank = the schaledb default)."""
-    state = load() if data is None else data
-    value = state.get("asset_base_url")
-    return value if isinstance(value, str) else ""
-
-
-def save_field(key: str, value: object) -> None:
-    """Merge one value into the saved state without touching the rest."""
-    data = load()
-    data[key] = value
-    save(data)
+        pass
 
 
 def desktop_bounds(root: tk.Misc) -> tuple[int, int, int, int]:

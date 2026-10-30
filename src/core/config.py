@@ -19,14 +19,6 @@ class OCREngine(str, Enum):
     RAPIDOCR = "rapidocr"
 
 
-class ImageMode(str, Enum):
-    """Where the GUI looks for student/item/school artwork."""
-
-    DISABLED = "disabled"  # placeholders only, never touch disk or network
-    LOCAL = "local"  # the local asset folder only
-    HYBRID = "hybrid"  # local first, schaledb as the fallback
-
-
 class AppSettings(BaseModel):
     """User-adjustable settings saved in config/settings.json"""
 
@@ -45,9 +37,8 @@ class AppSettings(BaseModel):
     language: str = "en"
     debug: bool = False
 
-    # GUI artwork. "hybrid" keeps the original schaledb behaviour; an empty
-    # local_image_dir means Path_Config.local_images.
-    image_mode: ImageMode = ImageMode.LOCAL
+    # GUI artwork is always loaded locally.
+    # Empty means Path_Config.local_images.
     local_image_dir: str = ""
     data_sync_retries: int = 3
 

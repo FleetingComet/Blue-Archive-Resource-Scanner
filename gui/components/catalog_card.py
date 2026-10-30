@@ -70,29 +70,45 @@ def item_spec(entry: ItemEntry, *, known: bool) -> CardSpec:
 
 
 def currency_spec(entry: CurrencyEntry) -> CardSpec:
-    """One currency row (a plain value or a small keyed breakdown)."""
+    """Readable currency card, with the existing item-asset image pipeline."""
     if isinstance(entry.value, dict):
-        detail = " / ".join(str(part) for part in entry.value.values())
-        badges: tuple[tuple[str, str, str], ...] = ()
+        # AP is stored as {"Remaining": "…", "Max": "…"}; other
+        # multi-part currencies remain readable without special-casing keys.
+        current = entry.value.get("Remaining", entry.value.get("remaining"))
+        maximum = entry.value.get("Max", entry.value.get("max"))
+        if current is not None and maximum is not None:
+            detail = f"{current} / {maximum} available"
+            badge_text = f"{current}/{maximum}"
+        else:
+            detail = " · ".join(f"{key}: {value}" for key, value in entry.value.items())
+            badge_text = ""
     else:
-        detail = "Currency"
-        badges = (("bl", quantity_badge(entry.value), BADGE_BG),)
-    quantity = None if isinstance(entry.value, dict) else entry.value
+        detail = f"ID {entry.key}" if entry.key.isdecimal() else "Scanned balance"
+        badge_text = quantity_badge(entry.value) if entry.value is not None else ""
+
     return CardSpec(
         key=entry.iid,
-        name=entry.key,
+        name=entry.name,
         kind="currency",
         detail=detail,
         glyph=CARD_GLYPHS["currency"],
+        asset=icons.item_asset(entry.info.get("icon")),
         fit=icons.FIT_CONTAIN,
-        badges=badges,
-        quantity=quantity,
+        badges=(("bl", badge_text, BADGE_BG),) if badge_text else (),
+        quantity=entry.quantity,
         search=entry.search_text,
     )
 
 
 def quantity_badge(value: object) -> str:
-    return f"×{value:,}" if isinstance(value, int) else str(value)
+    """Human-friendly badge without changing the underlying JSON value type."""
+    if isinstance(value, int) and not isinstance(value, bool):
+        return f"×{value:,}"
+    if isinstance(value, str):
+        digits = value.strip().replace(",", "")
+        if digits.isdecimal():
+            return f"×{int(digits):,}"
+    return str(value)
 
 
 def equipment_glyph(category: str) -> str:

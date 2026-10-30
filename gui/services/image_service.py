@@ -28,22 +28,16 @@ import queue
 import threading
 import time
 from collections.abc import Callable, Iterable
-from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
 
 from PIL import Image, ImageChops, ImageDraw, ImageTk
 
 from gui import icons
-from src.core.config import ImageMode
 from src.core.paths import Path_Config
 
 logger = logging.getLogger("BA-Scanner")
 
-_TIMEOUT_S = 15
-_MAX_BYTES = 6 * 1024 * 1024
 # The extensions a local collection may use, in the order they are preferred.
 _LOCAL_SUFFIXES = (".webp", ".png", ".jpg", ".jpeg")
 
@@ -140,18 +134,6 @@ def delete_orphaned_photos() -> None:
             pass
 
 
-@dataclass(frozen=True)
-class ImageSource:
-    """Where one asset can be read from."""
-
-    kind: str  # "local" | "remote"
-    value: Path | str
-
-    @property
-    def is_remote(self) -> bool:
-        return self.kind == "remote"
-
-
 # ---------------------------------------------------------------------------
 # Resolution (pure helpers - used by the service and by tests)
 # ---------------------------------------------------------------------------
@@ -200,24 +182,6 @@ def resolve_local(asset: str, root: Path) -> Path | None:
         except OSError:  # unreadable folder - treat as missing
             continue
     return None
-
-
-def resolve_source(mode: ImageMode, asset: str, root: Path) -> ImageSource | None:
-    """Which source ``asset`` uses under ``mode``, without decoding it.
-
-    ``hybrid`` returns the local file when one exists *and* the remote URL
-    otherwise; the loader still validates the local file and falls back when it
-    cannot be decoded. ``local`` never returns a remote source and ``disabled``
-    never returns anything.
-    """
-    if mode is ImageMode.DISABLED or not asset:
-        return None
-    local = resolve_local(asset, root)
-    if local is not None:
-        return ImageSource("local", local)
-    if mode is ImageMode.LOCAL:
-        return None
-    return ImageSource("remote", icons.remote_url(asset) or "")
 
 
 def prepare_image(
@@ -272,38 +236,40 @@ class ImageService:
         self,
         on_post: Callable[[Callable[[], None]], None],
         *,
-        mode: ImageMode = ImageMode.HYBRID,
         local_dir: str | Path | None = None,
-        cache_dir: str | Path | None = None,
         workers: int = 4,
     ):
         self._post = on_post
         self._local_dir = _resolve_dir(local_dir)
-        # Downloaded artwork is kept with the user's local artwork by default,
-        # not under the disposable output/ tree - it is a cache the user can
-        # point at, and deleting output/ would otherwise lose every download.
-        self._cache_follows_local = cache_dir is None
-        self._cache_dir = Path(cache_dir) if cache_dir is not None else self._local_dir
+
         self._pool = _WorkerPool(workers, "gui-image")
         self._lock = threading.Lock()
-        self._mode = ImageMode(mode)
+
         self._generation = 0
         self._closed = False
+
         self._images: dict[ImageKey, ImageTk.PhotoImage] = {}
+
         self._waiting: dict[
-            str, list[tuple[ImageKey, Callable[[ImageTk.PhotoImage], None]]]
+            str,
+            list[
+                tuple[
+                    ImageKey,
+                    Callable[[ImageTk.PhotoImage], None],
+                ]
+            ],
         ] = {}
+
         self._queued: set[str] = set()
         self._failed: set[str] = set()
         self._resolved: dict[str, Path | None] = {}
-        # Small synchronous pictures for filter popups (never downloaded).
-        self._icons: dict[tuple[str, int, str, str | None], ImageTk.PhotoImage] = {}
-        self._icon_misses: set[tuple[str, int, str, str | None]] = set()
 
-    # -- configuration -----------------------------------------------------
-    @property
-    def mode(self) -> ImageMode:
-        return self._mode
+        self._icons: dict[
+            tuple[str, int, str, str | None],
+            ImageTk.PhotoImage,
+        ] = {}
+
+        self._icon_misses: set[tuple[str, int, str, str | None]] = set()
 
     @property
     def local_dir(self) -> Path:
@@ -311,31 +277,22 @@ class ImageService:
 
     @property
     def enabled(self) -> bool:
-        """Whether callers may request pictures right now."""
-        return self._mode is not ImageMode.DISABLED and not self._closed
+        return not self._closed
 
     def local_dir_available(self) -> bool:
         return self._local_dir.is_dir()
 
-    def configure(
-        self, mode: ImageMode | str, local_dir: str | Path | None = None
-    ) -> bool:
-        """Apply an image mode / local folder. True when something changed.
-
-        Bumping the generation, dropping waiters and clearing the caches means
-        a request from the previous configuration can neither populate a widget
-        nor reuse a stale local/remote choice.
-        """
-        mode = ImageMode(mode)
+    def configure(self, local_dir: str | Path | None = None) -> bool:
+        """Change the local folder and clear previous image results."""
         local = _resolve_dir(local_dir)
-        if mode is self._mode and local == self._local_dir:
+
+        if local == self._local_dir:
             return False
+
         with self._lock:
-            self._mode = mode
             self._local_dir = local
-            if self._cache_follows_local:
-                self._cache_dir = local
             self._generation += 1
+
             self._waiting.clear()
             self._queued.clear()
             self._resolved.clear()
@@ -343,21 +300,8 @@ class ImageService:
             self._images.clear()
             self._icons.clear()
             self._icon_misses.clear()
+
         return True
-
-    def invalidate(self) -> None:
-        """Drop loaded pictures and pending requests (a remote URL changed)."""
-        self._invalidate_results()
-
-    def _invalidate_results(self) -> None:
-        """Drop pending requests + cached pictures but keep the source config."""
-        with self._lock:
-            self._generation += 1
-            self._waiting.clear()
-            self._queued.clear()
-            self._images.clear()
-            self._icons.clear()
-            self._icon_misses.clear()
 
     # -- main-thread API ---------------------------------------------------
     def image(
@@ -414,7 +358,7 @@ class ImageService:
         ``tint`` recolours a monochrome glyph (school crests) so it stays
         visible on both the light and the dark popup background.
         """
-        if not asset or not self.enabled or self._mode is ImageMode.DISABLED:
+        if not asset or not self.enabled:
             return None
         key = (str(asset), int(box), fit, tint)
         cached = self._icons.get(key)
@@ -494,31 +438,32 @@ class ImageService:
             self._closed = True
 
     def _read_image(
-        self, asset: str, generation: int
+        self,
+        asset: str,
+        generation: int,
     ) -> tuple[Image.Image | None, Exception | None]:
-        """Decode ``asset`` from the source the current mode allows."""
-        # Snapshot the configuration: a mode switch while this load is running
-        # bumps the generation, so its result is discarded on delivery.
+        """Read and decode artwork exclusively from the local folder."""
         with self._lock:
-            mode = self._mode
             local_dir = self._local_dir
-        if mode is ImageMode.DISABLED:
+
+        path = self._local_path(
+            asset,
+            local_dir,
+            generation,
+        )
+
+        if path is None:
             return None, None
-        path = self._local_path(asset, local_dir, generation)
-        decode_error: Exception | None = None
-        if path is not None:
-            try:
-                return _open(path.read_bytes()), None
-            except (OSError, ValueError) as exc:
-                # Unreadable/invalid local artwork counts as unavailable, so
-                # hybrid mode may still fall back to the remote copy.
-                decode_error = exc
-                logger.debug("local image unusable (%s): %s", path, exc)
-        if mode is ImageMode.LOCAL:
-            return None, decode_error
+
         try:
-            return _open(self._remote_bytes(asset)), None
-        except (HTTPError, URLError, OSError, ValueError) as exc:
+            return _open(path.read_bytes()), None
+
+        except (OSError, ValueError) as exc:
+            logger.debug(
+                "Local image unavailable (%s): %s",
+                path,
+                exc,
+            )
             return None, exc
 
     def _local_path(self, asset: str, local_dir: Path, generation: int) -> Path | None:
@@ -531,37 +476,6 @@ class ImageService:
                 self._resolved[asset] = path
         return path
 
-    def _remote_bytes(self, asset: str) -> bytes:
-        """Bytes for ``asset``, from the disk cache when we already have it."""
-        target = self._cache_dir / asset
-        try:
-            if target.is_file():
-                data = target.read_bytes()
-                if _is_image(data):
-                    return data
-                target.unlink(missing_ok=True)  # truncated or an error page
-        except OSError as exc:  # a read-only / unwritable cache is not fatal
-            logger.debug("icon cache unreadable (%s): %s", target, exc)
-        url = icons.remote_url(asset)
-        if not url:
-            raise ValueError("no remote URL")
-        with urlopen(
-            Request(url, headers=icons.REQUEST_HEADERS), timeout=_TIMEOUT_S
-        ) as response:
-            data = response.read(_MAX_BYTES + 1)
-        if len(data) > _MAX_BYTES:
-            raise ValueError("icon larger than the size cap")
-        if not _is_image(data):
-            # Unknown names fall through to the site's HTML shell with a 200.
-            raise ValueError("not an image")
-        try:
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(data)
-        except OSError as exc:
-            logger.debug("icon cache unwritable (%s): %s", target, exc)
-        return data
-
-    # -- main thread -------------------------------------------------------
     def _deliver(
         self, asset: str, generation: int, prepared: dict[ImageKey, Image.Image]
     ) -> None:
@@ -587,12 +501,14 @@ class ImageService:
             if variant is None:
                 remaining.append((key, callback))
                 continue
-            try:
-                photo = TkPhoto(variant)
-            except Exception as exc:  # noqa: BLE001 - no root / Tk gone
-                logger.debug("could not create a Tk image (%s): %s", asset, exc)
-                continue
-            self._images[key] = photo
+            photo = self._images.get(key)
+            if photo is None:
+                try:
+                    photo = TkPhoto(variant)
+                except Exception as exc:  # noqa: BLE001 - no root / Tk gone
+                    logger.debug("could not create a Tk image (%s): %s", asset, exc)
+                    continue
+                self._images[key] = photo
             try:
                 callback(photo)
             except Exception as exc:  # noqa: BLE001 - a widget vanished mid-load
@@ -619,15 +535,6 @@ def _open(data: bytes) -> Image.Image:
     with Image.open(BytesIO(data)) as image:
         image.load()
         return image.convert("RGBA")
-
-
-def _is_image(data: bytes) -> bool:
-    try:
-        with Image.open(BytesIO(data)) as image:
-            image.verify()
-    except Exception:  # noqa: BLE001 - PIL raises a whole zoo for bad files
-        return False
-    return True
 
 
 def _tint(image: Image.Image, colour: str) -> Image.Image:

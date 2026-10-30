@@ -10,16 +10,10 @@ from src.core.paths import Path_Config
 
 logger = logging.getLogger("BA-Scanner")
 
-BASE = ""  # intentionally blank
 ITEM_DIR = "item/icon/"
 EQUIPMENT_DIR = "equipment/icon/"
 STUDENT_DIR = "student/collection/"
 SCHOOL_DIR = "schoolicon/"
-
-DEFAULT_BASE = BASE
-_base_url = DEFAULT_BASE
-
-REQUEST_HEADERS = {"User-Agent": "Mozilla/5.0"}
 
 # Explicit school alias mapping to icon filenames (case-insensitive lookup).
 _SCHOOL_FILES = {
@@ -97,53 +91,6 @@ def school_asset(school: object) -> str | None:
         file_name = "ETC"
 
     return _asset(SCHOOL_DIR, file_name, extension=".png")
-
-
-def remote_url(asset: str | None) -> str | None:
-    return f"{_base_url}{asset}" if asset else None
-
-
-def normalize_base_url(url: object) -> str:
-    text = str(url or "").strip()
-    if not text:
-        return DEFAULT_BASE
-    return text if text.endswith("/") else f"{text}/"
-
-
-def valid_base_url(url: object) -> bool:
-    text = str(url or "").strip()
-    if not text:
-        return True
-    return text.lower().startswith(("http://", "https://"))
-
-
-def set_base_url(url: object) -> bool:
-    global _base_url
-    normalized = normalize_base_url(url)
-    if normalized == _base_url:
-        return False
-    _base_url = normalized
-    return True
-
-
-def base_url() -> str:
-    return _base_url
-
-
-def item_url(icon: object) -> str | None:
-    return remote_url(item_asset(icon))
-
-
-def equipment_url(icon: object) -> str | None:
-    return remote_url(equipment_asset(icon))
-
-
-def student_url(student_id: object) -> str | None:
-    return remote_url(student_asset(student_id))
-
-
-def school_url(school: object) -> str | None:
-    return remote_url(school_asset(school))
 
 
 def _asset(directory: str, name: object, *, extension: str = ".webp") -> str | None:

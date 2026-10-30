@@ -278,15 +278,22 @@ class Page(ttk.Frame):
         super().__init__(master)
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
-        scroll = ScrolledFrame(self, auto_hide=False, padding=(18, 14))
+        scroll = ScrolledFrame(self, auto_hide=True, padding=(22, 18))
         scroll.grid(row=0, column=0, sticky="nsew")
         self._scroll = scroll
 
         self.title_row = ttk.Frame(scroll)
         self.title_row.pack(fill="x")
-        ttk.Label(self.title_row, text=title, font=heading()).pack(side="left")
+        ttk.Label(self.title_row, text=title, font=heading(17)).pack(side="left")
+        ttk.Separator(scroll, orient="horizontal").pack(fill="x", pady=(11, 12))
         if subtitle:
-            ttk.Label(scroll, text=subtitle, style=MUTED).pack(anchor="w", pady=(2, 12))
+            ttk.Label(
+                scroll,
+                text=subtitle,
+                style=MUTED,
+                wraplength=800,
+                justify="left",
+            ).pack(anchor="w", pady=(0, 15))
 
     def footer(self) -> ttk.Frame:
         """A bar pinned under the scrolling area (always visible)."""
@@ -295,8 +302,8 @@ class Page(ttk.Frame):
         return bar
 
     def card(self, title: str) -> ttk.Labelframe:
-        frame = ttk.Labelframe(self._scroll, text=title, padding=(12, 8))
-        frame.pack(fill="x", pady=(0, 12))
+        frame = ttk.Labelframe(self._scroll, text=title, padding=(16, 12))
+        frame.pack(fill="x", pady=(0, 14))
         frame.columnconfigure(1, weight=1)
         return frame
 

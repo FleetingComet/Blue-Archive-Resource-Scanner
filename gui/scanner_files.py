@@ -21,6 +21,7 @@ from src.core.paths import Path_Config
 STUDENTS_FINAL = "students_final"
 EQUIPMENT_FINAL = "equipment_final"
 ITEMS_FINAL = "items_final"
+CURRENCIES_FINAL = "currencies_final"
 STUDENTS_RAW = "students_raw"
 COUNTS_RAW = "counts_raw"
 CURRENCIES_RAW = "currencies_raw"
@@ -55,21 +56,27 @@ class ScanFile:
 SCAN_FILES: tuple[ScanFile, ...] = (
     ScanFile(
         STUDENTS_FINAL,
-        "Students (final values)",
+        "Students (Final Values)",
         Path_Config.final_students,
         STUDENTS_FINAL,
     ),
     ScanFile(
         EQUIPMENT_FINAL,
-        "Equipment (final values)",
+        "Equipment (Final Values)",
         Path_Config.final_equipment,
         EQUIPMENT_FINAL,
     ),
     ScanFile(
         ITEMS_FINAL,
-        "Items (final values)",
+        "Items (Final Values)",
         Path_Config.final_items,
         ITEMS_FINAL,
+    ),
+    ScanFile(
+        CURRENCIES_FINAL,
+        "Currencies (Final Values)",
+        Path_Config.final_currencies,
+        CURRENCIES_FINAL,
     ),
     ScanFile(
         STUDENTS_RAW,
@@ -97,6 +104,7 @@ SCAN_FILES: tuple[ScanFile, ...] = (
         Path_Config.scanned_currencies,
         CURRENCIES_RAW,
         raw=True,
+        processors=(("src.utils.data.processors.currency", "CurrencyProcessor"),),
     ),
 )
 

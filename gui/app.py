@@ -24,7 +24,7 @@ from pathlib import Path
 
 import ttkbootstrap as ttk
 
-from gui import folders, icons, window_state
+from gui import folders, window_state
 from gui.metadata import project_display_name
 from gui.panels.about import show_about
 from gui.panels.data_page import DataPage
@@ -52,7 +52,7 @@ from gui.ui import (
     heading,
     show_error,
 )
-from src.core.config import AppSettings, Config, ImageMode
+from src.core.config import AppSettings, Config
 from src.core.paths import Path_Config
 from src.utils.cli import cli as cli_module
 from src.utils.cli.config_utils import load_screens_from_config, write_screen_config
@@ -93,16 +93,6 @@ def _clamp_split(saved: object, height: int) -> int:
     return min(max(int(height * LOG_PANE_SHARE), low), high)
 
 
-def _image_mode_note(settings: AppSettings) -> str:
-    """One log line describing where artwork now comes from."""
-    folder = settings.local_image_dir or str(Path_Config.local_images)
-    if settings.image_mode is ImageMode.DISABLED:
-        return "Images: disabled - cards show placeholders only."
-    if settings.image_mode is ImageMode.LOCAL:
-        return f"Images: local only - reading {folder}."
-    return f"Images: hybrid - {folder} first, schaledb.com as the fallback."
-
-
 def _command_label(cmd: list[str]) -> str:
     """Short form of a command line for the status bar."""
     parts = cmd[1:]
@@ -118,7 +108,6 @@ class ControlPanel(ttk.Window):
         self._saved = window_state.load()
         # The remote artwork root lives in gui_state.json (not AppSettings), and
         # must be in place before the Data tab's image service starts loading.
-        icons.set_base_url(window_state.asset_base_url(self._saved))
         self._dark = self._saved.get("theme") == "dark"
         super().__init__(themename=theme_name(self._dark), title=WINDOW_TITLE)
         apply_muted()
@@ -127,7 +116,7 @@ class ControlPanel(ttk.Window):
         # path can call it directly because the window is already up).
         self.after(100, self._apply_title_bar_when_ready)
         self.minsize(1000, 660)
-        self.geometry("1080x800")
+        self.geometry("1200x820")
 
         # Worker threads / child processes feed this; the Tk loop drains it.
         # Items are (text, tag); with CONTROL_TAG the text is a callable (run
@@ -172,19 +161,26 @@ class ControlPanel(ttk.Window):
         self.columnconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
 
-        bar = ttk.Frame(self, padding=(16, 10))
+        bar = ttk.Frame(self, padding=(20, 12, 20, 10))
         bar.grid(row=0, column=0, sticky="ew")
         brand = ttk.Frame(bar)
         brand.pack(side="left")
-        ttk.Label(brand, text=WINDOW_TITLE, font=heading(11)).pack(anchor="w")
+        ttk.Label(
+            brand,
+            text=WINDOW_TITLE,
+            bootstyle="info",
+            font=heading(9),
+        ).pack(anchor="w")
+        # ttk.Label(brand, text=WINDOW_TITLE, font=heading(16)).pack(
+        #     anchor="w", pady=(2, 0)
+        # )
         self._context = ttk.Label(brand, style=MUTED)
-        self._context.pack(anchor="w")
+        self._context.pack(anchor="w", pady=(3, 0))
         # Packed right-to-left: reads "Output  About  Settings  Theme".
         self._theme_button = button(
             bar,
             "",
             self._theme_icon(),
-            style="ghost",
             command=self._toggle_theme,
             tip="Switch light / dark theme",
         )
@@ -193,7 +189,6 @@ class ControlPanel(ttk.Window):
             bar,
             "Settings",
             "gear-fill",
-            style="ghost",
             command=self._open_settings,
             tip="Open settings (Ctrl+,)",
         ).pack(side="right", padx=6)
@@ -201,7 +196,6 @@ class ControlPanel(ttk.Window):
             bar,
             "About",
             "info-circle-fill",
-            style="ghost",
             command=self._open_about,
             tip="About this application",
         ).pack(side="right", padx=(0, 6))
@@ -209,11 +203,11 @@ class ControlPanel(ttk.Window):
             bar,
             "Output",
             "folder2-open",
-            style="ghost",
             command=lambda: self._open_folder(folders.OUTPUT),
             tip="Open the output folder (Ctrl+O)",
         ).pack(side="right")
 
+        ttk.Separator(self, orient="horizontal").grid(row=0, column=0, sticky="sew")
         panes = ttk.Panedwindow(self, orient="vertical")
         panes.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 4))
         self._panes = panes
@@ -402,28 +396,34 @@ class ControlPanel(ttk.Window):
         )
 
     def _apply_settings(
-        self, settings: AppSettings, screens: list, gui_state: dict | None = None
+        self,
+        settings: AppSettings,
+        screens: list,
     ) -> None:
-        """Persist the settings form (called by the dialog's Save)."""
+        """Persist settings and refresh the GUI."""
         if not screens:
             screens = list(DEFAULT_SCREENS)
             self._append_log(
-                "No scan targets selected - defaulting to Equipment + Items.", "warn"
+                "No scan targets selected - defaulting to Equipment + Items.",
+                "warn",
             )
-        gui_state = gui_state or {}
-        base_changed = icons.set_base_url(gui_state.get("asset_base_url", ""))
-        if "asset_base_url" in gui_state:
-            window_state.save_field("asset_base_url", gui_state["asset_base_url"])
+
         Config.save(settings)
         write_screen_config(screens)
+
         self._append_log(
-            "Saved config/settings.json and config/screen_config.json", "ok"
+            "Saved config/settings.json and config/screen_config.json",
+            "ok",
         )
+
         self.data_page.apply_image_settings(settings)
-        if base_changed:
-            self.data_page.reload_artwork()
-            self._append_log(f"Remote artwork base set to {icons.base_url()}", "dim")
-        self._append_log(_image_mode_note(settings), "dim")
+
+        self._append_log(
+            f"Images: local only - "
+            f"{settings.local_image_dir or Path_Config.local_images}",
+            "dim",
+        )
+
         self._refresh_context()
         self.overview_page.refresh()
 
@@ -779,9 +779,6 @@ class ControlPanel(ttk.Window):
             "tool": self.tools_tab.current,
             "log_state": self._log_state,
             "theme": "dark" if self._dark else "light",
-            "asset_base_url": (
-                "" if icons.base_url() == icons.DEFAULT_BASE else icons.base_url()
-            ),
         }
         # Only a split keeping both panes usable is worth saving.
         height = self._panes.winfo_height()

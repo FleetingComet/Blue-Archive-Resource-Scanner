@@ -62,7 +62,10 @@ class ImageView(ttk.Frame):
     ) -> None:
         """Show ``asset`` (or the placeholder when it is ``None``)."""
         if asset == self._asset and fit == self._fit and tint == self._tint:
-            self._request()
+            # An in-flight request already owns the callback. Avoid enqueuing
+            # a second one every time selection/preview is refreshed.
+            if asset and self._key is None:
+                self._request()
             return
         self._asset, self._fit, self._tint = asset, fit, tint
         self._token += 1
