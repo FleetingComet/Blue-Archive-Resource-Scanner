@@ -1,24 +1,9 @@
 """Central image resolution and loading for the GUI.
 
-Every widget that shows artwork asks this service for it, so the three image
-modes are implemented once instead of once per component:
-
-``disabled``
-    No disk reads, no network, no decoded pictures - callers keep their
-    placeholder and only the layout must stay intact.
-``local``
-    Only files under the configured local asset folder; a missing or
-    unreadable file simply means "no image".
-``hybrid``
-    The local file when one exists and can be decoded, otherwise the same
-    schaledb URL the GUI has always used (cached on disk for offline runs).
-
-Assets are identified by their schaledb-relative path (``student/collection/
-10000.webp``) so one identifier works for both sources. Reads, decoding and
-resizing happen on a small thread pool; only ``ImageTk.PhotoImage`` creation
-and the caller's callback run on the Tk main loop. A generation counter makes
-every result from an earlier mode/tab state land nowhere, so switching to
-``disabled`` can never be undone by a request that was already in flight.
+Artwork is exclusively local. Assets are identified by their SchaleDB-relative
+path (``student/collection/10000.webp``). Disk reads, decoding and resizing
+run on a worker pool; only ``ImageTk.PhotoImage`` creation and widget updates
+run on the Tk main loop. A generation counter rejects stale folder requests.
 """
 
 from __future__ import annotations
@@ -341,6 +326,38 @@ class ImageService:
         self._submit(asset, generation, variants)
         return None
 
+    def icon_async(
+        self,
+        asset: str | None,
+        box: int,
+        *,
+        fit: str = icons.FIT_CONTAIN,
+        tint: str | None = None,
+        on_ready: Callable[[ImageTk.PhotoImage], None],
+    ) -> ImageTk.PhotoImage | None:
+        """Nonblocking, persistent artwork lookup for filter-popup icons.
+
+        Popup icons live in a separate cache because the card cache is pruned
+        every time the visible card page changes. Never do I/O on the Tk thread.
+        """
+        if not asset or not self.enabled:
+            return None
+        key = cache_key(asset, box, fit, tint)
+        cached = self._icons.get(key)
+        if cached is not None:
+            return cached
+
+        def store(photo: ImageTk.PhotoImage) -> None:
+            if self._closed:
+                return
+            self._icons[key] = photo
+            on_ready(photo)
+
+        result = self.image(asset, box, fit=fit, tint=tint, on_ready=store)
+        if result is not None:
+            self._icons[key] = result
+        return result
+
     def local_photo(
         self,
         asset: str | None,
@@ -349,14 +366,12 @@ class ImageService:
         fit: str = icons.FIT_CONTAIN,
         tint: str | None = None,
     ) -> ImageTk.PhotoImage | None:
-        """A small picture read *synchronously* from the local artwork folder.
+        """Compatibility API: synchronously load a small local picture.
 
-        Filter popups need their leading icons before the rows can be drawn, so
-        they cannot use the worker pool. Only local files are considered (a
-        popup never stalls on the network); the result is cached separately
-        from the card pictures, which ``retain`` prunes on every redraw.
-        ``tint`` recolours a monochrome glyph (school crests) so it stays
-        visible on both the light and the dark popup background.
+        Retained for compatibility with callers expecting immediate results.
+        New GUI filter popups use :meth:`icon_async` to avoid decoding artwork
+        on the Tk thread. Results live in a cache separate from card pictures.
+        ``tint`` recolours monochrome school crests for the current theme.
         """
         if not asset or not self.enabled:
             return None
@@ -481,7 +496,7 @@ class ImageService:
     ) -> None:
         delete_orphaned_photos()
         with self._lock:
-            # A result from an earlier mode/folder must not touch the queue,
+            # A result from an earlier folder must not touch the queue,
             # the failure set or the waiters of the current configuration.
             if self._closed or generation != self._generation:
                 return

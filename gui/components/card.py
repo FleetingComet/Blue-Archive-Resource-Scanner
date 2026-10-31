@@ -280,7 +280,7 @@ class AssetCard(ttk.Frame):
         self._render()
 
     def reload_images(self) -> None:
-        """Re-resolve the artwork (after an image-mode or visibility change)."""
+        """Re-resolve the artwork after changing the local asset folder."""
         self._render()
 
     # -- drawing -----------------------------------------------------------

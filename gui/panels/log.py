@@ -184,16 +184,23 @@ class LogPanel(ttk.Frame):
             self._entries.append((line, tag))
             if (TAG_SEVERITY.get(tag) or minimum) >= minimum:
                 shown += (line + "\n", tag)
-        if not shown:
+        # Keep the backing store bounded even if the current severity filter
+        # hides every new message. Otherwise it grows forever until the user
+        # changes the filter or a matching entry arrives.
+        overflow = max(0, len(self._entries) - MAX_LOG_LINES)
+        if overflow and overflow <= TRIM_SLACK:
+            overflow = 0
+        dropped = self._entries[:overflow] if overflow else []
+        if overflow:
+            del self._entries[:overflow]
+        if not shown and not dropped:
             return
 
         widget = self._text
         widget.configure(state="normal")
         for start in range(0, len(shown), INSERT_CHUNK * 2):
             widget.insert("end", *shown[start : start + INSERT_CHUNK * 2])
-        if len(self._entries) > MAX_LOG_LINES + TRIM_SLACK:
-            overflow = len(self._entries) - MAX_LOG_LINES
-            dropped, self._entries = self._entries[:overflow], self._entries[overflow:]
+        if dropped:
             visible = sum(self._passes_filter(tag) for _, tag in dropped)
             if visible:
                 widget.delete("1.0", f"{visible + 1}.0")

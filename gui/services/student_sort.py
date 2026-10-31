@@ -85,7 +85,7 @@ def bond_level(record: dict[str, Any]) -> int | None:
     out-of-range value is treated as unknown so the card can hide the badge
     instead of showing a misleading number.
     """
-    level = _safe_int(_stat(record, "bond"))
+    level = _safe_int(get_stat(record, "bond"))
     if level is None or not 0 < level <= BOND_MAX:
         return None
     return level
@@ -99,7 +99,7 @@ def bond_gear_tier(record: dict[str, Any]) -> int:
     Gear" filter agrees with what the editor shows.
     """
     for key in ("bond_gear", "gear_bond"):
-        tier = _safe_int(_stat(record, key))
+        tier = _safe_int(get_stat(record, key))
         if tier is not None:
             return tier
     return 0
@@ -188,9 +188,10 @@ class _DescStr:
         return isinstance(other, _DescStr) and self.val == other.val
 
 
-def _stat(record: dict[str, Any], key: str) -> object:
+def get_stat(record: dict[str, Any], key: str) -> object:
+    """Return a student's current stat, or an empty string if missing."""
     current = record.get("current")
-    return current.get(key) if isinstance(current, dict) else None
+    return current.get(key, "") if isinstance(current, dict) else ""
 
 
 def _safe_int(value: object) -> int | None:
@@ -230,39 +231,39 @@ def sort_student_entries(
             return (0, val_term, orig_idx)
 
         if field == "level":
-            val = _safe_int(_stat(record, "level"))
+            val = _safe_int(get_stat(record, "level"))
             if val is None:
                 return (1, 0, orig_idx)
             return (0, -val if descending else val, orig_idx)
 
         if field == "rarity":
             # Primary: star count (1-5). Progression tie-breaker: UE blue stars (0-4).
-            star = _safe_int(_stat(record, "star"))
+            star = _safe_int(get_stat(record, "star"))
             if star is None:
                 return (1, 0, 0, orig_idx)
-            ue = _safe_int(_stat(record, "ue")) or 0
+            ue = _safe_int(get_stat(record, "ue")) or 0
             if descending:
                 return (0, -star, -ue, orig_idx)
             return (0, star, ue, orig_idx)
 
         if field == "ue_stars":
             # Primary: UE blue stars (0-4). Progression tie-breaker: regular stars.
-            ue = _safe_int(_stat(record, "ue"))
+            ue = _safe_int(get_stat(record, "ue"))
             if ue is None:
                 return (1, 0, 0, orig_idx)
-            star = _safe_int(_stat(record, "star")) or 0
+            star = _safe_int(get_stat(record, "star")) or 0
             if descending:
                 return (0, -ue, -star, orig_idx)
             return (0, ue, star, orig_idx)
 
         if field == "ue_level":
-            val = _safe_int(_stat(record, "ue_level"))
+            val = _safe_int(get_stat(record, "ue_level"))
             if val is None:
                 return (1, 0, orig_idx)
             return (0, -val if descending else val, orig_idx)
 
         if field == "bond":
-            val = _safe_int(_stat(record, "bond"))
+            val = _safe_int(get_stat(record, "bond"))
             if val is None:
                 return (1, 0, orig_idx)
             return (0, -val if descending else val, orig_idx)

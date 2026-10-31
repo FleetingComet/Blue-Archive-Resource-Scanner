@@ -45,11 +45,8 @@ class WheelRouter:
 
     # -- registration --------------------------------------------------
     def attach(self, widget: tk.Misc) -> None:
-        """Route wheel events from ``widget`` (it and its descendants)."""
-        self._bind_once()
-        self._attach_one(widget)
-        for child in _children(widget):
-            self.attach(child)
+        """Route wheel events from ``widget`` and its descendants."""
+        self.attach_tree(widget)
 
     def attach_tree(self, widget: tk.Misc) -> None:
         """Route wheel events from ``widget`` and all current descendants."""
@@ -57,6 +54,17 @@ class WheelRouter:
         self._attach_one(widget)
         for child in _children(widget):
             self.attach_tree(child)
+
+    def close(self) -> None:
+        """Unregister this router's Tcl class bindings during teardown."""
+        if not self._bound:
+            return
+        for sequence in _WHEEL_SEQUENCES:
+            try:
+                self._scroll.unbind_class(self._tag, sequence)
+            except tk.TclError:
+                pass
+        self._bound = False
 
     def _bind_once(self) -> None:
         if self._bound:

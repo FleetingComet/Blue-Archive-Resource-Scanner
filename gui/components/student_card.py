@@ -17,7 +17,7 @@ from gui.components.card import (
     CardTag,
     Chip,
 )
-from gui.services.student_sort import bond_gear_tier, bond_level
+from gui.services.student_sort import bond_gear_tier, bond_level, get_stat
 from src.constant import ARMOR_COLORS, ATTACK_COLORS
 from src.utils.data.stat_normalization import format_skill
 
@@ -104,10 +104,10 @@ class StudentCard(AssetCard):
         student_id = record.get("id")
         school = str(info.get("School") or "")
         skills = "/".join(
-            _skill(_stat(record, stat)) for stat in ("ex", "basic", "passive", "sub")
+            _skill(get_stat(record, stat)) for stat in ("ex", "basic", "passive", "sub")
         )
         gear = "/".join(
-            _skill(_stat(record, stat)) for stat in ("gear1", "gear2", "gear3")
+            _skill(get_stat(record, stat)) for stat in ("gear1", "gear2", "gear3")
         )
 
         chips: list[Chip] = []
@@ -129,22 +129,15 @@ class StudentCard(AssetCard):
             fit=icons.FIT_COVER,
             emblem=icons.school_asset(school),
             badges=(
-                ("tl", f"LV {_stat(record, 'level')}", BADGE_BG),
+                ("tl", f"LV {get_stat(record, 'level')}", BADGE_BG),
                 ("bl", skills, BADGE_BG),
                 ("br", gear, BADGE_BG),
             ),
-            stars=(_stat(record, "star"), _stat(record, "ue")),
+            stars=(get_stat(record, "star"), get_stat(record, "ue")),
             chips=tuple(chips),
             quantity=None,
             search=f"{student_name} {student_id} {school}",
         )
-
-
-def _stat(record: dict, key: str) -> object:
-    current = record.get("current")
-    if isinstance(current, dict) and key in current:
-        return current[key]
-    return ""
 
 
 def _skill(value: object) -> str:

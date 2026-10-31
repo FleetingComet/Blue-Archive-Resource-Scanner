@@ -17,7 +17,7 @@ import threading
 import time
 import tkinter as tk
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from tkinter import filedialog
 
@@ -41,6 +41,7 @@ from gui.services.student_sort import (
     SortEntry,
     StudentFilterState,
     filter_student_entries,
+    get_stat,
     sort_student_entries,
 )
 from gui.ui import (
@@ -140,13 +141,6 @@ def student_fields(kind: str) -> tuple[Field, ...]:
     )
 
 
-def _stat(record: dict, key: str) -> object:
-    current = record.get("current")
-    if isinstance(current, dict) and key in current:
-        return current[key]
-    return ""
-
-
 def _elide_middle(text: str, limit: int = 110) -> str:
     """Shorten a long path in the middle, so both its ends stay readable."""
     if len(text) <= limit:
@@ -204,8 +198,7 @@ class DataPage(ttk.Frame):
         self._build_header()
         self._build_toolbar()
         self._build_body()
-        # The saved mode is applied before the first load, so no request is
-        # ever made for an image the user has switched off.
+        # Apply the local artwork folder before the first data load.
         self.apply_image_settings(Config.settings, initial=True)
 
     def destroy(self) -> None:
@@ -1340,7 +1333,7 @@ class DataPage(ttk.Frame):
             if field.maximum is not None:  # keep the accepted range visible
                 label = f"{field.label} ({field.minimum}-{field.maximum})"
             ttk.Label(cell, text=label).pack(anchor="w")
-            value = _stat(record, field.key)
+            value = get_stat(record, field.key)
             var = tk.StringVar(value="" if value is None else str(value))
             entry = ttk.Entry(cell, textvariable=var, width=10)
             entry.pack(fill="x")
@@ -1382,7 +1375,7 @@ class DataPage(ttk.Frame):
             )
             ttk.Label(cell, text=f"{field.label}{hint}").pack(anchor="w")
 
-            val = _stat(record, field.key)
+            val = get_stat(record, field.key)
             var = tk.StringVar(value="" if val is None else str(val))
             entry = ttk.Entry(cell, textvariable=var, width=width)
             entry.pack(fill="x", pady=(1, 0))
@@ -1956,6 +1949,26 @@ class DataPage(ttk.Frame):
         dialog.wait_window()
         return result or None
 
+    def _refresh_catalog_row(self, iid: str, **changes) -> bool:
+        """Refresh one edited inventory row without rebuilding all view controls.
+
+        A simple balance/quantity edit cannot change the item metadata or the
+        filter groups. Invalidate only this CardSpec, then reapply the current
+        sort and search. Renames, additions and deletions still use _render().
+        """
+        for index, entry in enumerate(self._entries):
+            if getattr(entry, "iid", None) != iid:
+                continue
+            self._entries[index] = replace(entry, **changes)
+            self._spec_cache.pop(iid, None)
+            self._apply_view(reset=False)
+            if self._selected_iid == iid:
+                self._cards.reveal(iid)
+                self._update_preview(iid)
+            self._retain_images()
+            return True
+        return False
+
     def _apply_equipment(self, category: str, tier: str) -> None:
         grouped = self.doc if isinstance(self.doc, dict) else {}
         tiers = grouped.get(category)
@@ -1974,6 +1987,18 @@ class DataPage(ttk.Frame):
             tiers.pop(tier, None)
         tiers[new_tier] = quantity
         self._mark_dirty()
+        if new_tier == tier:
+            total = sum(
+                value
+                for values in grouped.values()
+                if isinstance(values, dict)
+                for value in values.values()
+                if isinstance(value, int)
+            )
+            self._import_summary = f"{len(grouped)} categories · {total} units"
+            self._update_info()
+            if self._refresh_catalog_row(f"e{category}|{tier}", quantity=quantity):
+                return
         self._render(select=("equipment", category, new_tier))
 
     def _remove_equipment(self, category: str, tier: str) -> None:
@@ -2003,6 +2028,20 @@ class DataPage(ttk.Frame):
             entries.pop(key, None)
         entries[new_key] = quantity
         self._mark_dirty()
+        if new_key == key:
+            total = sum(value for value in entries.values() if isinstance(value, int))
+            self._import_summary = f"{len(entries)} entries · {total} units"
+            self._update_info()
+            iid = next(
+                (
+                    iid
+                    for iid, payload in self._payloads.items()
+                    if payload == ("entry", key)
+                ),
+                None,
+            )
+            if iid is not None and self._refresh_catalog_row(iid, quantity=quantity):
+                return
         self._render(select=("entry", new_key))
 
     def _remove_entry(self, key: str) -> None:
@@ -2024,6 +2063,8 @@ class DataPage(ttk.Frame):
         elif "value" in self._field_vars:
             entries[key] = self._field_vars["value"].get().strip()
         self._mark_dirty()
+        if self._refresh_catalog_row(f"cur{key}", value=entries.get(key)):
+            return
         self._render(select=("currency", key))
 
     # ------------------------------------------------------------------

@@ -53,14 +53,21 @@ _monograms: dict[tuple[str, int], ImageTk.PhotoImage] = {}
 # Leading pictures
 # ---------------------------------------------------------------------------
 def option_photo(
-    option: FilterOption, images: ImageService | None
+    option: FilterOption,
+    images: ImageService | None,
+    *,
+    on_ready: Callable[[ImageTk.PhotoImage], None] | None = None,
 ) -> ImageTk.PhotoImage | None:
     """The small picture drawn before ``option``'s label (or ``None``)."""
     if option.asset and images is not None:
         # School crests are white glyphs with alpha; tint them with the live
         # theme's foreground so they do not vanish in light mode.
         tint = ttk.Style().colors.fg if option.monochrome else None
-        photo = images.local_photo(option.asset, ICON_SIZE, tint=tint)
+        photo = (
+            images.icon_async(option.asset, ICON_SIZE, tint=tint, on_ready=on_ready)
+            if on_ready is not None
+            else images.local_photo(option.asset, ICON_SIZE, tint=tint)
+        )
         if photo is not None:
             return photo
     if option.colour:
@@ -172,6 +179,7 @@ class MultiSelectDropdown(ttk.Frame):
         self._empty: ttk.Label | None = None
         self._list: ttk.Frame | None = None
         self._canvas: tk.Canvas | None = None
+        self._wheel_router: WheelRouter | None = None
         self._header_count: ttk.Label | None = None
 
         self._button = ttk.Button(
@@ -207,6 +215,9 @@ class MultiSelectDropdown(ttk.Frame):
         self._sync_button()
 
     def close(self) -> None:
+        if self._wheel_router is not None:
+            self._wheel_router.close()
+            self._wheel_router = None
         if self._popup is not None and self._popup.winfo_exists():
             self._popup.destroy()
         self._popup = None
@@ -355,9 +366,9 @@ class MultiSelectDropdown(ttk.Frame):
         self._empty.grid(row=len(self._rows), column=0, sticky="w", padx=4, pady=6)
         self._empty.grid_remove()
 
-        router = WheelRouter(canvas, units=2)
-        router.attach(canvas)
-        router.attach_tree(self._list)
+        self._wheel_router = WheelRouter(canvas, units=2)
+        self._wheel_router.attach(canvas)
+        self._wheel_router.attach_tree(self._list)
 
         self._place(popup, body)
         self._filter_rows()
@@ -402,11 +413,20 @@ class MultiSelectDropdown(ttk.Frame):
             row.grid(row=index, column=0, sticky="ew", pady=0)
             row.columnconfigure(1, weight=1)
 
-            photo = option_photo(option, self._images)
+            # The monogram is immediately available; artwork replaces it
+            # later via the main-thread image delivery queue. Opening the
+            # dropdown never blocks to decode dozens of files.
+            picture = ttk.Label(row)
+            picture.grid(row=0, column=0, sticky="w", padx=(0, 6))
+
+            def set_photo(photo, label=picture) -> None:
+                if label.winfo_exists():
+                    label._photo = photo  # keep the Tk image alive
+                    label.configure(image=photo)
+
+            photo = option_photo(option, self._images, on_ready=set_photo)
             if photo is not None:
-                ttk.Label(row, image=photo).grid(
-                    row=0, column=0, sticky="w", padx=(0, 6)
-                )
+                set_photo(photo)
 
             var = tk.BooleanVar(value=option.value in self._selected)
             self._vars[option.value] = var

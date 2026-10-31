@@ -1,4 +1,8 @@
-"""A responsive, lazily drawn grid of AssetCard widgets."""
+"""A responsive, paginated grid of AssetCard widgets.
+
+Only one page of Canvas cards exists at a time, keeping memory and layout
+costs bounded for very large inventories.
+"""
 
 from __future__ import annotations
 
@@ -46,7 +50,7 @@ class CardGrid(ttk.Frame):
         self._on_select = on_select
         self._on_view_changed = on_view_changed
         self._page_size = max(1, int(page_size))
-        self._limit = self._page_size
+        self._offset = 0
         self._specs: list[CardSpec] = []
         self._index: dict[str, int] = {}
         self._cards: dict[str, AssetCard] = {}
@@ -57,7 +61,6 @@ class CardGrid(ttk.Frame):
         self._palette: dict[bool, dict[str, str]] | None = None
         self._empty_message = "Nothing loaded yet."
         self._theme: str | None = None
-        self._extend_job: str | None = None
         self._notify_job: str | None = None
 
         self._scroll = ScrolledFrame(self, auto_hide=False, padding=padding)
@@ -68,7 +71,7 @@ class CardGrid(ttk.Frame):
         self._grid.pack(anchor="n")
 
         self._canvas = getattr(self._scroll, "_canvas", None)
-        self._router = WheelRouter(self._scroll, units=3, on_scroll=self._on_scrolled)
+        self._router = WheelRouter(self._scroll, units=3)
         self._router.attach_tree(self._grid)
 
         if self._canvas is not None:
@@ -96,16 +99,26 @@ class CardGrid(ttk.Frame):
         footer.grid(row=1, column=0, sticky="ew")
         self._notice = ttk.Label(footer, style=MUTED)
         self._notice.pack(side="left")
-        self._more = button(
+        self._next = button(
             footer,
-            "Show more",
-            "plus-circle",
+            "Next",
+            "chevron-right",
             style="outline",
-            command=self.show_more,
-            tip="Draw the next batch of cards",
+            command=self.next_page,
+            tip="Go to the next page of cards",
         )
-        self._more.pack(side="right")
-        self._more.configure(state="disabled")
+        self._next.pack(side="right")
+        self._previous = button(
+            footer,
+            "Previous",
+            "chevron-left",
+            style="outline",
+            command=self.previous_page,
+            tip="Go to the previous page of cards",
+        )
+        self._previous.pack(side="right", padx=(0, 6))
+        self._previous.configure(state="disabled")
+        self._next.configure(state="disabled")
 
     def _column_count(self) -> int:
         width = 0
@@ -131,7 +144,7 @@ class CardGrid(ttk.Frame):
         self._specs = list(specs)
         self._index = {spec.key: index for index, spec in enumerate(self._specs)}
         if reset:
-            self._limit = self._page_size
+            self._offset = 0
         if selected is not None:
             self._selected = selected
         self.refresh()
@@ -154,7 +167,13 @@ class CardGrid(ttk.Frame):
         if columns_changed:
             self._positions.clear()
 
-        visible = self._specs[: self._limit]
+        # Never allocate more than one page of Tk widgets. The complete
+        # CardSpec list remains lightweight Python data for sort/filter/reveal.
+        if self._offset >= len(self._specs):
+            self._offset = max(
+                0, (len(self._specs) - 1) // self._page_size * self._page_size
+            )
+        visible = self._specs[self._offset : self._offset + self._page_size]
         wanted = {spec.key: spec for spec in visible}
 
         for key in list(self._cards):
@@ -245,21 +264,32 @@ class CardGrid(ttk.Frame):
         if key in self._cards:
             self._cards[key].set_selected(True, palette[True])
 
-    def show_more(self) -> None:
-        if self._limit >= len(self._specs):
+    def next_page(self) -> None:
+        self._go_to_page(self._offset + self._page_size)
+
+    def previous_page(self) -> None:
+        self._go_to_page(self._offset - self._page_size)
+
+    def _go_to_page(self, offset: int) -> None:
+        if not self._specs:
             return
-        self._limit = min(len(self._specs), self._limit + self._page_size)
+        last_page = (len(self._specs) - 1) // self._page_size * self._page_size
+        offset = max(0, min(offset, last_page))
+        if offset == self._offset:
+            return
+        self._offset = offset
         self.refresh()
+        # Page-to-page navigation should never leave the scroll position at
+        # the bottom of the previous page.
+        self.after_idle(self.scroll_to_top)
 
     def reveal(self, key: str) -> None:
         index = self._index.get(key)
         if index is None:
             return
-        if index >= self._limit:
-            self._limit = min(
-                len(self._specs),
-                (index // self._page_size + 1) * self._page_size,
-            )
+        wanted_offset = index // self._page_size * self._page_size
+        if wanted_offset != self._offset:
+            self._offset = wanted_offset
             self.refresh()
         card = self._cards.get(key)
         if card is not None and self._canvas is not None:
@@ -303,25 +333,16 @@ class CardGrid(ttk.Frame):
 
     def _sync_footer(self) -> None:
         total = len(self._specs)
-        shown = min(self._limit, total)
-        if shown < total:
-            self._notice.configure(text=f"Showing {shown} of {total}")
-            self._more.configure(state="normal")
+        if total:
+            first = self._offset + 1
+            last = min(self._offset + self._page_size, total)
+            self._notice.configure(text=f"Showing {first}–{last} of {total}")
         else:
-            self._notice.configure(text=f"{total} shown" if total else "")
-            self._more.configure(state="disabled")
-
-    def _on_scrolled(self) -> None:
-        if len(self._cards) >= len(self._specs) or self._extend_job is not None:
-            return
-        _first, last = self._router.view_fraction()
-        if last >= 0.999:
-            self._extend_job = self.after_idle(self._auto_extend)
-
-    def _auto_extend(self) -> None:
-        self._extend_job = None
-        if self.winfo_exists():
-            self.show_more()
+            self._notice.configure(text="")
+        self._previous.configure(state="normal" if self._offset else "disabled")
+        self._next.configure(
+            state="normal" if self._offset + self._page_size < total else "disabled"
+        )
 
     def _palette_for(self) -> dict[bool, dict[str, str]]:
         theme = ttk.Style().theme_use()
@@ -346,11 +367,11 @@ class CardGrid(ttk.Frame):
             self._on_select(key)
 
     def destroy(self) -> None:
-        for job in (self._extend_job, self._notify_job):
-            if job is not None:
-                try:
-                    self.after_cancel(job)
-                except (tk.TclError, ValueError):
-                    pass
-        self._extend_job = self._notify_job = None
+        if self._notify_job is not None:
+            try:
+                self.after_cancel(self._notify_job)
+            except (tk.TclError, ValueError):
+                pass
+        self._notify_job = None
+        self._router.close()
         super().destroy()
