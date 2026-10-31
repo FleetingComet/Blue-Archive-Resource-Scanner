@@ -33,7 +33,7 @@ class PathConfig:
         self.final_currencies = self.OUTPUT_DIR / "currencies_final_values.json"
 
         # Justin Planner
-        self.justin_planner_data = self.INPUT_DIR / "justin_data.json"
+        self.justin_planner_data = self.INPUT_DIR / "blue-archive-planner.json"
         self.justin_planner_merged_output = self.OUTPUT_DIR / "justin_data_final.json"
 
         self.SETTINGS_FILE = self.CONFIG_DIR / "settings.json"

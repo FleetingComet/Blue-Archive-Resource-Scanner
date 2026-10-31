@@ -181,21 +181,21 @@ The script will generate:
 
 If you already have a Justin163 Planner export and want to merge it with the converted data:
 
-1. Save your existing Justin Planner export as `justin_data.json`.
+1. Download your existing Justin Planner save (`blue-archive-planner.json`).
 2. Place it in:
-   **`input/justin_data.json`**
+   **`input/blue-archive-planner.json`**
 3. Run the exporter:
 
    ```bash
    python -m tools.justin_planner
    ```
 
-The exporter will automatically use `input/justin_data.json` when available.
+The exporter will automatically use `input/blue-archive-planner.json` when available.
 
 Alternatively, you can specify a different Justin Planner export using the `--file` option:
 
 ```bash
-python -m tools.justin_planner --file path/to/justin_data.json
+python -m tools.justin_planner --file path/to/blue-archive-planner.json
 ```
 
 #### Optional Arguments
